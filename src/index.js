@@ -9,7 +9,7 @@ const foc = (
   <BrowserRouter>
       <App />
   </BrowserRouter>
-)
+);
 
 ReactDOM.render(
   foc,

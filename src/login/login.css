@@ -28,7 +28,7 @@
 	color: #FFFFFF;
   padding: 10px 25px;
 	text-decoration: none;
-  width: 350px;
+  width: calc(350px + 1vmin);
 	background-color: #747474;
   border: 1px solid #747474;
 	border-radius: 8px;
@@ -43,12 +43,14 @@
 }
 
 select{
-  width: 350px;
+  font-family: 'Inter', sans-serif;
+  width: calc(350px + 1vmin);
   padding: 10px 10px;
   font-weight:bold;
   font-size: calc(10px + 1vmin);
   color: #333333;
-  margin: 8px 0;
+  margin-top: 2vmin;
+  margin-bottom: 2vmin;
   box-sizing: border-box;
   background-color: #EBEBEB;
   border: 3px solid #EBEBEB;
@@ -59,7 +61,8 @@ select{
 
 input[type=text],
 input[type=password] {
-  width: 350px;
+  font-family: 'Inter', sans-serif;
+  width: calc(350px + 1vmin);
   padding: 10px 10px;
   font-size: calc(10px + 1vmin);
   color: #333333;

@@ -2,71 +2,7 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
 .App-header {
-  background-color: #474747;;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-.go_btn{
-	font-family: 'Inter', sans-serif;
-	margin: 40px;
-	color: #FFFFFF;
-  padding: 10px 25px;
-	text-decoration: none;
-  width: 350px;
-	background-color: #747474;
-  border: 1px solid #747474;
-	border-radius: 8px;
-	cursor: pointer;
-  font-size: 16px;
-	transition-duration: 0.4s;
-}
-
-.go_btn:hover{
-  background-color: #CCCCCC;
-  color: #747474;
-}
-
-select,
-input[type=text],
-input[type=password] {
-	font-family: 'Inter', sans-serif;
-    width: 350px;
-    padding: 10px 10px;
-    font-size: 16px;
-	color: #333333;
-    margin: 8px 0;
-    box-sizing: border-box;
-	background-color: #EBEBEB;
-    border: 3px solid #EBEBEB;
-    transition: 0.5s;
-    border-radius: 8px;
-    outline: none;
-}
-
-.whitefont {
-	color:#FFFFFF;
-}
-
-
-.link {
-  color: #FFFFFF;
-  font-weight:bold;
-  text-decoration: none;
-  cursor: pointer;
 }

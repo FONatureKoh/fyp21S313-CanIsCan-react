@@ -1,4 +1,4 @@
-import logo from '../logo.svg';
+import logo from '../assets/logo.svg';
 import './login.css';
 
 function Login() {
@@ -8,7 +8,6 @@ function Login() {
         <img src={logo} className="App-logo" alt="logo" />
         <input type="text" name="username" placeholder="username "/>
         <input type="password" name="userpw" placeholder="password"/>
-        <br/>
         <select>
             <option value="customer">Customer</option>
             <option value="restaurant_admin">Restaurant Manager</option>
@@ -16,9 +15,9 @@ function Login() {
             <option value="reservations">Reservations Manager</option>
             <option value="administrator">Administrator</option>
         </select>
-        <button class="go_btn" onclick="usertype()">Log In</button>
+        <button class="go_btn">Log In</button>
         <div class="whitefont">Don't have an account?</div>
-        <a class="link" href="">Register</a>
+        <a class="link">Register</a>
       </header>
     </div>
   );
