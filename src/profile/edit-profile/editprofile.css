@@ -1,0 +1,143 @@
+/* required as main div (above topnav) */
+.main {
+	padding:10px;
+	margin-top: 2%;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.container {
+    display: flex;
+	margin-top:10px;
+}
+
+.view-profile {
+	display: flex;
+	padding:10%;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.profile-block {
+	display:flex;
+	height: 353px;
+    width: calc(100px + 50vmin);
+	border-radius: 10px;
+	align-items: center;
+    text-align: center;
+}
+
+.profile-block>div {
+	flex:1;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+.bold-info {
+	font-weight:bold;
+	text-align: left;
+    font-size: calc(7px + 1vmin);
+}
+
+.info {
+	text-align: left;
+    font-size: calc(7px + 1vmin);
+}
+
+
+/* Button flexbox */
+.buttons {
+	margin:5%;
+    text-align: center;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.buttons>div{
+	margin:5%;
+}
+
+/* Button designs */
+.change_btn{
+	font-family: 'Inter', sans-serif;
+	margin: 20px;
+	color: #FFFFFF;
+    padding: 10px 25px;
+	text-decoration: none;
+	background-color: #333333;
+    border: 1px solid #333333;
+	border-radius: 8px;
+	cursor: pointer;
+    font-size: calc(7px + 1vmin);
+	transition-duration: 0.4s;
+}
+
+.change_btn:hover{
+    background-color: #CCCCCC;
+	border: 1px solid #CCCCCC;
+	color: #747474;
+}
+
+.update_btn{
+	font-family: 'Inter', sans-serif;
+	margin: 20px;
+	color: #FFFFFF;
+    padding: 10px 25px;
+	text-decoration: none;
+	background-color: #969696;
+    border: 1px solid #969696;
+	border-radius: 8px;
+	cursor: pointer;
+    font-size: calc(7px + 1vmin);
+	transition-duration: 0.4s;
+}
+
+.update_btn:hover{
+    background-color: #DDDDDD;
+	border: 1px solid #DDDDDD;
+	color: #747474;
+}
+
+.cancel_btn{
+	font-family: 'Inter', sans-serif;
+	margin: 20px;
+	color: #555555;
+    padding: 10px 25px;
+	text-decoration: none;
+	background-color: #DDDDDD;
+    border: 1px solid #DDDDDD;
+	border-radius: 8px;
+	cursor: pointer;
+    font-size: calc(7px + 1vmin);
+	transition-duration: 0.4s;
+}
+
+.cancel_btn:hover{
+    background-color: #333333;
+	border: 1px solid #333333;
+	color: #FFFFFF;
+}
+
+input[type=text],
+input[type=password],
+textarea {
+  font-family: 'Inter', sans-serif;
+  width: 30vmin;
+  padding: 10px 10px;
+  font-size: calc(7px + 1vmin);
+  color: #000;
+  margin: 8px 0;
+  box-sizing: border-box;
+  background-color: #EBEBEB;
+  border: 3px solid #EBEBEB;
+  transition: 0.5s;
+  border-radius: 8px;
+  outline: none;
+}
+
+.upload {
+    font-size: calc(7px + 1vmin);
+}
