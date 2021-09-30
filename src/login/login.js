@@ -5,6 +5,10 @@ import { Redirect } from 'react-router-dom'
 
 class Login extends Component { 
 
+  login = () =>{
+    this.props.history.push('/gmmenu');
+  }
+
   userType() {
     var select = document.getElementById('select-user').value;
     if(select === 'customer'){
@@ -34,7 +38,7 @@ class Login extends Component {
               <option value="reservations">Reservations Manager</option>
               <option value="administrator">Administrator</option>
           </select>
-          <button className="go_btn" onClick={this.userType}>Log In</button>
+          <button className="go_btn" onClick={this.login}>Log In</button>
           <div className="whitefont">Don't have an account?</div>
           <a className="link">Register</a>
         </header>
