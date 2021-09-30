@@ -15,7 +15,7 @@ class Login extends Component {
   login = (event) =>{
     if (this.state.test === 'abc123' && this.state.pass === '123123')
     {
-      this.props.history.push('/profile');
+      this.props.history.push('/gmmenu');
     }
     else
     {
