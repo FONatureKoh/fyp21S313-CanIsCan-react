@@ -39,11 +39,13 @@
 .bold-info {
 	font-weight:bold;
 	text-align: left;
+    font-size: calc(7px + 1vmin);
 }
 
 .info {
 	margin-bottom:10px;
 	text-align: left;
+    font-size: calc(7px + 1vmin);
 }
 
 /* Button flexbox */
