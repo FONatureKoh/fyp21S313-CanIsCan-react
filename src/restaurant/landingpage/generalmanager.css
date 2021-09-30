@@ -46,7 +46,7 @@
     width: calc(250px + 50vmin);
     /*width: 159px;*/
 	background-color: rgb(150, 150, 150);
-    border: 1px solid #333333;
+    border: 1px solid rgb(150, 150, 150);
 	border-radius: 8px;
 	cursor: pointer;
     font-size: calc(7px + 1vmin);

@@ -11,9 +11,7 @@ class GeneralManagerView extends Component{
                     <div className="buttonContainer">
                         <div className="buttons">
                             <button className="menu_btn">Manage Menu Items</button>
-                            <br/>
                             <button className="menu_btn">Manage Employee Profiles</button>
-                            <br/>
                             <button className="menu_btn">View Store Analytics</button>
                         </div>
                     </div>
