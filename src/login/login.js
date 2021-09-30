@@ -7,14 +7,15 @@ class Login extends Component {
   constructor(props){
     super(props);
     this.state = {
-      test: ''
+      test: '',
+      pass: ''
     }
   }
 
   login = (event) =>{
-    if (this.state.test === 'abc123')
+    if (this.state.test === 'abc123' && this.state.pass === '123123')
     {
-      this.props.history.push('/gmmenu');
+      this.props.history.push('/profile');
     }
     else
     {
@@ -28,13 +29,19 @@ class Login extends Component {
     });
   }
 
+  updateInputValuePass(evt) {
+    this.setState({
+      pass: evt.target.value
+    });
+  }
+
   render(){
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <input type="text" name="username" placeholder="username " value={this.state.test} onChange={ evt => this.updateInputValue(evt)}/>
-          <input type="password" name="userpw" placeholder="password"/>
+          <input type="password" name="userpw" placeholder="password" value={this.state.pass} onChange={ evt => this.updateInputValuePass(evt)}/>
           <select id="select-user">
               <option value="customer">Customer</option>
               <option value="restaurant_admin">Restaurant Manager</option>
