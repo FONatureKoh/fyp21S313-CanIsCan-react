@@ -1,5 +1,4 @@
-import './App.css';
-import Login from './login/login';
+import Login from './profile/view-profile/profile';
 import { Route, Switch } from 'react-router-dom';
 
 function App() {
