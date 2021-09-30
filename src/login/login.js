@@ -23,6 +23,10 @@ class Login extends Component {
     }
   }
 
+  register = (event) =>{
+    this.props.history.push('/custreg');
+  }
+
   updateInputValue(evt) {
     this.setState({
       test: evt.target.value
@@ -51,7 +55,7 @@ class Login extends Component {
           </select>
           <button className="go_btn" onClick={this.login}>Log In</button>
           <div className="whitefont">Don't have an account?</div>
-          <a className="link">Register</a>
+          <a className="link" onClick={this.register}>Register</a>
         </header>
       </div>
     );
