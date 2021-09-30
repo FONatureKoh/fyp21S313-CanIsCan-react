@@ -1,0 +1,98 @@
+/* required as main div (above topnav) */
+.main {
+	padding:10px;
+	margin-top: 2%;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.container {
+    display: flex;
+	margin-top:10px;
+}
+
+.view-profile {
+	display: flex;
+	padding:10%;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.profile-block {
+	display:flex;
+	height: 353px;
+    width: calc(100px + 50vmin);
+	background-color:#E8E8E8;
+	border-radius: 10px;
+	align-items: center;
+    text-align: center;
+}
+
+.profile-block>div {
+	flex:1;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+.bold-info {
+	font-weight:bold;
+	text-align: left;
+}
+
+.info {
+	margin-bottom:10px;
+	text-align: left;
+}
+
+/* Button flexbox */
+.buttons {
+	margin:5%;
+    text-align: center;
+}
+
+/* Button designs */
+.update_btn{
+	font-family: 'Inter', sans-serif;
+	margin: 20px;
+	color: #FFFFFF;
+    padding: 10px 25px;
+	text-decoration: none;
+    width: calc(50px + 50vmin);
+    /*width: 159px;*/
+	background-color: #969696;
+    border: 1px solid #969696;
+	border-radius: 8px;
+	cursor: pointer;
+    font-size: calc(7px + 1vmin);
+	transition-duration: 0.4s;
+}
+
+.update_btn:hover{
+    background-color: #DDDDDD;
+	border: 1px solid #DDDDDD;
+	color: #747474;
+}
+
+.logout_btn{
+	font-family: 'Inter', sans-serif;
+	margin: 20px;
+	color: #FFFFFF;
+    padding: 10px 25px;
+	text-decoration: none;
+    width: calc(50px + 50vmin);
+    /*width: 159px;*/
+	background-color: #333333;
+    border: 1px solid #333333;
+	border-radius: 8px;
+	cursor: pointer;
+    font-size: calc(7px + 1vmin);
+	transition-duration: 0.4s;
+}
+
+.logout_btn:hover{
+    background-color: #CCCCCC;
+	border: 1px solid #CCCCCC;
+	color: #747474;
+}
