@@ -24,6 +24,14 @@ export default function EditMenu() {
     {
       name: 'Hong Wei',
       age: 312
+    },
+    {
+      name: 'Prem',
+      age: 312
+    },
+    {
+      name: 'Tian',
+      age: 312
     }
   ]
 
@@ -31,10 +39,12 @@ export default function EditMenu() {
     <div className="main">
         <TopNav />
         <div className="container">
-          <div class="menu">
-            {
-              data.map(element => <div class="menuItem"> {element.name} </div>) 
-            }
+          <div className="buttonContainer">
+            <div className="buttons">
+              {
+                data.map(element => <button class="menu_btn"> {element.name} </button>) 
+              }
+            </div>
           </div>
         </div>
     </div>
