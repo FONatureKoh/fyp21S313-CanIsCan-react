@@ -31,7 +31,7 @@ export default function Login() {
           <img src={logo} className="App-logo" alt="logo" />
           <input type="text" name="username" ref= { username } placeholder="Username " />
           <input type="password" name="userpw" ref= { password } placeholder="Password"/>
-          <select id="select-user">
+          <select title="select-user">
               <option value="customer">Customer</option>
               <option value="restaurant_admin">Restaurant Manager</option>
               <option value="deliveries">Deliveries Manager</option>
