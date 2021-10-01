@@ -1,74 +1,54 @@
 import logo from '../assets/logo.svg';
 import './custreg.css';
-import React, { Component } from 'react';
+import React, { Component, useRef } from 'react';
+import { useHistory, withRouter} from 'react-router-dom';
 
-class CustRegister extends Component { 
+export default function CustRegister() {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      username: '',
-      email: '',
-      pass: ''
-    }
-  }
+  const history = useHistory();
+  const username = useRef();
+  const email = useRef();
+  const password = useRef();
 
-  back = (event) =>{
-    this.props.history.push('/');
-  }
+  function Register(){
+    const user = username.current.value;
+    const pass = password.current.value;
+    const mail = email.current.value;
 
-  restreg = (event) =>{
-    this.props.history.push('/restreg');
-  }
-
-  register = (event) =>{
-    if (this.state.username === 'abc123' && this.state.pass === '123123')
+    if (user === "" || pass === "" || mail === "")
     {
-      alert('WOW!');
-      this.props.history.push('/');
+      alert("Please fill in the fields!");
     }
     else
     {
-      alert('Please enter username and password!');
+      alert("Arigato!");
+      back();
     }
   }
 
-  updateInputValue(evt) {
-    this.setState({
-      username: evt.target.value
-    });
+  function back(){
+    let path = "/";
+    history.push(path);
   }
 
-  updateInputValuePass(evt) {
-    this.setState({
-      pass: evt.target.value
-    });
+  function restreg(){
+    let path = "/restreg";
+    history.push(path);
   }
 
-  updateInputValueEmail(evt) {
-    this.setState({
-      email: evt.target.value
-    });
-  }
-
-  render(){
-    return (
-      <div className="App">
+  return (
+    <div className="App">
         <header className="App-header">
-          <a id="back" onClick={ this.back }>Back to Login</a>
+          <a id="back" onClick= {back}>Back to Login</a>
           <img src={logo} className="App-logo" alt="logo" />
           <a class="whitefont" id="register">Create an account</a> 
-          <input type="text" name="username" placeholder="Username " value={this.state.username} onChange={ evt => this.updateInputValue(evt)}/>
-          <input type="text" name="email" placeholder="Email " value={this.state.email} onChange={ evt => this.updateInputValueEmail(evt)}/>
-          <input type="password" name="userpw" placeholder="Password" value={this.state.pass} onChange={ evt => this.updateInputValuePass(evt)}/>
-          <button className="go_btn" onClick={this.register}>Register</button>
+          <input type="text" name="username" placeholder="Username " ref= {username}/>
+          <input type="text" name="email" placeholder="Email "  ref= {email}/>
+          <input type="password" name="userpw" placeholder="Password" ref= {password} />
+          <button className="go_btn" onClick= {Register} >Register</button>
           <div className="whitefont">Restaurant User?</div>
-          <a className="link" onClick={this.restreg}>Restaurant Register</a>
+          <a className="link" onClick= {restreg}>Restaurant Register</a>
         </header>
       </div>
-    );
-  }
+  )
 }
-  
-
-export default CustRegister;

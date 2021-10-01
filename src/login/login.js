@@ -9,12 +9,12 @@ export default function Login() {
   const username = useRef();
   const password = useRef();
 
-  const RouteChange = ()=>{
+  function RouteChange(){
     let path = '/custreg';
     history.push(path);
   }
 
-  const login = () => {
+  function login(){
     const user = username.current.value;
     const pass = password.current.value;
     if (user === 'abc123' && pass === '123123')
@@ -22,6 +22,10 @@ export default function Login() {
       alert("Welcome "+ user+"!");
       let path = '/gmmenu';
       history.push(path);
+    }
+    else
+    {
+      alert("Please fill in your username and password!");
     }
   }
 
@@ -38,9 +42,9 @@ export default function Login() {
               <option value="reservations">Reservations Manager</option>
               <option value="administrator">Administrator</option>
           </select>
-          <button className="go_btn" onClick= { login }>Log In</button>
+          <button className="go_btn" onClick= {login}>Log In</button>
           <div className="whitefont" >Don't have an account?</div>
-          <a className="link" onClick= { RouteChange }>Register</a>
+          <a className="link" onClick= {RouteChange}>Register</a>
         </header>
       </div>
   )
