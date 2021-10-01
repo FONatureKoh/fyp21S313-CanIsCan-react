@@ -1,51 +1,36 @@
 import logo from '../assets/logo.svg';
 import './login.css';
-import React, { Component } from 'react';
+import React, { Component, useRef } from 'react';
+import { useHistory, withRouter} from 'react-router-dom';
 
-class Login extends Component { 
+export default function Login() {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      test: '',
-      pass: ''
-    }
+  const history = useHistory();
+  const username = useRef();
+  const password = useRef();
+
+  const RouteChange = ()=>{
+    let path = '/custreg';
+    history.push(path);
   }
 
-  login = (event) =>{
-    if (this.state.test === 'abc123' && this.state.pass === '123123')
+  const login = () => {
+    const user = username.current.value;
+    const pass = password.current.value;
+    if (user === 'abc123' && pass === '123123')
     {
-      this.props.history.push('/gmmenu');
-    }
-    else
-    {
-      alert('Please enter username and password!');
+      alert("Welcome "+ user+"!");
+      let path = '/gmmenu';
+      history.push(path);
     }
   }
 
-  register = (event) =>{
-    this.props.history.push('/custreg');
-  }
-
-  updateInputValue(evt) {
-    this.setState({
-      test: evt.target.value
-    });
-  }
-
-  updateInputValuePass(evt) {
-    this.setState({
-      pass: evt.target.value
-    });
-  }
-
-  render(){
-    return (
+  return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <input type="text" name="username" placeholder="username " value={this.state.test} onChange={ evt => this.updateInputValue(evt)}/>
-          <input type="password" name="userpw" placeholder="password" value={this.state.pass} onChange={ evt => this.updateInputValuePass(evt)}/>
+          <input type="text" name="username" ref= { username } placeholder="Username " />
+          <input type="password" name="userpw" ref= { password } placeholder="Password"/>
           <select id="select-user">
               <option value="customer">Customer</option>
               <option value="restaurant_admin">Restaurant Manager</option>
@@ -53,14 +38,10 @@ class Login extends Component {
               <option value="reservations">Reservations Manager</option>
               <option value="administrator">Administrator</option>
           </select>
-          <button className="go_btn" onClick={this.login}>Log In</button>
-          <div className="whitefont">Don't have an account?</div>
-          <a className="link" onClick={this.register}>Register</a>
+          <button className="go_btn" onClick= { login }>Log In</button>
+          <div className="whitefont" >Don't have an account?</div>
+          <a className="link" onClick= { RouteChange }>Register</a>
         </header>
       </div>
-    );
-  }
+  )
 }
-  
-
-export default Login;
