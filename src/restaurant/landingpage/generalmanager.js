@@ -1,17 +1,24 @@
 import TopNav from '../../components/top-nav/topnav';
 import './generalmanager.css';
-import { Component } from 'react';
+import React from 'react';
+import { useHistory, withRouter} from 'react-router-dom';
 
-import React from 'react'
+export default function GMmenu() {
+    const history = useHistory();
 
-export default function generalmanager() {
+    function editmenu()
+    {
+        let path = "/editmenu";
+        history.push(path);
+    }
+
     return (
         <div className="main">
         <TopNav />
         <div className="container">
             <div className="buttonContainer">
                 <div className="buttons">
-                    <button className="menu_btn">Manage Menu Items</button>
+                    <button className="menu_btn" onClick= {editmenu}>Manage Menu Items</button>
                     <button className="menu_btn">Manage Employee Profiles</button>
                     <button className="menu_btn">View Store Analytics</button>
                 </div>
