@@ -6,55 +6,39 @@
 	margin-right: 10%;
 }
 
-.container {
+.gmlp_container {
     display: flex;
 	margin-top:10px;
-}
-
-.buttonContainer {
-	display: flex;
-	padding:5%;
-	width: 100%;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
 }
 
-.bold-info {
-	font-weight:bold;
-	text-align: left;
-}
-
-.info {
-	margin-bottom:10px;
-	text-align: left;
-}
-
-/* Button flexbox */
-.buttons {
-	margin:5%;
-    text-align: center;
-		max-width: 1000px;
+.gmlp_container>div {
+	flex:1;
+	margin: 5vmin;
+	justify-content: center;
+	align-items: center;
 }
 
 /* Button designs */
-.menu_btn{
+.gmlp_btn{
+	white-space: nowrap;
 	font-family: 'Inter', sans-serif;
-	margin: 30px;
+	text-align: center;
+	padding: 50px;
+	width: calc(10px + 50vmin);
 	color: #FFFFFF;
-    padding: 25px 250px;
 	text-decoration: none;
-    width: calc(250px + 50vmin);
-    /*width: 159px;*/
-	background-color: rgb(150, 150, 150);
-    border: 1px solid rgb(150, 150, 150);
+	background-color: #747474;
+    border: 1px solid #747474;
 	border-radius: 8px;
 	cursor: pointer;
     font-size: calc(7px + 1vmin);
 	transition-duration: 0.4s;
 }
 
-.menu_btn:hover{
+.gmlp_btn:hover{
     background-color: #0077FF;
 	border: 1px solid #DDDDDD;
 	color: #ffffff;
