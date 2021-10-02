@@ -52,13 +52,11 @@ export default function EditMenu() {
         <div className="add">
             <button className="addBtn">Add Item</button>
         </div>
-        <div className="buttonContainer">
-          <div className="buttons" ref= {dynamic}>
-            {
-              data.map(element =>  <button class="menu_btn"> {element.name} </button>)
-            }
-          </div>
-      </div>
+        <div className="buttons" ref= {dynamic}>
+          {
+            data.map(element =>  <button class="menu_btn"> {element.name} </button>)
+          }
+        </div>
     </div>
   )
 }
