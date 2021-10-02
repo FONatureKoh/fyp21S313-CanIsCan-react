@@ -16,13 +16,31 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+
+    - name: Cache node Modules
+      id: myCacheStep
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-node-modules
       with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm i
-    - run: npm run build
-    - run: cd /var/www/foodapp/_work/fyp21S313-CanIsCan-react/fyp21S313-CanIsCan-react
-    - run: pm2 stop 0
-    - run: pm2 start 0
-    - run: pm2 save
+        # npm cache files are stored in "~/.npm" on Linux/macOS
+        path: ~/.npm
+        key: ${{ runner.os }}--build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json')}}
+        restore-keys: |
+          ${{ runner.os }}--build-${{ env.cache-name }}-
+          ${{ runner.os }}--build-
+          ${{ runner.os }}-
+    
+    - name: Install Dependencies
+      if: steps.myCacheStep.outputs.cache-hit != 'true'
+      run: npm i
+
+    - name: Build the app using Node.js ${{ matrix.node-version }}
+      run: npm run build    
+    
+    - name: Reload everything
+      run: |
+        cd /var/www/foodapp/_work/fyp21S313-CanIsCan-react/fyp21S313-CanIsCan-react 
+        pm2 stop 0
+        pm2 start 0
+        pm2 save
