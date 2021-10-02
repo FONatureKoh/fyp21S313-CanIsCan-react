@@ -12,58 +12,67 @@ export default function EditMenu() {
   const data = [
     {
       id: 1,
-      name: 'Kelvin',
-      age: 'dumb bumdbasdbqweklnasd',
-      desc:'testest'
+      name: 'Chicken Chop',
+      price: 7.90,
+      desc: 'Delightful ',
+      allergies:'-'
     },
     {
       id: 2,
-      name: 'Thomas',
-      age: 22,
-      desc:'testest'
+      name: 'Chicken Cutlet',
+      price: 8.90,
+      desc: 'Delightful ',
+      allergies:'-'
     },
     {
       id: 3,
-      name: 'Donna',
-      age: 123,
-      desc:'testest'
+      name: 'Chicken Wing (2pcs)',
+      price: 3.00,
+      desc: 'Delightful ',
+      allergies:'-'
     },
     {
       id: 4,
-      name: 'Duncan',
-      age: 312,
-      desc:'testest'
+      name: 'Kobe Beef Steak (100g)',
+      price: 99.90,
+      desc: 'Most premium beef you can find in town!',
+      allergies:'-'
     },
     {
       id: 5,
-      name: 'Hong Wei',
-      age: 312,
-      desc:'testest'
+      name: 'Fish n Chips',
+      price: 9.00,
+      desc: 'Delightful ',
+      allergies:'-'
     },
     {
       id: 6,
-      name: 'Prem',
-      age: 312,
-      desc:'testest'
+      name: 'Seafood Platter',
+      price: 15.90,
+      desc: 'Delightful ',
+      allergies:'Shell (Prawn, Clams)'
     },
     {
       id: 7,
-      name: 'Tian',
-      age: 312,
-      desc:'testest'
+      name: 'Fries',
+      price: 11.00,
+      desc: 'Delightful ',
+      allergies:'-'
     },
     {
       id: 8,
-      name: 'Tian',
-      age: 312,
-      desc:'testest'
+      name: 'Chicken Nugget (10pcs)',
+      price: 3.00,
+      desc: 'Delightful ',
+      allergies:'-'
     },
     {
       id: 9,
-      name: 'Tian',
-      age: 312,
-      desc:'testest'
-    }
+      name: 'Cheese Dipping Sauce',
+      price: 2.00,
+      desc: 'Delightful ',
+      allergies:'-'
+    },
   ]
 
   return (

@@ -39,7 +39,7 @@ export default function ViewMenuList({menu_items}) {
         <AccordionDetails sx={{
           bgcolor: '#DDDDDD'
         }}>
-          <MenuItem name={item.name} price={item.desc} desc={item.desc} allergies={item.desc}/>
+          <MenuItem name={item.name} price={item.price} desc={item.desc} allergies={item.allergies}/>
         </AccordionDetails>
       </Accordion>
     })

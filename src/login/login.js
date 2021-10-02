@@ -4,7 +4,7 @@ import React, { Component, useRef } from 'react';
 import { useHistory, withRouter} from 'react-router-dom';
 
 export default function Login() {
-
+ 
   const history = useHistory();
   const username = useRef();
   const password = useRef();
@@ -19,7 +19,6 @@ export default function Login() {
     const pass = password.current.value;
     if (user === 'abc123' && pass === '123123')
     {
-      alert("Welcome "+ user+"!");
       let path = '/gmmenu';
       history.push(path);
     }

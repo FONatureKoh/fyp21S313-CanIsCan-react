@@ -23,3 +23,19 @@
   background-color: red;
 }
 
+.mi_left{
+	flex:30%;
+	height: 100%;
+	margin-top:25%;
+}
+
+.mi_right{
+	flex:60%;
+	text-align: left;
+}
+
+.mi_title{
+	text-decoration: underline;
+	padding-top: 10px;
+	font-weight: bolder;
+}
