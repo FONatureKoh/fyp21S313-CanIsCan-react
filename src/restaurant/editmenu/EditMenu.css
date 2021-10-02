@@ -7,21 +7,20 @@
 }
 
 .container {
-    display: flex;
+  display: flex;
 	margin-top:10px;
 }
 
 .buttonContainer {
 	display: flex;
-	padding:1%;
+	padding:20px;
 	width: 100%;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-  max-height: 750px;
-  overflow:scroll;
-  overflow-y: auto;
-  overflow-x: hidden;
+  max-height: 500px;
+  overflow:auto;
+	margin-top:0.2%;
 }
 
 .bold-info {
@@ -36,30 +35,61 @@
 
 /* Button flexbox */
 .buttons {
-	margin:5%;
-    text-align: center;
-		max-width: 1000px;
+	display: flex;
+	flex-direction: column;
+	margin:1% auto;
+	text-align: center;
+	max-height: 600px;
+  width: calc(250px + 50vmin);
 }
 
 /* Button designs */
 .menu_btn{
 	font-family: 'Inter', sans-serif;
-	margin: 15px;
+	margin: 5px;
 	color: #FFFFFF;
-    padding: 25px 250px;
+  padding: 25px 250px;
 	text-decoration: none;
-    width: calc(250px + 50vmin);
-    /*width: 159px;*/
+  width: calc(250px + 50vmin);
+  /*width: 159px;*/
 	background-color: rgb(150, 150, 150);
-    border: 1px solid rgb(150, 150, 150);
+  border: 1px solid rgb(150, 150, 150);
 	border-radius: 8px;
 	cursor: pointer;
-    font-size: calc(7px + 1vmin);
+  font-size: calc(7px + 1vmin);
 	transition-duration: 0.4s;
 }
 
 .menu_btn:hover{
-    background-color: #0077FF;
+  background-color: #0077FF;
+	border: 1px solid #DDDDDD;
+	color: #ffffff;
+}
+
+.add{
+	display: flex;
+	padding:1%;
+	width: 100%;
+	margin-top:1%;
+	justify-content: center;
+	align-items: flex-end;
+	flex-direction: column;
+  max-height: 550px;
+}
+
+.addBtn{
+	font-family: 'Inter', sans-serif;
+	color: #FFFFFF;
+	padding: 10px 40px;
+	border-radius: 8px;
+	background-color: rgb(150, 150, 150);
+	border: 1px solid rgb(150, 150, 150);
+	font-size: calc(7px + 1vmin);
+	cursor: pointer;
+}
+
+.addBtn:hover{
+	background-color: #0077FF;
 	border: 1px solid #DDDDDD;
 	color: #ffffff;
 }
