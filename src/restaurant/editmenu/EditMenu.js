@@ -49,12 +49,12 @@ export default function EditMenu() {
   return (
     <div className="main">
         <TopNav />
-        <div className="add">
-            <button className="addBtn">Add Item</button>
+        <div className="emenu_add">
+            <button className="emenu_addBtn">Add Item</button>
         </div>
-        <div className="buttons" ref= {dynamic}>
+        <div className="emenu_buttons" ref= {dynamic}>
           {
-            data.map(element =>  <button class="menu_btn"> {element.name} </button>)
+            data.map(element =>  <button class="emenu_btn"> {element.name} </button>)
           }
         </div>
     </div>

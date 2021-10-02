@@ -6,12 +6,12 @@
 	margin-right: 10%;
 }
 
-.container {
+.emenu_container {
   display: flex;
 	margin-top:10px;
 }
 
-.buttonContainer {
+.emenu_buttonContainer {
 	display: flex;
 	padding:20px;
 	width: 100%;
@@ -23,18 +23,18 @@
 	margin-top:0.2%;
 }
 
-.bold-info {
+.emenu_bold-info {
 	font-weight:bold;
 	text-align: left;
 }
 
-.info {
+.emenu_info {
 	margin-bottom:10px;
 	text-align: left;
 }
 
 /* Button flexbox */
-.buttons {
+.emenu_buttons {
 	display: flex;
 	flex-direction: column;
 	margin:1% auto;
@@ -44,7 +44,7 @@
 }
 
 /* Button designs */
-.menu_btn{
+.emenu_btn{
 	font-family: 'Inter', sans-serif;
 	margin: 5px;
 	color: #FFFFFF;
@@ -60,13 +60,13 @@
 	transition-duration: 0.4s;
 }
 
-.menu_btn:hover{
+.emenu_btn:hover{
   background-color: #0077FF;
 	border: 1px solid #DDDDDD;
 	color: #ffffff;
 }
 
-.add{
+.emenu_add{
 	display: flex;
 	padding:1%;
 	width: 100%;
@@ -77,7 +77,7 @@
   max-height: 550px;
 }
 
-.addBtn{
+.emenu_addBtn{
 	font-family: 'Inter', sans-serif;
 	color: #FFFFFF;
 	padding: 10px 40px;
@@ -88,7 +88,7 @@
 	cursor: pointer;
 }
 
-.addBtn:hover{
+.emenu_addBtn:hover{
 	background-color: #0077FF;
 	border: 1px solid #DDDDDD;
 	color: #ffffff;
