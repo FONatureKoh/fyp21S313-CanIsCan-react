@@ -1,5 +1,5 @@
 import TopNav from '../../components/top-nav/topnav';
-import './generalmanager.css';
+import classes from './generalmanager.css';
 import React from 'react';
 import { useHistory, withRouter} from 'react-router-dom';
 
@@ -16,13 +16,14 @@ export default function GMmenu() {
         <div className="main">
         <TopNav />
         <div className="container">
-            <div className="buttonContainer">
-                <div className="buttons">
-                    <button className="menu_btn" onClick= {editmenu}>Manage Menu Items</button>
-                    <button className="menu_btn">Manage Employee Profiles</button>
-                    <button className="menu_btn">View Store Analytics</button>
+                <div>
+                    <a className="menu_btn" onClick= {editmenu}>Manage Menu Items</a>
                 </div>
-            </div>
+                <div>
+                    <a className="menu_btn">Manage Employee Profiles</a>
+                </div>
+                
+                <a className="menu_btn">View Store Analytics</a>
         </div>
     </div>
     )
