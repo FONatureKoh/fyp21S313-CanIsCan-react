@@ -22,4 +22,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm i
     - run: npm run build
-    
+    - run: cd /var/www/foodapp/_work/fyp21S313-CanIsCan-react/fyp21S313-CanIsCan-react
+    - run: pm2 stop 0
+    - run: pm2 start 0
+    - run: pm2 save
