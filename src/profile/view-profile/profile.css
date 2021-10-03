@@ -6,21 +6,21 @@
 	margin-right: 10%;
 }
 
-.container {
+.pp_container {
     display: flex;
 	margin-top:10px;
 }
 
-.view-profile {
+.pp_viewprofile {
 	display: flex;
-	padding:10%;
+	padding:7%;
 	width: 100%;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
 }
 
-.profile-block {
+.pp_profileblock {
 	display:flex;
 	height: 353px;
     width: calc(100px + 50vmin);
@@ -30,32 +30,32 @@
     text-align: center;
 }
 
-.profile-block>div {
+.pp_profileblock>div {
 	flex:1;
 	margin-left: 5%;
 	margin-right: 5%;
 }
 
-.bold-info {
+.pp_boldinfo {
 	font-weight:bold;
 	text-align: left;
     font-size: calc(7px + 1vmin);
 }
 
-.info {
+.pp_info {
 	margin-bottom:10px;
 	text-align: left;
     font-size: calc(7px + 1vmin);
 }
 
 /* Button flexbox */
-.buttons {
+.pp_buttons {
 	margin:5%;
     text-align: center;
 }
 
 /* Button designs */
-.update_btn{
+.pp_updatebtn{
 	font-family: 'Inter', sans-serif;
 	margin: 20px;
 	color: #FFFFFF;
@@ -71,13 +71,13 @@
 	transition-duration: 0.4s;
 }
 
-.update_btn:hover{
+.pp_updatebtn:hover{
     background-color: #DDDDDD;
 	border: 1px solid #DDDDDD;
 	color: #747474;
 }
 
-.logout_btn{
+.pp_logoutbtn{
 	font-family: 'Inter', sans-serif;
 	margin: 20px;
 	color: #FFFFFF;
