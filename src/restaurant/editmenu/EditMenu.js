@@ -4,11 +4,18 @@ import './EditMenu.css'
 import ViewMenuList from '../../components/rest-view-menu/ViewMenuList';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Typography } from '@mui/material';
+import { useHistory } from 'react-router';
 
 export default function EditMenu() {
   
   const dynamic = useRef();
   const [loaded, setLoaded] = useState(false);
+  const history = useHistory()
+
+  function additem(){
+    let path = "/additem";
+    history.push(path);
+  }
 
   const data = [
     {
@@ -89,7 +96,7 @@ export default function EditMenu() {
     <div className="main">
         <TopNav />
         <div className="emenu_add">
-            <button className="emenu_addBtn">Add Item</button>
+            <button className="emenu_addBtn" onClick={additem}>Add Item</button>
         </div>
         <div className="emenu_buttons" ref= {dynamic}>
         <Typography sx={{textAlign: 'left', marginBottom: 2}}><FiberManualRecordIcon color="success" sx={{ fontSize: 12}} /> Menu Items Currently Active</Typography>

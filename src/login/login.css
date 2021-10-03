@@ -55,8 +55,7 @@ select{
   outline: none;
 }
 
-input[type=text],
-input[type=password] {
+.login_field {
   font-family: 'Inter', sans-serif;
   width: calc(350px + 1vmin);
   padding: 10px 10px;

@@ -32,8 +32,8 @@ export default function Login() {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <input type="text" name="username" ref= { username } placeholder="Username " />
-          <input type="password" name="userpw" ref= { password } placeholder="Password"/>
+          <input className="login_field" type="text" name="username" ref= { username } placeholder="Username " />
+          <input className="login_field" type="password" name="userpw" ref= { password } placeholder="Password"/>
           <select title="select-user">
               <option value="customer">Customer</option>
               <option value="restaurant_admin">Restaurant Manager</option>

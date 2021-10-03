@@ -42,9 +42,9 @@ export default function CustRegister() {
           <a id="back" onClick= {back}>Back to Login</a>
           <img src={logo} className="App-logo" alt="logo" />
           <a class="whitefont" id="register">Create an account</a> 
-          <input type="text" name="username" placeholder="Username " ref= {username}/>
-          <input type="text" name="email" placeholder="Email "  ref= {email}/>
-          <input type="password" name="userpw" placeholder="Password" ref= {password} />
+          <input className="cr_field" type="text" name="username" placeholder="Username " ref= {username}/>
+          <input className="cr_field"type="text" name="email" placeholder="Email "  ref= {email}/>
+          <input className="cr_field" type="password" name="userpw" placeholder="Password" ref= {password} />
           <button className="go_btn" onClick= {Register} >Register</button>
           <div className="whitefont">Restaurant User?</div>
           <a className="link" onClick= {restreg}>Restaurant Register</a>
