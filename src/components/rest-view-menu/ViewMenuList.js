@@ -6,6 +6,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MenuItem from './MenuItem';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 export default function ViewMenuList({menu_items}) {
 
@@ -14,6 +15,17 @@ export default function ViewMenuList({menu_items}) {
   const handleChange = (panel) => (event, isExpanded) => {
       setExpanded(isExpanded ? panel : false);
     };
+
+  function checkAvail(item){
+    if (item.available == true)
+    {
+      return <FiberManualRecordIcon color="success" sx={{ fontSize: 10}} /> 
+    }
+    else
+    {
+      return ;
+    }
+  }
 
   return (
     menu_items.map(item =>{
@@ -34,7 +46,8 @@ export default function ViewMenuList({menu_items}) {
             bgcolor: 'rgb(150, 150, 150)',
             borderRadius: 1,
             p: 1
-          }}>{item.name}</Typography>
+          }}>
+            {checkAvail(item)} {item.name} </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{
           bgcolor: '#DDDDDD'
