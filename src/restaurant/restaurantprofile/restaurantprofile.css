@@ -1,0 +1,102 @@
+/* required as main div (above topnav) */
+.main {
+	padding:10px;
+	margin-top: 2%;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.rp_container {
+    display: flex;
+	margin-top:10px;
+    justify-content: center;
+	align-items: center;
+}
+
+.rp_viewprofile {
+	text-align: center;
+}
+
+.rp_banner {
+	width: calc(20px + 50vmin);
+}
+
+.rp_bannerfont {
+	text-align: center;
+    font-size: calc(7px + 1vmin);
+}
+
+.rp_profileblock {
+	display:flex;
+    margin-top:10px;
+    width: calc(100px + 50vmin);
+	align-items: center;
+    text-align: center;
+}
+
+.rp_profileblock>div {
+	flex:1;
+	padding: 5%;
+}
+
+.rp_boldinfo {
+	font-weight:bold;
+	text-align: left;
+    font-size: calc(7px + 1vmin);
+    margin-bottom:10px;
+}
+
+.rp_info {
+	text-align: left;
+    font-size: calc(7px + 1vmin);
+    margin-bottom:20px;
+}
+
+/* Button flexbox */
+.rp_buttons {
+	margin:5%;
+    text-align: center;
+}
+
+/* Button designs */
+.rp_btn1{
+	font-family: 'Inter', sans-serif;
+	margin: 20px;
+	color: #FFFFFF;
+    padding: 10px 4vmin;
+	text-decoration: none;
+    width: calc(50px + 50vmin);
+	background-color: #969696;
+    border: 1px solid #969696;
+	border-radius: 8px;
+	cursor: pointer;
+    font-size: calc(7px + 1vmin);
+	transition-duration: 0.4s;
+}
+
+.rp_btn1:hover{
+    background-color: #DDDDDD;
+	border: 1px solid #DDDDDD;
+	color: #747474;
+}
+
+.rp_btn2{
+	font-family: 'Inter', sans-serif;
+	margin: 20px;
+	color: #FFFFFF;
+    padding: 10px 4vmin;
+	text-decoration: none;
+    width: calc(50px + 50vmin);
+	background-color: #333333;
+    border: 1px solid #333333;
+	border-radius: 8px;
+	cursor: pointer;
+    font-size: calc(7px + 1vmin);
+	transition-duration: 0.4s;
+}
+
+.rp_btn2:hover{
+    background-color: #CCCCCC;
+	border: 1px solid #CCCCCC;
+	color: #747474;
+}

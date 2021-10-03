@@ -4,6 +4,7 @@ import Profile from './profile/view-profile/profile';
 import CustRegister from './register/custreg';
 import RestRegister from './register/restreg';
 import EditMenu from './restaurant/editmenu/EditMenu';
+import RestoProfile from './restaurant/restaurantprofile/restaurantprofile';
 import { Route, Switch } from 'react-router-dom';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <Route exact path="/custreg" component= {CustRegister} />
       <Route exact path="/restreg" component= {RestRegister} />
       <Route exact path="/editmenu" component= {EditMenu} />
+      <Route exact path="/restaurantprofile" component= {RestoProfile} />
     </Switch>
   );
 }
