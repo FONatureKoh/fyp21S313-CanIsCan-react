@@ -93,7 +93,7 @@
 	transition-duration: 0.4s;
 }
 
-.logout_btn:hover{
+.pp_logoutbtn:hover{
     background-color: #CCCCCC;
 	border: 1px solid #CCCCCC;
 	color: #747474;
