@@ -6,6 +6,10 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Typography } from '@mui/material';
 import { useHistory } from 'react-router';
 import { Drawer } from '@mui/material';
+import Navigation1 from '../../components/top-nav/navigation1'
+import Topbar from '../../components/top-nav/topbar';
+import { Container } from '@mui/material';
+import ProfileIcon from '../../components/top-nav/profile-icon';
 
 export default function EditMenu() {
   
@@ -94,20 +98,21 @@ export default function EditMenu() {
   ]
 
   return (
-    <div className="main">
-        <TopNav />
+    <div className="main2">
+    <Navigation1/>
+    <Container sx={{mt:'30px'}}>
         <div className="emenu_add">
             <button className="emenu_addBtn" onClick={additem}>Add Item</button>
         </div>
         <div className="emenu_buttons" ref= {dynamic}>
 
-          
         <Typography sx={{textAlign: 'left', marginBottom: 2}}><FiberManualRecordIcon color="success" sx={{ fontSize: 12}} /> Menu Items Currently Active</Typography>
           {
             <ViewMenuList menu_items={data} />
             //<button class="emenu_btn"> {element.name} </button>
           }
         </div>
+    </Container>
     </div>
   )
 }

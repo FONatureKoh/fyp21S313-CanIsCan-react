@@ -1,4 +1,5 @@
 import TopNav from '../../components/top-nav/topnav';
+import Navigation from '../../components/top-nav/navigation1';
 import './generalmanager.css';
 import React, {useEffect}from 'react';
 import { useHistory, withRouter} from 'react-router-dom';
