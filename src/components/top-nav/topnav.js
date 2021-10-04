@@ -11,14 +11,12 @@ import IconButton from '@mui/material/IconButton';
 import Settings from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
-import { Divider } from '@mui/material';
-import { Button } from '@mui/material';
+import { Divider, Button } from '@mui/material';
 
 // the icon-profile should not appear if viewing/editing profile
 // will look into adding the general manager top right icons
 
 export default function TopNav(){
-
     const history = useHistory();
 
     /*Menu*/
@@ -77,7 +75,6 @@ export default function TopNav(){
             <img src={profile} className="icon-profile" alt="profile" onClick= {viewprofile}/>
             
             */}    
-           
         </div>
     );
 }

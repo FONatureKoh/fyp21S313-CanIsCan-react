@@ -5,6 +5,7 @@ import ViewMenuList from '../../components/rest-view-menu/ViewMenuList';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Typography } from '@mui/material';
 import { useHistory } from 'react-router';
+import { Drawer } from '@mui/material';
 
 export default function EditMenu() {
   
@@ -99,6 +100,8 @@ export default function EditMenu() {
             <button className="emenu_addBtn" onClick={additem}>Add Item</button>
         </div>
         <div className="emenu_buttons" ref= {dynamic}>
+
+          
         <Typography sx={{textAlign: 'left', marginBottom: 2}}><FiberManualRecordIcon color="success" sx={{ fontSize: 12}} /> Menu Items Currently Active</Typography>
           {
             <ViewMenuList menu_items={data} />
