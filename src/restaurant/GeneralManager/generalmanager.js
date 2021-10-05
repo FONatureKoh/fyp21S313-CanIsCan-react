@@ -24,7 +24,7 @@ export default function GeneralManager() {
   }
 
   return (
-    <div className="main2">
+    <div className="main">
     <Topbar toggleVisibility={toggleVisibility}/>
     <Navigation1 isVisible={isVisible} isSelected={isSelected} setIsSelected={setIsSelected} />
 
