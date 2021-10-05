@@ -99,8 +99,8 @@ export default function EditMenu() {
 
   return (
     <div className="main2">
-    <Navigation1/>
-    <Container sx={{mt:'30px'}}>
+    <Topbar/>
+    <Container className="main3" sx={{mt:'80px'}}>
         <div className="emenu_add">
             <button className="emenu_addBtn" onClick={additem}>Add Item</button>
         </div>
