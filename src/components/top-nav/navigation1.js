@@ -112,7 +112,7 @@ export default function Navigation1({isVisible, isSelected, setIsSelected}) {
               <ListItemText primary="Account Management" />
             </ListItem>
 
-            <ListItemButton selected={isSelected === 3} onClick={() => setIsSelected(3)} >
+            <ListItemButton component={Link} to='/generalmanager/manageuser' selected={isSelected === 3} onClick={() => setIsSelected(3)} >
               <ListItemIcon>
                 <ManageAccountsIcon/>
               </ListItemIcon>

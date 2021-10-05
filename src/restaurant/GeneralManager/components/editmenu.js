@@ -1,9 +1,9 @@
 import React from 'react'
 import ViewMenuList from '../../../components/rest-view-menu/ViewMenuList';
-import { Button, Typography } from '@mui/material'
+import { Button, CardContent, Typography } from '@mui/material'
 import { useHistory } from 'react-router';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-
+import { Card } from '@mui/material';
 import { Link } from "react-router-dom";
 
 export default function Editmenu() {
@@ -91,7 +91,10 @@ export default function Editmenu() {
   ]
 
   return (
-    <div className="main">
+    <div className="main" >
+      {/* <Card variant="outlined" sx={{padding:'10px', borderRadius:'20px'}}> */}
+      <Card variant="outlined">
+        <CardContent >
       <div className="emenu_add">
             <Button variant="outlined" color="inherit" component={Link} to="/generalmanager/additem" sx={{alignSelf:'flex-end'}}>ADD ITEM</Button>
         </div>
@@ -104,6 +107,8 @@ export default function Editmenu() {
             //<button class="emenu_btn"> {element.name} </button>
           }
         </div>
+        </CardContent>
+        </Card>
     </div>
   )
 }

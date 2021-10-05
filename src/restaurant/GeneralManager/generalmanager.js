@@ -6,6 +6,7 @@ import { Box } from '@mui/system';
 import { Route, Switch } from 'react-router-dom';
 import Editmenu from './components/editmenu';
 import AddItem from './components/additem';
+import ManageUser from './components/manageuser';
 
 export default function GeneralManager() {
   const history = useHistory()
@@ -30,10 +31,10 @@ export default function GeneralManager() {
 
     <Box className="main3" sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
       <Switch>
-        <Route path="/generalmanager/editmenu" component={Editmenu}/>
-        <Route path="/generalmanager/additem" component={AddItem}/>
-        <Route exact path="/editmenu/updateinformation" component= {() => <div>change Menu</div>} />
-        <Route exact path="/editmenu/deletemenu" component= {() => <div>delete Menu</div>} />
+        <Route path="/generalmanager/editmenu" component= {Editmenu}/>
+        <Route path="/generalmanager/additem" component= {AddItem}/>
+        <Route path="/generalmanager/manageuser" component= {ManageUser} />
+        <Route path="/editmenu/deletemenu" component= {() => <div>delete Menu</div>} />
       </Switch>
     </Box>
     </div>
