@@ -1,27 +1,20 @@
 import * as React from 'react';
-import logo from '../../assets/logo.svg'
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import EditMenu from '../../restaurant/editmenu/EditMenu';
-import { Container } from '@mui/material';
 import './navigation1.css'
-import ProfileIcon from './profile-icon';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import Info from '@mui/icons-material/Info';
+import { Button } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -70,86 +63,61 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function Navigation1() {
+export default function Navigation1({isVisible}) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{bgcolor: '#474747'}}>
-        <Toolbar>
-          <IconButton
-            color='inherit'
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            <img src={logo} className="logo123"/>
-          </Typography>
-          <Typography variant="h6" noWrap component="div" sx={{ml:'10px'}}>
-            Food On Click
-          </Typography>
-          <Container sx={{textAlign:'right'}}>
-            <ProfileIcon/>
-          </Container>
-        </Toolbar>
-      </AppBar>
+      
       <Drawer
         sx={{
           width: drawerWidth,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
+            top: '76px',
             width: drawerWidth,
             boxSizing: 'border-box',
           },
         }}
         variant="persistent"
         anchor="left"
-        open={open}
+        open={isVisible}
       >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
+            <ListItem button key="Edit Restaurant Menu">
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <RestaurantMenuIcon/>
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary="Edit Menu" />
             </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
+            <ListItem button>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <Info/>
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary="Update Information" />
             </ListItem>
-          ))}
+            <ListItem button>
+              <ListItemIcon>
+                <ManageAccountsIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Manage Account" />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <AssessmentIcon/>
+              </ListItemIcon>
+              <ListItemText primary="View Statistics" />
+            </ListItem>
         </List>
+        <Divider/>
+        
+        <Box sx={{height:'100%', width:'100%'}}>
+        <Button variant="outlined" color="inherit" fullWidth sx={{mt:'5px'}}>Logout</Button>
+        </Box>
       </Drawer>
-      <Main open={open}>
-      </Main>
     </Box>
   );
 }

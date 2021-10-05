@@ -10,12 +10,25 @@ import Navigation1 from '../../components/top-nav/navigation1'
 import Topbar from '../../components/top-nav/topbar';
 import { Container } from '@mui/material';
 import ProfileIcon from '../../components/top-nav/profile-icon';
+import { Box } from '@mui/system';
 
 export default function EditMenu() {
   
   const dynamic = useRef();
   const [loaded, setLoaded] = useState(false);
   const history = useHistory()
+  const [isVisible, setIsVisible] = useState(true);
+  
+  const toggleVisibility = () => {
+    if (isVisible)
+    {
+      setIsVisible(false)
+    }
+    else
+    {
+      setIsVisible(true)
+    }
+  }
 
   function additem(){
     let path = "/additem";
@@ -99,8 +112,11 @@ export default function EditMenu() {
 
   return (
     <div className="main2">
-    <Topbar/>
-    <Container className="main3" sx={{mt:'80px'}}>
+    <Topbar toggleVisibility={toggleVisibility}/>
+    <Navigation1 isVisible={isVisible}/>
+
+    <Box className="main3" sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
+        
         <div className="emenu_add">
             <button className="emenu_addBtn" onClick={additem}>Add Item</button>
         </div>
@@ -112,7 +128,7 @@ export default function EditMenu() {
             //<button class="emenu_btn"> {element.name} </button>
           }
         </div>
-    </Container>
+    </Box>
     </div>
   )
 }

@@ -9,7 +9,7 @@ import ProfileIcon from './profile-icon';
 import AppBar from '@mui/material/AppBar';
 import './navigation1.css'
 
-export default function Topbar() {
+export default function Topbar({toggleVisibility}) {
 
   return (
     <>
@@ -19,6 +19,9 @@ export default function Topbar() {
             color='inherit'
             aria-label="open drawer"
             edge="start"
+            onClick={() => {
+              toggleVisibility();
+            }}
           >
             <MenuIcon />
           </IconButton>
