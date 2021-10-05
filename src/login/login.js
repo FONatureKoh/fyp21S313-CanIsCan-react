@@ -19,7 +19,7 @@ export default function Login() {
     const pass = password.current.value;
     if (user === 'abc123' && pass === '123123')
     {
-      let path = '/gmmenu';
+      let path = '/generalmanager';
       history.push(path);
     }
     else

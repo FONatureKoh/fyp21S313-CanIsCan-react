@@ -15,6 +15,8 @@ import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import Info from '@mui/icons-material/Info';
 import { Button } from '@mui/material';
+import { ListItemButton } from '@mui/material';
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -63,9 +65,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function Navigation1({isVisible}) {
-  const theme = useTheme();
-
+export default function Navigation1({isVisible, isSelected, setIsSelected}) {
+  const theme = useTheme();  
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -87,34 +88,52 @@ export default function Navigation1({isVisible}) {
       >
         <Divider />
         <List>
-            <ListItem button key="Edit Restaurant Menu">
+            <ListItem key="Edit Restaurant Menu">
+              <ListItemText primary="Edit Information" />
+            </ListItem>
+
+            <ListItemButton component={Link} to='/generalmanager/editmenu' key="Edit Restaurant Menu" selected={isSelected === 1} onClick={() => setIsSelected(1)} >
               <ListItemIcon>
                 <RestaurantMenuIcon/>
               </ListItemIcon>
               <ListItemText primary="Edit Menu" />
-            </ListItem>
-            <ListItem button>
+            </ListItemButton>
+
+            <ListItemButton component={Link} to='/generalmanager/restaurantinformation' selected={isSelected === 2} onClick={() => setIsSelected(2)} >
               <ListItemIcon>
                 <Info/>
               </ListItemIcon>
-              <ListItemText primary="Update Information" />
+              <ListItemText primary="Update Information"/>
+            </ListItemButton>
+
+            <Divider/>
+
+            <ListItem key="Account Management" sx={{mt:'10px'}}>
+              <ListItemText primary="Account Management" />
             </ListItem>
-            <ListItem button>
+
+            <ListItemButton selected={isSelected === 3} onClick={() => setIsSelected(3)} >
               <ListItemIcon>
                 <ManageAccountsIcon/>
               </ListItemIcon>
-              <ListItemText primary="Manage Account" />
+              <ListItemText primary="Manage Accounts" />
+            </ListItemButton>
+
+            <Divider/>
+
+            <ListItem key="DashBoard" sx={{mt:'10px'}}>
+              <ListItemText primary="Dashboard"/>
             </ListItem>
-            <ListItem button>
+            
+            <ListItemButton  selected={isSelected === 4} onClick={() => setIsSelected(4)}>
               <ListItemIcon>
                 <AssessmentIcon/>
               </ListItemIcon>
               <ListItemText primary="View Statistics" />
-            </ListItem>
+            </ListItemButton>
         </List>
         <Divider/>
-        
-        <Button variant="outlined" color="inherit" fullWidth sx={{mt:'5px'}} >Logout</Button>
+        <Button variant="outlined" color="inherit" fullWidth sx={{mt:'30px'}} >Logout</Button>
       </Drawer>
     </Box>
   );

@@ -1,31 +1,14 @@
-import React, {useRef, useState}from 'react'
-import './EditMenu.css'
-import ViewMenuList from '../../components/rest-view-menu/ViewMenuList';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { Typography } from '@mui/material';
+import React from 'react'
+import ViewMenuList from '../../../components/rest-view-menu/ViewMenuList';
+import { Button, Typography } from '@mui/material'
 import { useHistory } from 'react-router';
-import Navigation1 from '../../components/top-nav/navigation1'
-import Topbar from '../../components/top-nav/topbar';
-import { Box } from '@mui/system';
-import { Button } from '@mui/material';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
-export default function EditMenu() {
-  
-  const dynamic = useRef();
-  const [loaded, setLoaded] = useState(false);
+import { Link } from "react-router-dom";
+
+export default function Editmenu() {
+
   const history = useHistory()
-  const [isVisible, setIsVisible] = useState(true);
-  
-  const toggleVisibility = () => {
-    if (isVisible)
-    {
-      setIsVisible(false)
-    }
-    else
-    {
-      setIsVisible(true)
-    }
-  }
 
   function additem(){
     let path = "/additem";
@@ -108,16 +91,12 @@ export default function EditMenu() {
   ]
 
   return (
-    <div className="main2">
-    <Topbar toggleVisibility={toggleVisibility}/>
-    <Navigation1 isVisible={isVisible}/>
-
-    <Box className="main3" sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
-        
-        <div className="emenu_add">
-            <Button variant="outlined" color="inherit" onClick={additem}>ADD ITEM</Button>
+    <div className="main">
+      <div className="emenu_add">
+            <Button variant="outlined" color="inherit" component={Link} to="/generalmanager/additem" sx={{alignSelf:'flex-end'}}>ADD ITEM</Button>
         </div>
-        <div className="emenu_buttons" ref= {dynamic}>
+      <div className="emenu_buttons">
+
 
         <Typography sx={{textAlign: 'left', marginBottom: 2}}><FiberManualRecordIcon color="success" sx={{ fontSize: 12}} /> Menu Items Currently Active</Typography>
           {
@@ -125,7 +104,6 @@ export default function EditMenu() {
             //<button class="emenu_btn"> {element.name} </button>
           }
         </div>
-    </Box>
     </div>
   )
 }

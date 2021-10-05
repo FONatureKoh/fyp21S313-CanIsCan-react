@@ -26,7 +26,7 @@ export default function Topbar({toggleVisibility}) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ml:'15px'}}>
-            <img src={logo} className="logo123"/>
+            <img src={logo} className="logo123" height="50px" width="50px"/>
           </Typography>
           <Typography variant="h6" noWrap component="div" sx={{ml:'15px', flexGrow: 1}}>
             Food On Click
