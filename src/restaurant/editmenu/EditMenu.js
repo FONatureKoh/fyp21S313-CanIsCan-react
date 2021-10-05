@@ -1,16 +1,13 @@
 import React, {useRef, useState}from 'react'
-import TopNav from '../../components/top-nav/topnav'
 import './EditMenu.css'
 import ViewMenuList from '../../components/rest-view-menu/ViewMenuList';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Typography } from '@mui/material';
 import { useHistory } from 'react-router';
-import { Drawer } from '@mui/material';
 import Navigation1 from '../../components/top-nav/navigation1'
 import Topbar from '../../components/top-nav/topbar';
-import { Container } from '@mui/material';
-import ProfileIcon from '../../components/top-nav/profile-icon';
 import { Box } from '@mui/system';
+import { Button } from '@mui/material';
 
 export default function EditMenu() {
   
@@ -118,7 +115,7 @@ export default function EditMenu() {
     <Box className="main3" sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         
         <div className="emenu_add">
-            <button className="emenu_addBtn" onClick={additem}>Add Item</button>
+            <Button variant="outlined" color="inherit" onClick={additem}>ADD ITEM</Button>
         </div>
         <div className="emenu_buttons" ref= {dynamic}>
 

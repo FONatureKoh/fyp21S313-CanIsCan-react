@@ -114,9 +114,7 @@ export default function Navigation1({isVisible}) {
         </List>
         <Divider/>
         
-        <Box sx={{height:'100%', width:'100%'}}>
-        <Button variant="outlined" color="inherit" fullWidth sx={{mt:'5px'}}>Logout</Button>
-        </Box>
+        <Button variant="outlined" color="inherit" fullWidth sx={{mt:'5px'}} >Logout</Button>
       </Drawer>
     </Box>
   );
