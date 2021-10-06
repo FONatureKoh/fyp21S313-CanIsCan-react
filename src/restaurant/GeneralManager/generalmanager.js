@@ -7,6 +7,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import Editmenu from './components/editmenu';
 import AddItem from './components/additem';
 import ManageUser from './components/manageuser';
+import ViewInfo from './components/restaurantprofile';
 
 export default function GeneralManager() {
   const history = useHistory()
@@ -34,6 +35,7 @@ export default function GeneralManager() {
         <Route path="/generalmanager/editmenu" component= {Editmenu}/>
         <Route path="/generalmanager/additem" component= {AddItem}/>
         <Route path="/generalmanager/manageuser" component= {ManageUser} />
+        <Route path="/generalmanager/restaurantinformation" component= {ViewInfo} />
         <Route path="/editmenu/deletemenu" component= {() => <div>delete Menu</div>} />
         <Redirect from='/generalmanager' to='/generalmanager/editmenu'/>
       </Switch>
