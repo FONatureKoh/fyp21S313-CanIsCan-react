@@ -11,7 +11,7 @@ import ViewInfo from './components/restaurantprofile';
 
 export default function GeneralManager() {
   const history = useHistory()
-  const [isVisible, setIsVisible] = useState(false); 
+  const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
 
   const toggleVisibility = () => {
