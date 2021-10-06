@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Button, Card, CardHeader, Typography, Box } from '@mui/material'
 import { CardContent } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
+import { makeStyles } from '@mui/styles';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 100 },
@@ -49,22 +50,33 @@ const rows = [
   { id: 9, name: 'Tan Ah Koi', type: 'Reservations Manager'},
 ];
 
+const useStyles = makeStyles({
+  root: {
+    '& .super-app-theme--header': {
+      backgroundColor: 'rgba(255, 7, 0, 0.55)',
+    },
+  },
+});
+
 export default function ManageUser() {
+  const headerStyle = useStyles();
   return (
     <div className="main3" >
-      <Card variant="outlined" sx={{width:'100%'}}>
+      <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
         <CardHeader title="Manage Accounts"/>
         
-        <CardContent sx={{height:'420px'}}>
+        <CardContent sx={{height:'480px'}}>
           <Box  display='flex' flexDirection="column" >
             <Button variant="outlined" color="inherit" sx={{alignSelf:'flex-end', mb: '5px'}}>Add New Employee</Button>
           </Box>
-          <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-        />
+          <Box height="400px"sx={{'.MuiDataGrid-columnHeaderWrapper': {backgroundColor:'#eeeeee'}}} >
+            <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+          />
+          </Box>
         </CardContent>
         </Card>
     </div>
