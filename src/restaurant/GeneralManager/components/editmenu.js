@@ -91,7 +91,7 @@ export default function Editmenu() {
   ]
 
   return (
-    <div className="main" >
+    <div className="main3" >
       {/* <Card variant="outlined" sx={{padding:'10px', borderRadius:'20px'}}> */}
       <Card variant="outlined">
         <CardContent >

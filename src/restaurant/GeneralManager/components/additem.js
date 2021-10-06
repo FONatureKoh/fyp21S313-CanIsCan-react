@@ -4,7 +4,7 @@ import { InputAdornment, Grid, Button, Typography, TextField, Switch } from '@mu
 
 export default function AddItem() {
   return (
-    <div className="main">
+    <div className="main3">
     <Grid container sx={{margin:'auto', textAlign:'left', width: '70%', marginTop: 10}} >
       <Grid item xs={6}>
         <img src={'asd'} height="200px" width="100%"/>

@@ -51,9 +51,10 @@ const rows = [
 
 export default function ManageUser() {
   return (
-    <div className="main">
-      <Card variant="outlined">
+    <div className="main3" >
+      <Card variant="outlined" sx={{width:'100%'}}>
         <CardHeader title="Manage Accounts"/>
+        <Button variant="outlined" color="inherit" sx={{ml:'20px'}}>Add New Employee</Button>
         <CardContent sx={{height:'420px'}}>
           <DataGrid
           rows={rows}
