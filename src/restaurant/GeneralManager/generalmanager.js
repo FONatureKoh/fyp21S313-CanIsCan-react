@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 import Navigation1 from '../../components/top-nav/navigation1'
 import Topbar from '../../components/top-nav/topbar';
 import { Box } from '@mui/system';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Editmenu from './components/editmenu';
 import AddItem from './components/additem';
 import ManageUser from './components/manageuser';
@@ -35,6 +35,7 @@ export default function GeneralManager() {
         <Route path="/generalmanager/additem" component= {AddItem}/>
         <Route path="/generalmanager/manageuser" component= {ManageUser} />
         <Route path="/editmenu/deletemenu" component= {() => <div>delete Menu</div>} />
+        <Redirect from='/generalmanager' to='/generalmanager/editmenu'/>
       </Switch>
     </Box>
     </div>
