@@ -1,5 +1,4 @@
 import React from 'react'
-import './RestViewMenu.css'
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -36,21 +35,20 @@ export default function ViewMenuList({menu_items}) {
           id="panel1a-header"
           sx={{
             textAlign: 'center',
-            bgcolor: 'rgb(150, 150, 150)',
+            bgcolor: '#bdbdbd',
             borderRadius: 1,
             minWidth: 300
           }}
         >
           <Typography sx={{
             textAlign: 'center',
-            bgcolor: 'rgb(150, 150, 150)',
             borderRadius: 1,
             p: 1
           }}>
             {checkAvail(item)} {item.name} </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{
-          bgcolor: '#DDDDDD'
+          bgcolor: '#eeeeee'
         }}>
           <MenuItem name={item.name} price={item.price} desc={item.desc} allergies={item.allergies}/>
         </AccordionDetails>
