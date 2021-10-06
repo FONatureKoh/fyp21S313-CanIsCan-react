@@ -67,7 +67,7 @@ const drawerWidth = 240;
 //   justifyContent: 'flex-end',
 // }));
 
-export default function Navigation1({isVisible, isSelected, setIsSelected}) {
+export default function Navigation1({isVisible, isSelected, setIsSelected, isChecked, toggleChecked}) {
   const theme = useTheme();  
 
   return (
@@ -91,7 +91,7 @@ export default function Navigation1({isVisible, isSelected, setIsSelected}) {
         <Divider />
         <List>
             <ListItemButton>
-            <Typography sx={{marginTop:'20px', marginBottom:'20px'}}>Open For Business <Switch defaultChecked size="large" /></Typography>
+            <Typography sx={{marginTop:'20px', marginBottom:'20px'}}>Open For Business <Switch checked={isChecked} onClick={()=>toggleChecked()} size="large" /></Typography>
             </ListItemButton>
 
             <Divider/>

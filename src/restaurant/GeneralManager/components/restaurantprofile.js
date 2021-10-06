@@ -2,8 +2,8 @@ import React from 'react'
 import { Grid, Button, Typography, Switch, Divider, CardContent, CardHeader, Card } from '@mui/material'
 import bannerpic from '../../../assets/temp/eg-biz1.png'
 
-export default function AddItem() {
-
+export default function ViewInfo({isChecked, toggleChecked}) {
+    
     const boldtitle = {
        fontSize:'1 0px', 
        fontWeight:'bold', 
@@ -30,7 +30,7 @@ export default function AddItem() {
 
                 <Grid item xs={12} sx={{textAlign:'center', marginTop:'2%', marginBottom:'2%'}}>
                     <Divider />
-                    <Typography sx={{marginTop:'20px', marginBottom:'20px'}}>Open For Business <Switch defaultChecked size="large" /></Typography>
+                    <Typography sx={{marginTop:'20px', marginBottom:'20px'}}>Open For Business <Switch checked={isChecked} size="large" onClick={()=>toggleChecked()}/></Typography>
                     <Divider />
                 </Grid>
 

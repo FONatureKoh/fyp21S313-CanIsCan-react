@@ -14,6 +14,18 @@ export default function GeneralManager() {
   const history = useHistory()
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const toggleChecked = () => {
+    if (isChecked)
+    {
+      setIsChecked(false)
+    }
+    else
+    {
+      setIsChecked(true)
+    }
+  }
 
   const toggleVisibility = () => {
     if (isVisible)
@@ -29,13 +41,13 @@ export default function GeneralManager() {
   return (
     <Box height="100vh;" sx={{ padding:'1% 2%', bgcolor:'#f5f5f5', display:'block'}}>
       <Topbar toggleVisibility={toggleVisibility}/>
-      <Navigation1 isVisible={isVisible} isSelected={isSelected} setIsSelected={setIsSelected} />
+      <Navigation1 isVisible={isVisible} isSelected={isSelected} setIsSelected={setIsSelected} isChecked={isChecked} toggleChecked={toggleChecked} />
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>
           <Route path="/generalmanager/editmenu" component= {Editmenu}/>
           <Route path="/generalmanager/additem" component= {AddItem}/>
           <Route path="/generalmanager/manageuser" component= {ManageUser} />
-          <Route path="/generalmanager/restaurantinformation" component= {ViewInfo} />
+          <Route path="/generalmanager/restaurantinformation"> <ViewInfo isChecked={isChecked} toggleChecked={toggleChecked}/> </Route>
           <Route path="/editmenu/deletemenu" component= {() => <div>delete Menu</div>} />
           <Redirect from='/generalmanager' to='/generalmanager/editmenu'/>
         </Switch>
