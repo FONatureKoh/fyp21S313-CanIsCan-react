@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, Card, CardHeader, Typography } from '@mui/material'
+import { Button, Card, CardHeader, Typography, Box } from '@mui/material'
 import { CardContent } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -54,8 +54,11 @@ export default function ManageUser() {
     <div className="main3" >
       <Card variant="outlined" sx={{width:'100%'}}>
         <CardHeader title="Manage Accounts"/>
-        <Button variant="outlined" color="inherit" sx={{ml:'20px'}}>Add New Employee</Button>
+        
         <CardContent sx={{height:'420px'}}>
+          <Box  display='flex' flexDirection="column" >
+            <Button variant="outlined" color="inherit" sx={{alignSelf:'flex-end', mb: '5px'}}>Add New Employee</Button>
+          </Box>
           <DataGrid
           rows={rows}
           columns={columns}
