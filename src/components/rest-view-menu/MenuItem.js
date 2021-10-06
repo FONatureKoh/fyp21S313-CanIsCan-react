@@ -7,7 +7,7 @@ import { Button } from '@mui/material';
 
 export default function MenuItem({name, price, desc, allergies}) {
   return (
-    <div className="mi_container">
+    <div>
       <Grid container spacing={2} padding={5}>
         <Grid item xs={6}>
           <Box height="100%" sx={{textAlign:'center', alignContent: "center" }}><img src={icon}/></Box>

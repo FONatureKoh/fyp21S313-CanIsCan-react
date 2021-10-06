@@ -93,7 +93,7 @@ export default function Editmenu() {
   ]
 
   return (
-    <div className="main3" >
+    <div>
       {/* <Card variant="outlined" sx={{padding:'10px', borderRadius:'20px'}}> */}
       <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
         <CardHeader title="Edit Menu" />

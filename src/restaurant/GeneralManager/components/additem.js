@@ -4,7 +4,7 @@ import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, Card
 
 export default function AddItem() {
   return (
-    <div className="main3">
+    <div>
     <Card>
     <CardHeader title="Add Item" />
     <CardContent >
