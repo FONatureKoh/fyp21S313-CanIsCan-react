@@ -9,6 +9,7 @@ import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { Switch, Typography } from '@mui/material';
 import './navigation1.css'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
@@ -88,6 +89,12 @@ export default function Navigation1({isVisible, isSelected, setIsSelected}) {
       >
         <Divider />
         <List>
+            <ListItemButton>
+            <Typography sx={{marginTop:'20px', marginBottom:'20px'}}>Open For Business <Switch defaultChecked size="large" /></Typography>
+            </ListItemButton>
+
+            <Divider/>
+
             <ListItem key="Edit Restaurant Menu">
               <ListItemText primary="Edit Information" />
             </ListItem>
