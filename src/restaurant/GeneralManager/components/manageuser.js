@@ -3,6 +3,7 @@ import { Button, Card, CardHeader, Typography, Box } from '@mui/material'
 import { CardContent } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
 import { makeStyles } from '@mui/styles';
+import { Link } from 'react-router-dom'
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 100 },
@@ -67,9 +68,9 @@ export default function ManageUser() {
         
         <CardContent sx={{height:'480px'}}>
           <Box  display='flex' flexDirection="column" >
-            <Button variant="outlined" color="inherit" sx={{alignSelf:'flex-end', mb: '5px'}}>Add New Employee</Button>
+            <Button variant="outlined" color="inherit" component={ Link } to="/generalmanager/addsub-user" sx={{alignSelf:'flex-end', mb: '5px'}}>Add New Employee</Button>
           </Box>
-          <Box height="400px"sx={{'.MuiDataGrid-columnHeaderWrapper': {backgroundColor:'#eeeeee'}}} >
+          <Box height="400px" sx={{'.MuiDataGrid-columnHeaderWrapper': {backgroundColor:'#eeeeee'}}} >
             <DataGrid
             rows={rows}
             columns={columns}

@@ -8,7 +8,7 @@ import Editmenu from './components/editmenu';
 import AddItem from './components/additem';
 import ManageUser from './components/manageuser';
 import ViewInfo from './components/restaurantprofile';
-import { Container } from '@mui/material';
+import AddSubUser from './components/addsubuser';
 
 export default function GeneralManager() {
   const history = useHistory()
@@ -48,7 +48,7 @@ export default function GeneralManager() {
           <Route path="/generalmanager/additem" component= {AddItem}/>
           <Route path="/generalmanager/manageuser" component= {ManageUser} />
           <Route path="/generalmanager/restaurantinformation"> <ViewInfo isChecked={isChecked} toggleChecked={toggleChecked}/> </Route>
-          <Route path="/editmenu/deletemenu" component= {() => <div>delete Menu</div>} />
+          <Route path="/generalmanager/addsub-user" component= {AddSubUser}/>
           <Redirect from='/generalmanager' to='/generalmanager/editmenu'/>
         </Switch>
       </Box>
