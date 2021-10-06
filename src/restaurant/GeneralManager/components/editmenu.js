@@ -1,10 +1,12 @@
 import React from 'react'
 import ViewMenuList from '../../../components/rest-view-menu/ViewMenuList';
-import { Button, CardContent, Typography } from '@mui/material'
+import { Button, CardContent, CardHeader, Typography } from '@mui/material'
 import { useHistory } from 'react-router';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Card } from '@mui/material';
 import { Link } from "react-router-dom";
+import { Box } from '@mui/system';
+import { Container } from '@mui/material';
 
 export default function Editmenu() {
 
@@ -93,22 +95,25 @@ export default function Editmenu() {
   return (
     <div className="main3" >
       {/* <Card variant="outlined" sx={{padding:'10px', borderRadius:'20px'}}> */}
-      <Card variant="outlined">
+      <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
+        <CardHeader title="Edit Menu" />
         <CardContent >
-      <div className="emenu_add">
-            <Button variant="outlined" color="inherit" component={Link} to="/generalmanager/additem" sx={{alignSelf:'flex-end'}}>ADD ITEM</Button>
-        </div>
-      <div className="emenu_buttons">
-
-
-        <Typography sx={{textAlign: 'left', marginBottom: 2}}><FiberManualRecordIcon color="success" sx={{ fontSize: 12}} /> Menu Items Currently Active</Typography>
-          {
-            <ViewMenuList menu_items={data} />
-            //<button class="emenu_btn"> {element.name} </button>
-          }
+        <Box display='flex' flexDirection="column" > 
+            <Box alignSelf='flex-end'>
+              <Button variant="outlined" color="inherit" component={Link} to="/generalmanager/additem" >ADD ITEM</Button>
+            </Box>
+            <Box alignSelf='flex-start'>
+              <Typography sx={{textAlign: 'left', display:'inline-block'}}><FiberManualRecordIcon color="success" sx={{ fontSize: 12, alignSelf:'flex-start'}} /> Menu Items Currently Active</Typography>
+            </Box>
+        </Box>
+        <div>
+            {
+              <ViewMenuList menu_items={data} />
+              //<button class="emenu_btn"> {element.name} </button>
+            }
         </div>
         </CardContent>
-        </Card>
+      </Card>
     </div>
   )
 }

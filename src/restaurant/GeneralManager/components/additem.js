@@ -1,11 +1,14 @@
 import React from 'react'
-import { InputAdornment, Grid, Button, Typography, TextField, Switch } from '@mui/material'
+import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader} from '@mui/material'
 
 
 export default function AddItem() {
   return (
     <div className="main3">
-    <Grid container sx={{margin:'auto', textAlign:'left', width: '70%', marginTop: 10}} >
+    <Card>
+    <CardHeader title="Add Item" />
+    <CardContent >
+    <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
       <Grid item xs={6}>
         <img src={'asd'} height="200px" width="100%"/>
         <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
@@ -54,7 +57,8 @@ export default function AddItem() {
       <Grid item xs={3}>
       </Grid>
     </Grid>
-
+    </CardContent>
+    </Card>
   </div>
   )
 }
