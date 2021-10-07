@@ -114,7 +114,7 @@ export default function GeneralManager() {
   }
 
   return (
-    <Box sx={{ padding:'1% 2%', bgcolor:'#f5f5f5', display:'block', backgroundRepeat:'repeat-y'}}>
+    <Box sx={{ padding:'1% 2%', bgcolor:'#f5f5f5', display:'block'}}>
       <Topbar toggleVisibility={toggleVisibility}/>
       <Navigation1 isVisible={isVisible} isSelected={isSelected} setIsSelected={setIsSelected} isChecked={isChecked} toggleChecked={toggleChecked} />
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
