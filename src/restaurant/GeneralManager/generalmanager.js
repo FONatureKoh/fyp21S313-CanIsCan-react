@@ -120,7 +120,7 @@ export default function GeneralManager() {
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>
           <Route path="/generalmanager/editmenu"> <Editmenu menuData={menuData} itemSelected={itemSelected} setItemSelected={setItemSelected}/></Route>
-          <Route path="/generalmanager/edititem"><EditItem itemSelected={itemSelected} /></Route>
+          <Route path="/generalmanager/edititem"> <EditItem menuData={menuData} /></Route>
           <Route path="/generalmanager/additem" component= {AddItem}/>
           <Route path="/generalmanager/manageuser" component= {ManageUser} />
           <Route path="/generalmanager/restaurantinformation"> <ViewInfo isChecked={isChecked} toggleChecked={toggleChecked}/> </Route>

@@ -31,9 +31,7 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
             </Box>
         </Box>
         <Box sx={{margin:'10px auto', width:'80%'}}>
-            {
-              <ViewMenuList menu_items={menuData} itemSelected={itemSelected} setItemSelected={setItemSelected} />
-            }
+            <ViewMenuList menuData={menuData} itemSelected={itemSelected} setItemSelected={setItemSelected} />
         </Box>
         </CardContent>
       </Card>
