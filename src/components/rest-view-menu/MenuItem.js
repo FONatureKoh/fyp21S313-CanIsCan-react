@@ -1,11 +1,25 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Typography from '@mui/material/Typography';
 import icon from '../../assets/icon-profile.png';
 import Grid from '@mui/material/Grid';
 import { Box } from '@mui/system';
 import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
-export default function MenuItem({name, price, desc, allergies}) {
+const themes = {
+  textHeader: {
+    fontSize:'1 0px', 
+    fontWeight:'bold', 
+    mt: '5px'
+  }
+};
+
+export default function MenuItem({item, setItemSelected}) {
+
+  const getItem = () => {
+    setItemSelected(item);
+  }
+
   return (
     <div>
       <Grid container spacing={2} padding={5}>
@@ -14,42 +28,42 @@ export default function MenuItem({name, price, desc, allergies}) {
         </Grid>
         <Grid item xs={6}>
         <div className="mi_right">
-          <Typography className="mi_title">
+          <Typography sx={themes.textHeader}>
             Item Name:
           </Typography>
 
           <Typography>
-            {name}
+            {item.name}
           </Typography>
 
-          <Typography className="mi_title">
+          <Typography sx={themes.textHeader}>
             Price:
           </Typography>
 
           <Typography>
-            ${price}
+            ${item.price}
           </Typography>
 
-          <Typography className="mi_title">
+          <Typography sx={themes.textHeader}>
             Description: 
           </Typography>
 
           <Typography>
-            {desc}
+            {item.desc}
           </Typography>
 
-          <Typography className="mi_title">
+          <Typography sx={themes.textHeader}>
             Allergies Warning: 
           </Typography>
           
           <Typography>
-            {allergies}
+            {item.allergies}
           </Typography>
           </div>
           </Grid>
       </Grid>
       <Box sx={{width:'100%', textAlign:'center'}}>
-        <Button variant='outlined' color='inherit' sx={{mr:'10px', width:'100px'}}>EDIT</Button>
+        <Button variant='outlined' color='inherit' component={ Link } to="/generalmanager/edititem" sx={{mr:'10px', width:'100px'}} onClick={getItem}>EDIT</Button>
         <Button variant='outlined' color='error' sx={{ml:'10px', width:'100px'}}>DELETE</Button>
       </Box>
     </div>

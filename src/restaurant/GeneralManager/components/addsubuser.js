@@ -23,7 +23,13 @@ export default function AddSubUser() {
           <Box display='flex' flexDirection="column" > 
               <Box alignSelf='center' width="45%">
                 <Typography sx={boldtitle}>Particulars:</Typography>
-                <TextField sx={{width:'100%', mb:'20px'}} id="filled-basic" label="Name:" variant="filled" size="small"/>
+                <TextField sx={{width:'100%', mb:'20px'}} id="filled-basic" label="Username:" variant="filled" size="small"/>
+                <Box alignSelf="center" display='flex' flexDirection="row" >
+                  <TextField sx={{width:'48%', mb:'20px'}} id="filled-basic" label="First Name:" variant="filled" size="small"/>
+                  <Box sx={{width:'4%'}}></Box>
+                  <TextField sx={{width:'48%', mb:'20px'}} id="filled-basic" label="Last Name:" variant="filled" size="small"/>
+                </Box>
+                
                 <TextField sx={{width:'100%', mb:'20px'}} id="filled-basic" label="Email:" variant="filled" size="small"/>
                 <TextField sx={{width:'100%', mb:'20px'}} id="filled-basic" label="Phone No.:" variant="filled" size="small"/>
                 <Typography sx={boldtitle}>Role:</Typography>
