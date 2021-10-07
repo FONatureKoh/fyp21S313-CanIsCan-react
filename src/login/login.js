@@ -1,14 +1,14 @@
 import logo from '../assets/logo.svg';
 import './login.css';
-import React, { Component, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useHistory, withRouter} from 'react-router-dom';
 import { loginAuth } from './login_controller';
 
 export default function Login() {
  
   const history = useHistory();
-  const username = useRef();
-  const password = useRef();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   function RouteChange(){
     let path = '/custreg';
@@ -16,13 +16,11 @@ export default function Login() {
   }
 
   function login(){
-    const user = username.current.value;
-    const pass = password.current.value;
 
     // Test login function
-    loginAuth(user, pass);
+    loginAuth(username, password);
 
-    if (user === 'abc123' && pass === '123123')
+    if (username === 'abc123' && password === '123123')
     {
       let path = '/generalmanager';
       history.push(path);
@@ -37,8 +35,8 @@ export default function Login() {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <input className="login_field" type="text" name="username" ref= { username } placeholder="Username " />
-          <input className="login_field" type="password" name="userpw" ref= { password } placeholder="Password"/>
+          <input className="login_field" type="text" name="username" placeholder="Username " onChange={(e)=>setUsername(e.target.value)}/>
+          <input className="login_field" type="password" name="userpw" placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>
           <select title="select-user">
               <option value="customer">Customer</option>
               <option value="restaurant_admin">Restaurant Manager</option>
