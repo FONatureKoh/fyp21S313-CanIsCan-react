@@ -1,7 +1,6 @@
 import React from 'react'
 import ViewMenuList from '../../../components/rest-view-menu/ViewMenuList';
 import { Button, CardContent, CardHeader, Typography } from '@mui/material'
-import { useHistory } from 'react-router';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Card } from '@mui/material';
 import { Link } from "react-router-dom";
@@ -11,13 +10,6 @@ import EditItem from './edititem';
 import AddItem from './additem';
 
 export default function Editmenu({menuData, itemSelected, setItemSelected}) {
-
-  const history = useHistory()
-
-  function additem(){
-    let path = "/additem";
-    history.push(path);
-  }
 
   return (
      <Switch>

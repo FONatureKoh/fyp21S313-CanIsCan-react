@@ -19,7 +19,7 @@ export default function MenuItem({item, menuData}) {
     <div>
       <Grid container spacing={2} padding={5}>
         <Grid item xs={6}>
-          <Box height="100%" sx={{textAlign:'center', alignContent: "center" }}><img src={icon}/></Box>
+          <Box height="100%" sx={{textAlign:'center', alignContent: "center" }}><img src={icon} alt="Profile picture"/></Box>
         </Grid>
         <Grid item xs={6}>
         <div className="mi_right">

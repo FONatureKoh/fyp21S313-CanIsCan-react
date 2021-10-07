@@ -1,15 +1,9 @@
 import React from 'react'
-import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
 import Settings from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
-import { Divider, Button, Container } from '@mui/material';
+import { Divider, Button, Container, Menu, MenuItem, IconButton, Avatar } from '@mui/material';
 import profilepic from '../../assets/temp/johnsmith.png'
-import { Box } from '@mui/system';
-import './topnav.css';
 
 export default function ProfileIcon() {
   

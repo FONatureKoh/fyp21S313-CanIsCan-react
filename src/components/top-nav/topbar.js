@@ -7,7 +7,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ProfileIcon from './profile-icon';
 
 import AppBar from '@mui/material/AppBar';
-import './navigation1.css'
 
 export default function Topbar({toggleVisibility}) {
 

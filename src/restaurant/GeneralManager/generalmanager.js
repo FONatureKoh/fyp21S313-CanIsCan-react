@@ -1,5 +1,4 @@
-import React, {createContext, useRef, useState}from 'react'
-import { useHistory } from 'react-router';
+import React, {useState}from 'react'
 import Navigation1 from '../../components/top-nav/navigation1'
 import Topbar from '../../components/top-nav/topbar';
 import { Box } from '@mui/system';
@@ -14,13 +13,12 @@ export default function GeneralManager() {
   const [isSelected, setIsSelected] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
 
-  const [itemSelected, setItemSelected] = useState([]);
   const [menuData, setMenuData] = useState([{
     id: 1,
     available: true,
     name: 'Chicken Chop',
     price: 7.90,
-    desc: 'Delightful ',
+    desc: 'Delightful',
     allergies:'-'
   },
   {
@@ -28,7 +26,7 @@ export default function GeneralManager() {
     available: true,
     name: 'Chicken Cutlet',
     price: 8.90,
-    desc: 'Delightful ',
+    desc: 'Delightful fried crunchy chicken',
     allergies:'-'
   },
   {
@@ -117,7 +115,7 @@ export default function GeneralManager() {
       <Navigation1 isVisible={isVisible} isSelected={isSelected} setIsSelected={setIsSelected} isChecked={isChecked} toggleChecked={toggleChecked} />
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>
-          <Route path="/generalmanager/editmenu"> <Editmenu menuData={menuData} itemSelected={itemSelected} setItemSelected={setItemSelected}/></Route>
+          <Route path="/generalmanager/editmenu"> <Editmenu menuData={menuData}/></Route>
           <Route path="/generalmanager/manageuser" component= {ManageUser} />
           <Route path="/generalmanager/restaurantinformation"> <ViewInfo isChecked={isChecked} toggleChecked={toggleChecked}/> </Route>
           <Route path="/generalmanager/addsub-user" component= {AddSubUser}/>
