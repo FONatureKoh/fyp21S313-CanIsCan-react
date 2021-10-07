@@ -18,7 +18,6 @@ export default function EditItem({menuData}) {
   const item = menuData
 
   return (
-    <Box>
     <Card>
     <CardHeader title="Edit Item" />
     <CardContent >
@@ -42,29 +41,28 @@ export default function EditItem({menuData}) {
           <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Item Name (Required*):" variant="filled" size="small" defaultValue={itemSelected.name}/>
 
           <TextField
-          label="Price (Required*)"
-          id="filled-start-adornment"
-          sx={{width:'100%', margin:'15px'}}
-          InputProps={{
-            startAdornment: <InputAdornment position="start">$</InputAdornment>,
-          }}
-          variant="filled"
-          defaultValue={itemSelected.price}
+            label="Price (Required*)"
+            id="filled-start-adornment"
+            sx={{width:'100%', margin:'15px'}}
+            InputProps={{
+              startAdornment: <InputAdornment position="start">$</InputAdornment>,
+            }}
+            variant="filled"
+            defaultValue={itemSelected.price}
           />
 
         <TextField
-        id="filled-multiline-static"
-        label="Item Description (Required*): "
-        multiline
-        rows={4}
-        variant="filled"
-        sx={{width:'100%', margin:'15px'}}
-        defaultValue={itemSelected.desc}
+          id="filled-multiline-static"
+          label="Item Description (Required*): "
+          multiline
+          rows={4}
+          variant="filled"
+          sx={{width:'100%', margin:'15px'}}
+          defaultValue={itemSelected.desc}
         />
 
         <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Allergies Warning:" variant="filled" size="small" defaultValue={itemSelected.allergies}/>
 
-        
         <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}}>Confirm Changes</Button>
         
         <Button variant="contained" color="inherit" sx={{width:'45%', float:'right'}}>Cancel</Button>
@@ -75,6 +73,5 @@ export default function EditItem({menuData}) {
     </Grid>
     </CardContent>
     </Card>
-  </Box>
   )
 }

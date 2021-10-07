@@ -72,7 +72,6 @@ export default function Navigation1({isVisible, isSelected, setIsSelected, isChe
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
       
       <Drawer
         sx={{
