@@ -1,8 +1,7 @@
 import * as React from 'react'
-import { Button, Card, CardHeader, Typography, Box } from '@mui/material'
+import { Button, Card, CardHeader, Box } from '@mui/material'
 import { CardContent } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
-import { makeStyles } from '@mui/styles';
 import { Link } from 'react-router-dom'
 
 const columns = [
@@ -51,16 +50,8 @@ const rows = [
   { id: 9, name: 'Tan Ah Koi', type: 'Reservations Manager'},
 ];
 
-const useStyles = makeStyles({
-  root: {
-    '& .super-app-theme--header': {
-      backgroundColor: 'rgba(255, 7, 0, 0.55)',
-    },
-  },
-});
 
 export default function ManageUser() {
-  const headerStyle = useStyles();
   return (
     <div className="main3" >
       <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>

@@ -2,6 +2,7 @@ import logo from '../assets/logo.svg';
 import './login.css';
 import React, { Component, useRef } from 'react';
 import { useHistory, withRouter} from 'react-router-dom';
+import { loginAuth } from './login_controller';
 
 export default function Login() {
  
@@ -17,6 +18,10 @@ export default function Login() {
   function login(){
     const user = username.current.value;
     const pass = password.current.value;
+
+    // Test login function
+    loginAuth(user, pass);
+
     if (user === 'abc123' && pass === '123123')
     {
       let path = '/generalmanager';

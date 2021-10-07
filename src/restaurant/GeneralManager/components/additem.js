@@ -1,6 +1,6 @@
 import React from 'react'
 import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader} from '@mui/material'
-
+import { Link } from 'react-router-dom'
 
 export default function AddItem() {
   return (
@@ -51,7 +51,7 @@ export default function AddItem() {
         
         <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}}>Add Item</Button>
         
-        <Button variant="contained" color="inherit" sx={{width:'45%', float:'right'}}>Cancel</Button>
+        <Button variant="contained" color="inherit" sx={{width:'45%', float:'right'}} component={Link} to="/generalmanager">Cancel</Button>
       </Grid>
 
       <Grid item xs={3}>

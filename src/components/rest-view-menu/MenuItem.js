@@ -14,17 +14,12 @@ const themes = {
   }
 };
 
-export default function MenuItem({item, setItemSelected}) {
-
-  const getItem = () => {
-    setItemSelected(item);
-  }
-
+export default function MenuItem({item, menuData}) {
   return (
     <div>
       <Grid container spacing={2} padding={5}>
         <Grid item xs={6}>
-          <Box height="100%" sx={{textAlign:'center', alignContent: "center" }}><img src={icon}/></Box>
+          <Box height="100%" sx={{textAlign:'center', alignContent: "center" }}><img src={icon} alt="Profile picture"/></Box>
         </Grid>
         <Grid item xs={6}>
         <div className="mi_right">
@@ -63,7 +58,7 @@ export default function MenuItem({item, setItemSelected}) {
           </Grid>
       </Grid>
       <Box sx={{width:'100%', textAlign:'center'}}>
-        <Button variant='outlined' color='inherit' component={ Link } to="/generalmanager/edititem" sx={{mr:'10px', width:'100px'}} onClick={getItem}>EDIT</Button>
+        <Button variant='outlined' color='inherit' component={ Link } to={`/generalmanager/editmenu/edititem/${item.id}`} sx={{mr:'10px', width:'100px'}}>EDIT</Button>
         <Button variant='outlined' color='error' sx={{ml:'10px', width:'100px'}}>DELETE</Button>
       </Box>
     </div>

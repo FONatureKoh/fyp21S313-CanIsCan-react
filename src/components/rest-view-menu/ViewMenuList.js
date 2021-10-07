@@ -7,7 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MenuItem from './MenuItem';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
-export default function ViewMenuList({menu_items, itemSelected, setItemSelected}) {
+export default function ViewMenuList({menuData}) {
 
   const [expanded, setExpanded] = React.useState(false);
 
@@ -27,8 +27,8 @@ export default function ViewMenuList({menu_items, itemSelected, setItemSelected}
   }
 
   return (
-    menu_items.map(item =>{
-      return <Accordion sx={{margin:0.5}} expanded={expanded === item.id} onChange={handleChange(item.id)}>
+    menuData.map(item =>{
+      return <Accordion key={item.id} sx={{margin:0.5}} expanded={expanded === item.id} onChange={handleChange(item.id)}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -50,7 +50,7 @@ export default function ViewMenuList({menu_items, itemSelected, setItemSelected}
         <AccordionDetails sx={{
           bgcolor: '#eeeeee'
         }}>
-          <MenuItem item={item} itemSelected={itemSelected} setItemSelected={setItemSelected}/>
+          <MenuItem item={item} menuData={menuData}/>
         </AccordionDetails>
       </Accordion>
     })

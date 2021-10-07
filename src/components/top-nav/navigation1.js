@@ -1,26 +1,14 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar from '@mui/material/AppBar';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { Switch, Typography } from '@mui/material';
-import './navigation1.css'
+import { Switch, Typography, Box, Button, ListItemButton, Drawer, List, Divider, ListItem } from '@mui/material';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import Info from '@mui/icons-material/Info';
-import { Button } from '@mui/material';
-import { ListItemButton } from '@mui/material';
 import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
-
 
 // const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 //   ({ theme, open }) => ({
@@ -68,11 +56,8 @@ const drawerWidth = 240;
 // }));
 
 export default function Navigation1({isVisible, isSelected, setIsSelected, isChecked, toggleChecked}) {
-  const theme = useTheme();  
-
   return (
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
       
       <Drawer
         sx={{
