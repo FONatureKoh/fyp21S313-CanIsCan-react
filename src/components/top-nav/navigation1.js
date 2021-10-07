@@ -133,7 +133,7 @@ export default function Navigation1({isVisible, isSelected, setIsSelected, isChe
               <ListItemText primary="Dashboard"/>
             </ListItem>
             
-            <ListItemButton  selected={isSelected === 4} onClick={() => setIsSelected(4)}>
+            <ListItemButton  component={Link} to='/generalmanager/statistics' selected={isSelected === 4} onClick={() => setIsSelected(4)}>
               <ListItemIcon>
                 <AssessmentIcon/>
               </ListItemIcon>
