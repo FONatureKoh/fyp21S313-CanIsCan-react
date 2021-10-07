@@ -7,6 +7,9 @@ import Editmenu from './components/editmenu';
 import ManageUser from './components/manageuser';
 import ViewInfo from './components/restaurantprofile';
 import AddSubUser from './components/addsubuser';
+import Stats from './components/statistics';
+import EditItem from './components/edititem';
+
 
 export default function GeneralManager() {
   const [isVisible, setIsVisible] = useState(true); 
@@ -119,6 +122,7 @@ export default function GeneralManager() {
           <Route path="/generalmanager/manageuser" component= {ManageUser} />
           <Route path="/generalmanager/restaurantinformation"> <ViewInfo isChecked={isChecked} toggleChecked={toggleChecked}/> </Route>
           <Route path="/generalmanager/addsub-user" component= {AddSubUser}/>
+          <Route path="/generalmanager/statistics" component= {Stats}/>
           <Redirect from='/generalmanager' to='/generalmanager/editmenu'/>
         </Switch>
       </Box>
