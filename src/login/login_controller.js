@@ -22,4 +22,5 @@ export function loginAuth (username, password) {
     .catch(function (error) {
       console.log(error);
     })
+
 }
