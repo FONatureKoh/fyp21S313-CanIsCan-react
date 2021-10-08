@@ -8,7 +8,7 @@ const axios = require('axios');
  * *******************************************/
 
 export function retrieveMenuItems(rest_ID) {
-  axios.get('http://localhost:5000/restaurant/retrieveMenuItems', {
+  axios.get('https://api.cancanfoodapp.xyz/restaurant/retrieveMenuItems', {
     params: {
       restaurantID: 1
     }
