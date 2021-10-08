@@ -1,22 +1,22 @@
 const axios = require('axios');
 
 /********************************************
- * Login Auth function                      *
+ * Retrieval function                       *
  * ******************************************
- * - Should take in username and password
- * - Should return success and user type */
+ * - Takes in restaurantID and retrieve all *
+ * menu items based on that restaurant ID   
+ * *******************************************/
 
-export function loginAuth (username, password) {
-  var loginCreditials = {
-    username: username,
-    password: password
-  }
-
-  axios.post('/auth/login', loginCreditials)
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-}
+export function retrieveMenuItems(rest_ID) {
+  axios.get('https://api.cancanfoodapp.xyz/restaurant/retrieveMenuItems', {
+    params: {
+      restaurantID: 1
+    }
+  })
+  .then(function (response) {
+    console.log(response.data);
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+};
