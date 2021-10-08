@@ -8,13 +8,22 @@ import ManageUser from './components/manageuser';
 import ViewInfo from './components/restaurantprofile';
 import AddSubUser from './components/addsubuser';
 import Stats from './components/statistics';
+import { retrieveMenuItems } from '../restaurant_controller';
 
+// Testing the retrieve to ensure it works
+async function getMenu() {
+  const testMenuData = await retrieveMenuItems(1);
+  console.log(testMenuData);
+}
 
 export default function GeneralManager() {
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
 
+  // Calling the async function
+  getMenu();
+  
   const [menuData, setMenuData] = useState([{
     id: 1,
     available: true,
