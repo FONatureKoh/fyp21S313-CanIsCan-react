@@ -12,11 +12,11 @@ export function loginAuth (username, password) {
     password: password
   }
 
-  axios.post('https://api.cancanfoodapp.xyz/auth/login', {
+  return axios.post('https://api.cancanfoodapp.xyz/auth/login', {
       username: username,
       password: password
     })
-    .then(function (response) {
+    .then(response => {
       console.log(response.data);
       return response.data;
     })

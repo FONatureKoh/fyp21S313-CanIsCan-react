@@ -16,11 +16,12 @@ export default function Login() {
     history.push(path);
   }
 
-  function Login(){
+  async function Login(){
 
     // Test login function
-    const userinformation = loginAuth(username, password)
+    const userinformation = await loginAuth(username, password);
     console.log(userinformation);
+
     // if (username === 'abc123' && password === '123123')
     // {
     //   let path = '/generalmanager';
