@@ -9,6 +9,7 @@ import ViewInfo from './components/restaurantprofile';
 import AddSubUser from './components/addsubuser';
 import Stats from './components/statistics';
 import EditItem from './components/edititem';
+import Profile from '../../profile/view-profile/profile';
 
 
 export default function GeneralManager() {
@@ -123,6 +124,7 @@ export default function GeneralManager() {
           <Route path="/generalmanager/restaurantinformation"> <ViewInfo isChecked={isChecked} toggleChecked={toggleChecked}/> </Route>
           <Route path="/generalmanager/addsub-user" component= {AddSubUser}/>
           <Route path="/generalmanager/statistics" component= {Stats}/>
+          <Route path="/generalmanager/profile" component= {Profile}/>
           <Redirect from='/generalmanager' to='/generalmanager/editmenu'/>
         </Switch>
       </Box>
