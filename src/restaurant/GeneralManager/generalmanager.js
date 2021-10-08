@@ -9,9 +9,12 @@ import ViewInfo from './components/restaurantprofile';
 import AddSubUser from './components/addsubuser';
 import Stats from './components/statistics';
 import EditItem from './components/edititem';
-
+import { retrieveMenuItems } from './restaurant_controller';
 
 export default function GeneralManager() {
+  // The following is testing the retrieval
+  retrieveMenuItems(1);
+  
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
