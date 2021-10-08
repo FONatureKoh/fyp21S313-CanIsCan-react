@@ -3,6 +3,14 @@ import { Button, Card, CardHeader, Box } from '@mui/material'
 import { CardContent } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom'
+import { Route, Switch } from 'react-router';
+import AddSubUser from './addsubuser';
+import EditSubUser from './editsubuser';
+import { useState } from 'react';
+
+
+export default function ManageUser() {
+  const [userIDSelected, setUserIDSelected] = useState(0);
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 100 },
@@ -14,8 +22,12 @@ const columns = [
       return (
         <Button
           variant="outlined"
+          id={cellValues.id}
           color="inherit"
           fullWidth
+          component = {Link}
+          to="/generalmanager/manageuser/editsubuser"
+          onClick={(event) => {setUserIDSelected(event.target.id)}}
         >
           Edit
         </Button>
@@ -27,6 +39,7 @@ const columns = [
     renderCell: (cellValues) => {
       return (
         <Button
+          id={cellValues.value}
           variant="outlined"
           color="error"
           fullWidth
@@ -51,26 +64,30 @@ const rows = [
 ];
 
 
-export default function ManageUser() {
   return (
-    <div className="main3" >
-      <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
-        <CardHeader title="Manage Accounts"/>
-        
-        <CardContent sx={{height:'480px'}}>
-          <Box  display='flex' flexDirection="column" >
-            <Button variant="outlined" color="inherit" component={ Link } to="/generalmanager/addsub-user" sx={{alignSelf:'flex-end', mb: '5px'}}>Add New Employee</Button>
-          </Box>
-          <Box height="400px" sx={{'.MuiDataGrid-columnHeaderWrapper': {backgroundColor:'#eeeeee'}}} >
-            <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-          />
-          </Box>
+
+      <Switch>
+        <Route exact path="/generalmanager/manageuser">
+          <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
+          <CardHeader title="Manage Accounts"/>
+          
+          <CardContent sx={{height:'480px'}}>
+            <Box  display='flex' flexDirection="column" >
+              <Button variant="outlined" color="inherit" component={ Link } to="/generalmanager/addsub-user" sx={{alignSelf:'flex-end', mb: '5px'}}>Add New Employee</Button>
+            </Box>
+            <Box height="400px" sx={{'.MuiDataGrid-columnHeaderWrapper': {backgroundColor:'#eeeeee'}}} >
+              <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+            />
+            </Box>
         </CardContent>
         </Card>
-    </div>
+        </Route>
+        <Route path="/generalmanager/manageuser/addsubuser"><AddSubUser/></Route>
+        <Route path="/generalmanager/manageuser/editsubuser"><EditSubUser userIDSelected={userIDSelected} rows={rows}/></Route>
+      </Switch>
   )
 }
