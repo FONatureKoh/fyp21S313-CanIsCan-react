@@ -12,7 +12,7 @@ export function loginAuth (username, password) {
     password: password
   }
 
-  axios.post('http://localhost:5000/auth/login', {
+  axios.post('https://api.cancanfoodapp.xyz/auth/login', {
       username: username,
       password: password
     })
