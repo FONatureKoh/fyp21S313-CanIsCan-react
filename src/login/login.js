@@ -19,16 +19,17 @@ export default function Login() {
 
     // Test login function
     loginAuth(username, password);
+    console.log(loginAuth(username, password));
 
-    if (username === 'abc123' && password === '123123')
-    {
-      let path = '/generalmanager';
-      history.push(path);
-    }
-    else
-    {
-      alert("Please fill in your username and password!");
-    }
+    // if (username === 'abc123' && password === '123123')
+    // {
+    //   let path = '/generalmanager';
+    //   history.push(path);
+    // }
+    // else
+    // {
+    //   alert("Please fill in your username and password!");
+    // }
   }
 
   return (
