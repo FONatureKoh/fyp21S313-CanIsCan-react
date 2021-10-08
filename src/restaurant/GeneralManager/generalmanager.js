@@ -9,7 +9,7 @@ import ViewInfo from './components/restaurantprofile';
 import AddSubUser from './components/addsubuser';
 import Stats from './components/statistics';
 import EditItem from './components/edititem';
-import Profile from '../../profile/view-profile/profile';
+import Profile from '../../profile/viewprofile';
 
 
 export default function GeneralManager() {
