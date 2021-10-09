@@ -10,6 +10,11 @@ export default function ProfileIcon() {
 
     const history = useHistory();
 
+    function logout(){
+        let path = '/';
+        history.push(path);
+    }
+
     const handleProfile = () => {
         history.push("/generalmanager/profile");
       };
@@ -48,15 +53,10 @@ export default function ProfileIcon() {
             <MenuItem onClick={handleClose}> <LockIcon color="action" fontSize="small" sx={{mr: 1}}/>Change Password</MenuItem>
             <MenuItem onClick={handleClose}> <Settings color="action" fontSize="small" sx={{mr: 1}}/> Settings</MenuItem>
             <Divider />
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={logout}>
                 <Button variant="outlined" color="inherit" sx={{width:"100%"}}>Logout</Button>
             </MenuItem>
-        </Menu>
-        {/*
-        
-        <img src={profile} className="icon-profile" alt="profile" onClick= {viewprofile}/>
-        
-        */}    
+        </Menu> 
     </Container>
   )
 }

@@ -10,9 +10,10 @@ import { Box } from '@mui/system';
 import AppBar from '@mui/material/AppBar';
 
 export default function Topbar({toggleVisibility}) {
+  
   return (
     <>
-      <AppBar position="fixed" sx={{bgcolor: '#474747'}}>
+      <AppBar position="fixed" sx={{bgcolor: '#474747', height:'75px', pt:'8px'}}>
         <Toolbar>
           <IconButton
             color='inherit'

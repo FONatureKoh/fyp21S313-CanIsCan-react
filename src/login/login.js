@@ -1,6 +1,6 @@
 import logo from '../assets/logo.svg';
 import './login.css';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useHistory, withRouter} from 'react-router-dom';
 import { loginAuth } from './login_controller';
 import {Alert} from '@mui/material';
@@ -40,6 +40,16 @@ export default function Login() {
         let path = '/generalmanager';
         history.push(path);
       }
+      else if(ut === "Restaurant Deliveries Manager")
+      {
+        let path = '/deliveriesmanager';
+        history.push(path);
+      }
+      else if(ut === "Restaurant Reservation Manager")
+      {
+        let path = '/reservationsmanager';
+        history.push(path);
+      }
       else
       {
         alert(un + " is a " + ut);
@@ -47,24 +57,10 @@ export default function Login() {
     }
     else
     {
+      //place holder for now
       alert("Invalid credentials! Please try again!");
-      setPassword('');
-      setUsername('');
     }
   }
-
-  // Original login function below:
-  // =======================================================
-  // if (username === 'abc123' && password === '123123')
-  // {
-  //   let path = '/generalmanager';
-  //   history.push(path);
-  // }
-  // else
-  // {
-  //   alert("Please fill in your username and password!");
-  // }
-  // ========================================================
 
   return (
       <div className="App">
