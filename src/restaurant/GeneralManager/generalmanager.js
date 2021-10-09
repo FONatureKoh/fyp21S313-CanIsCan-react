@@ -12,7 +12,15 @@ import EditItem from './components/edititem';
 import Profile from '../../profile/viewprofile';
 import { retrieveMenuItems } from '../restaurant_controller';
 
-// Testing the retrieve to ensure it works
+/*********************************************************
+ * Menu Function to retrieve items based on RestaurantID *
+ * ***************************************************** *
+ * retrieveMenuItems() returns an Array
+ * NOTE: Current returned fields:
+ * - menu_ID, restaurant_ID, menu_type, menu_item_ID,
+ * item_menu_ID, item_name, item_png_ID, item_desc,
+ * item_allergen_warning, item_price, item_availability
+ * ***************************************************** */
 async function getMenu() {
   const testMenuData = await retrieveMenuItems(1);
   console.log(testMenuData);
