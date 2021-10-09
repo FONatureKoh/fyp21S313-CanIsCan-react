@@ -9,7 +9,6 @@ import ProfileIcon from './profile-icon';
 import AppBar from '@mui/material/AppBar';
 
 export default function Topbar({toggleVisibility}) {
-
   return (
     <>
       <AppBar position="fixed" sx={{bgcolor: '#474747'}}>

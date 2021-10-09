@@ -15,8 +15,6 @@ export default function EditItem({menuData}) {
       }
     }
 
-  const item = menuData
-
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
     <CardHeader title="Edit Item" />
