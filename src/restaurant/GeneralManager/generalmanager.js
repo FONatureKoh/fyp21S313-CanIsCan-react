@@ -1,4 +1,4 @@
-import React, {useState}from 'react'
+import React, {useEffect, useState}from 'react'
 import Navigation1 from '../../components/top-nav/navigation1'
 import Topbar from '../../components/top-nav/topbar';
 import { Box } from '@mui/system';
@@ -21,93 +21,26 @@ import { retrieveMenuItems } from '../restaurant_controller';
  * item_menu_ID, item_name, item_png_ID, item_desc,
  * item_allergen_warning, item_price, item_availability
  * ***************************************************** */
-async function getMenu() {
-  const testMenuData = await retrieveMenuItems(1);
-  console.log(testMenuData);
-}
+
 
 export default function GeneralManager() {
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
 
-  // Calling the async function
-  getMenu();
-  
-  const [menuData, setMenuData] = useState([{
-    id: 1,
-    available: true,
-    name: 'Chicken Chop',
-    price: 7.90,
-    desc: 'Delightful',
-    allergies:'-'
-  },
-  {
-    id: 2,
-    available: true,
-    name: 'Chicken Cutlet',
-    price: 8.90,
-    desc: 'Delightful fried crunchy chicken',
-    allergies:'-'
-  },
-  {
-    id: 3,
-    available: true,
-    name: 'Chicken Wing (2pcs)',
-    price: 3.00,
-    desc: 'Delightful ',
-    allergies:'-'
-  },
-  {
-    id: 4,
-    available: false,
-    name: 'Kobe Beef Steak (100g)',
-    price: 99.90,
-    desc: 'Most premium beef you can find in town!',
-    allergies:'-'
-  },
-  {
-    id: 5,
-    available: true,
-    name: 'Fish n Chips',
-    price: 9.00,
-    desc: 'Delightful ',
-    allergies:'-'
-  },
-  {
-    id: 6,
-    available: true,
-    name: 'Seafood Platter',
-    price: 15.90,
-    desc: 'Delightful ',
-    allergies:'Shell (Prawn, Clams)'
-  },
-  {
-    id: 7,
-    available: true,
-    name: 'Fries',
-    price: 11.00,
-    desc: 'Delightful ',
-    allergies:'-'
-  },
-  {
-    id: 8,
-    available: true,
-    name: 'Chicken Nugget (10pcs)',
-    price: 3.00,
-    desc: 'Delightful ',
-    allergies:'-'
-  },
-  {
-    id: 9,
-    available: true,
-    name: 'Cheese Dipping Sauce',
-    price: 2.00,
-    desc: 'Delightful ',
-    allergies:'-'
-  }
-])
+  const [menuData, setMenuData] = useState([]);
 
+
+  // Calling the async function
+  
+  useEffect(() => {
+    async function getMenu() {
+      const testMenuData = await retrieveMenuItems(1);
+      setMenuData(testMenuData);
+    }
+    getMenu();
+  },[])
+  
   const toggleChecked = () => {
     if (isChecked)
     {

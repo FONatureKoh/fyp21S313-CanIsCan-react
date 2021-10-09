@@ -81,11 +81,11 @@ export default function Navigation1({isVisible, isSelected, setIsSelected, isChe
 
             <Divider/>
 
-            <ListItem key="Edit Restaurant Menu">
+            <ListItem>
               <ListItemText primary="Edit Information" />
             </ListItem>
 
-            <ListItemButton component={Link} to='/generalmanager/editmenu' key="Edit Restaurant Menu" selected={isSelected === 1} onClick={() => setIsSelected(1)} >
+            <ListItemButton component={Link} to='/generalmanager/editmenu' selected={isSelected === 1} onClick={() => setIsSelected(1)} >
               <ListItemIcon>
                 <RestaurantMenuIcon/>
               </ListItemIcon>

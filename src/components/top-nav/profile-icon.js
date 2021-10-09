@@ -26,8 +26,9 @@ export default function ProfileIcon() {
   return (
     <Container position="absolute" sx={{mr:1}}>
         <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }} >
-            <Avatar src={profilepic} className="icon-profile" alt="profile"  sx={{ width: 50 , height: 50}}/>
+            <Avatar src={profilepic} alt="profile" sx={{ width: 50 , height: 50}}/>
         </IconButton>
+        
         <Menu
             anchorEl={anchorEl}
             id="menu"

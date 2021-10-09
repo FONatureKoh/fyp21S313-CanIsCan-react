@@ -8,13 +8,14 @@ export default function EditItem({menuData}) {
   let itemSelected;
     for(const item of menuData)
     {
-      if(item.id === parseInt(match.params.id) )
+      if(item.menu_item_ID === parseInt(match.params.id) )
       {
         itemSelected = item;
         break;
       }
     }
 
+  console.log(menuData)
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
     <CardHeader title="Edit Item" />
@@ -36,7 +37,7 @@ export default function EditItem({menuData}) {
       </Grid>
       
       <Grid item xs={6} sx={{textAlign:'center'}}>
-          <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Item Name (Required*):" variant="filled" size="small" defaultValue={itemSelected.name}/>
+          <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Item Name (Required*):" variant="filled" size="small" defaultValue={itemSelected.item_name}/>
 
           <TextField
             label="Price (Required*)"

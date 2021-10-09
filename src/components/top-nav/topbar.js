@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ProfileIcon from './profile-icon';
+import { Box } from '@mui/system';
 
 import AppBar from '@mui/material/AppBar';
 
@@ -24,14 +25,14 @@ export default function Topbar({toggleVisibility}) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ml:'15px'}}>
-            <img src={logo} className="logo123" height="50px" width="50px"/>
+            <img src={logo} className="logo123" height="50px" width="50px" alt="logo"/>
           </Typography>
           <Typography variant="h6" noWrap component="div" sx={{ml:'15px', flexGrow: 1}}>
             Food On Click
           </Typography>
-          <IconButton edge='end'>
+          <Box>
             <ProfileIcon />
-            </IconButton>
+            </Box>
         </Toolbar>
       </AppBar>
     </>

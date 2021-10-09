@@ -28,7 +28,7 @@ export default function MenuItem({item, menuData}) {
           </Typography>
 
           <Typography>
-            {item.name}
+            {item.item_name}
           </Typography>
 
           <Typography sx={themes.textHeader}>
@@ -36,7 +36,7 @@ export default function MenuItem({item, menuData}) {
           </Typography>
 
           <Typography>
-            ${item.price}
+            ${item.item_price}
           </Typography>
 
           <Typography sx={themes.textHeader}>
@@ -44,7 +44,7 @@ export default function MenuItem({item, menuData}) {
           </Typography>
 
           <Typography>
-            {item.desc}
+            {item.item_desc}
           </Typography>
 
           <Typography sx={themes.textHeader}>
@@ -52,13 +52,13 @@ export default function MenuItem({item, menuData}) {
           </Typography>
           
           <Typography>
-            {item.allergies}
+            {item.item_allergen_warning}
           </Typography>
           </div>
           </Grid>
       </Grid>
       <Box sx={{width:'100%', textAlign:'center'}}>
-        <Button variant='outlined' color='inherit' component={ Link } to={`/generalmanager/editmenu/edititem/${item.id}`} sx={{mr:'10px', width:'100px'}}>EDIT</Button>
+        <Button variant='outlined' color='inherit' component={ Link } to={`/generalmanager/editmenu/edititem/${item.menu_item_ID}`} sx={{mr:'10px', width:'100px'}}>EDIT</Button>
         <Button variant='outlined' color='error' sx={{ml:'10px', width:'100px'}}>DELETE</Button>
       </Box>
     </div>

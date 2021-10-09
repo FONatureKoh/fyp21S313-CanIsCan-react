@@ -3,14 +3,21 @@ import './login.css';
 import React, { useState, useRef } from 'react';
 import { useHistory, withRouter} from 'react-router-dom';
 import { loginAuth } from './login_controller';
+import {Alert} from '@mui/material';
 
 export default function Login() {
  
   const history = useHistory();
+  /*Form input*/
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  /*For bringing to other screen*/
+  const [userType, setUserType] = useState('');
+  const [userName, setUserName] = useState('');
+
   const [userInfo, setUserInfo] = useState();
+  
   function RouteChange(){
     let path = '/custreg';
     history.push(path);
@@ -29,6 +36,17 @@ export default function Login() {
     // Await solves the issue of the fulfilled promise
     const userinformation = await loginAuth(username, password);
     console.log(userinformation);
+    if (userinformation.length > 0)
+    {
+      setUserType(userinformation[0].user_type);
+      setUserName(userinformation[0].username);
+      let path = '/generalmanager';
+      history.push(path);
+    }
+    else
+    {
+      alert("test est 123");
+    }
   }
 
   // Original login function below:
