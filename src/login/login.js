@@ -16,22 +16,33 @@ export default function Login() {
     history.push(path);
   }
 
+  /****************************************
+   * Test Function to test the loginAuth  *
+   * variables returned:
+   * - username, user_type
+   * NOTE: Current user_types:
+   * - "Restaurant General Manager"
+   * - "Restaurant Deliveries Manager"
+   * - "Restaurant Reservation Manager"
+  */
   async function Login(){
-
-    // Test login function
+    // Await solves the issue of the fulfilled promise
     const userinformation = await loginAuth(username, password);
     console.log(userinformation);
-
-    // if (username === 'abc123' && password === '123123')
-    // {
-    //   let path = '/generalmanager';
-    //   history.push(path);
-    // }
-    // else
-    // {
-    //   alert("Please fill in your username and password!");
-    // }
   }
+
+  // Original login function below:
+  // =======================================================
+  // if (username === 'abc123' && password === '123123')
+  // {
+  //   let path = '/generalmanager';
+  //   history.push(path);
+  // }
+  // else
+  // {
+  //   alert("Please fill in your username and password!");
+  // }
+  // ========================================================
 
   return (
       <div className="App">
