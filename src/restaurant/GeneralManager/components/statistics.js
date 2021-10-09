@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Switch} from '@mui/material'
+import { Grid } from '@mui/material'
 import Chart from "react-google-charts";
 
 export default function ViewInfo({isChecked, toggleChecked}) {       

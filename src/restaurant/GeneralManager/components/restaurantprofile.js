@@ -24,7 +24,7 @@ export default function ViewInfo({isChecked, toggleChecked}) {
             <CardContent >
                 <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
                     <Grid item xs={12} sx={{textAlign:'center'}}>
-                        <img src={bannerpic} width="60%"/>
+                        <img src={bannerpic} width="60%" alt="banner"/>
                         <Typography sx={{textAlign:'center', fontSize:'1 0px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
                     </Grid>
 

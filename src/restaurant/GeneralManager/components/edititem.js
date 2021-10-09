@@ -22,7 +22,7 @@ export default function EditItem({menuData}) {
     <CardContent >
     <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
       <Grid item xs={6}>
-        <img src={'asd'} height="200px" width="100%"/>
+        <img src={'asd'} height="200px" width="100%" alt="menu"/>
         <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
       </Grid>
       
@@ -47,7 +47,7 @@ export default function EditItem({menuData}) {
               startAdornment: <InputAdornment position="start">$</InputAdornment>,
             }}
             variant="filled"
-            defaultValue={itemSelected.price}
+            defaultValue={itemSelected.item_price}
           />
 
         <TextField
@@ -57,10 +57,10 @@ export default function EditItem({menuData}) {
           rows={4}
           variant="filled"
           sx={{width:'100%', margin:'15px'}}
-          defaultValue={itemSelected.desc}
+          defaultValue={itemSelected.item_desc}
         />
 
-        <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Allergies Warning:" variant="filled" size="small" defaultValue={itemSelected.allergies}/>
+        <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Allergies Warning:" variant="filled" size="small" defaultValue={itemSelected.item_allergen_warning}/>
 
         <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}}>Confirm Changes</Button>
         

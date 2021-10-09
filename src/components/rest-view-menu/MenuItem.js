@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Typography from '@mui/material/Typography';
 import icon from '../../assets/icon-profile.png';
 import Grid from '@mui/material/Grid';

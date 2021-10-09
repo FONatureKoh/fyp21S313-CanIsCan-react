@@ -10,7 +10,7 @@ export default function AddItem() {
     <CardContent >
     <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
       <Grid item xs={6}>
-        <img src={'asd'} height="200px" width="100%"/>
+        <img src={'asd'} height="200px" width="100%" alt="additem"/>
         <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
       </Grid>
       

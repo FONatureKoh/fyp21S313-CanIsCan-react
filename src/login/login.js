@@ -11,12 +11,6 @@ export default function Login() {
   /*Form input*/
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  /*For bringing to other screen*/
-  const [userType, setUserType] = useState('');
-  const [userName, setUserName] = useState('');
-
-  const [userInfo, setUserInfo] = useState();
   
   function RouteChange(){
     let path = '/custreg';
@@ -38,14 +32,24 @@ export default function Login() {
     console.log(userinformation);
     if (userinformation.length > 0)
     {
-      setUserType(userinformation[0].user_type);
-      setUserName(userinformation[0].username);
-      let path = '/generalmanager';
-      history.push(path);
+      const ut = userinformation[0].user_type;
+      const un = userinformation[0].username;
+
+      if(ut === "Restaurant General Manager")
+      {
+        let path = '/generalmanager';
+        history.push(path);
+      }
+      else
+      {
+        alert(un + " is a " + ut);
+      }
     }
     else
     {
-      alert("test est 123");
+      alert("Invalid credentials! Please try again!");
+      setPassword('');
+      setUsername('');
     }
   }
 
