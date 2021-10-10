@@ -63,7 +63,7 @@ export default function BrowseRestaurantCat({restData, catData}) {
                   <Typography gutterBottom variant="h6" component="div" noWrap>
                    {rest.name}
                   </Typography>
-                  <Rating name="read-only" value={rest.rating} readOnly size='small' precision={0.1}/>
+                  <Rating name="read-only" value={rest.rating} readOnly size='small' precision={0.1}/> {rest.rating}
                   <Typography variant="body2" color="text.secondary">
                   <Chip label={rest.category} />
                   </Typography>
@@ -76,6 +76,9 @@ export default function BrowseRestaurantCat({restData, catData}) {
               </Card>
               </Grid>
             ))}
+            </Grid>
+            <Grid item md={12}>
+              <Button fullWidth variant="outlined" color="inherit">Load More</Button>
             </Grid>
           </Box>
         </CardContent>

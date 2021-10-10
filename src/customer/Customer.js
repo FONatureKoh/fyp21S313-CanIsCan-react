@@ -51,7 +51,7 @@ export default function Customer() {
     phone: '+65 8765 4321',
     address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
     rating: 4.2,
-    category: 'Malay'
+    category: 'Thai'
   },
   {
     id: 6,

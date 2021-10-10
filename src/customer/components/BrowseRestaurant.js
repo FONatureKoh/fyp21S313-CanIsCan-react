@@ -47,6 +47,9 @@ export default function BrowseRestaurant({restData}) {
               </Grid>
             ))}
             
+            <Grid item md={12}>
+              <Button fullWidth variant="outlined" color="inherit">Load More</Button>
+            </Grid>
 
 
 
