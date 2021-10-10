@@ -40,7 +40,7 @@ export default function BrowseRestaurant({restData}) {
                 </CardContent>
                 <CardActionArea className="123" sx={{padding:'10px'}}>
                   <Box sx={{width:'100%'}}>
-                    <Button variant="outlined" color="inherit" sx={{width:'100%'}}>Order</Button>
+                    <Button variant="outlined" color="inherit" sx={{width:'100%'}}>View Restaurant</Button>
                   </Box>
                 </CardActionArea>
               </Card>

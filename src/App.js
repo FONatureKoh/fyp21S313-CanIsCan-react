@@ -4,7 +4,7 @@ import CustRegister from './register/custreg';
 import RestRegister from './register/restreg';
 import DeliveriesManager from './restaurant/DeliveriesManager/DeliveriesManager';
 import ReservationsManager from './restaurant/ReservationsManager/ReservationsManager';
-import Customer from './customer/customer';
+import Customer from './customer/Customer';
 import { Route, Switch } from 'react-router-dom';
 
 function App() {
