@@ -25,6 +25,7 @@ export default function Login() {
    * - "Restaurant General Manager"
    * - "Restaurant Deliveries Manager"
    * - "Restaurant Reservation Manager"
+   * - "Customer"
   */
   async function Login(){
     // Await solves the issue of the fulfilled promise
