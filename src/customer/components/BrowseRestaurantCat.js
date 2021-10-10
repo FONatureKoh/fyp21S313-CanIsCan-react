@@ -51,7 +51,7 @@ export default function BrowseRestaurantCat({restData, catData}) {
             alignItems="flex-start"
           >
           {restData.map(rest => (
-              <Grid item xs={12} sm={6} md={2} key={restData.indexOf(rest)}>
+              <Grid item xs={12} sm={6} md={3} key={restData.indexOf(rest)}>
               {/* Card generation for restaurant */}
               <Card variant="outlined" sx={{ maxWidth: 300, mb:'20px'}}>
                 <CardMedia
