@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 export default function EditItem({menuData}) {
   const match = useRouteMatch('/generalmanager/editmenu/edititem/:id');
   
-
   let itemSelected;
     for(const item of menuData)
     {
