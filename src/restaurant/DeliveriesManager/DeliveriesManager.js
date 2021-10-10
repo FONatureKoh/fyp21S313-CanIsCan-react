@@ -11,8 +11,8 @@ import { Redirect, Route, Switch } from 'react-router-dom';
  * fieldnames: 	order_ID, o_cust_ID,	o_rest_ID,	order_datetime,
  * order_type, order_status, total_cost, payment_status
  * NOTE: order_type will contain delivery / preorder,
- * order_status will contain accepted, preparing, delivering, delivered,
- * payment_status (not relevant here?) will be true, false
+ * order_status will contain pending, accepted, preparing, delivering, 
+ * delivered, payment_status (not relevant here?) will be true, false.
  ***********************************************************************
  * order_item Table data
  * fieldnames: 	order_item_ID, oi_order_ID, oi_menu_item_ID, 
