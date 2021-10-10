@@ -5,10 +5,20 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Divider, Button, Container, Menu, MenuItem, IconButton, Avatar } from '@mui/material';
 import profilepic from '../../assets/temp/johnsmith.png'
 import { useHistory } from 'react-router-dom';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 export default function ProfileIcon() {
 
     const history = useHistory();
+    const [openDialog, setOpenDialog] = React.useState(false);
+
+    const handleOpenDialog= () => {
+        setOpenDialog(true);
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
 
     function logout(){
         let path = '/';
@@ -53,10 +63,27 @@ export default function ProfileIcon() {
             <MenuItem onClick={handleClose}> <LockIcon color="action" fontSize="small" sx={{mr: 1}}/>Change Password</MenuItem>
             <MenuItem onClick={handleClose}> <Settings color="action" fontSize="small" sx={{mr: 1}}/> Settings</MenuItem>
             <Divider />
-            <MenuItem onClick={logout}>
+            <MenuItem onClick={handleOpenDialog}>
                 <Button variant="outlined" color="inherit" sx={{width:"100%"}}>Logout</Button>
             </MenuItem>
         </Menu> 
+
+        <Dialog
+            open={openDialog}
+            onClose={handleCloseDialog}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+        <DialogTitle id="alert-dialog-title">
+          {"Confirm logout?"}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} variant="outlined" color="inherit" onClick={logout}>Logout</Button>
+          <Button onClick={handleCloseDialog} variant="outlined" color="error">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   )
 }

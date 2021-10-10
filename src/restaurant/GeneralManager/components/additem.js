@@ -1,8 +1,24 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader} from '@mui/material'
 import { Link } from 'react-router-dom'
 
 export default function AddItem() {
+
+  //form retrieval
+  const [itemName, setItemName] = useState();
+  const [itemPrice, setItemPrice] = useState();
+  const [itemDesc, setItemDesc] = useState();
+  const [itemAllergy, setItemAllergy] = useState();
+
+  //function to get state
+  function addItem()
+  {
+    console.log(itemName);
+    console.log(itemPrice);
+    console.log(itemDesc);
+    console.log(itemAllergy);
+  }
+
   return (
     <div>
     <Card>
@@ -25,16 +41,24 @@ export default function AddItem() {
       </Grid>
       
       <Grid item xs={6} sx={{textAlign:'center'}}>
-          <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Item Name (Required*):" variant="filled" size="small"/>
+          <TextField 
+            sx={{width:'100%', margin:'15px'}} 
+            id="filled-basic" 
+            label="Item Name (Required*):" 
+            variant="filled" 
+            size="small"
+            onChange={(e)=> setItemName(e.target.value)}/>
 
           <TextField
           label="Price (Required*)"
+          type="number"
           id="filled-start-adornment"
           sx={{width:'100%', margin:'15px'}}
           InputProps={{
             startAdornment: <InputAdornment position="start">$</InputAdornment>,
           }}
           variant="filled"
+          onChange={(e)=> setItemPrice(e.target.value)}
           />
 
         <TextField
@@ -44,12 +68,19 @@ export default function AddItem() {
         rows={4}
         variant="filled"
         sx={{width:'100%', margin:'15px'}}
+        onChange={(e)=> setItemDesc(e.target.value)}
         />
 
-        <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Allergies Warning:" variant="filled" size="small"/>
+        <TextField sx={{width:'100%', margin:'15px'}} 
+          id="filled-basic" 
+          label="Allergies Warning:" 
+          variant="filled" 
+          size="small"
+          onChange={(e)=> setItemAllergy(e.target.value)}
+          />
 
         
-        <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}}>Add Item</Button>
+        <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={addItem}>Add Item</Button>
         
         <Button variant="contained" color="inherit" sx={{width:'45%', float:'right'}} component={Link} to="/generalmanager">Cancel</Button>
       </Grid>

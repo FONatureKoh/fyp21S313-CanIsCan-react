@@ -1,10 +1,12 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader } from '@mui/material'
 import { useRouteMatch } from 'react-router'
 import { Link } from 'react-router-dom';
 
 export default function EditItem({menuData}) {
   const match = useRouteMatch('/generalmanager/editmenu/edititem/:id');
+  
+
   let itemSelected;
     for(const item of menuData)
     {
@@ -15,7 +17,20 @@ export default function EditItem({menuData}) {
       }
     }
 
-  console.log(menuData)
+  //Setting field to retrieved values
+  const [itemName, setItemName] = useState(itemSelected.item_name);
+  const [itemPrice, setItemPrice] = useState(itemSelected.item_price);
+  const [itemDesc, setItemDesc] = useState(itemSelected.item_desc);
+  const [itemAllergy, setItemAllergy] = useState(itemSelected.item_allergen_warning);
+
+  function submitChange()
+  {
+    console.log(itemName);
+    console.log(itemDesc);
+    console.log(itemPrice);
+    console.log(itemAllergy);
+  }
+  
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
     <CardHeader title="Edit Item" />
@@ -37,7 +52,13 @@ export default function EditItem({menuData}) {
       </Grid>
       
       <Grid item xs={6} sx={{textAlign:'center'}}>
-          <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Item Name (Required*):" variant="filled" size="small" defaultValue={itemSelected.item_name}/>
+          <TextField sx={{width:'100%', margin:'15px'}} 
+            id="filled-basic" 
+            label="Item Name (Required*):" 
+            variant="filled" 
+            size="small" 
+            defaultValue={itemName} 
+            onChange={(e)=>setItemName(e.target.value)}/>
 
           <TextField
             label="Price (Required*)"
@@ -46,8 +67,10 @@ export default function EditItem({menuData}) {
             InputProps={{
               startAdornment: <InputAdornment position="start">$</InputAdornment>,
             }}
+            type="number"
             variant="filled"
-            defaultValue={itemSelected.item_price}
+            defaultValue={itemPrice}
+            onChange={(e) => setItemPrice(e.target.value)}
           />
 
         <TextField
@@ -57,12 +80,21 @@ export default function EditItem({menuData}) {
           rows={4}
           variant="filled"
           sx={{width:'100%', margin:'15px'}}
-          defaultValue={itemSelected.item_desc}
+          defaultValue={itemDesc}
+          onChange={(e) => setItemDesc(e.target.value)}
         />
 
-        <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Allergies Warning:" variant="filled" size="small" defaultValue={itemSelected.item_allergen_warning}/>
+        <TextField 
+          sx={{width:'100%', margin:'15px'}} 
+          id="filled-basic" 
+          label="Allergies Warning:" 
+          variant="filled" 
+          size="small" 
+          defaultValue={itemAllergy}
+          onChange={(e) => setItemAllergy(e.target.value)}
+          />
 
-        <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}}>Confirm Changes</Button>
+        <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={submitChange}>Confirm Changes</Button>
         
         <Button variant="contained" color="inherit" sx={{width:'45%', float:'right' }} component={Link} to="/generalmanager">Cancel</Button>
       </Grid>
