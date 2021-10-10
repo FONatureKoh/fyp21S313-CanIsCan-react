@@ -4,6 +4,7 @@ import CustRegister from './register/custreg';
 import RestRegister from './register/restreg';
 import DeliveriesManager from './restaurant/DeliveriesManager/DeliveriesManager';
 import ReservationsManager from './restaurant/ReservationsManager/ReservationsManager';
+import Customer from './customer/customer';
 import { Route, Switch } from 'react-router-dom';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <Route path="/generalmanager" component= {GeneralManager} />
       <Route path="/deliveriesmanager" component= {DeliveriesManager} />
       <Route path="/reservationsmanager" component= {ReservationsManager} />
+      <Route path="/customer" component={Customer} />
     </Switch>
   );
 }
