@@ -1,7 +1,7 @@
 import React from 'react'
 import { Grid, Button, Typography, Switch, Divider, CardContent, CardHeader, Card } from '@mui/material'
 import bannerpic from '../../../assets/temp/eg-biz1.png'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch as Switch2 } from 'react-router-dom'
 import EditInformation from './editinformation'
 
 export default function ViewInfo({isChecked, toggleChecked}) {
@@ -21,7 +21,7 @@ export default function ViewInfo({isChecked, toggleChecked}) {
 
   return (
     <div>
-        <Switch>
+        <Switch2>
             <Route exact path="/generalmanager/restaurantinformation">
                 <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
                     <CardHeader title="Restaurant Information" />
@@ -64,7 +64,7 @@ export default function ViewInfo({isChecked, toggleChecked}) {
                 </Card>
             </Route>
             <Route path="/generalmanager/restaurantinformation/edit" component= {EditInformation}/>
-        </Switch>
+        </Switch2>
     </div>
   )
 }
