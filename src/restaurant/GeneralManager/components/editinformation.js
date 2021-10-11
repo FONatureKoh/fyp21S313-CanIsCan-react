@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card } from '@mui/material'
+import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import bannerpic from '../../../assets/temp/eg-biz1.png'
 import { useHistory } from 'react-router-dom'
 
@@ -8,8 +8,27 @@ export default function EditProfile({restaurantinfo}) {
   const history = useHistory();
 
   const cancelBtn = () => {
-    history.push('/generalmanager/restaurantinformation');
+    if(rName == restaurantinfo.rName && rPhone == restaurantinfo.rPhone && rAddress == restaurantinfo.rAddress){
+      history.push('/generalmanager/restaurantinformation');
+    }
+    else{
+      cancelBtn1();
+    }
   }
+
+  const [open, setOpen] = React.useState(false);
+
+  const cancelBtn1 = () => {
+    setOpen(true);
+  };
+
+  const handleNo = () => {
+    setOpen(false);
+  };
+
+  const handleYes = () => {
+    history.push('/generalmanager/restaurantinformation');
+  };
 
   const [rName, setRName] = useState(restaurantinfo.rName);
   const [rPhone, setRPhone] = useState(restaurantinfo.rPhone);
@@ -25,7 +44,7 @@ export default function EditProfile({restaurantinfo}) {
   return (
   <div>
     <Card variant="outlined" sx={{margin:'auto', marginTop:'20vmin', width:'60%', padding:'5px', borderRadius:'10px'}}>
-      <CardHeader title="Edit Personal Information" />
+      <CardHeader title="Edit Restaurant Information" />
         <CardContent >
           <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
             <Grid item xs={12} sx={{textAlign:'center', marginTop:'10%;'}}>
@@ -45,6 +64,29 @@ export default function EditProfile({restaurantinfo}) {
             <Grid item xs={12} sx={{textAlign:'center', marginTop:'5%'}}>
               <Button variant="contained" onClick={submitChange} color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start', marginRight:'5%'}}>Confirm</Button>
               <Button variant="contained" onClick={cancelBtn} color="inherit" sx={{width:'45%', bgcolor:"#CCCCCC", textAlign:'flex-start'}}>Cancel</Button>
+              
+              <div>
+                <Dialog
+                open={open}
+                onClose={handleNo}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                >
+                <DialogTitle id="alert-dialog-title">
+                  {"Unsaved Changes"}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    Do you want to continue?
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleYes} autoFocus>Yes</Button>
+                  <Button onClick={handleNo}>No</Button>
+                </DialogActions>
+              </Dialog>
+              </div>
+
             </Grid>
           </Grid>
         </CardContent>
