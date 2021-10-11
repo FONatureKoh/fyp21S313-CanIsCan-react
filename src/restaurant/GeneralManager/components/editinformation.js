@@ -41,7 +41,7 @@ export default function EditProfile({restaurantinfo}) {
 
   return (
   <div>
-    <Card variant="outlined" sx={{margin:'auto', marginTop:'20vmin', width:'60%', padding:'5px', borderRadius:'10px'}}>
+    <Card variant="outlined" sx={{margin:'auto', marginTop:'10vmin', width:'60%', padding:'5px', borderRadius:'10px'}}>
       <CardHeader title="Edit Restaurant Information" />
         <CardContent >
           <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
