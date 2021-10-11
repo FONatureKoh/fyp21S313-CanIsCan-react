@@ -18,7 +18,8 @@ export default function ViewProfile() {
         username: 'johnsmith',
         name: "John Smith", 
         phone: '+65 9876 5432',
-        address: 'Blk111, Ang Mo Kio Avenue 1 #01-111 S(111111)'
+        address: 'Blk111, Ang Mo Kio Avenue 1 #01-111 S(111111)',
+        password: 'test'
     };
 
   return (
@@ -64,8 +65,8 @@ export default function ViewProfile() {
     </Card>
   </div>
   </Route>
-  <Route path="/generalmanager/profile/editprofile" component= {EditProfile}/>
-  <Route path="/generalmanager/profile/changepassword" component= {ChangePassword}/>
+  <Route path="/generalmanager/profile/editprofile" component= {EditProfile}><EditProfile personalinfo={personalinfo}/></Route>
+  <Route path="/generalmanager/profile/changepassword" component= {ChangePassword}><ChangePassword personalinfo={personalinfo}/></Route>
   </Switch>
   )
 }
