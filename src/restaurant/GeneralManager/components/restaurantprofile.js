@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Grid, Button, Typography, Switch, Divider, CardContent, CardHeader, Card } from '@mui/material'
 import bannerpic from '../../../assets/temp/eg-biz1.png'
 import { Route, Link, Switch as Switch2 } from 'react-router-dom'
@@ -14,9 +14,9 @@ export default function ViewInfo({isChecked, toggleChecked}) {
     };
 
     const restaurantinfo = { 
-        name: "Default co", 
-        phone: '+65 8765 4321',
-        address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)'
+        rName: "Default co", 
+        rPhone: '+65 8765 4321',
+        rAddress: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)'
     };
 
   return (
@@ -41,17 +41,17 @@ export default function ViewInfo({isChecked, toggleChecked}) {
                   <Grid item xs={12} sx={{textAlign:'center'}}>
                       <Typography sx={boldtitle}>Restaurant Name</Typography>
                       <Typography>
-                          {restaurantinfo.name}
+                          {restaurantinfo.rName}
                       </Typography>
 
                       <Typography sx={boldtitle}>Restaurant Contact Number</Typography>
                       <Typography>
-                          {restaurantinfo.phone}
+                          {restaurantinfo.rPhone}
                       </Typography>
 
                       <Typography sx={boldtitle}>Restaurant Address</Typography>
                       <Typography>
-                          {restaurantinfo.address}
+                          {restaurantinfo.rAddress}
                       </Typography>
                   </Grid>
       
@@ -62,7 +62,7 @@ export default function ViewInfo({isChecked, toggleChecked}) {
               </CardContent>
             </Card>
         </Route>
-        <Route path="/generalmanager/restaurantinformation/edit" component= {EditInformation}/>
+        <Route path="/generalmanager/restaurantinformation/edit" component= {EditInformation}><EditInformation restaurantinfo={restaurantinfo}/></Route>
       </Switch2>
     </div>
   )

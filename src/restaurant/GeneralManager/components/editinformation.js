@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card } from '@mui/material'
-import bannerpic from '../assets/temp/eg-biz1.png'
+import bannerpic from '../../../assets/temp/eg-biz1.png'
 import { useHistory } from 'react-router-dom'
 
 export default function EditProfile({restaurantinfo}) {
@@ -11,15 +11,15 @@ export default function EditProfile({restaurantinfo}) {
     history.push('/generalmanager/restaurantinformation');
   }
 
-  const [name, setName] = useState(restaurantinfo.name);
-  const [phone, setPhone] = useState(restaurantinfo.phone);
-  const [address, setAddress] = useState(itemSelected.address);
+  const [rName, setRName] = useState(restaurantinfo.rName);
+  const [rPhone, setRPhone] = useState(restaurantinfo.rPhone);
+  const [rAddress, setRAddress] = useState(restaurantinfo.rAddress);
 
   function submitChange()
   {
-    console.log(name);
-    console.log(phone);
-    console.log(address);
+    console.log(rName);
+    console.log(rPhone);
+    console.log(rAddress);
   }
 
   return (
@@ -35,11 +35,11 @@ export default function EditProfile({restaurantinfo}) {
       
             <Grid item xs={12} sx={{textAlign:'center'}}>
               
-              <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Full Name (Required*):" variant="filled" size="small" defaultValue={restaurantinfo.name}/>
+              <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Restaurant Name (Required*):" variant="filled" size="small" defaultValue={restaurantinfo.rName} onChange={(e)=>setRName(e.target.value)}/>
 
-              <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Phone Number (Required*):" variant="filled" size="small" defaultValue={restaurantinfo.phone}/>
+              <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Restaurant Contact Number (Required*):" variant="filled" size="small" defaultValue={restaurantinfo.rPhone} onChange={(e)=>setRPhone(e.target.value)}/>
 
-              <TextField id="filled-multiline-static" label="Address (Required*):"  multiline rows={4} variant="filled" sx={{width:'100%', margin:'15px'}} defaultValue={restaurantinfo.address}/>
+              <TextField id="filled-multiline-static" label="Restaurant Address (Required*):"  multiline rows={4} variant="filled" sx={{width:'100%', margin:'15px'}} defaultValue={restaurantinfo.rAddress} onChange={(e)=>setRAddress(e.target.value)}/>
             </Grid>
 
             <Grid item xs={12} sx={{textAlign:'center', marginTop:'5%'}}>
