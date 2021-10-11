@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
-import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader} from '@mui/material'
+import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader, Box, Input} from '@mui/material'
 import { Link } from 'react-router-dom'
+import { styled } from '@mui/material/styles';
 
 export default function AddItem() {
 
@@ -19,6 +20,10 @@ export default function AddItem() {
     console.log(itemAllergy);
   }
 
+  const Input = styled('input')({
+    display: 'none',
+  });
+
   return (
     <div>
     <Card>
@@ -26,8 +31,16 @@ export default function AddItem() {
     <CardContent >
     <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
       <Grid item xs={6}>
-        <img src={'asd'} height="200px" width="100%" alt="additem"/>
-        <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
+        <Box width="100%"
+        height="80%">
+          <img src={'asd'} height="200px" width="100%" alt="additem"/>
+        </Box>
+        <Box>
+        <label htmlFor="contained-button-file">
+          <Input accept="image/*" id="contained-button-file" multiple type="file" />
+          <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
+        </label>
+        </Box>
       </Grid>
       
       <Grid item xs={1}>
