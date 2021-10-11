@@ -6,6 +6,10 @@ import { useHistory } from 'react-router-dom'
 export default function EditProfile({restaurantinfo}) {
 
   const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+  const [rName, setRName] = useState(restaurantinfo.rName);
+  const [rPhone, setRPhone] = useState(restaurantinfo.rPhone);
+  const [rAddress, setRAddress] = useState(restaurantinfo.rAddress);
 
   const cancelBtn = () => {
     if(rName == restaurantinfo.rName && rPhone == restaurantinfo.rPhone && rAddress == restaurantinfo.rAddress){
@@ -15,8 +19,6 @@ export default function EditProfile({restaurantinfo}) {
       cancelBtn1();
     }
   }
-
-  const [open, setOpen] = React.useState(false);
 
   const cancelBtn1 = () => {
     setOpen(true);
@@ -29,10 +31,6 @@ export default function EditProfile({restaurantinfo}) {
   const handleYes = () => {
     history.push('/generalmanager/restaurantinformation');
   };
-
-  const [rName, setRName] = useState(restaurantinfo.rName);
-  const [rPhone, setRPhone] = useState(restaurantinfo.rPhone);
-  const [rAddress, setRAddress] = useState(restaurantinfo.rAddress);
 
   function submitChange()
   {
