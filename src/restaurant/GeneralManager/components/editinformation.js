@@ -11,6 +11,10 @@ export default function EditProfile({restaurantinfo}) {
     history.push('/generalmanager/restaurantinformation');
   }
 
+  const [name, setName] = useState(restaurantinfo.name);
+  const [phone, setPhone] = useState(restaurantinfo.phone);
+  const [address, setAddress] = useState(itemSelected.address);
+
   function submitChange()
   {
     console.log(name);
@@ -24,23 +28,22 @@ export default function EditProfile({restaurantinfo}) {
       <CardHeader title="Edit Personal Information" />
         <CardContent >
           <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
-            <Grid item xs={6} sx={{textAlign:'center', marginTop:'10%;'}}>
+            <Grid item xs={12} sx={{textAlign:'center', marginTop:'10%;'}}>
               <img src={bannerpic} width="60%"/>
               <Typography sx={{textAlign:'center', fontSize:'1 0px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
             </Grid>
       
-            <Grid item xs={6} sx={{textAlign:'center'}}>
-              <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Username:" variant="filled" size="small" defaultValue={personalinfo.username} disabled/>
+            <Grid item xs={12} sx={{textAlign:'center'}}>
               
-              <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Full Name (Required*):" variant="filled" size="small" defaultValue={personalinfo.name}/>
+              <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Full Name (Required*):" variant="filled" size="small" defaultValue={restaurantinfo.name}/>
 
-              <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Phone Number (Required*):" variant="filled" size="small" defaultValue={personalinfo.phone}/>
+              <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Phone Number (Required*):" variant="filled" size="small" defaultValue={restaurantinfo.phone}/>
 
-              <TextField id="filled-multiline-static" label="Address (Required*):"  multiline rows={4} variant="filled" sx={{width:'100%', margin:'15px'}} defaultValue={personalinfo.address}/>
+              <TextField id="filled-multiline-static" label="Address (Required*):"  multiline rows={4} variant="filled" sx={{width:'100%', margin:'15px'}} defaultValue={restaurantinfo.address}/>
             </Grid>
 
             <Grid item xs={12} sx={{textAlign:'center', marginTop:'5%'}}>
-              <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start', marginRight:'5%'}}>Confirm</Button>
+              <Button variant="contained" onClick={submitChange} color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start', marginRight:'5%'}}>Confirm</Button>
               <Button variant="contained" onClick={cancelBtn} color="inherit" sx={{width:'45%', bgcolor:"#CCCCCC", textAlign:'flex-start'}}>Cancel</Button>
             </Grid>
           </Grid>
