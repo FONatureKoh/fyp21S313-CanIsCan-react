@@ -1,10 +1,10 @@
-import React, {useState} from 'react'
-import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack } from '@mui/material'
-import bannerpic from '../../../assets/temp/eg-biz1.png'
-import { useHistory } from 'react-router-dom'
+import React, {useState} from 'react';
+import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dialog, DialogActions, 
+DialogContent, DialogContentText, DialogTitle, Stack } from '@mui/material';
+import bannerpic from '../../../assets/temp/eg-biz1.png';
+import { useHistory } from 'react-router-dom';
+import { TimePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import TimePicker from '@mui/lab/TimePicker';
 
 export default function EditProfile({restaurantinfo}) {
 
