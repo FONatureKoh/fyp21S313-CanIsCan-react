@@ -18,7 +18,7 @@ export default function ViewInfo({isChecked, toggleChecked}) {
         rPhone: '+65 8765 4321',
         rAddress: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
         openTime: '10:00', 
-        closeTime: '24:00'
+        closeTime: '22:00'
     };
 
     const openTimeA = restaurantinfo.openTime.split(':');
