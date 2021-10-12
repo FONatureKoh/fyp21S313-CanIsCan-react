@@ -18,7 +18,7 @@ export default function ViewInfo({isChecked, toggleChecked}) {
         rPhone: '+65 8765 4321',
         rAddress: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
         openTime: '10:00', 
-        closeTime: '12:00'
+        closeTime: '24:00'
     };
 
     const openTimeA = restaurantinfo.openTime.split(':');
@@ -29,6 +29,12 @@ export default function ViewInfo({isChecked, toggleChecked}) {
     else if (openTimeA[0] == 12)
     {
       var openTime = restaurantinfo.openTime + ' PM';
+    }
+    else if (openTimeA[0] == 24)
+    {
+      var hr = openTimeA[0] - 12;
+      var minutes = openTimeA[1];
+      var openTime = hr + ':' + minutes + ' AM';
     }
     else
     {
@@ -45,6 +51,12 @@ export default function ViewInfo({isChecked, toggleChecked}) {
     else if (closeTimeA[0] == 12)
     {
       var closeTime = restaurantinfo.closeTime + ' PM';
+    }
+     else if (closeTimeA[0] == 24)
+    {
+      var hr = closeTimeA[0] - 12;
+      var minutes = closeTimeA[1];
+      var closeTime = hr + ':' + minutes + ' AM';
     }
     else
     {
