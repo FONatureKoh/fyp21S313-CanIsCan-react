@@ -1,10 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState} from 'react'
 import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dialog, DialogActions, 
-DialogContent, DialogContentText, DialogTitle, Stack } from '@mui/material';
-import bannerpic from '../../../assets/temp/eg-biz1.png';
-import { useHistory } from 'react-router-dom';
-import { TimePicker, LocalizationProvider } from '@mui/lab';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+DialogContent, DialogContentText, DialogTitle, Stack } from '@mui/material'
+import bannerpic from '../../../assets/temp/eg-biz1.png'
+import { useHistory } from 'react-router-dom'
 
 export default function EditProfile({restaurantinfo}) {
 
@@ -15,10 +13,9 @@ export default function EditProfile({restaurantinfo}) {
   const [rAddress, setRAddress] = useState(restaurantinfo.rAddress);
   const [openTime, setOpenTime] = useState(restaurantinfo.openTime);
   const [closeTime, setCloseTime] = useState(restaurantinfo.closeTime);
-  const [value, setValue] = useState(null);
 
   const cancelBtn = () => {
-    if(rName == restaurantinfo.rName && rPhone == restaurantinfo.rPhone && rAddress == restaurantinfo.rAddress){
+    if(rName == restaurantinfo.rName && rPhone == restaurantinfo.rPhone && rAddress == restaurantinfo.rAddress && openTime == restaurantinfo.openTime && closeTime == restaurantinfo.closeTime){
       history.push('/generalmanager/restaurantinformation');
     }
     else{
@@ -41,6 +38,8 @@ export default function EditProfile({restaurantinfo}) {
   function submitChange()
   {
     console.log(rName);
+    console.log(openTime);
+    console.log(closeTime);
     console.log(rPhone);
     console.log(rAddress);
   }
@@ -60,11 +59,32 @@ export default function EditProfile({restaurantinfo}) {
               
               <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Restaurant Name (Required*):" variant="filled" size="small" defaultValue={restaurantinfo.rName} onChange={(e)=>setRName(e.target.value)}/>
 
-               <Typography  sx={{textAlign:'left', margin:'15px'}}>Operating Hours</Typography>
+              <Typography  sx={{textAlign:'left', margin:'15px'}}>Operating Hours</Typography>
+              <Stack direction="row" spacing={2} sx={{margin:'15px'}}>
+                <TextField
+                  id="time"
+                  label="Start"
+                  type="time"
+                  defaultValue={openTime}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  sx={{ width: 150 }}
+                  onChange={(e)=>setOpenTime(e.target.value)}
+                />
 
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <TimePicker value={value} label='Opening Time' onChange={setValue} renderInput={(params) => <TextField {...params} />}/>
-               </LocalizationProvider>
+                <TextField
+                  id="time"
+                  label="End"
+                  type="time"
+                  defaultValue={closeTime}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  sx={{ width: 150 }}
+                  onChange={(e)=>setCloseTime(e.target.value)}
+                />
+              </Stack>
 
               <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Restaurant Contact Number (Required*):" variant="filled" size="small" defaultValue={restaurantinfo.rPhone} onChange={(e)=>setRPhone(e.target.value)}/>
 
