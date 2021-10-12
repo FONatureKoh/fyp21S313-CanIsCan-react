@@ -51,6 +51,11 @@ export default function Login() {
         let path = '/reservationsmanager';
         history.push(path);
       }
+      else if(ut === 'Customer')
+      {
+        let path = '/customer';
+        history.push(path);
+      }
       else
       {
         alert(un + " is a " + ut);
