@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader, Box, Input} from '@mui/material'
 import { Link } from 'react-router-dom'
 import { styled } from '@mui/material/styles';
-import axios from 'axios';
+
+// Controller import
+import { addRestaurantItem } from '../../restaurant_controller';
 
 export default function AddItem() {
 
@@ -14,22 +16,9 @@ export default function AddItem() {
   const [itemAllergy, setItemAllergy] = useState();
 
   // Function to generate a form to send to the backend server
-  const addItem = event => {
-    const addItemForm = new FormData();
-    addItemForm.append("imageFile", imageFile);
-    addItemForm.append("itemName", itemName);
-    addItemForm.append("itemPrice", itemPrice);
-    addItemForm.append("itemDesc", itemDesc);
-    addItemForm.append("itemAllergy", itemAllergy);
-
-    axios.post("http://localhost:5000/restaurant/addmenuitem", addItemForm)
-      .then(res => {
-        // In here we can choose what we want to do with the response of the request
-        console.log(res)
-      })
-      .catch(err => {
-        console.log(err)
-      });
+  async function addItem() {
+    var testController = await addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, itemAllergy);
+    console.log (testController);
   }
 
   const Input = styled('input')({

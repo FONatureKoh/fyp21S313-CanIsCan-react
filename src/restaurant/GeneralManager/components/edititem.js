@@ -2,7 +2,9 @@ import React, {useState} from 'react'
 import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader } from '@mui/material'
 import { useRouteMatch } from 'react-router'
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+
+// Controller import
+import { editRestaurantItem } from '../../restaurant_controller';
 
 export default function EditItem({menuData}) {
   const match = useRouteMatch('/generalmanager/editmenu/edititem/:id');
@@ -24,22 +26,10 @@ export default function EditItem({menuData}) {
   const [itemDesc, setItemDesc] = useState(itemSelected.item_desc);
   const [itemAllergy, setItemAllergy] = useState(itemSelected.item_allergen_warning);
 
-  const submitChange = event => {
-    const editItemForm = new FormData();
-    // editItemForm.append("imageFile", imageFile);
-    editItemForm.append("itemName", itemName);
-    editItemForm.append("itemPrice", itemPrice);
-    editItemForm.append("itemDesc", itemDesc);
-    editItemForm.append("itemAllergy", itemAllergy);
+  async function submitChange() {
+    var testController = await editRestaurantItem(itemID, itemName, itemPrice, itemDesc, itemAllergy);
 
-    axios.put(`http://localhost:5000/restaurant/restaurantItem/${itemID}`, editItemForm)
-      .then(res => {
-        // In here we can choose what we want to do with the response of the request
-        console.log(res)
-      })
-      .catch(err => {
-        console.log(err)
-      });
+    console.log(testController);
   }
   
   return (
