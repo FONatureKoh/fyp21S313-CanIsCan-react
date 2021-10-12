@@ -21,6 +21,30 @@ export default function ViewInfo({isChecked, toggleChecked}) {
         closeTime: '22:00'
     };
 
+    const openTimeA = restaurantinfo.openTime.split(':');
+
+      if (openTimeA[0] < 12){
+        var openTime = restaurantinfo.openTime + ' AM';
+      }
+      else
+      {
+        var hr = openTimeA[0] - 12;
+        var minutes = openTimeA[1];
+        var openTime = hr + ':' + minutes + ' PM';
+      }
+
+      const closeTimeA = restaurantinfo.closeTime.split(':');
+
+      if (closeTimeA[0] < 12){
+        var closeTime = restaurantinfo.closeTime + ' AM';
+      }
+      else
+      {
+        var hr = closeTimeA[0] - 12;
+        var minutes = closeTimeA[1];
+        var closeTime = hr + ':' + minutes + ' PM';
+      }
+
   return (
     <div>
       <Switch2>
@@ -48,7 +72,7 @@ export default function ViewInfo({isChecked, toggleChecked}) {
 
                       <Typography sx={boldtitle}>Operating Hours</Typography>
                       <Typography>
-                          {restaurantinfo.openTime} - {restaurantinfo.closeTime}
+                          {openTime} - {closeTime}
                       </Typography>
 
                       <Typography sx={boldtitle}>Restaurant Contact Number</Typography>
