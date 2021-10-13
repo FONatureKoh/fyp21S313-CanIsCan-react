@@ -13,8 +13,8 @@ import { UserContext } from '../../../store/user_context';
 export default function Editmenu({menuData, itemSelected, setItemSelected}) {
   console.log(menuData);
   const testContext = useContext(UserContext);
-  console.log(testContext);
-  
+  console.log(testContext.username[0]);
+
   return (
      <Switch>
       <Route exact path="/generalmanager/editmenu">
