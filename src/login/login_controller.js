@@ -1,4 +1,6 @@
-const axios = require('axios');
+import axios from 'axios';
+import React, { useContext, useState } from 'react';
+import UserContext from '../store/user_context';
 
 /********************************************
  * Login Auth function                      *

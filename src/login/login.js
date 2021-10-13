@@ -1,16 +1,20 @@
 import logo from '../assets/logo.svg';
 import './login.css';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useContext, useState, useRef, useEffect, createContext } from 'react';
 import { useHistory, withRouter} from 'react-router-dom';
 import { loginAuth } from './login_controller';
-import {Alert} from '@mui/material';
+import { Alert } from '@mui/material';
+import { UserContext } from '../store/user_context';
 
 export default function Login() {
  
   const history = useHistory();
-  /*Form input*/
+  /* Form input */
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  // Pull the userContext
+  const userContext = useContext(UserContext);
   
   function RouteChange(){
     let path = '/custreg';
@@ -27,10 +31,18 @@ export default function Login() {
    * - "Restaurant Reservation Manager"
    * - "Customer"
   */
+
   async function Login(){
     // Await solves the issue of the fulfilled promise
     const userinformation = await loginAuth(username, password);
     console.log(userinformation);
+
+    console.log(userContext.username[1]);
+    userContext.username[1](userinformation[0].username);
+    userContext.usertype[1](userinformation[0].user_type);
+    // userContext.username.setUserName(userinformation[0].username);
+    // setUserType(userinformation[0].user_type);
+
     if (userinformation.length > 0)
     {
       const ut = userinformation[0].user_type;
