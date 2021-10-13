@@ -10,6 +10,7 @@ import AddSubUser from './components/addsubuser';
 import Stats from './components/statistics';
 import Profile from '../../profile/viewprofile';
 import { retrieveMenuItems } from '../restaurant_controller';
+import axios from 'axios';
 
 /*********************************************************
  * Menu Function to retrieve items based on RestaurantID *
@@ -23,6 +24,16 @@ import { retrieveMenuItems } from '../restaurant_controller';
 
 
 export default function GeneralManager() {
+  // === testng the access token
+  axios.get("http://localhost:5000/auth/username", {
+    headers: {"authorisation": window.sessionStorage.getItem('accessToken')}
+  })
+  .then(res => {
+    console.log(res.data);
+  })
+
+  // ========================================= end of test ===========================================
+
   // The following is testing the retrieval
   retrieveMenuItems(1);
   

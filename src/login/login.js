@@ -5,6 +5,7 @@ import { useHistory, withRouter} from 'react-router-dom';
 import { loginAuth } from './login_controller';
 import { Alert } from '@mui/material';
 import { UserContext } from '../store/user_context';
+import axios from 'axios';
 
 export default function Login() {
  
@@ -35,18 +36,19 @@ export default function Login() {
   async function Login(){
     // Await solves the issue of the fulfilled promise
     const userinformation = await loginAuth(username, password);
+    window.sessionStorage.setItem('accessToken', userinformation["accessToken"])
     console.log(userinformation);
 
-    console.log(userContext.username[1]);
-    userContext.username[1](userinformation[0].username);
-    userContext.usertype[1](userinformation[0].user_type);
+    // console.log(userContext.username[1]);
+    // userContext.username[1](userinformation[0].username);
+    // userContext.usertype[1](userinformation[0].user_type);
     // userContext.username.setUserName(userinformation[0].username);
     // setUserType(userinformation[0].user_type);
 
-    if (userinformation.length > 0)
+    if (userinformation != null)
     {
-      const ut = userinformation[0].user_type;
-      const un = userinformation[0].username;
+      const ut = userinformation["userType"];
+      // const un = userinformation[0].username;
 
       if(ut === "Restaurant General Manager")
       {
@@ -70,7 +72,7 @@ export default function Login() {
       }
       else
       {
-        alert(un + " is a " + ut);
+        // alert(un + " is a " + ut);
       }
     }
     else
