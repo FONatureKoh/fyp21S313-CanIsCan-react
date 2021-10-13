@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ViewMenuList from '../../../components/rest-view-menu/ViewMenuList';
 import { Button, CardContent, CardHeader, Typography } from '@mui/material'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -8,9 +8,13 @@ import { Box } from '@mui/system';
 import { Route, Switch } from 'react-router';
 import EditItem from './edititem';
 import AddItem from './additem';
+import { UserContext } from '../../../store/user_context';
 
 export default function Editmenu({menuData, itemSelected, setItemSelected}) {
-    console.log(menuData);
+  console.log(menuData);
+  const testContext = useContext(UserContext);
+  console.log(testContext);
+  
   return (
      <Switch>
       <Route exact path="/generalmanager/editmenu">
