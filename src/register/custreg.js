@@ -1,7 +1,7 @@
 import logo from '../assets/logo.svg';
 import './custreg.css';
-import React, { Component, useRef } from 'react';
-import { useHistory, withRouter } from 'react-router-dom';
+import React, { useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export default function CustRegister() {
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { Switch, Typography, Box, Button, ListItemButton, Drawer, List, Divider, ListItem } from '@mui/material';
@@ -6,56 +6,27 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import Info from '@mui/icons-material/Info';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 
 const drawerWidth = 240;
 
-// const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-//   ({ theme, open }) => ({
-//     flexGrow: 1,
-//     padding: theme.spacing(3),
-//     transition: theme.transitions.create('margin', {
-//       easing: theme.transitions.easing.sharp,
-//       duration: theme.transitions.duration.leavingScreen,
-//     }),
-//     marginLeft: `-${drawerWidth}px`,
-//     ...(open && {
-//       transition: theme.transitions.create('margin', {
-//         easing: theme.transitions.easing.easeOut,
-//         duration: theme.transitions.duration.enteringScreen,
-//       }),
-//       marginLeft: 0,
-//     }),
-//   }),
-// );
-
-// const AppBar = styled(MuiAppBar, {
-//   shouldForwardProp: (prop) => prop !== 'open',
-// })(({ theme, open }) => ({
-//   transition: theme.transitions.create(['margin', 'width'], {
-//     easing: theme.transitions.easing.sharp,
-//     duration: theme.transitions.duration.leavingScreen,
-//   }),
-//   ...(open && {
-//     width: `calc(100% - ${drawerWidth}px)`,
-//     marginLeft: `${drawerWidth}px`,
-//     transition: theme.transitions.create(['margin', 'width'], {
-//       easing: theme.transitions.easing.easeOut,
-//       duration: theme.transitions.duration.enteringScreen,
-//     }),
-//   }),
-// }));
-
-// const DrawerHeader = styled('div')(({ theme }) => ({
-//   display: 'flex',
-//   alignItems: 'center',
-//   padding: theme.spacing(0, 1),
-//   // necessary for content to be below app bar
-//   ...theme.mixins.toolbar,
-//   justifyContent: 'flex-end',
-// }));
-
 export default function Navigation1({isVisible, isSelected, setIsSelected, isChecked, toggleChecked}) {
+  const history = useHistory();
+  const [openDialog, setOpenDialog] = React.useState(false);
+
+  const handleOpenDialog= () => {
+      setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+      setOpenDialog(false);
+  };
+
+  function logout(){
+      let path = '/';
+      history.push(path);
+  }
   return (
     <Box sx={{ display: 'flex' }}>
       
@@ -81,11 +52,11 @@ export default function Navigation1({isVisible, isSelected, setIsSelected, isChe
 
             <Divider/>
 
-            <ListItem key="Edit Restaurant Menu">
+            <ListItem>
               <ListItemText primary="Edit Information" />
             </ListItem>
 
-            <ListItemButton component={Link} to='/generalmanager/editmenu' key="Edit Restaurant Menu" selected={isSelected === 1} onClick={() => setIsSelected(1)} >
+            <ListItemButton component={Link} to='/generalmanager/editmenu' selected={isSelected === 1} onClick={() => setIsSelected(1)} >
               <ListItemIcon>
                 <RestaurantMenuIcon/>
               </ListItemIcon>
@@ -126,8 +97,25 @@ export default function Navigation1({isVisible, isSelected, setIsSelected, isChe
             </ListItemButton>
         </List>
         <Divider/>
-        <Button variant="outlined" color="inherit" sx={{margin:'30px auto', width:'90%'}} >Logout</Button>
+        <Button variant="outlined" color="inherit" onClick={handleOpenDialog} sx={{margin:'30px auto', width:'90%'}} >Logout</Button>
       </Drawer>
+
+      <Dialog
+            open={openDialog}
+            onClose={handleCloseDialog}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+        <DialogTitle id="alert-dialog-title">
+          {"Confirm logout?"}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} variant="outlined" color="inherit" onClick={logout}>Logout</Button>
+          <Button onClick={handleCloseDialog} variant="outlined" color="error">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

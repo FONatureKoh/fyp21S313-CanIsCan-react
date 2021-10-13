@@ -1,33 +1,70 @@
 import logo from '../assets/logo.svg';
 import './login.css';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useHistory, withRouter} from 'react-router-dom';
 import { loginAuth } from './login_controller';
+import {Alert} from '@mui/material';
 
 export default function Login() {
  
   const history = useHistory();
+  /*Form input*/
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
+  
   function RouteChange(){
     let path = '/custreg';
     history.push(path);
   }
 
-  function login(){
-
-    // Test login function
-    loginAuth(username, password);
-
-    if (username === 'abc123' && password === '123123')
+  /****************************************
+   * Test Function to test the loginAuth  *
+   * variables returned:
+   * - username, user_type
+   * NOTE: Current user_types:
+   * - "Restaurant General Manager"
+   * - "Restaurant Deliveries Manager"
+   * - "Restaurant Reservation Manager"
+   * - "Customer"
+  */
+  async function Login(){
+    // Await solves the issue of the fulfilled promise
+    const userinformation = await loginAuth(username, password);
+    console.log(userinformation);
+    if (userinformation.length > 0)
     {
-      let path = '/generalmanager';
-      history.push(path);
+      const ut = userinformation[0].user_type;
+      const un = userinformation[0].username;
+
+      if(ut === "Restaurant General Manager")
+      {
+        let path = '/generalmanager';
+        history.push(path);
+      }
+      else if(ut === "Restaurant Deliveries Manager")
+      {
+        let path = '/deliveriesmanager';
+        history.push(path);
+      }
+      else if(ut === "Restaurant Reservation Manager")
+      {
+        let path = '/reservationsmanager';
+        history.push(path);
+      }
+      else if(ut === 'Customer')
+      {
+        let path = '/customer';
+        history.push(path);
+      }
+      else
+      {
+        alert(un + " is a " + ut);
+      }
     }
     else
     {
-      alert("Please fill in your username and password!");
+      //place holder for now
+      alert("Invalid credentials! Please try again!");
     }
   }
 
@@ -44,7 +81,7 @@ export default function Login() {
               <option value="reservations">Reservations Manager</option>
               <option value="administrator">Administrator</option>
           </select>
-          <button className="go_btn" onClick= {login}>Log In</button>
+          <button className="go_btn" onClick= {Login}>Log In</button>
           <div className="whitefont" >Don't have an account?</div>
           <a className="link" onClick= {RouteChange}>Register</a>
         </header>

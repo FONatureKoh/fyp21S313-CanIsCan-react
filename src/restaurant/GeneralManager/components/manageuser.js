@@ -3,6 +3,24 @@ import { Button, Card, CardHeader, Box } from '@mui/material'
 import { CardContent } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom'
+import { Route, Switch } from 'react-router';
+import AddSubUser from './addsubuser';
+import EditSubUser from './editsubuser';
+import { useState } from 'react';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+
+
+export default function ManageUser() {
+  const [userIDSelected, setUserIDSelected] = useState('');    
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleOpenDialog= () => {
+      setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+      setOpenDialog(false);
+  };
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 100 },
@@ -14,8 +32,11 @@ const columns = [
       return (
         <Button
           variant="outlined"
+          id={cellValues.id}
           color="inherit"
           fullWidth
+          component={ Link } 
+          to={`/generalmanager/manageuser/editsubuser/${cellValues.id}`}
         >
           Edit
         </Button>
@@ -27,9 +48,12 @@ const columns = [
     renderCell: (cellValues) => {
       return (
         <Button
+          id={cellValues.name}
           variant="outlined"
           color="error"
           fullWidth
+          onClick={setUserIDSelected(cellValues.name)}
+          onClick={handleOpenDialog}
         >
           Remove
         </Button>
@@ -50,27 +74,54 @@ const rows = [
   { id: 9, name: 'Tan Ah Koi', type: 'Reservations Manager'},
 ];
 
-
-export default function ManageUser() {
+console.log(userIDSelected);
   return (
-    <div className="main3" >
-      <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
-        <CardHeader title="Manage Accounts"/>
-        
-        <CardContent sx={{height:'480px'}}>
-          <Box  display='flex' flexDirection="column" >
-            <Button variant="outlined" color="inherit" component={ Link } to="/generalmanager/addsub-user" sx={{alignSelf:'flex-end', mb: '5px'}}>Add New Employee</Button>
-          </Box>
-          <Box height="400px" sx={{'.MuiDataGrid-columnHeaderWrapper': {backgroundColor:'#eeeeee'}}} >
-            <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-          />
-          </Box>
+
+      <Switch>
+        <Route exact path="/generalmanager/manageuser">
+          <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
+          <CardHeader title="Manage Accounts"/>
+          
+          <CardContent sx={{height:'480px'}}>
+            <Box  display='flex' flexDirection="column" >
+              <Button variant="outlined" color="inherit" component={ Link } to="/generalmanager/addsub-user" sx={{alignSelf:'flex-end', mb: '5px'}}>Add New Employee</Button>
+            </Box>
+            <Box height="400px" sx={{'.MuiDataGrid-columnHeaderWrapper': {backgroundColor:'#eeeeee'}}} >
+              <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+            />
+                <Dialog
+                    open={openDialog}
+                    onClose={handleCloseDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                <DialogTitle id="alert-dialog-title">
+                  {"Confirm item deletion?"}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Confirm delete '{userIDSelected}'?
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleCloseDialog} variant="outlined" color="inherit">Confirm</Button>
+                  <Button onClick={handleCloseDialog} variant="outlined" color="error">
+                    Cancel
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </Box>
         </CardContent>
         </Card>
-    </div>
+        </Route>
+        <Route path="/generalmanager/manageuser/addsubuser"><AddSubUser/></Route>
+        <Route path="/generalmanager/manageuser/editsubuser"><EditSubUser userData={rows}/></Route>
+      </Switch>
+
+      
   )
 }

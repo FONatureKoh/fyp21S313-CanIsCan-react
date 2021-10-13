@@ -16,7 +16,7 @@ export default function ViewMenuList({menuData}) {
     };
 
   function checkAvail(item){
-    if (item.available == true)
+    if (item.item_availability === 0)
     {
       return <FiberManualRecordIcon color="success" sx={{ fontSize: 10}} /> 
     }
@@ -28,7 +28,7 @@ export default function ViewMenuList({menuData}) {
 
   return (
     menuData.map(item =>{
-      return <Accordion key={item.id} sx={{margin:0.5}} expanded={expanded === item.id} onChange={handleChange(item.id)}>
+      return <Accordion key={item.menu_item_ID} sx={{margin:0.5}} expanded={expanded === item.menu_item_ID} onChange={handleChange(item.menu_item_ID)}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -45,7 +45,7 @@ export default function ViewMenuList({menuData}) {
             borderRadius: 1,
             p: 1
           }}>
-            {checkAvail(item)} {item.name} </Typography>
+            {checkAvail(item)} {item.item_name} </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{
           bgcolor: '#eeeeee'

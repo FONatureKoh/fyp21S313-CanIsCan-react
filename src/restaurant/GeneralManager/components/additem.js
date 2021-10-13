@@ -1,8 +1,30 @@
-import React from 'react'
-import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader} from '@mui/material'
+import React, { useState } from 'react'
+import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader, Box, Input} from '@mui/material'
 import { Link } from 'react-router-dom'
+import { styled } from '@mui/material/styles';
+
+// Controller import
+import { addRestaurantItem } from '../../restaurant_controller';
 
 export default function AddItem() {
+
+  // Form data settings and their setStates
+  const [imageFile, setImageFile] = useState();
+  const [itemName, setItemName] = useState();
+  const [itemPrice, setItemPrice] = useState();
+  const [itemDesc, setItemDesc] = useState();
+  const [itemAllergy, setItemAllergy] = useState();
+
+  // Function to generate a form to send to the backend server
+  async function addItem() {
+    var testController = await addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, itemAllergy);
+    console.log (testController);
+  }
+
+  const Input = styled('input')({
+    display: 'none',
+  });
+
   return (
     <div>
     <Card>
@@ -10,8 +32,23 @@ export default function AddItem() {
     <CardContent >
     <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
       <Grid item xs={6}>
-        <img src={'asd'} height="200px" width="100%"/>
-        <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
+        <Box width="100%"
+        height="80%">
+          <img src={'asd'} height="200px" width="100%" alt="additem"/>
+        </Box>
+        <Box>
+        <label htmlFor="imageFile">
+          <Input 
+            type="file"
+            id="imageFile"
+            accept=".png"
+            onChange={event => {
+              const imageFile = event.target.files[0];
+              setImageFile(imageFile);
+            }} />
+          <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
+        </label>
+        </Box>
       </Grid>
       
       <Grid item xs={1}>
@@ -25,31 +62,46 @@ export default function AddItem() {
       </Grid>
       
       <Grid item xs={6} sx={{textAlign:'center'}}>
-          <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Item Name (Required*):" variant="filled" size="small"/>
+        <TextField 
+          sx={{width:'100%', margin:'15px'}} 
+          id="filled-basic" 
+          label="Item Name (Required*):" 
+          variant="filled" 
+          size="small"
+          onChange={(e)=> setItemName(e.target.value)}
+        />
 
-          <TextField
+        <TextField
           label="Price (Required*)"
+          type="number"
           id="filled-start-adornment"
           sx={{width:'100%', margin:'15px'}}
           InputProps={{
             startAdornment: <InputAdornment position="start">$</InputAdornment>,
           }}
           variant="filled"
-          />
-
-        <TextField
-        id="filled-multiline-static"
-        label="Item Description (Required*): "
-        multiline
-        rows={4}
-        variant="filled"
-        sx={{width:'100%', margin:'15px'}}
+          onChange={(e)=> setItemPrice(e.target.value)}
         />
 
-        <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Allergies Warning:" variant="filled" size="small"/>
+        <TextField
+          id="filled-multiline-static"
+          label="Item Description (Required*): "
+          multiline
+          rows={4}
+          variant="filled"
+          sx={{width:'100%', margin:'15px'}}
+          onChange={(e)=> setItemDesc(e.target.value)}
+        />
 
-        
-        <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}}>Add Item</Button>
+        <TextField sx={{width:'100%', margin:'15px'}} 
+          id="filled-basic" 
+          label="Allergies Warning:" 
+          variant="filled" 
+          size="small"
+          onChange={(e)=> setItemAllergy(e.target.value)}
+        />
+
+        <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={addItem}>Add Item</Button>
         
         <Button variant="contained" color="inherit" sx={{width:'45%', float:'right'}} component={Link} to="/generalmanager">Cancel</Button>
       </Grid>

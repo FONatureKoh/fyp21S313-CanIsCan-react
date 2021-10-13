@@ -1,20 +1,19 @@
 const axios = require('axios');
 
 /********************************************
- * Retrieval function                       *
+ * All Items Retrieval function             *
  * ******************************************
  * - Takes in restaurantID and retrieve all *
  * menu items based on that restaurant ID   
  * *******************************************/
-
-export function retrieveMenuItems(rest_ID) {
-  axios.get('https://api.cancanfoodapp.xyz/restaurant/retrieveMenuItems', {
+export function retrieveRestInfo(rest_ID) {
+  return axios.get('https://api.cancanfoodapp.xyz/restaurant/retrieveRestaurantInfo', {
     params: {
-      restaurantID: 1
+      restaurantID: rest_ID
     }
   })
-  .then(function (response) {
-    console.log(response.data);
+  .then(response => {
+    return response.data;
   })
   .catch(function (error) {
     console.log(error);
