@@ -4,8 +4,8 @@ import { useState, createContext } from "react";
 export const UserContext = createContext(null);
 
 export default ({ children }) => {
-  const [userName, setUserName] = useState();
-  const [userType, setUserType] = useState();
+  const [userName, setUserName] = useState('');
+  const [userType, setUserType] = useState('');
 
   const userStore = {
     username: [userName, setUserName],

@@ -28,19 +28,15 @@ export default function Login() {
    * - "Restaurant Reservation Manager"
    * - "Customer"
   */
-  // Declaring useState functions to set the state using useContext
-  // const {
-  //   [userName]: [userName, setUserName],
-  //   [userType]: [userType, setUserType]
-  // } = useContext(UserContext);  
 
   async function Login(){
     // Await solves the issue of the fulfilled promise
     const userinformation = await loginAuth(username, password);
     console.log(userinformation);
 
-    // Set the stuff to useContext
-    // setUsername(userinformation[0].username);
+    // Pull the userContext
+    const userContext = useContext(UserContext);
+    userContext.setUserName(userinformation[0].username);
     // setUserType(userinformation[0].user_type);
 
     if (userinformation.length > 0)
