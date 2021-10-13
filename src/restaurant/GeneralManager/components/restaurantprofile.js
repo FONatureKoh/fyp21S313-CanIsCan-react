@@ -109,7 +109,7 @@ export default function ViewInfo({isChecked, toggleChecked}) {
               </CardContent>
             </Card>
         </Route>
-        <Route path="/generalmanager/restaurantinformation/edit" component= {EditInformation}><EditInformation restaurantinfo={restaurantinfo}/></Route>
+        <Route path="/generalmanager/restaurantinformation/edit"><EditInformation restaurantinfo={restaurantinfo}/></Route>
       </Switch2>
     </div>
   )
