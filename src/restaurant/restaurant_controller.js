@@ -75,7 +75,7 @@ export function editRestaurantItem(itemID, itemName, itemPrice, itemDesc, itemAl
  * ***************************************************************************************
  * - This takes all the info from the RGM and creates the subuser based on the given data
  * ***************************************************************************************/
-export function editRestaurantItem(itemID, itemName, itemPrice, itemDesc, itemAllergy) {
+export function addRestaurantSubuser(itemID, itemName, itemPrice, itemDesc, itemAllergy) {
   const editItemForm = new FormData();
   editItemForm.append("itemID", itemID)
   // editItemForm.append("imageFile", imageFile);
