@@ -44,13 +44,37 @@ export function addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, item
     });
 };
 
-/********************************************
- * Editing a restaurant Item                *
- * ******************************************
- * - Takes in ItemID. Since itemID is a primary
- * key, there is no issue in editing the item
+/*****************************************************************************************
+ * Editing a restaurant Item                                                             *
+ * ***************************************************************************************
+ * - Takes in ItemID. Since itemID is a primary key, there is no issue in editing the item
  * this way.
- * *******************************************/
+ * ***************************************************************************************/
+export function editRestaurantItem(itemID, itemName, itemPrice, itemDesc, itemAllergy) {
+  const editItemForm = new FormData();
+  editItemForm.append("itemID", itemID)
+  // editItemForm.append("imageFile", imageFile);
+  editItemForm.append("itemName", itemName);
+  editItemForm.append("itemPrice", itemPrice);
+  editItemForm.append("itemDesc", itemDesc);
+  editItemForm.append("itemAllergy", itemAllergy);
+
+  return axios.put(`http://localhost:5000/restaurant/restaurantItem/${itemID}`, editItemForm)
+    .then(res => {
+      // In here we can choose what we want to do with the response of the request
+      // console.log(res)
+      return res.data;
+    })
+    .catch(err => {
+      console.log(err)
+    });
+};
+
+/*****************************************************************************************
+ * RGM add subUsers                                                                      *
+ * ***************************************************************************************
+ * - This takes all the info from the RGM and creates the subuser based on the given data
+ * ***************************************************************************************/
 export function editRestaurantItem(itemID, itemName, itemPrice, itemDesc, itemAllergy) {
   const editItemForm = new FormData();
   editItemForm.append("itemID", itemID)
