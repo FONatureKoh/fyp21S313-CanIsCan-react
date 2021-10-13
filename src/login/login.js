@@ -1,14 +1,15 @@
 import logo from '../assets/logo.svg';
 import './login.css';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { useHistory, withRouter} from 'react-router-dom';
 import { loginAuth } from './login_controller';
-import {Alert} from '@mui/material';
+import { Alert } from '@mui/material';
+import { UserContext } from '../store/user_context';
 
 export default function Login() {
  
   const history = useHistory();
-  /*Form input*/
+  /* Form input */
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   
@@ -27,10 +28,21 @@ export default function Login() {
    * - "Restaurant Reservation Manager"
    * - "Customer"
   */
+  // Declaring useState functions to set the state using useContext
+  // const {
+  //   [userName]: [userName, setUserName],
+  //   [userType]: [userType, setUserType]
+  // } = useContext(UserContext);  
+
   async function Login(){
     // Await solves the issue of the fulfilled promise
     const userinformation = await loginAuth(username, password);
     console.log(userinformation);
+
+    // Set the stuff to useContext
+    // setUsername(userinformation[0].username);
+    // setUserType(userinformation[0].user_type);
+
     if (userinformation.length > 0)
     {
       const ut = userinformation[0].user_type;

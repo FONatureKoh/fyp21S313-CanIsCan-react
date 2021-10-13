@@ -1,11 +1,11 @@
-import React from "react";
+import { useState, createContext } from "react";
 
 // Creating the useContext
-export const UserContext = React.createContext(null);
+export const UserContext = createContext(null);
 
 export default ({ children }) => {
-  const [userName, setUserName] = React.useState();
-  const [userType, setUserType] = React.useState();
+  const [userName, setUserName] = useState();
+  const [userType, setUserType] = useState();
 
   const userStore = {
     username: [userName, setUserName],
