@@ -1,23 +1,24 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader, Box, Input} from '@mui/material'
 import { Link } from 'react-router-dom'
 import { styled } from '@mui/material/styles';
 
+// Controller import
+import { addRestaurantItem } from '../../restaurant_controller';
+
 export default function AddItem() {
 
-  //form retrieval
+  // Form data settings and their setStates
+  const [imageFile, setImageFile] = useState();
   const [itemName, setItemName] = useState();
   const [itemPrice, setItemPrice] = useState();
   const [itemDesc, setItemDesc] = useState();
   const [itemAllergy, setItemAllergy] = useState();
 
-  //function to get state
-  function addItem()
-  {
-    console.log(itemName);
-    console.log(itemPrice);
-    console.log(itemDesc);
-    console.log(itemAllergy);
+  // Function to generate a form to send to the backend server
+  async function addItem() {
+    var testController = await addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, itemAllergy);
+    console.log (testController);
   }
 
   const Input = styled('input')({
@@ -36,8 +37,15 @@ export default function AddItem() {
           <img src={'asd'} height="200px" width="100%" alt="additem"/>
         </Box>
         <Box>
-        <label htmlFor="contained-button-file">
-          <Input accept="image/*" id="contained-button-file" multiple type="file" />
+        <label htmlFor="imageFile">
+          <Input 
+            type="file"
+            id="imageFile"
+            accept=".png"
+            onChange={event => {
+              const imageFile = event.target.files[0];
+              setImageFile(imageFile);
+            }} />
           <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
         </label>
         </Box>
@@ -54,15 +62,16 @@ export default function AddItem() {
       </Grid>
       
       <Grid item xs={6} sx={{textAlign:'center'}}>
-          <TextField 
-            sx={{width:'100%', margin:'15px'}} 
-            id="filled-basic" 
-            label="Item Name (Required*):" 
-            variant="filled" 
-            size="small"
-            onChange={(e)=> setItemName(e.target.value)}/>
+        <TextField 
+          sx={{width:'100%', margin:'15px'}} 
+          id="filled-basic" 
+          label="Item Name (Required*):" 
+          variant="filled" 
+          size="small"
+          onChange={(e)=> setItemName(e.target.value)}
+        />
 
-          <TextField
+        <TextField
           label="Price (Required*)"
           type="number"
           id="filled-start-adornment"
@@ -72,16 +81,16 @@ export default function AddItem() {
           }}
           variant="filled"
           onChange={(e)=> setItemPrice(e.target.value)}
-          />
+        />
 
         <TextField
-        id="filled-multiline-static"
-        label="Item Description (Required*): "
-        multiline
-        rows={4}
-        variant="filled"
-        sx={{width:'100%', margin:'15px'}}
-        onChange={(e)=> setItemDesc(e.target.value)}
+          id="filled-multiline-static"
+          label="Item Description (Required*): "
+          multiline
+          rows={4}
+          variant="filled"
+          sx={{width:'100%', margin:'15px'}}
+          onChange={(e)=> setItemDesc(e.target.value)}
         />
 
         <TextField sx={{width:'100%', margin:'15px'}} 
@@ -90,9 +99,8 @@ export default function AddItem() {
           variant="filled" 
           size="small"
           onChange={(e)=> setItemAllergy(e.target.value)}
-          />
+        />
 
-        
         <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={addItem}>Add Item</Button>
         
         <Button variant="contained" color="inherit" sx={{width:'45%', float:'right'}} component={Link} to="/generalmanager">Cancel</Button>
