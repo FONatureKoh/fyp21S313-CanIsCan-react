@@ -1,11 +1,10 @@
 import axios from 'axios'
 
-/********************************************
- * All Items Retrieval function             *
- * ******************************************
- * - Takes in restaurantID and retrieve all *
- * menu items based on that restaurant ID   
- * *******************************************/
+/*****************************************************************************************
+ * All Items Retrieval function                                                          *
+ * ***************************************************************************************
+ * - Takes in restaurantID and retrieve all menu items based on that restaurant ID       *
+ * ***************************************************************************************/
 export function retrieveMenuItems(rest_ID) {
   return axios.get('https://api.cancanfoodapp.xyz/restaurant/retrieveMenuItems', {
     params: {
@@ -20,12 +19,11 @@ export function retrieveMenuItems(rest_ID) {
   })
 };
 
-/********************************************
- * Adding a new Restaurant item             *
- * ******************************************
- * - Takes in restaurantID and retrieve all *
- * menu items based on that restaurant ID   
- * *******************************************/
+/*****************************************************************************************
+ * Adding a new Restaurant item                                                          *
+ * ***************************************************************************************
+ * 
+ * ***************************************************************************************/
 export function addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, itemAllergy) {
   const addItemForm = new FormData();
   addItemForm.append("imageFile", imageFile);
@@ -95,3 +93,24 @@ export function addRestaurantSubuser(itemID, itemName, itemPrice, itemDesc, item
     });
 };
 
+/*****************************************************************************************
+ * RGM retrieving of restaurant's profile                                                *
+ * ***************************************************************************************
+ * - This takes all the info from the RGM and creates the subuser based on the given data
+ * ***************************************************************************************/
+export function restaurantProfile() {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  return axios.get(`http://localhost:5000/restaurant/restaurantProfile/`, axiosConfig)
+    .then(res => {
+      // In here we can choose what we want to do with the response of the request
+      // console.log(res)
+      return res.data;
+    })
+    .catch(err => {
+      console.log(err)
+    });
+};

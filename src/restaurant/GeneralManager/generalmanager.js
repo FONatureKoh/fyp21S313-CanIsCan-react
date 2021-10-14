@@ -24,16 +24,6 @@ import axios from 'axios';
 
 
 export default function GeneralManager() {
-  // === testng the access token
-  axios.get("http://localhost:5000/auth/username", {
-    headers: {"authorisation": window.sessionStorage.getItem('accessToken')}
-  })
-  .then(res => {
-    console.log(res.data);
-  })
-
-  // ========================================= end of test ===========================================
-
   // The following is testing the retrieval
   retrieveMenuItems(1);
   
