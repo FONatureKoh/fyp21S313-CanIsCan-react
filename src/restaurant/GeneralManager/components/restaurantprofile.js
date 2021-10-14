@@ -1,24 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, Button, Typography, Switch, Divider, CardContent, CardHeader, Card } from '@mui/material'
 import bannerpic from '../../../assets/temp/eg-biz1.png'
 import { Route, Link, Switch as Switch2 } from 'react-router-dom'
 import EditInformation from './editinformation'
+import { restaurantProfile } from '../../restaurant_controller'
 
 export default function ViewInfo({isChecked, toggleChecked}) {
+  // Declaring use State for Restaurant Profile
+  const [restaurantInfo, setRestaurantInfo] = useState([]);
+
+  //Retrieval of Restaurant Information based on Token's username
+  useEffect(() => {
+    async function getInfo() {
+      const testRestaurantProfile = await restaurantProfile();
+      setRestaurantInfo(testRestaurantProfile);
+      
+      console.log(testRestaurantProfile)
+    }
+    getInfo();
+  },[])
     
   const boldtitle = {
-      fontSize:'1 0px', 
-      fontWeight:'bold', 
-      marginTop:'20px',
-      marginBottom:'5px'
+    fontSize:'1 0px', 
+    fontWeight:'bold', 
+    marginTop:'20px',
+    marginBottom:'5px'
   };
 
   const restaurantinfo = { 
-      rName: "Default co", 
-      rPhone: '+65 8765 4321',
-      rAddress: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-      openTime: '10:00', 
-      closeTime: '00:00'
+    rName: "Default co", 
+    rPhone: '+65 8765 4321',
+    rAddress: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
+    openTime: '10:00', 
+    closeTime: '00:00'
   };
 
   const openTimeA = restaurantinfo.openTime.split(':');
