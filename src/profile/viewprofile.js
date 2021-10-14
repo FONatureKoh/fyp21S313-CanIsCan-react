@@ -1,11 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, Button, Typography, CardContent, CardHeader, Card } from '@mui/material'
 import john from '../assets/temp/johnsmith.png'
 import { Route, Switch, Link } from 'react-router-dom';
 import EditProfile from './editprofile';
 import ChangePassword from './changepw';
+import { retrieveUserProfile } from './profile_controller';
 
 export default function ViewProfile() {
+  // Declaring profile information state
+  const [userProfile, setUserProfile] = useState('');
+
+  // Testing userprofile retrieval
+  useEffect(() => {
+    async function getInfo() {
+      const testUserProfile = await retrieveUserProfile();
+      setUserProfile(testUserProfile);
+      
+      console.log(testUserProfile)
+    }
+    getInfo();
+  },[])
     
   const boldtitle = {
     fontSize:'1 0px', 
