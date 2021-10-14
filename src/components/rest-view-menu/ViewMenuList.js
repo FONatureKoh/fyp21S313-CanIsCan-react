@@ -28,7 +28,8 @@ export default function ViewMenuList({menuData}) {
 
   return (
     menuData.map(item =>{
-      return <Accordion key={item.menu_item_ID} sx={{margin:0.5}} expanded={expanded === item.menu_item_ID} onChange={handleChange(item.menu_item_ID)}>
+      return( 
+      <Accordion key={item.menu_item_ID} sx={{margin:0.5}} expanded={expanded === item.menu_item_ID} onChange={handleChange(item.menu_item_ID)}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -53,6 +54,7 @@ export default function ViewMenuList({menuData}) {
           <MenuItem item={item} menuData={menuData}/>
         </AccordionDetails>
       </Accordion>
+      )
     })
   )
 }
