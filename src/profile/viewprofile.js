@@ -51,17 +51,17 @@ export default function ViewProfile() {
                 <Grid item xs={6} sx={{textAlign:'center'}}>
                   <Typography sx={boldtitle}>Username</Typography>
                   <Typography>
-                    {personalinfo.username}
+                    {userProfile.username}
                   </Typography>
                   
                   <Typography sx={boldtitle}>Name</Typography>
                   <Typography>
-                    {personalinfo.name}
+                    {userProfile.first_name} {userProfile.last_name}
                   </Typography>
 
                   <Typography sx={boldtitle}>Phone Number</Typography>
                   <Typography>
-                    {personalinfo.phone}
+                    {userProfile.phone_no}
                   </Typography>
 
                   <Typography sx={boldtitle}>Address</Typography>
