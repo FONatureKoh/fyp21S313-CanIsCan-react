@@ -28,14 +28,6 @@ export default function ViewProfile() {
     marginBottom:'5px'
   };
 
-  const personalinfo = { 
-    username: 'johnsmith',
-    name: "John Smith", 
-    phone: '+65 9876 5432',
-    address: 'Blk111, Ang Mo Kio Avenue 1 #01-111 S(111111)',
-    password: 'test'
-  };
-
   return (
     <Switch>
       <Route exact path="/generalmanager/profile">
@@ -66,7 +58,7 @@ export default function ViewProfile() {
 
                   <Typography sx={boldtitle}>Address</Typography>
                   <Typography>
-                    {personalinfo.address}
+                    {userProfile.home_address}
                   </Typography>
                 </Grid>
 
@@ -80,10 +72,10 @@ export default function ViewProfile() {
       </div>
       </Route>
 
-      <Route path="/generalmanager/profile/editprofile" component= {EditProfile}><EditProfile personalinfo={personalinfo}/>
+      <Route path="/generalmanager/profile/editprofile"><EditProfile userProfile={userProfile}/>
       </Route>
 
-      <Route path="/generalmanager/profile/changepassword" component= {ChangePassword}><ChangePassword personalinfo={personalinfo}/>
+      <Route path="/generalmanager/profile/changepassword" component= {ChangePassword}><ChangePassword userProfile={userProfile}/>
       </Route>
     </Switch>
   )
