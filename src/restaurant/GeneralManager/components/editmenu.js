@@ -23,12 +23,11 @@ import { DialogActions } from '@mui/material';
 
 export default function Editmenu({menuData, itemSelected, setItemSelected}) {
   console.log(menuData);
-  const [newMenu, setNewMenu] = useState('');
   const [open, setOpen] = useState(false);
   const testContext = useContext(UserContext);
   const menuList = getMenu(menuData)
   console.log(menuList[0]);
-
+  const [newMenu, setNewMenu] = useState('');
   const [value, setValue] = useState(menuList[0]);
   
   const handleChange = (event, newValue) => {
@@ -38,6 +37,7 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
  
   const handleClose = () => {
     setOpen(false);
+    setNewMenu('')
   };
 
   const handleOpen = () => {
@@ -77,26 +77,6 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
           <CardHeader title="Edit Menu" />
           <CardContent >
           <Box display='flex' flexDirection="column" sx={{margin:'10px auto', width:'80%'}}> 
-              <Box alignSelf='flex-end'>
-                <Button variant="outlined" color="inherit" component={Link} to="/generalmanager/editmenu/additem" >ADD ITEM</Button>
-              </Box>
-              <Box alignSelf='flex-start'>
-                <Typography sx={{textAlign: 'left', display:'inline-block'}}><FiberManualRecordIcon color="success" sx={{ fontSize: 12, alignSelf:'flex-start'}} /> Menu Items Currently Active</Typography>
-              </Box>
-          </Box>
-          <Box sx={{margin:'10px auto', width:'80%'}}>
-              <ViewMenuList menuData={menuData} itemSelected={itemSelected} setItemSelected={setItemSelected} />
-          </Box>
-          </CardContent>
-        </Card>
-        </Box>
-
-        <Box>
-        {/* <Card variant="outlined" sx={{padding:'10px', borderRadius:'20px'}}> */}
-        <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
-          <CardHeader title="Edit Menu" />
-          <CardContent >
-          <Box display='flex' flexDirection="column" sx={{margin:'10px auto', width:'80%'}}> 
           <Box alignSelf='flex-end'>
             <Button variant="outlined" color="inherit" component={Link} to="/generalmanager/editmenu/additem" >ADD ITEM</Button>
           </Box>
@@ -109,7 +89,7 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
                   return <Tab label={item} value={item}/>
                   })
                 }
-                <Tab icon={<AddIcon fontSize="small"/>}label="ADD MENU" onClick={handleOpen} />
+                <Tab icon={<AddIcon fontSize="small"/>}label="ADD MENU" onClick={handleOpen} onChange={handleOpen}/>
               </TabList>
             </Box>
             <Box>

@@ -88,13 +88,7 @@ export default function Login() {
           <img src={logo} className="App-logo" alt="logo" />
           <input className="login_field" type="text" name="username" placeholder="Username " onChange={(e)=>setUsername(e.target.value)}/>
           <input className="login_field" type="password" name="userpw" placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>
-          <select title="select-user">
-              <option value="customer">Customer</option>
-              <option value="restaurant_admin">Restaurant Manager</option>
-              <option value="deliveries">Deliveries Manager</option>
-              <option value="reservations">Reservations Manager</option>
-              <option value="administrator">Administrator</option>
-          </select>
+          
           <button className="go_btn" onClick= {Login}>Log In</button>
           <div className="whitefont" >Don't have an account?</div>
           <a className="link" onClick= {RouteChange}>Register</a>
