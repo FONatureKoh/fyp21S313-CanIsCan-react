@@ -28,7 +28,7 @@ export function addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, item
   const axiosConfig = {
     headers: {'Authorisation': window.sessionStorage.accessToken}
   };
-  
+
   const addItemForm = new FormData();
   addItemForm.append("imageFile", imageFile);
   addItemForm.append("itemName", itemName);
@@ -43,7 +43,7 @@ export function addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, item
   
   console.log(axiosConfig);
 
-  return axios.post("http://localhost:5000/restaurant/addmenuitem", addItemForm, axiosConfig)
+  return axios.post("hhttps://api.cancanfoodapp.xyz/restaurant/addmenuitem", addItemForm, axiosConfig)
     .then(res => {
       // In here we can choose what we want to do with the response of the request
       return res.data;
