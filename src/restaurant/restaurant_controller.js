@@ -32,7 +32,14 @@ export function addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, item
   addItemForm.append("itemDesc", itemDesc);
   addItemForm.append("itemAllergy", itemAllergy);
 
-  return axios.post("http://localhost:5000/restaurant/addmenuitem", addItemForm)
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+  
+  console.log(axiosConfig);
+
+  return axios.post("hhttps://api.cancanfoodapp.xyz/restaurant/addmenuitem", addItemForm, axiosConfig)
     .then(res => {
       // In here we can choose what we want to do with the response of the request
       return res.data;
@@ -106,7 +113,7 @@ export function restaurantProfile() {
 
   console.log(axiosConfig);
 
-  return axios.get(`https://api.cancanfoodapp.xyz/restaurant/restaurantProfile/`, axiosConfig)
+  return axios.get(`http://localhost:5000/restaurant/restaurantProfile/`, axiosConfig)
     .then(res => {
       // In here we can choose what we want to do with the response of the request
       // console.log(res)
