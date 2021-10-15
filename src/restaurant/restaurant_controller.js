@@ -20,6 +20,45 @@ export function retrieveMenuItems(rest_ID) {
 };
 
 /*****************************************************************************************
+ * All Categories retrieval based on restaurant ID function                              *
+ * ***************************************************************************************
+ * - Takes in restaurantID and retrieve all categories based on that restaurant's ID     
+ * ***************************************************************************************/
+export function retrieveCats(rest_ID) {
+  return axios.get('https://api.cancanfoodapp.xyz/restaurant/retrieveCategories', {
+    params: {
+      restaurantID: rest_ID
+    }
+  })
+  .then(response => {
+    return response.data;
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+};
+
+/*****************************************************************************************
+ * All Items Retrieval based on item category function                                   *
+ * ***************************************************************************************
+ * - Takes in restaurantID and retrieve all menu items, grouped into their category,     
+ * based on that restaurant ID       
+ * ***************************************************************************************/
+export function retrieveCatItems(rest_ID) {
+  return axios.get('https://api.cancanfoodapp.xyz/restaurant/retrieveCategoriesItems', {
+    params: {
+      restaurantID: rest_ID
+    }
+  })
+  .then(response => {
+    return response.data;
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+};
+
+/*****************************************************************************************
  * Adding a new Restaurant item                                                          *
  * ***************************************************************************************
  * 
