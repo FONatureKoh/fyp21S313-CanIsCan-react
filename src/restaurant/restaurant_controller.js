@@ -27,7 +27,9 @@ export function retrieveMenuItems(rest_ID) {
 export function addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, itemAllergy) {
   // Axios request config to be declared first
   const axiosConfig = {
-    headers: {'Authorisation': window.sessionStorage.accessToken}
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
   };
 
   const addItemForm = new FormData();
