@@ -25,7 +25,10 @@ export function retrieveMenuItems(rest_ID) {
  * 
  * ***************************************************************************************/
 export function addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, itemAllergy) {
-  // Construct the form data
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+  
   const addItemForm = new FormData();
   addItemForm.append("imageFile", imageFile);
   addItemForm.append("itemName", itemName);
