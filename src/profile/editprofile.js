@@ -15,8 +15,11 @@ export default function EditProfile() {
   useEffect(() => {
     async function getInfo() {
       const testUserProfile = await retrieveUserProfile();
-      setUsername('123');
+      setUsername(testUserProfile.username);
       setFName(testUserProfile.first_name);
+      setLName(testUserProfile.last_name);
+      setPhone(testUserProfile.phone_no);
+      setAddress(testUserProfile.home_address)
       console.log(testUserProfile)
     }
     getInfo();
@@ -74,6 +77,7 @@ export default function EditProfile() {
                 label="Username:" 
                 variant="filled" 
                 size="small" 
+                value={username}
                 onChange={(e)=>setUsername(e.target.value)} 
                 disabled
               />
@@ -83,7 +87,6 @@ export default function EditProfile() {
                 label="First Name (Required*):" 
                 variant="filled" 
                 size="small" 
-                defaultValue={fName}
                 value={fName} 
                 onChange={(e)=>setFName(e.target.value)}
               />
@@ -93,7 +96,7 @@ export default function EditProfile() {
                 label="Last Name (Required*):" 
                 variant="filled" 
                 size="small" 
-                defaultValue={lName} 
+                value={lName} 
                 onChange={(e)=>setLName(e.target.value)}
               />
 
@@ -102,7 +105,7 @@ export default function EditProfile() {
                 label="Phone Number (Required*):" 
                 variant="filled" 
                 size="small" 
-                defaultValue={phone} 
+                value={phone} 
                 onChange={(e)=>setPhone(e.target.value)}
               />
 
@@ -111,7 +114,7 @@ export default function EditProfile() {
                 label="Address (Required*):"  
                 multiline rows={4} 
                 variant="filled" 
-                defaultValue={address} 
+                value={address} 
                 onChange={(e)=>setAddress(e.target.value)}
               />
             </Grid>

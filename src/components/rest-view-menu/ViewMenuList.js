@@ -6,8 +6,9 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MenuItem from './MenuItem';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import { Box } from '@mui/system';
 
-export default function ViewMenuList({menuData}) {
+export default function ViewMenuList({menuData, menuList}) {
 
   const [expanded, setExpanded] = React.useState(false);
 
@@ -28,7 +29,9 @@ export default function ViewMenuList({menuData}) {
 
   return (
     menuData.map(item =>{
+      if (item.menu_type === menuList)
       return( 
+        
       <Accordion key={item.menu_item_ID} sx={{margin:0.5}} expanded={expanded === item.menu_item_ID} onChange={handleChange(item.menu_item_ID)}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
