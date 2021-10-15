@@ -111,7 +111,7 @@ export function restaurantProfile() {
 
   console.log(axiosConfig);
 
-  return axios.get(`https://api.cancanfoodapp.xyz/restaurant/restaurantProfile/`, axiosConfig)
+  return axios.get(`http://localhost:5000/restaurant/restaurantProfile/`, axiosConfig)
     .then(res => {
       // In here we can choose what we want to do with the response of the request
       // console.log(res)
