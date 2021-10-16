@@ -75,7 +75,7 @@ export default function ViewProfile() {
       <Route path="/generalmanager/profile/editprofile"><EditProfile userProfile={userProfile}/>
       </Route>
 
-      <Route path="/generalmanager/profile/changepassword" component= {ChangePassword}><ChangePassword userProfile={userProfile}/>
+      <Route path="/generalmanager/profile/changepassword"><ChangePassword userProfile={userProfile}/>
       </Route>
     </Switch>
   )
