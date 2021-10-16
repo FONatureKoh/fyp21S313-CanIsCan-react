@@ -1,12 +1,30 @@
-import React, {useState} from 'react'
-import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader } from '@mui/material'
-import { useRouteMatch } from 'react-router'
+import React, {useEffect, useState} from 'react';
+import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, 
+CardContent, CardHeader, FormControl, InputLabel, Select, MenuItem, Input, Box } from '@mui/material';
+import { useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
 
 // Controller import
-import { editRestaurantItem } from '../../restaurant_controller';
+import { editRestaurantItem, retrieveCats } from '../../restaurant_controller';
+import { styled } from '@mui/styles';
 
 export default function EditItem({menuData}) {
+  // Pre drawn values from Database -- Thomas
+  const [itemCategoriesList, setItemCategoriesList] = useState([]);
+
+  // Deploying useEffect to get the category list -- Thomas
+  useEffect(() => {
+    // Function to get all restaurant item category / categories
+    async function retrieveCategories() {
+      var catData = await retrieveCats();
+
+      // Setting the Category List
+      setItemCategoriesList(catData);
+      console.log (catData);
+    }
+    retrieveCategories();
+  },[])
+
   const match = useRouteMatch('/generalmanager/editmenu/edititem/:id');
   
   let itemSelected;
@@ -15,16 +33,20 @@ export default function EditItem({menuData}) {
       if(item.ri_item_ID === parseInt(match.params.id) )
       {
         itemSelected = item;
+        console.log(itemSelected);
         break;
       }
     }
 
   //Setting field to retrieved values
-  const [itemID, setItemID] = useState(itemSelected.ri_item_ID)
+  const [itemID, setItemID] = useState(itemSelected.ri_item_ID);
+  const [imageFile, setImageFile] = useState();
+  const [itemAvailability, setItemAvailability] = useState(itemSelected.item_availability);
   const [itemName, setItemName] = useState(itemSelected.item_name);
   const [itemPrice, setItemPrice] = useState(itemSelected.item_price);
   const [itemDesc, setItemDesc] = useState(itemSelected.item_desc);
   const [itemAllergy, setItemAllergy] = useState(itemSelected.item_allergen_warning);
+  const [itemCategory, setItemCategory] = useState(itemSelected.ri_cat_ID);
 
   async function submitChange() {
     var testController = await editRestaurantItem(itemID, itemName, itemPrice, itemDesc, itemAllergy);
@@ -32,21 +54,48 @@ export default function EditItem({menuData}) {
     console.log(testController);
   }
   
+  // Input Box config
+  const Input = styled('input')({
+    display: 'none',
+  });
+
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
     <CardHeader title="Edit Item" />
     <CardContent >
     <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
       <Grid item xs={6}>
-        <img src={'asd'} height="200px" width="100%" alt="menu"/>
-        <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
+        <Box width="100%"
+        height="80%">
+          <img src={'asd'} height="200px" width="100%" alt="additem"/>
+        </Box>
+        <Box>
+        <label htmlFor="imageFile">
+          <Input 
+            type="file"
+            id="imageFile"
+            accept=".png"
+            onChange={event => {
+              const imageFile = event.target.files[0];
+              setImageFile(imageFile);
+            }} />
+          <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
+        </label>
+        </Box>
       </Grid>
       
       <Grid item xs={1}>
       </Grid>
 
       <Grid item xs={5}>
-        <Typography textAlign="center" paddingTop="20%">Availability <Switch defaultChecked size="large" /></Typography>  
+        <Typography textAlign="center" paddingTop="20%">
+          Availability 
+          <Switch defaultChecked onChange={event => {
+              setItemAvailability(event.target.checked);
+              console.log(itemAvailability);
+            }
+          } size="large" /> 
+        </Typography>  
       </Grid>
 
       <Grid item xs={3}>
@@ -96,8 +145,24 @@ export default function EditItem({menuData}) {
           onChange={(e) => setItemAllergy(e.target.value)}
         />
 
+        {/* Added Item Category Selection -- Thomas*/}
+        <FormControl variant="filled" sx={{width:'100%', margin:'15px' ,textAlign:'left'}}>
+          <InputLabel id="cat-dropdown-menu-label">Item Category (Required)</InputLabel>
+          <Select
+            labelId="cat-dropdown-menu-label"
+            id="demo-simple-select-filled"
+            value={itemCategory}
+            onChange={(e) => setItemCategory(e.target.value)}
+          >
+            {
+              itemCategoriesList.map(cat => {
+                return <MenuItem  value={cat.ric_ID}>{cat.ric_name}</MenuItem>
+              })
+            }
+          </Select>
+        </FormControl>
+
         <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={submitChange}>Confirm Changes</Button>
-        
         <Button variant="contained" color="inherit" sx={{width:'45%', float:'right' }} component={Link} to="/generalmanager">Cancel</Button>
       </Grid>
 

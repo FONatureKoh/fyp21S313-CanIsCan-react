@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader, Box, Input, FormControl, InputLabel, Select, MenuItem} from '@mui/material'
+import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader, Box, Input, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { styled } from '@mui/material/styles';
 
@@ -12,7 +12,7 @@ export default function AddItem() {
 
   // Form data settings and their setStates
   const [imageFile, setImageFile] = useState();
-  const [itemAvailability, setItemAvailability] = useState();
+  const [itemAvailability, setItemAvailability] = useState(1);
   const [itemName, setItemName] = useState();
   const [itemPrice, setItemPrice] = useState();
   const [itemDesc, setItemDesc] = useState();
