@@ -12,7 +12,7 @@ export default function EditItem({menuData}) {
   let itemSelected;
     for(const item of menuData)
     {
-      if(item.menu_item_ID === parseInt(match.params.id) )
+      if(item.ri_item_ID === parseInt(match.params.id) )
       {
         itemSelected = item;
         break;
@@ -20,7 +20,7 @@ export default function EditItem({menuData}) {
     }
 
   //Setting field to retrieved values
-  const [itemID, setItemID] = useState(itemSelected.menu_item_ID)
+  const [itemID, setItemID] = useState(itemSelected.ri_item_ID)
   const [itemName, setItemName] = useState(itemSelected.item_name);
   const [itemPrice, setItemPrice] = useState(itemSelected.item_price);
   const [itemDesc, setItemDesc] = useState(itemSelected.item_desc);

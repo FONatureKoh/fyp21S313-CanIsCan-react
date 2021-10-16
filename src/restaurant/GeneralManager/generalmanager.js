@@ -40,6 +40,7 @@ export default function GeneralManager() {
     async function getMenu() {
       const testMenuData = await retrieveMenuItems(1);
       setMenuData(testMenuData);
+      console.log(testMenuData);
     }
     getMenu();
   },[])

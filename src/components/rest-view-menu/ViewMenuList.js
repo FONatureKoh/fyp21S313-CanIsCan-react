@@ -29,10 +29,10 @@ export default function ViewMenuList({menuData, menuList}) {
 
   return (
     menuData.map(item =>{
-      if (item.menu_type === menuList)
+      if (item.ric_name === menuList)
       return( 
         
-      <Accordion key={item.menu_item_ID} sx={{margin:0.5}} expanded={expanded === item.menu_item_ID} onChange={handleChange(item.menu_item_ID)}>
+      <Accordion key={item.ri_item_ID} sx={{margin:0.5}} expanded={expanded === item.ri_item_ID} onChange={handleChange(item.ri_item_ID)}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"

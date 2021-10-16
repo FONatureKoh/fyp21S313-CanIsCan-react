@@ -68,7 +68,7 @@ export default function MenuItem({item, menuData}) {
           </Grid>
       </Grid>
       <Box sx={{width:'100%', textAlign:'center'}}>
-        <Button variant='outlined' color='inherit' component={ Link } to={`/generalmanager/editmenu/edititem/${item.menu_item_ID}`} sx={{mr:'10px', width:'100px'}}>EDIT</Button>
+        <Button variant='outlined' color='inherit' component={ Link } to={`/generalmanager/editmenu/edititem/${item.ri_item_ID}`} sx={{mr:'10px', width:'100px'}}>EDIT</Button>
         <Button variant='outlined' color='error' sx={{ml:'10px', width:'100px'}} onClick={handleOpenDialog}>DELETE</Button>
       </Box>
 

@@ -50,14 +50,14 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
     const check = [];
     const re = [];
     menu.map(item =>{
-      if(check.includes(item.menu_type) === true)
+      if(check.includes(item.ric_name) === true)
       {
-        check.push(item.menu_type)
+        check.push(item.ric_name)
       }
       else
       {
-        check.push(item.menu_type)
-        re.push(item.menu_type)
+        check.push(item.ric_name)
+        re.push(item.ric_name)
       }
     })
     return re;
@@ -86,7 +86,7 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
               <TabList onChange={handleChange} aria-label="lab API tabs example">
                 {
                   getMenu(menuData).map(item => {
-                  return <Tab label={item} value={item}/>
+                    return <Tab label={item} value={item}/>
                   })
                 }
                 <Tab icon={<AddIcon fontSize="small"/>}label="ADD MENU" onClick={handleOpen} onChange={handleOpen}/>
@@ -100,6 +100,7 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
             <Box sx={{margin:'10px auto', width:'100%'}}>
             {
               getMenu(menuData).map(item => {
+                console.log(item);
                 return <TabPanel value={item}> <ViewMenuList menuData={menuData} menuList={item} /></TabPanel>
               })
             }
