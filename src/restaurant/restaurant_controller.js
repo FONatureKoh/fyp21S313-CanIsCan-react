@@ -66,7 +66,8 @@ export function retrieveCatItems(rest_ID) {
  * ***************************************************************************************
  * 
  * ***************************************************************************************/
-export function addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, itemAllergy) {
+export function addRestaurantItem(imageFile, itemName, itemPrice, 
+                                  itemDesc, itemAllergy, itemCategory) {
   // Axios request config to be declared first
   const axiosConfig = {
     headers: {
@@ -80,6 +81,7 @@ export function addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, item
   addItemForm.append("itemPrice", itemPrice);
   addItemForm.append("itemDesc", itemDesc);
   addItemForm.append("itemAllergy", itemAllergy);
+  addItemForm.append("itemCategory", itemCategory)
 
   return axios.post("https://api.cancanfoodapp.xyz/restaurant/addmenuitem", addItemForm, axiosConfig)
     .then(res => {

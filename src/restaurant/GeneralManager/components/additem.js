@@ -16,11 +16,11 @@ export default function AddItem() {
   const [itemPrice, setItemPrice] = useState();
   const [itemDesc, setItemDesc] = useState();
   const [itemAllergy, setItemAllergy] = useState();
-  const [itemCategory, setItemCategory] = useState();
+  const [itemCategory, setItemCategory] = useState('');
 
   // Function to generate a form to send to the backend server
   async function addItem() {
-    var testController = await addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, itemAllergy);
+    var testController = await addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, itemAllergy, itemCategory);
     console.log (testController);
   }
   
@@ -117,11 +117,11 @@ export default function AddItem() {
           onChange={(e)=> setItemAllergy(e.target.value)}
         />
 
-        {/* Added by Thomas for Item Category Selection */}
-        <FormControl variant="filled" sx={{width:'100%', margin:'15px'}}>
-          <InputLabel id="demo-simple-select-filled-label">Item Category (Required)</InputLabel>
+        {/* Added Item Category Selection -- Thomas*/}
+        <FormControl variant="filled" sx={{width:'100%', margin:'15px' ,textAlign:'left'}}>
+          <InputLabel id="cat-dropdown-menu-label">Item Category (Required)</InputLabel>
           <Select
-            labelId="demo-simple-select-filled-label"
+            labelId="cat-dropdown-menu-label"
             id="demo-simple-select-filled"
             value={itemCategory}
             onChange={(e) => setItemCategory(e.target.value)}
