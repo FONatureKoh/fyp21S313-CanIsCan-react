@@ -1,4 +1,10 @@
-const axios = require('axios');
+import axios from 'axios';
+
+/*****************************************************************************************
+ * Some application settings to be used throughout the controller
+******************************************************************************************/
+const apiDomain = 'http://localhost:5000';            // Use this when testing
+// const apiDomain = 'https://api.cancanfoodapp.xyz';    // Use this when deploying
 
 /********************************************
  * All Items Retrieval function             *
@@ -7,7 +13,10 @@ const axios = require('axios');
  * menu items based on that restaurant ID   
  * *******************************************/
 export function retrieveRestInfo(rest_ID) {
-  return axios.get('https://api.cancanfoodapp.xyz/restaurant/retrieveRestaurantInfo', {
+  return axios.get(`${apiDomain}/restaurant/retrieveRestaurantInfo`, {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    },
     params: {
       restaurantID: rest_ID
     }
