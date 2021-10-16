@@ -24,12 +24,15 @@ export function retrieveMenuItems(rest_ID) {
  * ***************************************************************************************
  * - Takes in restaurantID and retrieve all categories based on that restaurant's ID     
  * ***************************************************************************************/
-export function retrieveCats(rest_ID) {
-  return axios.get('https://api.cancanfoodapp.xyz/restaurant/retrieveCategories', {
-    params: {
-      restaurantID: rest_ID
+export function retrieveCats() {
+  // Config for Axios to send authorisation in header
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
     }
-  })
+  };
+
+  return axios.get('http://localhost:5000/restaurant/itemCategory', axiosConfig)
   .then(response => {
     return response.data;
   })
