@@ -10,15 +10,15 @@ export default function ViewProfile() {
   // Declaring profile information state
   const [userProfile, setUserProfile] = useState('');
 
-  // Testing userprofile retrieval
+  // User Profile retrieval
   useEffect(() => {
-    async function getInfo() {
-      const testUserProfile = await retrieveUserProfile();
-      setUserProfile(testUserProfile);
+    async function getUserInfo() {
+      const userProfile = await retrieveUserProfile();
+      setUserProfile(userProfile);
       
-      console.log(testUserProfile)
+      console.log(userProfile)
     }
-    getInfo();
+    getUserInfo();
   },[])
     
   const boldtitle = {

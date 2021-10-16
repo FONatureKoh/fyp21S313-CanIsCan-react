@@ -35,7 +35,6 @@ export default function GeneralManager() {
 
 
   // Calling the async function
-  
   useEffect(() => {
     async function getMenu() {
       const testMenuData = await retrieveMenuItems(1);

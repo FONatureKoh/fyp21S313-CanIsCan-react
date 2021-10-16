@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
-import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
+import { TextField, Grid, Button, Typography, CardContent, CardHeader, 
+Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import { useHistory } from 'react-router-dom'
 
 export default function ChangePassword({personalinfo}) {
