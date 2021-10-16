@@ -12,6 +12,7 @@ export default function AddItem() {
 
   // Form data settings and their setStates
   const [imageFile, setImageFile] = useState();
+  const [itemAvailability, setItemAvailability] = useState();
   const [itemName, setItemName] = useState();
   const [itemPrice, setItemPrice] = useState();
   const [itemDesc, setItemDesc] = useState();
@@ -20,8 +21,11 @@ export default function AddItem() {
 
   // Function to generate a form to send to the backend server
   async function addItem() {
-    var testController = await addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, itemAllergy, itemCategory);
-    console.log (testController);
+    var addItemController = await addRestaurantItem(
+      imageFile, itemAvailability, itemName, itemPrice, itemDesc, 
+      itemAllergy, itemCategory
+    );
+    console.log (addItemController);
   }
   
   // Deploying useEffect to get the category list -- Thomas
@@ -71,7 +75,14 @@ export default function AddItem() {
       </Grid>
 
       <Grid item xs={5}>
-        <Typography textAlign="center" paddingTop="20%">Availability <Switch defaultChecked size="large" /></Typography>  
+        <Typography textAlign="center" paddingTop="20%">
+          Availability 
+          <Switch defaultChecked onChange={event => {
+              setItemAvailability(event.target.checked);
+              console.log(itemAvailability);
+            }
+          } size="large" />  
+        </Typography>  
       </Grid>
 
       <Grid item xs={3}>
