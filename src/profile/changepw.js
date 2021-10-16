@@ -3,7 +3,7 @@ import { TextField, Grid, Button, Typography, CardContent, CardHeader,
 Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import { useHistory } from 'react-router-dom'
 
-export default function ChangePassword({personalinfo}) {
+export default function ChangePassword(personalinfo) {
 
   const history = useHistory();
   const [open, setOpen] = useState(false);
