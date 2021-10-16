@@ -67,7 +67,7 @@ export function retrieveCatItems(rest_ID) {
  * 
  * ***************************************************************************************/
 export function addRestaurantItem(imageFile, itemAvailability, itemName, itemPrice, 
-                                  itemDesc, itemAllergy, itemCategory) {
+  itemDesc, itemAllergy, itemCategory) {
   // Axios request config to be declared first
   const axiosConfig = {
     headers: {
@@ -82,7 +82,7 @@ export function addRestaurantItem(imageFile, itemAvailability, itemName, itemPri
   addItemForm.append("itemPrice", itemPrice);
   addItemForm.append("itemDesc", itemDesc);
   addItemForm.append("itemAllergy", itemAllergy);
-  addItemForm.append("itemCategory", itemCategory)
+  addItemForm.append("itemCategory", itemCategory);
 
   return axios.post("http://localhost:5000/restaurant/addmenuitem", addItemForm, axiosConfig)
     .then(res => {
@@ -100,14 +100,24 @@ export function addRestaurantItem(imageFile, itemAvailability, itemName, itemPri
  * - Takes in ItemID. Since itemID is a primary key, there is no issue in editing the item
  * this way.
  * ***************************************************************************************/
-export function editRestaurantItem(itemID, itemName, itemPrice, itemDesc, itemAllergy) {
+export function editRestaurantItem(itemID, imageFile, itemAvailability, itemName, itemPrice, 
+  itemDesc, itemAllergy, itemCategory) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
   const editItemForm = new FormData();
+  editItemForm.append("imageFile", imageFile);
+  editItemForm.append("itemAvailability", itemAvailability);
   editItemForm.append("itemID", itemID)
-  // editItemForm.append("imageFile", imageFile);
   editItemForm.append("itemName", itemName);
   editItemForm.append("itemPrice", itemPrice);
   editItemForm.append("itemDesc", itemDesc);
   editItemForm.append("itemAllergy", itemAllergy);
+  editItemForm.append("itemCategory", itemCategory);
 
   return axios.put(`http://localhost:5000/restaurant/restaurantItem/${itemID}`, editItemForm)
     .then(res => {

@@ -49,7 +49,8 @@ export default function EditItem({menuData}) {
   const [itemCategory, setItemCategory] = useState(itemSelected.ri_cat_ID);
 
   async function submitChange() {
-    var testController = await editRestaurantItem(itemID, itemName, itemPrice, itemDesc, itemAllergy);
+    var testController = await editRestaurantItem(itemID, imageFile, itemAvailability, itemName, itemPrice, 
+      itemDesc, itemAllergy, itemCategory);
 
     console.log(testController);
   }
