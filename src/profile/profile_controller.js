@@ -13,7 +13,7 @@ export function retrieveUserProfile() {
 
   console.log(axiosConfig);
 
-  return axios.get(`https://api.cancanfoodapp.xyz/users/profilemanagement`, axiosConfig)
+  return axios.get(`http://localhost:5000/users/profilemanagement`, axiosConfig)
     .then(res => {
       // In here we can choose what we want to do with the response of the request
       // console.log(res)
