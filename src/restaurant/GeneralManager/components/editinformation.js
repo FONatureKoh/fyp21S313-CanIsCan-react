@@ -142,7 +142,14 @@ export default function EditProfile({restaurantinfo}) {
     
           <Grid item xs={12} sx={{textAlign:'center'}}>
             
-            <TextField sx={{width:'100%', margin:'15px auto'}} id="filled-basic" label="Restaurant Name (Required*):" variant="filled" size="small" defaultValue={restaurantinfo.rName} onChange={(e)=>setRName(e.target.value)}/>
+            <TextField sx={{width:'100%', margin:'15px auto'}} 
+              id="filled-basic" 
+              label="Restaurant Name (Required*):" 
+              variant="filled" 
+              size="small" 
+              defaultValue={restaurantinfo.rName} 
+              onChange={(e)=>setRName(e.target.value)}
+            />
 
             <Typography  sx={{textAlign:'left', margin:'15px auto'}}>Operating Hours</Typography>
             <Stack direction="row" spacing={2} sx={{margin:'15px auto'}}>
@@ -171,9 +178,24 @@ export default function EditProfile({restaurantinfo}) {
               />
             </Stack>
 
-            <TextField sx={{width:'100%', margin:'15px auto'}} id="filled-basic" label="Restaurant Contact Number (Required*):" variant="filled" size="small" defaultValue={restaurantinfo.rPhone} onChange={(e)=>setRPhone(e.target.value)}/>
+            <TextField sx={{width:'100%', margin:'15px auto'}} 
+              id="filled-basic" 
+              label="Restaurant Contact Number (Required*):" 
+              variant="filled" 
+              size="small" 
+              defaultValue={restaurantinfo.rPhone} 
+              onChange={(e)=>setRPhone(e.target.value)}
+            />
 
-            <TextField id="filled-multiline-static" label="Restaurant Address (Required*):"  multiline rows={4} variant="filled" sx={{width:'100%', margin:'15px auto'}} defaultValue={restaurantinfo.rAddress} onChange={(e)=>setRAddress(e.target.value)}/>
+            <TextField sx={{width:'100%', margin:'15px auto'}}
+              id="filled-multiline-static" 
+              label="Restaurant Address (Required*):"  
+              multiline 
+              rows={4} 
+              variant="filled" 
+              defaultValue={restaurantinfo.rAddress} 
+              onChange={(e)=>setRAddress(e.target.value)}
+            />
 
             <FormControl sx={{ m:"1px", width: '100%' }}>
               <InputLabel color='primary' id="restaurant-tags">Tags</InputLabel>

@@ -1,7 +1,7 @@
 import React, {useEffect, useState}from 'react'
 import Navigation1 from '../../components/top-nav/navigation1'
 import Topbar from '../../components/top-nav/topbar';
-import { Box } from '@mui/system';
+import { bgcolor, Box } from '@mui/system';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Editmenu from './components/editmenu';
 import ManageUser from './components/manageuser';
@@ -11,6 +11,8 @@ import Stats from './components/statistics';
 import Profile from '../../profile/viewprofile';
 import { retrieveMenuItems } from '../restaurant_controller';
 import axios from 'axios';
+import { Modal, Typography } from '@mui/material';
+import FirstLogin from './components/firstlogin';
 
 /*********************************************************
  * Menu Function to retrieve items based on RestaurantID *
@@ -32,7 +34,6 @@ export default function GeneralManager() {
   const [isChecked, setIsChecked] = useState(false);
 
   const [menuData, setMenuData] = useState([]);
-
 
   // Calling the async function
   useEffect(() => {
@@ -81,6 +82,22 @@ export default function GeneralManager() {
           <Redirect from='/generalmanager' to='/generalmanager/editmenu'/>
         </Switch>
       </Box>
+      <Modal
+        open={1}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{bgcolor:'white',position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width:"50%",
+          height:"45%",
+          minHeight:"400px",
+          borderRadius:'5px'}}>
+           <FirstLogin/>
+         </Box>
+      </Modal>
     </Box>
   )
 }
