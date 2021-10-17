@@ -56,3 +56,30 @@ export function changePwController(oldPassword, newPassword) {
       console.log(err)
     });
 };
+
+/*****************************************************************************************
+ * User password change                                                                  *
+ * ***************************************************************************************
+ * - This takes in the old password, new password and sends it to the backend api 
+ * for updating.
+ * ***************************************************************************************/
+export function verifyPwController(oldPassword) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  // Create simple form data
+  const verifyJSON = { oldPassword: oldPassword };
+
+  return axios.post(`${apiDomain}/users/userpassword`, verifyJSON, axiosConfig)
+    .then(res => {
+      // In here we can choose what we want to do with the response of the request
+      // console.log(res)
+      console.log(res.data);
+      return res.data;
+    })
+    .catch(err => {
+      console.log(err)
+    });
+};
