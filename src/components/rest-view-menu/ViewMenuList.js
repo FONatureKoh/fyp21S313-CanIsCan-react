@@ -34,16 +34,11 @@ export default function ViewMenuList({menuData, menuList}) {
       return( 
         
       <Accordion key={item.ri_item_ID} sx={{margin:0.5}} expanded={expanded === item.ri_item_ID} onChange={handleChange(item.ri_item_ID)}>
-        <AccordionSummary
+        <AccordionSummary sx={{textAlign: 'center', bgcolor: '#bdbdbd', borderRadius: 1, minWidth: 300}}
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
-          sx={{
-            textAlign: 'center',
-            bgcolor: '#bdbdbd',
-            borderRadius: 1,
-            minWidth: 300
-          }}
+          
         >
           <Typography sx={{
             textAlign: 'center',

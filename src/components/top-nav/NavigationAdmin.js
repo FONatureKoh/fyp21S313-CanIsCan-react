@@ -49,11 +49,18 @@ export default function NavigationAdmin({isVisible, isSelected, setIsSelected}) 
               <ListItemText primary="Pending Applications" />
             </ListItemButton>
 
+            <ListItemButton selected={isSelected === 2} component={ Link } to="/admin/existingrest" onClick={() => setIsSelected(2)} >
+              <ListItemIcon>
+                <RestaurantMenuIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Existing Restaurants" />
+            </ListItemButton>
+
             <ListItem>
               <ListItemText primary="Account Management" />
             </ListItem>
 
-            <ListItemButton selected={isSelected === 2} component={ Link } to="/admin/search" onClick={() => setIsSelected(2)} >
+            <ListItemButton selected={isSelected === 3} component={ Link } to="/admin/search" onClick={() => setIsSelected(3)} >
               <ListItemIcon>
                 <Info/>
               </ListItemIcon>
