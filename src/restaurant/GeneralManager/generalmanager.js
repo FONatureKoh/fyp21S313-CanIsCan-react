@@ -83,7 +83,7 @@ export default function GeneralManager() {
         </Switch>
       </Box>
       <Modal
-        open={1}
+        open={0}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
