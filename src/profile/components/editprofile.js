@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
-import john from '../assets/temp/johnsmith.png'
+import john from '../../assets/temp/johnsmith.png'
 import { useHistory } from 'react-router-dom'
-import { retrieveUserProfile } from './profile_controller';
+import { retrieveUserProfile } from '../profile_controller';
 
 export default function EditProfile() {
   // Declaring profile information state

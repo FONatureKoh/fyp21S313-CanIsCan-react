@@ -16,8 +16,9 @@ export default function ViewMenuList({menuData, menuList}) {
       setExpanded(isExpanded ? panel : false);
     };
 
+  // NOTE: item_availability values and representation, 1 is true, and 0 is false
   function checkAvail(item){
-    if (item.item_availability === 0)
+    if (item.item_availability === 1)
     {
       return <FiberManualRecordIcon color="success" sx={{ fontSize: 10}} /> 
     }

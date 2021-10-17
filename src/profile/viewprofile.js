@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react'
 import { Grid, Button, Typography, CardContent, CardHeader, Card } from '@mui/material'
 import john from '../assets/temp/johnsmith.png'
 import { Route, Switch, Link } from 'react-router-dom';
-import EditProfile from './editprofile';
-import ChangePassword from './changepw';
+import EditProfile from './components/editprofile';
+import ChangePassword from './components/changepw';
 import { retrieveUserProfile } from './profile_controller';
 
 export default function ViewProfile() {
   // Declaring profile information state
   const [userProfile, setUserProfile] = useState('');
 
-  // Testing userprofile retrieval
+  // User Profile retrieval
   useEffect(() => {
-    async function getInfo() {
-      const testUserProfile = await retrieveUserProfile();
-      setUserProfile(testUserProfile);
+    async function getUserInfo() {
+      const userProfile = await retrieveUserProfile();
+      setUserProfile(userProfile);
       
-      console.log(testUserProfile)
+      console.log(userProfile)
     }
-    getInfo();
+    getUserInfo();
   },[])
     
   const boldtitle = {
@@ -72,11 +72,9 @@ export default function ViewProfile() {
       </div>
       </Route>
 
-      <Route path="/generalmanager/profile/editprofile"><EditProfile userProfile={userProfile}/>
-      </Route>
+      <Route path="/generalmanager/profile/editprofile"><EditProfile userProfile={userProfile}/></Route>
 
-      <Route path="/generalmanager/profile/changepassword" component= {ChangePassword}><ChangePassword userProfile={userProfile}/>
-      </Route>
+      <Route path="/generalmanager/profile/changepassword"><ChangePassword userProfile={userProfile}/></Route>
     </Switch>
   )
 }

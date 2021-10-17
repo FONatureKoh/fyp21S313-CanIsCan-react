@@ -2,14 +2,21 @@ import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import UserContext from '../store/user_context';
 
-/********************************************
- * Login Auth function                      *
- * ******************************************
+/*****************************************************************************************
+ * Some application settings to be used throughout the controller
+******************************************************************************************/
+const config = require('../store/config.json');
+
+/*****************************************************************************************
+ * Login Auth function                                                                   *
+******************************************************************************************
  * - Should take in username and password
- * - Should return success and user type */
+ * - Should return success and user type 
+ * 
+ */
 
 export function loginAuth (username, password) {
-  return axios.post('https://api.cancanfoodapp.xyz/auth/login', {
+  return axios.post(`${config.apiDomain}/auth/login`, {
       username: username,
       password: password
     })

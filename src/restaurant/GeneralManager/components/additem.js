@@ -1,25 +1,45 @@
-import React, { useState } from 'react'
-import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader, Box, Input} from '@mui/material'
+import React, { useState, useEffect } from 'react'
+import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader, Box, Input, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { styled } from '@mui/material/styles';
 
 // Controller import
-import { addRestaurantItem } from '../../restaurant_controller';
+import { addRestaurantItem, retrieveCats } from '../../restaurant_controller';
 
 export default function AddItem() {
+  // Pre drawn values from Database
+  const [itemCategoriesList, setItemCategoriesList] = useState([]);
 
   // Form data settings and their setStates
   const [imageFile, setImageFile] = useState();
+  const [itemAvailability, setItemAvailability] = useState(1);
   const [itemName, setItemName] = useState();
   const [itemPrice, setItemPrice] = useState();
   const [itemDesc, setItemDesc] = useState();
   const [itemAllergy, setItemAllergy] = useState();
+  const [itemCategory, setItemCategory] = useState('');
 
   // Function to generate a form to send to the backend server
   async function addItem() {
-    var testController = await addRestaurantItem(imageFile, itemName, itemPrice, itemDesc, itemAllergy);
-    console.log (testController);
+    var addItemController = await addRestaurantItem(
+      imageFile, itemAvailability, itemName, itemPrice, itemDesc, 
+      itemAllergy, itemCategory
+    );
+    console.log (addItemController);
   }
+  
+  // Deploying useEffect to get the category list -- Thomas
+  useEffect(() => {
+    // Function to get all restaurant item category / categories
+    async function retrieveCategories() {
+      var catData = await retrieveCats();
+
+      // Setting the Category List
+      setItemCategoriesList(catData);
+      console.log (catData);
+    }
+    retrieveCategories()
+  },[])
 
   const Input = styled('input')({
     display: 'none',
@@ -55,7 +75,14 @@ export default function AddItem() {
       </Grid>
 
       <Grid item xs={5}>
-        <Typography textAlign="center" paddingTop="20%">Availability <Switch defaultChecked size="large" /></Typography>  
+        <Typography textAlign="center" paddingTop="20%">
+          Availability 
+          <Switch defaultChecked onChange={event => {
+              setItemAvailability(event.target.checked);
+              console.log(itemAvailability);
+            }
+          } size="large" />  
+        </Typography>  
       </Grid>
 
       <Grid item xs={3}>
@@ -101,8 +128,24 @@ export default function AddItem() {
           onChange={(e)=> setItemAllergy(e.target.value)}
         />
 
+        {/* Added Item Category Selection -- Thomas*/}
+        <FormControl variant="filled" sx={{width:'100%', margin:'15px' ,textAlign:'left'}}>
+          <InputLabel id="cat-dropdown-menu-label">Item Category (Required)</InputLabel>
+          <Select
+            labelId="cat-dropdown-menu-label"
+            id="demo-simple-select-filled"
+            value={itemCategory}
+            onChange={(e) => setItemCategory(e.target.value)}
+          >
+            {
+              itemCategoriesList.map(cat => {
+                return <MenuItem value={cat.ric_ID}>{cat.ric_name}</MenuItem>
+              })
+            }
+          </Select>
+        </FormControl>
+
         <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={addItem}>Add Item</Button>
-        
         <Button variant="contained" color="inherit" sx={{width:'45%', float:'right'}} component={Link} to="/generalmanager">Cancel</Button>
       </Grid>
 
