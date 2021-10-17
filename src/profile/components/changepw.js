@@ -32,8 +32,7 @@ export default function ChangePassword(personalinfo) {
     history.push('/generalmanager/profile');
   };
 
-   function submitChange()
-  {
+  function submitChange(){
     if(oldPassword == personalinfo.password && newPassword == confirmPassword)
     {
       console.log(newPassword);
@@ -56,30 +55,56 @@ export default function ChangePassword(personalinfo) {
           <CardContent >
             <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
               <Grid item xs={12} sx={{textAlign:'center'}}>
+                <TextField 
+                  sx={{width:'100%', margin:'15px'}} 
+                  id="outline-password-input" 
+                  type="password" 
+                  label="Enter Old Password:" 
+                  variant="filled" 
+                  size="small" 
+                  onChange={(e)=>setOldPassword(e.target.value)}
+                />
 
-              <TextField sx={{width:'100%', margin:'15px'}} id="outline-password-input" type="password" label="Enter New Password:" variant="filled" size="small" onChange={(e)=>setNewPassword(e.target.value)}/>
+                <TextField 
+                  sx={{width:'100%', margin:'15px'}} 
+                  id="outline-password-input" 
+                  type="password" 
+                  label="Enter New Password:" 
+                  variant="filled" 
+                  size="small" 
+                  onChange={(e)=>setNewPassword(e.target.value)}
+                />
 
-              <TextField sx={{width:'100%', margin:'15px'}} id="outline-password-input" type="password" label="Re-enter New Password:" variant="filled" size="small" onChange={(e)=>setConfirmPassword(e.target.value)}/>
-
-              <TextField sx={{width:'100%', margin:'15px'}} id="outline-password-input" type="password" label="Enter Old Password:" variant="filled" size="small" onChange={(e)=>setOldPassword(e.target.value)}/>
+                <TextField 
+                  sx={{width:'100%', margin:'15px'}} 
+                  id="outline-password-input" 
+                  type="password" 
+                  label="Re-enter New Password:" 
+                  variant="filled" 
+                  size="small" 
+                  onChange={(e)=>setConfirmPassword(e.target.value)}
+                />
               </Grid>
 
               <Grid item xs={12} sx={{textAlign:'center', marginTop:'5%'}}>
                 <Button variant="contained" onClick={submitChange} color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start', marginRight:'5%'}}>Confirm</Button>
                 <Button variant="contained" onClick={cancelBtn} color="inherit" sx={{width:'45%', bgcolor:"#CCCCCC", textAlign:'flex-start'}}>Cancel</Button>
+                
                 <Dialog open={open} onClose={handleNo} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title">
-                  {"Unsaved Changes"}
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    Do you want to continue?
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleYes} autoFocus>Yes</Button>
-                  <Button onClick={handleNo}>No</Button>
-                </DialogActions>
+                  <DialogTitle id="alert-dialog-title">
+                    {"Unsaved Changes"}
+                  </DialogTitle>
+                  
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Do you want to continue?
+                    </DialogContentText>
+                  </DialogContent>
+                  
+                  <DialogActions>
+                    <Button onClick={handleYes} autoFocus>Yes</Button>
+                    <Button onClick={handleNo}>No</Button>
+                  </DialogActions>
                 </Dialog>
               </Grid>
             </Grid>
