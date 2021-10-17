@@ -2,10 +2,11 @@ import React from 'react'
 import Settings from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
-import { Divider, Button, Container, Menu, MenuItem, IconButton, Avatar } from '@mui/material';
+import { Divider, Button, Container, Menu, MenuItem, IconButton, Avatar, Typography } from '@mui/material';
 import profilepic from '../../assets/temp/johnsmith.png'
 import { useHistory } from 'react-router-dom';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle , Box} from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 export default function ProfileIcon() {
 
@@ -41,6 +42,7 @@ export default function ProfileIcon() {
   return (
     <Container position="absolute" sx={{mr:1}}>
         <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }} >
+            <Typography sx={{alignSelf:'flex-end', mr: '10px', color:'white', textDecoration:'underline'}}>Welcome placeholder <KeyboardArrowDownIcon sx={{textAlign:"end"}}fontSize="smaller"/></Typography>
             <Avatar src={profilepic} alt="profile" sx={{ width: 50 , height: 50}}/>
         </IconButton>
         

@@ -33,7 +33,7 @@ export default function Topbar({toggleVisibility}) {
           </Typography>
           <Box>
             <ProfileIcon />
-            </Box>
+          </Box>
         </Toolbar>
       </AppBar>
     </>

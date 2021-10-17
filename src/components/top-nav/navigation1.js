@@ -46,6 +46,17 @@ export default function Navigation1({isVisible, isSelected, setIsSelected, isChe
       >
         <Divider />
         <List>
+            <ListItem sx={{bgcolor:"#9E9E9E", color:'black'}} >
+              <ListItemText>
+                <Typography sx={{textDecoration:'underline'}}variant="body2">Restaurant Name:</Typography>
+                <Typography >PlaceHolder</Typography>
+                <Typography sx={{textDecoration:'underline'}} variant="body2">Role:</Typography>
+                <Typography>General Manager</Typography>
+              </ListItemText>
+            </ListItem>
+
+            <Divider/>
+
             <ListItemButton>
             <Typography sx={{marginTop:'20px', marginBottom:'20px'}}>Open For Business <Switch checked={isChecked} onClick={()=>toggleChecked()} size="large" /></Typography>
             </ListItemButton>
