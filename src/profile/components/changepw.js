@@ -53,6 +53,11 @@ export default function ChangePassword({userProfile}) {
       if (newPassword == confirmPassword && newPassword != '') {
         const changePwResponse = await changePwController(oldPassword, newPassword);
 
+        // changePWResponse json response example:
+        // {  
+        //    api_msg: 'Password has been updated!', 
+        //    userType: 'Restaurant General Manager'
+        // }
         console.log(changePwResponse);
 
         // Change password should be succesful at this point. We could send back just
