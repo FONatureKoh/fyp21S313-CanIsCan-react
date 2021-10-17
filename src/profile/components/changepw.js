@@ -2,12 +2,18 @@ import React, {useState} from 'react'
 import { TextField, Grid, Button, Typography, CardContent, CardHeader, 
 Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import { useHistory } from 'react-router-dom'
+import { changePwController, verifyPwController } from '../profile_controller';
 
-export default function ChangePassword(personalinfo) {
-
+export default function ChangePassword({userProfile}) {
+  // Test lines
+  // console.log(userProfile);
+  
+  // useHistory
   const history = useHistory();
+
+  // Getting some values into the use states
   const [open, setOpen] = useState(false);
-  const [oldPassword, setOldPassword] = useState(personalinfo.password);
+  const [oldPassword, setOldPassword] = useState(userProfile.password);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -24,6 +30,8 @@ export default function ChangePassword(personalinfo) {
     setOpen(true);
   };
 
+  // handleNo and handleYes are functions for the open dialog when a changepw
+  // event is triggered
   const handleNo = () => {
     setOpen(false);
   };
@@ -32,20 +40,50 @@ export default function ChangePassword(personalinfo) {
     history.push('/generalmanager/profile');
   };
 
-  function submitChange(){
-    if(oldPassword == personalinfo.password && newPassword == confirmPassword)
-    {
-      console.log(newPassword);
-      console.log('Change password is successful');
+  // Main function for handling the password change. For more security, we avoid
+  // storing the password at all in any of the profiles. In this case, we need to 
+  // first send the old password to the backend server to verify then approve
+  // said change password request
+  async function submitChange(){
+    // 1. Verify old password
+    const verifyOldPassword = await verifyPwController(oldPassword);
+
+    if (verifyOldPassword["api_msg"] == "password match") {
+      // 2. Ensure that the two new password fields are identical
+      if (newPassword == confirmPassword && newPassword != '') {
+        const changePwResponse = await changePwController(oldPassword, newPassword);
+
+        console.log(changePwResponse);
+
+        // Change password should be succesful at this point. We could send back just
+        // the userType and feed it into a redirect function? anyway changePwReponse
+        // will contain the userType so that we don't need to go and draw out the userType again
+      }
+      else {
+        alert('New Password entries do not match or found to be blank. Please try again.');
+      }
+      // 3. if all the checks are good, send the request over with the old and new
+      // password for final verification, before entering into the database
     }
-    else if(oldPassword == personalinfo.password && newPassword != confirmPassword)
-    {
-      alert('The new passwords does not match!');
-    }
-    else if(oldPassword != personalinfo.password)
-    {
+    else {
       alert('Your old password entry is invalid!');
     }
+    
+
+    
+    // if(oldPassword == personalinfo.password && newPassword == confirmPassword)
+    // {
+    //   console.log(newPassword);
+    //   console.log('Change password is successful');
+    // }
+    // else if(oldPassword == personalinfo.password && newPassword != confirmPassword)
+    // {
+    //   alert('The new passwords does not match!');
+    // }
+    // else if(oldPassword != personalinfo.password)
+    // {
+    //   alert('Your old password entry is invalid!');
+    // }
   }
 
   return (
