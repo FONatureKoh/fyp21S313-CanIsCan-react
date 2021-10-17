@@ -3,9 +3,7 @@ import axios from 'axios';
 /*****************************************************************************************
  * Some application settings to be used throughout the controller
 ******************************************************************************************/
-const apiDomain = 'http://localhost:5000';            // Use this when testing
-// const apiDomain = 'https://api.cancanfoodapp.xyz';    // Use this when deploying
-
+const config = require('../store/config.json');
 
 /*****************************************************************************************
  * All Items Retrieval function                                                          *
@@ -13,7 +11,7 @@ const apiDomain = 'http://localhost:5000';            // Use this when testing
  * - Takes in restaurantID and retrieve all menu items based on that restaurant ID       *
  * ***************************************************************************************/
 export function retrieveMenuItems(rest_ID) {
-  return axios.get(`${apiDomain}/restaurant/retrieveMenuItems`, {
+  return axios.get(`${config.apiDomain}/restaurant/retrieveMenuItems`, {
     headers: {
       'Authorisation': window.sessionStorage.accessToken
     },
@@ -42,7 +40,7 @@ export function retrieveCats() {
     }
   };
 
-  return axios.get(`${apiDomain}/restaurant/itemCategory`, axiosConfig)
+  return axios.get(`${config.apiDomain}/restaurant/itemCategory`, axiosConfig)
   .then(response => {
     return response.data;
   })
@@ -58,7 +56,7 @@ export function retrieveCats() {
  * based on that restaurant ID       
  * ***************************************************************************************/
 export function retrieveCatItems(rest_ID) {
-  return axios.get(`${apiDomain}/restaurant/retrieveCategoriesItems`, {
+  return axios.get(`${config.apiDomain}/restaurant/retrieveCategoriesItems`, {
     params: {
       restaurantID: rest_ID
     }
@@ -94,7 +92,7 @@ export function addRestaurantItem(imageFile, itemAvailability, itemName, itemPri
   addItemForm.append("itemAllergy", itemAllergy);
   addItemForm.append("itemCategory", itemCategory);
 
-  return axios.post(`${apiDomain}/restaurant/addmenuitem`, addItemForm, axiosConfig)
+  return axios.post(`${config.apiDomain}/restaurant/addmenuitem`, addItemForm, axiosConfig)
     .then(res => {
       // In here we can choose what we want to do with the response of the request
       return res.data;
@@ -129,7 +127,7 @@ export function editRestaurantItem(itemID, imageFile, itemAvailability, itemName
   editItemForm.append("itemAllergy", itemAllergy);
   editItemForm.append("itemCategory", itemCategory);
 
-  return axios.put(`${apiDomain}/restaurant/restaurantItem/${itemID}`, editItemForm)
+  return axios.put(`${config.apiDomain}/restaurant/restaurantItem/${itemID}`, editItemForm)
     .then(res => {
       // In here we can choose what we want to do with the response of the request
       // console.log(res)
@@ -154,7 +152,7 @@ export function addRestaurantSubuser(itemID, itemName, itemPrice, itemDesc, item
   editItemForm.append("itemDesc", itemDesc);
   editItemForm.append("itemAllergy", itemAllergy);
 
-  return axios.put(`${apiDomain}/restaurant/restaurantItem/${itemID}`, editItemForm)
+  return axios.put(`${config.apiDomain}/restaurant/restaurantItem/${itemID}`, editItemForm)
     .then(res => {
       // In here we can choose what we want to do with the response of the request
       // console.log(res)
@@ -178,7 +176,7 @@ export function restaurantProfile() {
 
   console.log(axiosConfig);
 
-  return axios.get(`${apiDomain}/restaurant/restaurantProfile/`, axiosConfig)
+  return axios.get(`${config.apiDomain}/restaurant/restaurantProfile/`, axiosConfig)
     .then(res => {
       // In here we can choose what we want to do with the response of the request
       // console.log(res)

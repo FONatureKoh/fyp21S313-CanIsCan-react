@@ -5,8 +5,7 @@ import UserContext from '../store/user_context';
 /*****************************************************************************************
  * Some application settings to be used throughout the controller
 ******************************************************************************************/
-const apiDomain = 'http://localhost:5000';            // Use this when testing
-// const apiDomain = 'https://api.cancanfoodapp.xyz';    // Use this when deploying
+const config = require('../store/config.json');
 
 /*****************************************************************************************
  * Login Auth function                                                                   *
@@ -17,7 +16,7 @@ const apiDomain = 'http://localhost:5000';            // Use this when testing
  */
 
 export function loginAuth (username, password) {
-  return axios.post(`${apiDomain}/auth/login`, {
+  return axios.post(`${config.apiDomain}/auth/login`, {
       username: username,
       password: password
     })
