@@ -3,8 +3,7 @@ import axios from 'axios';
 /*****************************************************************************************
  * Some application settings to be used throughout the controller
 ******************************************************************************************/
-const apiDomain = 'http://localhost:5000';            // Use this when testing
-// const apiDomain = 'https://api.cancanfoodapp.xyz';    // Use this when deploying
+const config = require('../store/config.json');
 
 /********************************************
  * All Items Retrieval function             *
@@ -13,7 +12,7 @@ const apiDomain = 'http://localhost:5000';            // Use this when testing
  * menu items based on that restaurant ID   
  * *******************************************/
 export function retrieveRestInfo(rest_ID) {
-  return axios.get(`${apiDomain}/restaurant/retrieveRestaurantInfo`, {
+  return axios.get(`${config.apiDomain}/restaurant/retrieveRestaurantInfo`, {
     headers: {
       'Authorisation': window.sessionStorage.accessToken
     },
