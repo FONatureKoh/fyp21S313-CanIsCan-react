@@ -46,7 +46,7 @@ export default function NavigationAdmin({isVisible, isSelected, setIsSelected}) 
               <ListItemIcon>
                 <RestaurantMenuIcon/>
               </ListItemIcon>
-              <ListItemText primary="Approve Restaurants" />
+              <ListItemText primary="Pending Applications" />
             </ListItemButton>
 
             <ListItem>

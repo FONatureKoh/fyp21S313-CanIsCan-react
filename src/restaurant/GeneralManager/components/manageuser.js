@@ -76,7 +76,6 @@ const rows = [
 
 console.log(userIDSelected);
   return (
-
       <Switch>
         <Route exact path="/generalmanager/manageuser">
           <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>

@@ -4,6 +4,14 @@ DialogContent, DialogContentText, DialogTitle, Stack, Box } from '@mui/material'
 import bannerpic from '../../../assets/temp/eg-biz1.png'
 import { useHistory } from 'react-router-dom'
 import { styled } from '@mui/material/styles';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Chip from '@mui/material/Chip';
+import { useTheme } from '@mui/material/styles';
+import { Block } from '@mui/icons-material';
 
 // Controller import
 //import { editRestaurantInfo } from '../../restaurant_controller';
@@ -18,6 +26,53 @@ export default function EditProfile({restaurantinfo}) {
   const [rAddress, setRAddress] = useState(restaurantinfo.rAddress);
   const [openTime, setOpenTime] = useState(restaurantinfo.openTime);
   const [closeTime, setCloseTime] = useState(restaurantinfo.closeTime);
+
+  // Testing purposes
+  // ------------------------------------------------------------------- //
+  // DRAW ALL TAGS AVAILABLE INTO THIS ARRAY
+  // It will set the drop down list
+  // The rest are handled by the form and on change
+
+  const names = [
+    'Western',
+    'Chinese',
+    'Japanese',
+    'Italian',
+    'Korean',
+    'Vietnamese',
+    'Thai',
+    'Indian',
+    'Asian',
+    'Fast Food',
+    'Fine Dining'
+  ];
+
+  //This is the state that will contain all selected item in an array
+  const [tags, setTags] = React.useState([]);
+
+  //Drop down item settings
+  const ITEM_HEIGHT = 40;
+  const ITEM_PADDING_TOP = 5;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        display: Block,
+        maxHeight: ITEM_HEIGHT * 3.5 + ITEM_PADDING_TOP,
+      },
+    },
+  };
+
+  
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setTags(
+      // On autofill we get a the stringified value.
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  }
+  
 
   {/*async function editRestaurantInfo() {
     var testController = await editRestaurantInfo(imageBanner, rName, rPhone, rAddress, openTime, closeTime);
@@ -58,13 +113,15 @@ export default function EditProfile({restaurantinfo}) {
     display: 'none',
   });
 
+ 
+
   return (
   <div>
     <Card variant="outlined" sx={{margin:'auto', padding:'5px', borderRadius:'10px'}}>
       <CardHeader title="Edit Restaurant Information" />
       <CardContent >
         <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
-          <Grid item xs={12} sx={{textAlign:'center', marginTop:'10%;'}}>
+          <Grid item xs={12} sx={{textAlign:'center', marginTop:'3%;'}}>
             <Box>
             <img src={bannerpic} width="55%"/>
             </Box>
@@ -85,10 +142,10 @@ export default function EditProfile({restaurantinfo}) {
     
           <Grid item xs={12} sx={{textAlign:'center'}}>
             
-            <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Restaurant Name (Required*):" variant="filled" size="small" defaultValue={restaurantinfo.rName} onChange={(e)=>setRName(e.target.value)}/>
+            <TextField sx={{width:'100%', margin:'15px auto'}} id="filled-basic" label="Restaurant Name (Required*):" variant="filled" size="small" defaultValue={restaurantinfo.rName} onChange={(e)=>setRName(e.target.value)}/>
 
-            <Typography  sx={{textAlign:'left', margin:'15px'}}>Operating Hours</Typography>
-            <Stack direction="row" spacing={2} sx={{margin:'15px'}}>
+            <Typography  sx={{textAlign:'left', margin:'15px auto'}}>Operating Hours</Typography>
+            <Stack direction="row" spacing={2} sx={{margin:'15px auto'}}>
               <TextField
                 id="time"
                 label="Start"
@@ -114,9 +171,39 @@ export default function EditProfile({restaurantinfo}) {
               />
             </Stack>
 
-            <TextField sx={{width:'100%', margin:'15px'}} id="filled-basic" label="Restaurant Contact Number (Required*):" variant="filled" size="small" defaultValue={restaurantinfo.rPhone} onChange={(e)=>setRPhone(e.target.value)}/>
+            <TextField sx={{width:'100%', margin:'15px auto'}} id="filled-basic" label="Restaurant Contact Number (Required*):" variant="filled" size="small" defaultValue={restaurantinfo.rPhone} onChange={(e)=>setRPhone(e.target.value)}/>
 
-            <TextField id="filled-multiline-static" label="Restaurant Address (Required*):"  multiline rows={4} variant="filled" sx={{width:'100%', margin:'15px'}} defaultValue={restaurantinfo.rAddress} onChange={(e)=>setRAddress(e.target.value)}/>
+            <TextField id="filled-multiline-static" label="Restaurant Address (Required*):"  multiline rows={4} variant="filled" sx={{width:'100%', margin:'15px auto'}} defaultValue={restaurantinfo.rAddress} onChange={(e)=>setRAddress(e.target.value)}/>
+
+            <FormControl sx={{ m:"1px", width: '100%' }}>
+              <InputLabel color='primary' id="restaurant-tags">Tags</InputLabel>
+
+              <Select
+                labelId="tags"
+                id="restaurant-tags"
+                multiple
+                value={tags}
+                onChange={handleChange}
+                input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                )}
+                MenuProps={MenuProps}
+              >
+                {names.map((name) => (
+                  <MenuItem
+                    key={name}
+                    value={name}
+                  >
+                    {name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
 
           <Grid item xs={12} sx={{textAlign:'center', marginTop:'5%'}}>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import ViewMenuList from '../../../components/rest-view-menu/ViewMenuList';
 import { Button, CardContent, CardHeader, TextField, Typography } from '@mui/material'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -89,7 +89,7 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
                     return <Tab label={item} value={item}/>
                   })
                 }
-                <Tab icon={<AddIcon fontSize="small"/>}label="ADD MENU" onClick={handleOpen} onChange={handleOpen}/>
+                <Tab icon={<AddIcon fontSize="small"/>}label="ADD MENU" onClick={handleOpen}/>
               </TabList>
             </Box>
             <Box>

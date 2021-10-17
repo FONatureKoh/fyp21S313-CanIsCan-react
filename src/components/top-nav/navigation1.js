@@ -46,7 +46,7 @@ export default function Navigation1({isVisible, isSelected, setIsSelected, isChe
       >
         <Divider />
         <List>
-            <ListItem sx={{bgcolor:"#9E9E9E", color:'black'}} >
+            <ListItem sx={{bgcolor:"#eeeeee", color:'black', width:'85%', alignSelf:'center', margin:'5px auto', borderRadius:'10px'}}>
               <ListItemText>
                 <Typography sx={{textDecoration:'underline'}}variant="body2">Restaurant Name:</Typography>
                 <Typography >PlaceHolder</Typography>
@@ -55,7 +55,6 @@ export default function Navigation1({isVisible, isSelected, setIsSelected, isChe
               </ListItemText>
             </ListItem>
 
-            <Divider/>
 
             <ListItemButton>
             <Typography sx={{marginTop:'20px', marginBottom:'20px'}}>Open For Business <Switch checked={isChecked} onClick={()=>toggleChecked()} size="large" /></Typography>
