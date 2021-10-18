@@ -96,7 +96,7 @@ export default function EditProfile() {
   }*/}
 
   const cancelBtn = () => {
-    if(rName == restaurantInfo.rName && rPhone == restaurantInfo.rPhone && rAddress == restaurantInfo.rAddress && openTime == restaurantInfo.openTime && closeTime == restaurantInfo.closeTime){
+    if(rName === restaurantInfo.rName && rPhone === restaurantInfo.rPhone && rAddress === restaurantInfo.rAddress && openTime === restaurantInfo.openTime && closeTime === restaurantInfo.closeTime){
       history.push('/generalmanager/restaurantinformation');
     }
     else{

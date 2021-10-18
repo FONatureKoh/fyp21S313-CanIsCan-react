@@ -5,7 +5,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Divider, Button, Container, Menu, MenuItem, IconButton, Avatar, Typography } from '@mui/material';
 import profilepic from '../../assets/temp/johnsmith.png'
 import { useHistory } from 'react-router-dom';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle , Box} from '@mui/material';
+import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 export default function ProfileIcon() {

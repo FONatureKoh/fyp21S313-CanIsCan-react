@@ -18,7 +18,7 @@ export default function ChangePassword({userProfile}) {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const cancelBtn = () => {
-    if(newPassword == '' && confirmPassword == ''){
+    if(newPassword === '' && confirmPassword === ''){
       history.push('/generalmanager/profile');
     }
     else{
@@ -48,9 +48,9 @@ export default function ChangePassword({userProfile}) {
     // 1. Verify old password
     const verifyOldPassword = await verifyPwController(oldPassword);
 
-    if (verifyOldPassword["api_msg"] == "password match") {
+    if (verifyOldPassword["api_msg"] === "password match") {
       // 2. Ensure that the two new password fields are identical
-      if (newPassword == confirmPassword && newPassword != '') {
+      if (newPassword === confirmPassword && newPassword !== '') {
         const changePwResponse = await changePwController(oldPassword, newPassword);
 
         // changePWResponse json response example:

@@ -88,8 +88,8 @@ export function addRestaurantItem(imageFile, itemAvailability, itemName, itemPri
  * - Takes in ItemID. Since itemID is a primary key, there is no issue in editing the item
  * this way.
  * ***************************************************************************************/
-export function editRestaurantItem(itemID, imageFile, itemAvailability, itemName, itemPrice, 
-  itemDesc, itemAllergy, itemCategory) {
+export function editRestaurantItem(itemID, imageFile, itemAvailability, itemRestID, 
+  itemPngID, itemName, itemPrice, itemDesc, itemAllergy, itemCategory) {
   // Axios request config to be declared first
   const axiosConfig = {
     headers: {
@@ -98,16 +98,18 @@ export function editRestaurantItem(itemID, imageFile, itemAvailability, itemName
   };
 
   const editItemForm = new FormData();
+  editItemForm.append("itemID", itemID);
   editItemForm.append("imageFile", imageFile);
   editItemForm.append("itemAvailability", itemAvailability);
-  editItemForm.append("itemID", itemID)
+  editItemForm.append("itemRestID", itemRestID);
+  editItemForm.append("itemPngID", itemPngID);
   editItemForm.append("itemName", itemName);
   editItemForm.append("itemPrice", itemPrice);
   editItemForm.append("itemDesc", itemDesc);
   editItemForm.append("itemAllergy", itemAllergy);
   editItemForm.append("itemCategory", itemCategory);
 
-  return axios.put(`${config.apiDomain}/restaurant/restaurantItem/${itemID}`, editItemForm)
+  return axios.put(`${config.apiDomain}/restaurant/restaurantItem/${itemID}`, editItemForm, axiosConfig)
     .then(res => {
       // In here we can choose what we want to do with the response of the request
       // console.log(res)
