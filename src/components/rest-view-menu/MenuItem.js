@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Typography from '@mui/material/Typography';
-import icon from '../../assets/icon-profile.png';
+import errorImg from '../../assets/404_error.png';
 import Grid from '@mui/material/Grid';
 import { Box } from '@mui/system';
 import { Button } from '@mui/material';
@@ -48,7 +48,7 @@ export default function MenuItem({item, menuData}) {
       <Grid container spacing={2} padding={5}>
         <Grid item xs={6}>
           <Box height="100%" sx={{textAlign:'center', alignContent: "center" }}>
-            <img width="80%" src={itemImage} alt="Profile picture"/>
+            <img width="80%" src={itemImage} alt='Image Error'/>
           </Box>
         </Grid>
         <Grid item xs={6}>

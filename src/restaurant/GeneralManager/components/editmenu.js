@@ -21,11 +21,13 @@ import { DialogContentText } from '@mui/material';
 import { DialogActions } from '@mui/material';
 
 export default function Editmenu({menuData, itemSelected, setItemSelected}) {
-  console.log(menuData);
+  // Test console
+  // console.log(menuData)
+  // console.log(menuList[0]);
+
   const [open, setOpen] = useState(false);
   const testContext = useContext(UserContext);
   const menuList = getMenu(menuData)
-  console.log(menuList[0]);
   const [newMenu, setNewMenu] = useState('');
   const [value, setValue] = useState(menuList[0]);
   
