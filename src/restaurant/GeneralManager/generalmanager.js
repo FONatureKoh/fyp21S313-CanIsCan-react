@@ -9,7 +9,7 @@ import ViewInfo from './components/restaurantprofile';
 import AddSubUser from './components/addsubuser';
 import Stats from './components/statistics';
 import Profile from '../../profile/viewprofile';
-import { retrieveMenuItems } from '../restaurant_controller';
+import { retrieveCatItems } from '../restaurant_controller';
 import axios from 'axios';
 import { Modal, Typography } from '@mui/material';
 import FirstLogin from './components/firstlogin';
@@ -24,23 +24,21 @@ import FirstLogin from './components/firstlogin';
  * item_allergen_warning, item_price, item_availability
  * ***************************************************** */
 
-
 export default function GeneralManager() {
-  // The following is testing the retrieval
-  retrieveMenuItems(1);
-  
+  // Setting some general states
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
-
   const [menuData, setMenuData] = useState([]);
 
-  // Calling the async function
+  // useEffect to get Restaurant's Items Data
+  // NOTE: edited to retrieve restaurant items using the username in
+  // accesstoken instead.
   useEffect(() => {
     async function getMenu() {
-      const testMenuData = await retrieveMenuItems(1);
-      setMenuData(testMenuData);
-      console.log(testMenuData);
+      const retrievedItemsData = await retrieveCatItems();
+      setMenuData(retrievedItemsData);
+      console.log(retrievedItemsData);
     }
     getMenu();
   },[])
