@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Typography from '@mui/material/Typography';
 import icon from '../../assets/icon-profile.png';
 import Grid from '@mui/material/Grid';
@@ -6,6 +6,8 @@ import { Box } from '@mui/system';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import config from '../../store/config.json';
+import { getImage } from './items_controller';
 
 const themes = {
   textHeader: {
@@ -16,20 +18,38 @@ const themes = {
 };
 
 export default function MenuItem({item, menuData}) {
-  const [openDialog, setOpenDialog] = React.useState(false);
+  // Some useStates
+  const [openDialog, setOpenDialog] = useState(false);
+  const [itemImage, setItemImage] = useState('');
 
-    const handleOpenDialog= () => {
-        setOpenDialog(true);
-    };
+  // NOTE: I used a useEffect here, as I'm not sure how else to set the item path
+  // as the item opens up. The idea here is that it will take in the item's png id
+  // and generate the image to fetch through the controller and then after that generates
+  // a local image link to put into img src
+  useEffect(() => {
+    async function getItemImage() {
+      const imageData = await getImage(item.item_png_ID);
+      setItemImage(imageData);
+      console.log(itemImage);
+    }
+    getItemImage();
+  },[])
 
-    const handleCloseDialog = () => {
-        setOpenDialog(false);
-    };
+  const handleOpenDialog= () => {
+      setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+      setOpenDialog(false);
+  };
+
   return (
     <div>
       <Grid container spacing={2} padding={5}>
         <Grid item xs={6}>
-          <Box height="100%" sx={{textAlign:'center', alignContent: "center" }}><img src={icon} alt="Profile picture"/></Box>
+          <Box height="100%" sx={{textAlign:'center', alignContent: "center" }}>
+            <img width="80%" src={itemImage} alt="Profile picture"/>
+          </Box>
         </Grid>
         <Grid item xs={6}>
         <div className="mi_right">

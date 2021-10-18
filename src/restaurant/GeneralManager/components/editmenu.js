@@ -20,7 +20,6 @@ import { DialogContent } from '@mui/material';
 import { DialogContentText } from '@mui/material';
 import { DialogActions } from '@mui/material';
 
-
 export default function Editmenu({menuData, itemSelected, setItemSelected}) {
   console.log(menuData);
   const [open, setOpen] = useState(false);

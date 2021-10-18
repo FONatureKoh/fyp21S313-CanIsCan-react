@@ -1,3 +1,5 @@
 {
-    "apiDomain": "https://api.cancanfoodapp.xyz"
+    "apiDomain": "https://api.cancanfoodapp.xyz",
+    "testmodeDomain": "http://localhost:5000",
+    "liveAPIDomain": "https://api.cancanfoodapp.xyz"
 }

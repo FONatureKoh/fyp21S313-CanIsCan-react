@@ -6,28 +6,6 @@ import axios from 'axios';
 const config = require('../store/config.json');
 
 /*****************************************************************************************
- * All Items Retrieval function                                                          *
- * ***************************************************************************************
- * - Takes in restaurantID and retrieve all menu items based on that restaurant ID       *
- * ***************************************************************************************/
-export function retrieveMenuItems(rest_ID) {
-  return axios.get(`${config.apiDomain}/restaurant/retrieveMenuItems`, {
-    headers: {
-      'Authorisation': window.sessionStorage.accessToken
-    },
-    params: {
-      restaurantID: rest_ID
-    }
-  })
-  .then(response => {
-    return response.data;
-  })
-  .catch(function (error) {
-    console.log(error);
-  })
-};
-
-/*****************************************************************************************
  * All Categories retrieval based on restaurant ID function                              *
  * ***************************************************************************************
  * - Takes in restaurantID and retrieve all categories based on that restaurant's ID     
@@ -50,17 +28,19 @@ export function retrieveCats() {
 };
 
 /*****************************************************************************************
- * All Items Retrieval based on item category function                                   *
+ * All Restaurant Items Retrieval based on item category function                        *
  * ***************************************************************************************
- * - Takes in restaurantID and retrieve all menu items, grouped into their category,     
- * based on that restaurant ID       
+ * - Retrieves all the items from the database based on username in the access token     
  * ***************************************************************************************/
-export function retrieveCatItems(rest_ID) {
-  return axios.get(`${config.apiDomain}/restaurant/retrieveCategoriesItems`, {
-    params: {
-      restaurantID: rest_ID
+export function retrieveCatItems() {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
     }
-  })
+  };
+
+  return axios.get(`${config.apiDomain}/restaurant/retrieveCategoriesItems`, axiosConfig)
   .then(response => {
     return response.data;
   })
