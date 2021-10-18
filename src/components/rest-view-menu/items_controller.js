@@ -9,9 +9,7 @@ const config = require('../../store/config.json');
 /*****************************************************************************************
  * Retrieve image function                                                               *
 ******************************************************************************************
- * - Should take in username and password
- * - Should return success and user type 
- * 
+ * - Takes in itemPngID and then fetches the image in form of image/png 
  */
 
 export function getImage(itemPngID) {
@@ -31,8 +29,6 @@ export function getImage(itemPngID) {
       )
       let image = URL.createObjectURL(blob);
 
-      console.log(image);
-      
       return image;
     })
     .catch(function (error) {
