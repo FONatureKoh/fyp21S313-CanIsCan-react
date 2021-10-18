@@ -22,7 +22,10 @@ export default function MenuItem({item, menuData}) {
   const [openDialog, setOpenDialog] = useState(false);
   const [itemImage, setItemImage] = useState('');
 
-  // Set the image path
+  // NOTE: I used a useEffect here, as I'm not sure how else to set the item path
+  // as the item opens up. The idea here is that it will take in the item's png id
+  // and generate the image to fetch through the controller and then after that generates
+  // a local image link to put into img src
   useEffect(() => {
     async function getItemImage() {
       const imageData = await getImage(item.item_png_ID);
