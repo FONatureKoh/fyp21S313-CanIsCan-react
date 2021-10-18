@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dialog, DialogActions, 
 DialogContent, DialogContentText, DialogTitle, Stack, Box } from '@mui/material'
 import bannerpic from '../../../assets/temp/eg-biz1.png'
@@ -12,20 +12,36 @@ import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { useTheme } from '@mui/material/styles';
 import { Block } from '@mui/icons-material';
-
+import { restaurantProfile } from '../../restaurant_controller'
 // Controller import
 //import { editRestaurantInfo } from '../../restaurant_controller';
 
-export default function EditProfile({restaurantinfo}) {
+export default function EditProfile() {
+
+  const [restaurantInfo, setRestaurantInfo] = useState([]);
 
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [imageFile, setImageFile] = useState();
-  const [rName, setRName] = useState(restaurantinfo.rName);
-  const [rPhone, setRPhone] = useState(restaurantinfo.rPhone);
-  const [rAddress, setRAddress] = useState(restaurantinfo.rAddress);
-  const [openTime, setOpenTime] = useState(restaurantinfo.openTime);
-  const [closeTime, setCloseTime] = useState(restaurantinfo.closeTime);
+  const [rName, setRName] = useState('');
+  const [rPhone, setRPhone] = useState('');
+  const [rAddress, setRAddress] = useState('');
+  const [openTime, setOpenTime] = useState('');
+  const [closeTime, setCloseTime] = useState('');
+  const [postal, setPostal] = useState('');
+
+  //Retrieval of Restaurant Information based on Token's username
+  useEffect(() => {
+    async function getInfo() {
+      const testRestaurantProfile = await restaurantProfile();
+      setRName(testRestaurantProfile.restaurant_name);
+      setRPhone(testRestaurantProfile.rest_phone_no);
+      setRAddress(testRestaurantProfile.rest_address_info);
+      setPostal(testRestaurantProfile.postal_code);
+      console.log(testRestaurantProfile)
+    }
+    getInfo();
+  },[])
 
   // Testing purposes
   // ------------------------------------------------------------------- //
@@ -80,7 +96,7 @@ export default function EditProfile({restaurantinfo}) {
   }*/}
 
   const cancelBtn = () => {
-    if(rName == restaurantinfo.rName && rPhone == restaurantinfo.rPhone && rAddress == restaurantinfo.rAddress && openTime == restaurantinfo.openTime && closeTime == restaurantinfo.closeTime){
+    if(rName == restaurantInfo.rName && rPhone == restaurantInfo.rPhone && rAddress == restaurantInfo.rAddress && openTime == restaurantInfo.openTime && closeTime == restaurantInfo.closeTime){
       history.push('/generalmanager/restaurantinformation');
     }
     else{
@@ -147,7 +163,7 @@ export default function EditProfile({restaurantinfo}) {
               label="Restaurant Name (Required*):" 
               variant="filled" 
               size="small" 
-              defaultValue={restaurantinfo.rName} 
+              value={rName} 
               onChange={(e)=>setRName(e.target.value)}
             />
 
@@ -183,7 +199,7 @@ export default function EditProfile({restaurantinfo}) {
               label="Restaurant Contact Number (Required*):" 
               variant="filled" 
               size="small" 
-              defaultValue={restaurantinfo.rPhone} 
+              value={rPhone} 
               onChange={(e)=>setRPhone(e.target.value)}
             />
 
@@ -191,12 +207,20 @@ export default function EditProfile({restaurantinfo}) {
               id="filled-multiline-static" 
               label="Restaurant Address (Required*):"  
               multiline 
-              rows={4} 
+              rows={3} 
               variant="filled" 
-              defaultValue={restaurantinfo.rAddress} 
+              value={rAddress} 
               onChange={(e)=>setRAddress(e.target.value)}
             />
 
+            <TextField sx={{width:'100%', margin:'15px auto'}} 
+              id="filled-basic" 
+              label="Postal Code:" 
+              variant="filled" 
+              size="small" 
+              value={postal} 
+              onChange={(e)=>setPostal(e.target.value)}
+            />
             <FormControl sx={{ m:"1px", width: '100%' }}>
               <InputLabel color='primary' id="restaurant-tags">Tags</InputLabel>
 

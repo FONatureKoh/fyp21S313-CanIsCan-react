@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, Button, Typography, Switch, Divider, CardContent, CardHeader, Card } from '@mui/material'
+import { Grid, Button, Typography, Switch, Divider, CardContent, CardHeader, Card, Chip } from '@mui/material'
 import bannerpic from '../../../assets/temp/eg-biz1.png'
 import { Route, Link, Switch as Switch2 } from 'react-router-dom'
 import EditInformation from './editinformation'
@@ -96,22 +96,31 @@ export default function ViewInfo({isChecked, toggleChecked}) {
               <Grid item xs={12} sx={{textAlign:'center'}}>
                 <Typography sx={boldtitle}>Restaurant Name</Typography>
                 <Typography>
-                  {restaurantinfo.rName}
+                  {restaurantInfo.restaurant_name}
                 </Typography>
 
                 <Typography sx={boldtitle}>Operating Hours</Typography>
                 <Typography>
-                  {openTime} - {closeTime}
+                  {restaurantInfo.rest_op_hours}
+                  {/* {openTime} - {closeTime} */}
                 </Typography>
 
                 <Typography sx={boldtitle}>Restaurant Contact Number</Typography>
                 <Typography>
-                  {restaurantinfo.rPhone}
+                  {restaurantInfo.rest_phone_no}
                 </Typography>
 
                 <Typography sx={boldtitle}>Restaurant Address</Typography>
                 <Typography>
-                  {restaurantinfo.rAddress}
+                  {restaurantInfo.rest_address_info}
+                </Typography>
+                <Typography>
+                  S({restaurantInfo.postal_code})
+                </Typography>
+
+                <Typography sx={boldtitle}>Tags</Typography>
+                <Typography>
+                <Chip label= {restaurantInfo.restaurant_cat} /> 
                 </Typography>
               </Grid>
   
@@ -122,7 +131,7 @@ export default function ViewInfo({isChecked, toggleChecked}) {
             </CardContent>
           </Card>
         </Route>
-        <Route path="/generalmanager/restaurantinformation/edit"><EditInformation restaurantinfo={restaurantinfo}/></Route>
+        <Route path="/generalmanager/restaurantinformation/edit"><EditInformation restaurantInfo={restaurantInfo}/></Route>
       </Switch2>
     </div>
   )
