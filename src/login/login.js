@@ -1,11 +1,10 @@
 import logo from '../assets/logo.svg';
 import './login.css';
-import React, { useContext, useState, useRef, useEffect, createContext } from 'react';
-import { useHistory, withRouter} from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { useHistory} from 'react-router-dom';
 import { loginAuth } from './login_controller';
 import { Alert } from '@mui/material';
 import { UserContext } from '../store/user_context';
-import axios from 'axios';
 
 export default function Login() {
  

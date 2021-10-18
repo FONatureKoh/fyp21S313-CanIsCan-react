@@ -1,7 +1,7 @@
 import React, {useEffect, useState}from 'react'
 import NavigationRGM from '../../components/top-nav/NavigationRGM'
 import Topbar from '../../components/top-nav/topbar';
-import { bgcolor, Box } from '@mui/system';
+import { Box } from '@mui/system';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Editmenu from './components/editmenu';
 import ManageUser from './components/manageuser';
@@ -10,8 +10,7 @@ import AddSubUser from './components/addsubuser';
 import Stats from './components/statistics';
 import Profile from '../../profile/viewprofile';
 import { retrieveCatItems } from '../restaurant_controller';
-import axios from 'axios';
-import { Modal, Typography } from '@mui/material';
+import { Modal } from '@mui/material';
 import FirstLogin from './components/firstlogin';
 
 /*********************************************************

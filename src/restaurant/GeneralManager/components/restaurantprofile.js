@@ -40,11 +40,11 @@ export default function ViewInfo({isChecked, toggleChecked}) {
   if (openTimeA[0] < 12 && openTimeA[0] > 0){
     var openTime = restaurantinfo.openTime + ' AM';
   }
-  else if (openTimeA[0] == 12)
+  else if (openTimeA[0] === 12)
   {
     openTime = restaurantinfo.openTime + ' PM';
   }
-  else if (openTimeA[0] == 0)
+  else if (openTimeA[0] === 0)
   {
     var hr = 12;
     openTime = hr + ':' + openTimeA[1] + ' AM';
@@ -60,11 +60,11 @@ export default function ViewInfo({isChecked, toggleChecked}) {
   if (closeTimeA[0] < 12 && closeTimeA[0] > 0){
     var closeTime = restaurantinfo.closeTime + ' AM';
   }
-  else if (closeTimeA[0] == 12)
+  else if (closeTimeA[0] === 12)
   {
     closeTime = restaurantinfo.closeTime + ' PM';
   }
-    else if (closeTimeA[0] == 0)
+    else if (closeTimeA[0] === 0)
   {
     hr = 12;
     closeTime = hr + ':' + closeTimeA[1] + ' AM';
