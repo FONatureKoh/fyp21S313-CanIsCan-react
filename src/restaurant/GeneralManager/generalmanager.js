@@ -92,8 +92,8 @@ export default function GeneralManager() {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           width:"50%",
-          height:"45%",
-          minHeight:"400px",
+          padding: '2%',
+          overflow: 'auto',
           borderRadius:'5px'}}>
            <FirstLogin/>
          </Box>

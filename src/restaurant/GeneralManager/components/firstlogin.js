@@ -67,11 +67,12 @@ export default function FirstLogin() {
     textHeader: {
       fontSize:'1 0px', 
       fontWeight:'bold', 
-      mt: '5px'
+      margin: '10px'
     },
     boxStyle:{
       margin: '50px auto 0px',
       width: '80%',
+      height: '380px',
       textAlign:'center',
       border: '1px solid black',
       borderRadius:'5px'
