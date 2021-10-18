@@ -1,13 +1,14 @@
 import React from 'react'
-import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid } from '@mui/material'
+import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid, CardActionArea } from '@mui/material'
 import TestImage from '../../assets/temp/eg-biz1.png'
 import { Rating } from '@mui/material'
 import test from '../../assets/icon-profile.png'
+import { ButtonBase } from '@mui/material'
 
 export default function RetaurantDetails() {
   return (
       <Card variant="outlined" sx={{ borderRadius:'10px'}}>
-        <CardMedia sx={{height:'300px'}}
+        <CardMedia sx={{height:'300px' }}
           component="img"
           image={TestImage}
         />
@@ -43,69 +44,89 @@ export default function RetaurantDetails() {
 
                 {/* EACH MENU ITEM */}
                 <Grid item xs={12} sm={12} md={6}>
+                  
+                <ButtonBase sx={{display:'block', textAlign:'initial', width:'100%'}}>
                 <Card sx={{ display: 'flex', width:'100%'}}>
                   <Box sx={{ display: 'flex', flexDirection: 'column', width:'80%'}}>
                   <CardContent sx={{ flex: '1 0 auto'}}>
-                    <Typography component="div" variant="h5">
+                    <Typography component="div" variant="h6">
                       Fries
                     </Typography>
-                    <Typography variant="subtitle1" color="text.secondary" component="div">
-                      Deep Fried Fries
+                    <Typography variant="subtitle2" color="text.secondary" component="div">
+                      Deep Fried Fries with some cheese cheese cheese sauce.
+                    </Typography>
+                    <Typography variant="subtitle1">
+                     Price: $ 3.20
                     </Typography>
                   </CardContent>
                   </Box>
                   <CardMedia
                     component="img"
-                    sx={{ width: 151, alignSelf:'flex-end'}}
+                    sx={{ width: 151, margin:'1%'}}
                     image={test}
-                    alt="Live from space album cover"
+                    alt="fooditemname"
                   />
                 </Card>
+                </ButtonBase>
                 </Grid>
                 {/* END OF MENU ITEM */}
 
                 {/* EACH MENU ITEM */}
                 <Grid item xs={12} sm={12} md={6}>
-                <Card sx={{ display: 'flex', width:'100%'}}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', width:'80%'}}>
-                  <CardContent sx={{ flex: '1 0 auto'}}>
-                    <Typography component="div" variant="h5">
-                      Fries
-                    </Typography>
-                    <Typography variant="subtitle1" color="text.secondary" component="div">
-                      Deep Fried Fries
-                    </Typography>
-                  </CardContent>
-                  </Box>
-                  <CardMedia
-                    component="img"
-                    sx={{ width: 151, alignSelf:'flex-end'}}
-                    image={test}
-                    alt="Live from space album cover"
-                  />
-                </Card>
-                </Grid>
+                  <ButtonBase sx={{display:'block', textAlign:'initial', width:'100%'}}>
+                  <Card sx={{ display: 'flex', width:'100%'}}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', width:'80%'}}>
+                    <CardContent sx={{ flex: '1 0 auto'}}>
+                      <Typography component="div" variant="h6">
+                        Fries
+                      </Typography>
+                      <Typography variant="subtitle2" color="text.secondary" component="div">
+                        Deep Fried Fries with some cheese cheese cheese sauce.
+                      </Typography>
+                      <Typography variant="subtitle1">
+                       Price: $ 3.20
+                      </Typography>
+                    </CardContent>
+                    </Box>
+                    <CardMedia
+                      component="img"
+                      sx={{ width: 151, margin:'1%'}}
+                      image={test}
+                      alt="fooditemname"
+                    />
+                  </Card>
+                  </ButtonBase>
+                  </Grid>
+                  {/* END OF MENU ITEM */}
 
+                  
+                {/* EACH MENU ITEM */}
                 <Grid item xs={12} sm={12} md={6}>
-                <Card sx={{ display: 'flex', width:'100%'}}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', width:'80%'}}>
-                  <CardContent sx={{ flex: '1 0 auto'}}>
-                    <Typography component="div" variant="h5">
-                      Fries
-                    </Typography>
-                    <Typography variant="subtitle1" color="text.secondary" component="div">
-                      Deep Fried Fries
-                    </Typography>
-                  </CardContent>
-                  </Box>
-                  <CardMedia
-                    component="img"
-                    sx={{ width: 151, alignSelf:'flex-end'}}
-                    image={test}
-                    alt="Live from space album cover"
-                  />
-                </Card>
-                </Grid>
+                  <ButtonBase sx={{display:'block', textAlign:'initial', width:'100%'}}>
+                  <Card sx={{ display: 'flex', width:'100%'}}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', width:'80%'}}>
+                    <CardContent sx={{ flex: '1 0 auto'}}>
+                      <Typography component="div" variant="h6">
+                        Fries
+                      </Typography>
+                      <Typography variant="subtitle2" color="text.secondary" component="div">
+                        Deep Fried Fries with some cheese cheese cheese sauce.
+                      </Typography>
+                      <Typography variant="subtitle1">
+                       Price: $ 3.20
+                      </Typography>
+                    </CardContent>
+                    </Box>
+                    <CardMedia
+                      component="img"
+                      sx={{ width: 151, margin:'1%'}}
+                      image={test}
+                      alt="fooditemname"
+                    />
+                  </Card>
+                  </ButtonBase>
+                  </Grid>
+                  {/* END OF MENU ITEM */}
               </Grid>
             </Box>
 

@@ -5,6 +5,7 @@ import TestImage from '../../assets/temp/eg-biz1.png'
 import { Rating } from '@mui/material'
 import { Grid } from '@mui/material'
 import Chip from '@mui/material/Chip';
+import { Link } from 'react-router-dom';
 
 export default function BrowseRestaurant({restData}) {
   return (
@@ -40,7 +41,7 @@ export default function BrowseRestaurant({restData}) {
                 </CardContent>
                 <CardActionArea className="123" sx={{padding:'10px'}}>
                   <Box sx={{width:'100%'}}>
-                    <Button variant="outlined" color="inherit" sx={{width:'100%'}}>View Restaurant</Button>
+                    <Button variant="outlined" color="inherit" sx={{width:'100%'}} component={ Link } to={`/customer/browserestaurant/restaurantdetails/${rest.id}`}>View Restaurant</Button>
                   </Box>
                 </CardActionArea>
               </Card>
