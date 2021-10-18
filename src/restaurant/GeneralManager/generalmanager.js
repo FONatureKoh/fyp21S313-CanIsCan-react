@@ -1,5 +1,5 @@
 import React, {useEffect, useState}from 'react'
-import Navigation1 from '../../components/top-nav/navigation1'
+import NavigationRGM from '../../components/top-nav/NavigationRGM'
 import Topbar from '../../components/top-nav/topbar';
 import { bgcolor, Box } from '@mui/system';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -70,7 +70,7 @@ export default function GeneralManager() {
   return (
     <Box sx={{ padding:'1% 2%', bgcolor:'#f5f5f5', display:'block'}}>
       <Topbar toggleVisibility={toggleVisibility}/>
-      <Navigation1 isVisible={isVisible} isSelected={isSelected} setIsSelected={setIsSelected} isChecked={isChecked} toggleChecked={toggleChecked} />
+      <NavigationRGM isVisible={isVisible} isSelected={isSelected} setIsSelected={setIsSelected} isChecked={isChecked} toggleChecked={toggleChecked} />
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>
           <Route path="/generalmanager/editmenu"> <Editmenu menuData={menuData}/></Route>

@@ -11,7 +11,7 @@ import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 
 const drawerWidth = 240;
 
-export default function Navigation1({isVisible, isSelected, setIsSelected, isChecked, toggleChecked}) {
+export default function NavigationRGM({isVisible, isSelected, setIsSelected, isChecked, toggleChecked}) {
   const history = useHistory();
   const [openDialog, setOpenDialog] = React.useState(false);
 
