@@ -10,10 +10,10 @@ import { Link } from 'react-router-dom';
 export default function BrowseRestaurant({restData}) {
   const [btnVisible, setBtnVisible] = useState(true);
   const menuCount = restData.length;
-  const [shownNum, setShownNum] = useState(5);
+  const [shownNum, setShownNum] = useState(4);
 
   const clickShow = () => {
-    setShownNum(shownNum + 5);
+    setShownNum(shownNum + 4);
   };
 
   return (
