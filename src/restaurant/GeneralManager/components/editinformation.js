@@ -13,6 +13,11 @@ import Chip from '@mui/material/Chip';
 import { useTheme } from '@mui/material/styles';
 import { Block } from '@mui/icons-material';
 import { restaurantProfile } from '../../restaurant_controller'
+
+// New Imports for the time picker
+import { TimePicker } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 // Controller import
 //import { editRestaurantInfo } from '../../restaurant_controller';
 
@@ -26,8 +31,8 @@ export default function EditProfile() {
   const [rName, setRName] = useState('');
   const [rPhone, setRPhone] = useState('');
   const [rAddress, setRAddress] = useState('');
-  const [openTime, setOpenTime] = useState('');
-  const [closeTime, setCloseTime] = useState('');
+  const [openTime, setOpenTime] = useState(new Date());
+  const [closeTime, setCloseTime] = useState(new Date());
   const [postal, setPostal] = useState('');
 
   //Retrieval of Restaurant Information based on Token's username
@@ -96,7 +101,9 @@ export default function EditProfile() {
   }*/}
 
   const cancelBtn = () => {
-    if(rName === restaurantInfo.rName && rPhone === restaurantInfo.rPhone && rAddress === restaurantInfo.rAddress && openTime === restaurantInfo.openTime && closeTime === restaurantInfo.closeTime){
+    if(rName === restaurantInfo.rName && rPhone === restaurantInfo.rPhone && 
+    rAddress === restaurantInfo.rAddress && openTime === restaurantInfo.openTime && 
+    closeTime === restaurantInfo.closeTime){
       history.push('/generalmanager/restaurantinformation');
     }
     else{
@@ -169,29 +176,28 @@ export default function EditProfile() {
 
             <Typography  sx={{textAlign:'left', margin:'15px auto'}}>Operating Hours</Typography>
             <Stack direction="row" spacing={2} sx={{margin:'15px auto'}}>
-              <TextField
-                id="time"
-                label="Start"
-                type="time"
-                defaultValue={openTime}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                sx={{ width: 150 }}
-                onChange={(e)=>setOpenTime(e.target.value)}
-              />
-
-              <TextField
-                id="time"
-                label="End"
-                type="time"
-                defaultValue={closeTime}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                sx={{ width: 150 }}
-                onChange={(e)=>setCloseTime(e.target.value)}
-              />
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <TimePicker
+                  label="Opening Time" 
+                  value={openTime} 
+                  onChange={(openingTimeValue) => {
+                    setOpenTime(openingTimeValue);
+                  }} 
+                  renderInput={(params) => 
+                    <TextField {...params} />
+                  }
+                />
+                <TimePicker
+                  label="Closing Time" 
+                  value={closeTime} 
+                  onChange={(closingTimeValue) => {
+                    setCloseTime(closingTimeValue);
+                  }} 
+                  renderInput={(params) => 
+                    <TextField {...params} />
+                  }
+                />
+              </LocalizationProvider>
             </Stack>
 
             <TextField sx={{width:'100%', margin:'15px auto'}} 

@@ -120,7 +120,7 @@ export default function ViewInfo({isChecked, toggleChecked}) {
 
                 <Typography sx={boldtitle}>Tags</Typography>
                 <Typography>
-                <Chip label= {restaurantInfo.restaurant_cat} /> 
+                <Chip label= {restaurantInfo.rest_tag_1} /> 
                 </Typography>
               </Grid>
   
