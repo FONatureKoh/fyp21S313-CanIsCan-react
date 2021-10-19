@@ -156,9 +156,29 @@ export function restaurantProfile() {
     headers: {'Authorisation': window.sessionStorage.accessToken}
   };
 
-  console.log(axiosConfig);
-
   return axios.get(`${config.apiDomain}/restaurant/restaurantProfile/`, axiosConfig)
+    .then(res => {
+      // In here we can choose what we want to do with the response of the request
+      // console.log(res)
+      return res.data;
+    })
+    .catch(err => {
+      console.log(err)
+    });
+};
+
+/*****************************************************************************************
+ * Retrieve all available restaurant tags                                                *
+ * ***************************************************************************************
+ * - This takes all the info from the RGM and creates the subuser based on the given data
+ * ***************************************************************************************/
+export function retrieveRestaurantTags() {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  return axios.get(`${config.apiDomain}/restaurant/tags`, axiosConfig)
     .then(res => {
       // In here we can choose what we want to do with the response of the request
       // console.log(res)

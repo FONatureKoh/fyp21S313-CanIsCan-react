@@ -12,7 +12,7 @@ import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { useTheme } from '@mui/material/styles';
 import { Block } from '@mui/icons-material';
-import { restaurantProfile } from '../../restaurant_controller'
+import { restaurantProfile, retrieveRestaurantTags } from '../../restaurant_controller'
 
 // New Imports for the time picker
 import { TimePicker } from '@mui/lab';
@@ -22,6 +22,21 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 //import { editRestaurantInfo } from '../../restaurant_controller';
 
 export default function EditProfile({restaurantInfo}) {
+  // Testing purposes
+  // ------------------------------------------------------------------- //
+  // DRAW ALL TAGS AVAILABLE INTO THIS ARRAY
+  // It will set the drop down list
+  // The rest are handled by the form and on change
+  const [allRestaurantTags, setAllRestaurantTags] = useState([]);
+
+  useEffect(() => {
+    async function getTags() {
+      const tags = await retrieveRestaurantTags()
+      setAllRestaurantTags(tags.restaurantTags);
+    }
+    getTags();
+  },[]);
+
   // Creating a time to Date object
   function timeToDate (inputTime) {
     let tempTime = inputTime.split(":");
@@ -51,28 +66,6 @@ export default function EditProfile({restaurantInfo}) {
   const [closeTime, setCloseTime] = useState(timeToDate(restaurantInfo.rest_closing_time));
   const [tags, setTags] = useState(restaurantInfo.rest_tags);
   
-
-  // Testing purposes
-  // ------------------------------------------------------------------- //
-  // DRAW ALL TAGS AVAILABLE INTO THIS ARRAY
-  // It will set the drop down list
-  // The rest are handled by the form and on change
-
-  const names = [
-    'Cafe',
-    'Western',
-    'Chinese',
-    'Japanese',
-    'Italian',
-    'Korean',
-    'Vietnamese',
-    'Thai',
-    'Indian',
-    'Asian',
-    'Fast Food',
-    'Fine Dining'
-  ];  
-
   // Drop down item settings
   // NOTE: I moved the tag up to where all the use states are! 
   const ITEM_HEIGHT = 40;
@@ -247,7 +240,7 @@ export default function EditProfile({restaurantInfo}) {
                 )}
                 MenuProps={MenuProps}
               >
-                {names.map((name) => (
+                {allRestaurantTags.map((name) => (
                   <MenuItem
                     key={name}
                     value={name}
