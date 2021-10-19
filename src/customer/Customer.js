@@ -6,6 +6,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import BrowseRestaurant from './components/BrowseRestaurant';
 import BrowseRestaurantCat from './components/BrowseRestaurantCat';
 import RetaurantDetails from './components/RestaurantDetails';
+import Cart from './components/Cart';
 
 export default function Customer() {
   
@@ -95,13 +96,13 @@ export default function Customer() {
     <Box sx={{ padding:'1% 2%', bgcolor:'#f5f5f5', display:'block'}}>
       <Topbar toggleVisibility={toggleVisibility}/>
       <NavigationCustomer isVisible={isVisible} isSelected={isSelected} setIsSelected={setIsSelected} />
-
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>
           <Route exact path='/customer/browserestaurant'><BrowseRestaurant restData={restData}/> <BrowseRestaurantCat restData={restData} catData={catData}/></Route>
           <Route path='/customer/browserestaurant/restaurantdetails'><RetaurantDetails/> </Route>
           <Redirect from='/customer' to='/customer/browserestaurant'/>
         </Switch>
+        <Cart/>
       </Box>
     </Box>
   )
