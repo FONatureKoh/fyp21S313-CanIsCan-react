@@ -23,14 +23,14 @@ export default function BrowseRestaurant({restData}) {
           <Grid 
             container
             spacing={{ xs: 2, md: 3 }} 
-            columns={{ xs: 4, sm: 8, md: 12, lg: 15 }}
+            columns={{ xs: 4, sm: 8, md: 12, lg: 12, xl: 15}}
             direction="row"
             justify="flex-start"
             alignItems="flex-start"
           >
 
             {restData.slice(0, shownNum).map(rest => (
-              <Grid item xs={4} sm={4} md={3} lg={3} key={restData.indexOf(rest)}>
+              <Grid item xs={4} sm={4} md={4} lg={3} xl={3} key={restData.indexOf(rest)}>
               {/* Card generation for restaurant */}
               <Card variant="outlined" sx={{ maxWidth: 300, mb:'20px'}}>
                 <CardMedia
