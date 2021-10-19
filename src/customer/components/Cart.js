@@ -17,16 +17,14 @@ const style = {
 
 const items = []
 
-export default function Cart() {
+export default function Cart({openCart, cart}) {
   return (
     <Box >
-    
-      <Fab color="inherit" aria-label="cart" sx={style}>
-      <Badge badgeContent={4} color='primary' sx={{bgcolor:'grey'}}>
+      <Fab color="inherit" aria-label="cart" sx={style} onClick={openCart}>
+      <Badge badgeContent={cart.length} color='primary' sx={{bgcolor:'grey'}}>
         <ShoppingCartIcon fontSize="large"/>
       </Badge>
       </Fab>
-     
     </Box>
   )
 }
