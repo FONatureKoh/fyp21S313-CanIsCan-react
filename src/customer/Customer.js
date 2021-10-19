@@ -78,6 +78,54 @@ export default function Customer() {
     address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
     rating: 4.5,
     category: 'Chinese'
+  },
+  {
+    id: 9,
+    name: "Default co", 
+    phone: '+65 8765 4321',
+    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
+    rating: 4.5,
+    category: 'Chinese'
+  },
+  {
+    id: 10,
+    name: "Default co", 
+    phone: '+65 8765 4321',
+    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
+    rating: 4.5,
+    category: 'Chinese'
+  },
+  {
+    id: 11,
+    name: "Default co", 
+    phone: '+65 8765 4321',
+    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
+    rating: 4.5,
+    category: 'Chinese'
+  },
+  {
+    id: 12,
+    name: "Default co", 
+    phone: '+65 8765 4321',
+    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
+    rating: 4.5,
+    category: 'Chinese'
+  },
+  {
+    id: 13,
+    name: "Default co", 
+    phone: '+65 8765 4321',
+    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
+    rating: 4.5,
+    category: 'Chinese'
+  },
+  {
+    id: 14,
+    name: "Default co", 
+    phone: '+65 8765 4321',
+    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
+    rating: 4.5,
+    category: 'Chinese'
   }
 ]
 
