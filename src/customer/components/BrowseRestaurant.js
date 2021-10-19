@@ -22,7 +22,7 @@ export default function BrowseRestaurant({restData}) {
           >
 
             {restData.map(rest => (
-              <Grid item xs={12} sm={6} md={3} key={restData.indexOf(rest)}>
+              <Grid item xs={4} sm={4} md={3} key={restData.indexOf(rest)}>
               {/* Card generation for restaurant */}
               <Card variant="outlined" sx={{ maxWidth: 300, mb:'20px'}}>
                 <CardMedia
