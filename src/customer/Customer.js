@@ -13,6 +13,7 @@ import { Divider } from '@mui/material';
 import { ButtonGroup } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import reactDom from 'react-dom';
+import CheckOut from './components/CheckOut';
 
 const drawerWidth = 480;
 
@@ -176,6 +177,18 @@ const [realCart, setRealCart]= useState([
     item: 'giraffe food',
     price: 23,
     qty: 1
+  },
+  {
+    id: 4,
+    item: 'giraffe food',
+    price: 23,
+    qty: 1
+  },
+  {
+    id: 5,
+    item: 'giraffe food',
+    price: 23,
+    qty: 1
   }
 ])
 
@@ -273,6 +286,9 @@ function deleteItem(id){
         <Switch>
           <Route exact path='/customer/browserestaurant'><BrowseRestaurant restData={restData}/> <BrowseRestaurantCat restData={restData} catData={catData}/></Route>
           <Route path='/customer/browserestaurant/restaurantdetails'><RetaurantDetails/> </Route>
+          <Route exact path='/customer/checkout'>
+            <CheckOut realCart={realCart} deleteItem={deleteItem} minusQty={minusQty} addQty={addQty} getsub={getsub} subtotal={subtotal} deliveryFee={deliveryFee} gst={gst} total={total} />
+          </Route>
           <Redirect from='/customer' to='/customer/browserestaurant'/>
         </Switch>
         <Cart openCart={openCart} cart={realCart}/>
