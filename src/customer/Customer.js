@@ -5,6 +5,7 @@ import { Box } from '@mui/system';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import BrowseRestaurant from './components/BrowseRestaurant';
 import BrowseRestaurantCat from './components/BrowseRestaurantCat';
+import RetaurantDetails from './components/RestaurantDetails';
 
 export default function Customer() {
   
@@ -97,7 +98,8 @@ export default function Customer() {
 
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>
-          <Route path='/customer/browserestaurant'><BrowseRestaurant restData={restData}/> <BrowseRestaurantCat restData={restData} catData={catData}/></Route>
+          <Route exact path='/customer/browserestaurant'><BrowseRestaurant restData={restData}/> <BrowseRestaurantCat restData={restData} catData={catData}/></Route>
+          <Route path='/customer/browserestaurant/restaurantdetails'><RetaurantDetails/> </Route>
           <Redirect from='/customer' to='/customer/browserestaurant'/>
         </Switch>
       </Box>

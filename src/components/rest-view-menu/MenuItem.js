@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Typography from '@mui/material/Typography';
-import errorImg from '../../assets/404_error.png';
 import Grid from '@mui/material/Grid';
 import { Box } from '@mui/system';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import config from '../../store/config.json';
 import { getImage } from './items_controller';
 
 const themes = {
