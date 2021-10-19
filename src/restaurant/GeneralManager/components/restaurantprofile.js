@@ -8,14 +8,16 @@ import { restaurantProfile } from '../../restaurant_controller'
 export default function ViewInfo({isChecked, toggleChecked}) {
   // Declaring use State for Restaurant Profile
   const [restaurantInfo, setRestaurantInfo] = useState([]);
+  const [restaurantTags, setRestaurantTags] = useState([]); // Lol. This solved it
 
   //Retrieval of Restaurant Information based on Token's username
   useEffect(() => {
     async function getInfo() {
-      const testRestaurantProfile = await restaurantProfile();
-      setRestaurantInfo(testRestaurantProfile);
+      const restProfile = await restaurantProfile();
+      setRestaurantInfo(restProfile);
+      setRestaurantTags(restProfile.rest_tags);
       
-      console.log(testRestaurantProfile)
+      console.log(restProfile);
     }
     getInfo();
   },[])
@@ -26,54 +28,6 @@ export default function ViewInfo({isChecked, toggleChecked}) {
     marginTop:'20px',
     marginBottom:'5px'
   };
-
-  const restaurantinfo = { 
-    rName: "Default co", 
-    rPhone: '+65 8765 4321',
-    rAddress: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-    openTime: '10:00', 
-    closeTime: '00:00'
-  };
-
-  const openTimeA = restaurantinfo.openTime.split(':');
-
-  if (openTimeA[0] < 12 && openTimeA[0] > 0){
-    var openTime = restaurantinfo.openTime + ' AM';
-  }
-  else if (openTimeA[0] === 12)
-  {
-    openTime = restaurantinfo.openTime + ' PM';
-  }
-  else if (openTimeA[0] === 0)
-  {
-    var hr = 12;
-    openTime = hr + ':' + openTimeA[1] + ' AM';
-  }
-  else
-  {
-    hr = openTimeA[0] - 12;
-    openTime = hr + ':' + openTimeA[1] + ' PM';
-  }
-
-  const closeTimeA = restaurantinfo.closeTime.split(':');
-
-  if (closeTimeA[0] < 12 && closeTimeA[0] > 0){
-    var closeTime = restaurantinfo.closeTime + ' AM';
-  }
-  else if (closeTimeA[0] === 12)
-  {
-    closeTime = restaurantinfo.closeTime + ' PM';
-  }
-    else if (closeTimeA[0] === 0)
-  {
-    hr = 12;
-    closeTime = hr + ':' + closeTimeA[1] + ' AM';
-  }
-  else
-  {
-    hr = closeTimeA[0] - 12;
-    closeTime = hr + ':' + closeTimeA[1] + ' PM';
-  }
 
   return (
     <div>
@@ -115,12 +69,14 @@ export default function ViewInfo({isChecked, toggleChecked}) {
                   {restaurantInfo.rest_address_info}
                 </Typography>
                 <Typography>
-                  S({restaurantInfo.postal_code})
+                  S({restaurantInfo.rest_postal_code})
                 </Typography>
 
                 <Typography sx={boldtitle}>Tags</Typography>
                 <Typography>
-                <Chip label= {restaurantInfo.rest_tag_1} /> 
+                  {restaurantTags.map((tag) => (  // Creating a restaurantTags seem to work!
+                    <Chip label= {tag} /> 
+                  ))}
                 </Typography>
               </Grid>
   

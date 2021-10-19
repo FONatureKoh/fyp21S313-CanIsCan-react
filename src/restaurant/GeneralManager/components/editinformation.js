@@ -21,32 +21,36 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 // Controller import
 //import { editRestaurantInfo } from '../../restaurant_controller';
 
-export default function EditProfile() {
+export default function EditProfile({restaurantInfo}) {
+  // Creating a time to Date object
+  function timeToDate (inputTime) {
+    let tempTime = inputTime.split(":");
+    let dt = new Date();
 
-  const [restaurantInfo, setRestaurantInfo] = useState([]);
+    // Create the date object accurately to the current date as well
+    dt.setDate(dt.getDate());
+    dt.setHours(tempTime[0]);
+    dt.setMinutes(tempTime[1]);
+    dt.setSeconds(tempTime[2]);
+    
+    return dt;
+  }
 
+  // Dialog state
+  const [dialogState, setDialogState] = useState(false);
+
+  // Set the things from the restaurantInfo
   const history = useHistory();
-  const [open, setOpen] = useState(false);
+  const [restaurantStatus, setRestaurantStatus] = useState(restaurantInfo.rest_status);
   const [imageFile, setImageFile] = useState();
-  const [rName, setRName] = useState('');
-  const [rPhone, setRPhone] = useState('');
-  const [rAddress, setRAddress] = useState('');
-  const [openTime, setOpenTime] = useState(new Date());
-  const [closeTime, setCloseTime] = useState(new Date());
-  const [postal, setPostal] = useState('');
-
-  //Retrieval of Restaurant Information based on Token's username
-  useEffect(() => {
-    async function getInfo() {
-      const testRestaurantProfile = await restaurantProfile();
-      setRName(testRestaurantProfile.restaurant_name);
-      setRPhone(testRestaurantProfile.rest_phone_no);
-      setRAddress(testRestaurantProfile.rest_address_info);
-      setPostal(testRestaurantProfile.postal_code);
-      console.log(testRestaurantProfile)
-    }
-    getInfo();
-  },[])
+  const [restaurantName, setRestaurantName] = useState(restaurantInfo.restaurant_name);
+  const [restaurantPhone, setRestaurantPhone] = useState(restaurantInfo.rest_phone_no);
+  const [restaurantAddress, setRestaurantAddress] = useState(restaurantInfo.rest_address_info);
+  const [postalCode, setPostalCode] = useState(restaurantInfo.rest_postal_code);
+  const [openTime, setOpenTime] = useState(timeToDate(restaurantInfo.rest_opening_time));
+  const [closeTime, setCloseTime] = useState(timeToDate(restaurantInfo.rest_closing_time));
+  const [tags, setTags] = useState(restaurantInfo.rest_tags);
+  
 
   // Testing purposes
   // ------------------------------------------------------------------- //
@@ -55,6 +59,7 @@ export default function EditProfile() {
   // The rest are handled by the form and on change
 
   const names = [
+    'Cafe',
     'Western',
     'Chinese',
     'Japanese',
@@ -66,12 +71,10 @@ export default function EditProfile() {
     'Asian',
     'Fast Food',
     'Fine Dining'
-  ];
+  ];  
 
-  //This is the state that will contain all selected item in an array
-  const [tags, setTags] = React.useState([]);
-
-  //Drop down item settings
+  // Drop down item settings
+  // NOTE: I moved the tag up to where all the use states are! 
   const ITEM_HEIGHT = 40;
   const ITEM_PADDING_TOP = 5;
   const MenuProps = {
@@ -89,8 +92,10 @@ export default function EditProfile() {
       target: { value },
     } = event;
     setTags(
-      // On autofill we get a the stringified value.
-      typeof value === 'string' ? value.split(',') : value,
+      // On autofill we get a the stringified value
+      // Kelvin ah I changed it to ', ' cos i realised array got the 
+      // space when I construct it on my end
+      typeof value === 'string' ? value.split(', ') : value,
     );
   }
   
@@ -101,8 +106,9 @@ export default function EditProfile() {
   }*/}
 
   const cancelBtn = () => {
-    if(rName === restaurantInfo.rName && rPhone === restaurantInfo.rPhone && 
-    rAddress === restaurantInfo.rAddress && openTime === restaurantInfo.openTime && 
+    if(restaurantName === restaurantInfo.restaurant_name && 
+    restaurantPhone === restaurantInfo.rest_phone_no && 
+    restaurantAddress === restaurantInfo.restaurantAddress && openTime === restaurantInfo.openTime && 
     closeTime === restaurantInfo.closeTime){
       history.push('/generalmanager/restaurantinformation');
     }
@@ -112,11 +118,11 @@ export default function EditProfile() {
   }
 
   const cancelBtn1 = () => {
-    setOpen(true);
+    setDialogState(true);
   };
 
   const handleNo = () => {
-    setOpen(false);
+    setDialogState(false);
   };
 
   const handleYes = () => {
@@ -125,11 +131,6 @@ export default function EditProfile() {
 
   function submitChange()
   {
-    console.log(rName);
-    console.log(openTime);
-    console.log(closeTime);
-    console.log(rPhone);
-    console.log(rAddress);
   }
 
   const Input = styled('input')({
@@ -170,8 +171,8 @@ export default function EditProfile() {
               label="Restaurant Name (Required*):" 
               variant="filled" 
               size="small" 
-              value={rName} 
-              onChange={(e)=>setRName(e.target.value)}
+              value={restaurantName} 
+              onChange={(e)=>setRestaurantName(e.target.value)}
             />
 
             <Typography  sx={{textAlign:'left', margin:'15px auto'}}>Operating Hours</Typography>
@@ -205,8 +206,8 @@ export default function EditProfile() {
               label="Restaurant Contact Number (Required*):" 
               variant="filled" 
               size="small" 
-              value={rPhone} 
-              onChange={(e)=>setRPhone(e.target.value)}
+              value={restaurantPhone} 
+              onChange={(e)=>setRestaurantPhone(e.target.value)}
             />
 
             <TextField sx={{width:'100%', margin:'15px auto'}}
@@ -215,8 +216,8 @@ export default function EditProfile() {
               multiline 
               rows={3} 
               variant="filled" 
-              value={rAddress} 
-              onChange={(e)=>setRAddress(e.target.value)}
+              value={restaurantAddress} 
+              onChange={(e)=>setRestaurantAddress(e.target.value)}
             />
 
             <TextField sx={{width:'100%', margin:'15px auto'}} 
@@ -224,8 +225,8 @@ export default function EditProfile() {
               label="Postal Code:" 
               variant="filled" 
               size="small" 
-              value={postal} 
-              onChange={(e)=>setPostal(e.target.value)}
+              value={postalCode} 
+              onChange={(e)=>setPostalCode(e.target.value)}
             />
             <FormControl sx={{ m:"1px", width: '100%' }}>
               <InputLabel color='primary' id="restaurant-tags">Tags</InputLabel>
@@ -262,7 +263,7 @@ export default function EditProfile() {
             <Button variant="contained" onClick={submitChange} color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start', marginRight:'5%'}}>Confirm</Button>
             <Button variant="contained" onClick={cancelBtn} color="inherit" sx={{width:'45%', bgcolor:"#CCCCCC", textAlign:'flex-start'}}>Cancel</Button>
 
-            <Dialog open={open} onClose={handleNo} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+            <Dialog open={dialogState} onClose={handleNo} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
             <DialogTitle id="alert-dialog-title">
               {"Unsaved Changes"}
             </DialogTitle>
