@@ -39,6 +39,7 @@ export default function EditItem({menuData}) {
     }
 
   //Setting field to retrieved values
+  console.log(itemSelected);
   const [itemID, setItemID] = useState(itemSelected.ri_item_ID);
   const [imageFile, setImageFile] = useState();
   const [itemAvailability, setItemAvailability] = useState(itemSelected.item_availability);
@@ -48,9 +49,13 @@ export default function EditItem({menuData}) {
   const [itemAllergy, setItemAllergy] = useState(itemSelected.item_allergen_warning);
   const [itemCategory, setItemCategory] = useState(itemSelected.ri_cat_ID);
 
+  // NOTE: Two hidden data need for updating, but not needed for this page
+  const [itemPngID, setItemPngID] = useState(itemSelected.item_png_ID);
+  const [itemRestID, setItemRestID] = useState(itemSelected.ri_rest_ID);
+
   async function submitChange() {
-    var testController = await editRestaurantItem(itemID, imageFile, itemAvailability, itemName, itemPrice, 
-      itemDesc, itemAllergy, itemCategory);
+    var testController = await editRestaurantItem(itemID, imageFile, itemAvailability, itemRestID, 
+    itemPngID, itemName, itemPrice, itemDesc, itemAllergy, itemCategory);
 
     console.log(testController);
   }
