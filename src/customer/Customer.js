@@ -14,6 +14,7 @@ import { ButtonGroup } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import reactDom from 'react-dom';
 import CheckOut from './components/CheckOut';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 480;
 
@@ -390,7 +391,7 @@ function deleteItem(id){
               </Box>
             </ListItem>
             <ListItem >
-              <Button sx={{width:'90%', margin:'10px auto'}} variant="outlined" color="inherit"> go to checkout</Button>
+              <Button sx={{width:'90%', margin:'10px auto'}} variant="outlined" color="inherit" component={ Link } to="/customer/checkout" onClick={()=>setCartOpen(false)}> go to checkout</Button>
             </ListItem>
           </List>
         </Box>
