@@ -30,15 +30,16 @@ export default function CustRegister() {
       alert("Please fill in the fields!");
     }
     else {
-      sendCustRegister(user, pass, mail).then(api_msg => {
-        if (api_msg == "Successful") {
-          alert("Your account is successfully registered!");
-          back();
-        }
-      })
-      .catch (error => {
-        console.log(error);
-      })
+      sendCustRegister(user, pass, mail)
+        .then(api_msg => {
+          if (api_msg == "Successful") {
+            alert("Your account is successfully registered!");
+            back();
+          }
+        })
+        .catch (error => {
+          console.log(error);
+        });
     }
   }
 
