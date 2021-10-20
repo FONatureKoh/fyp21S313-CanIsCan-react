@@ -37,7 +37,7 @@ export default function GeneralManager() {
     async function getMenu() {
       const retrievedItemsData = await retrieveCatItems();
       setMenuData(retrievedItemsData);
-      console.log(retrievedItemsData);
+      // console.log(retrievedItemsData);
     }
     getMenu();
   },[])
@@ -67,7 +67,15 @@ export default function GeneralManager() {
   return (
     <Box sx={{ padding:'1% 2%', bgcolor:'#f5f5f5', display:'block'}}>
       <Topbar toggleVisibility={toggleVisibility}/>
-      <NavigationRGM isVisible={isVisible} isSelected={isSelected} setIsSelected={setIsSelected} isChecked={isChecked} toggleChecked={toggleChecked} />
+
+      {/* Passing some info into the side bar navigation component */}
+      <NavigationRGM 
+        isVisible={isVisible} 
+        isSelected={isSelected} 
+        setIsSelected={setIsSelected} 
+        isChecked={isChecked} 
+        toggleChecked={toggleChecked} />
+
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>
           <Route path="/generalmanager/editmenu"> <Editmenu menuData={menuData}/></Route>
