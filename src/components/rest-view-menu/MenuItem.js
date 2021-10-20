@@ -6,6 +6,7 @@ import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { getImage } from './items_controller';
+import { deleteRestaurantItem } from '../../restaurant/restaurant_controller';
 
 const themes = {
   textHeader: {
@@ -33,12 +34,23 @@ export default function MenuItem({item, menuData}) {
     getItemImage();
   },[])
 
-  const handleOpenDialog= () => {
-      setOpenDialog(true);
+  // Thomas: I changed this up a bit to handle the delete. Let me know if 
+  // its the right style! And also if I intepret it correctly
+  
+  // handleOpenDialog for opening the dialog
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
   };
 
+  // handleConfirmDialog for when user confirms the delete
+  const handleConfirmDialog = () => {
+    deleteRestaurantItem(item.ri_item_ID);
+    setOpenDialog(false);
+  };
+
+  // handleCloseDialog for when user cancels
   const handleCloseDialog = () => {
-      setOpenDialog(false);
+    setOpenDialog(false);
   };
 
   return (
@@ -105,7 +117,7 @@ export default function MenuItem({item, menuData}) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} variant="outlined" color="inherit">Confirm</Button>
+          <Button onClick={handleConfirmDialog} variant="outlined" color="inherit">Confirm</Button>
           <Button onClick={handleCloseDialog} variant="outlined" color="error">
             Cancel
           </Button>
