@@ -118,7 +118,7 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
     return (
       <Box sx={themes.boxStyle2}>
       <Typography sx={themes.textHeader}>
-        Review your cart
+        Order summary
       </Typography>
       <Divider variant="middle"/>
       <List>
@@ -318,7 +318,7 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
               </Grid>
               <Grid sx={12} sm={12} md={12}>
               <TextField sx={{width:'90%', margin:'15px auto'}} 
-                id="address-company" 
+                id="addressCompany" 
                 label="Note to driver(optional)" 
                 variant="filled" 
                 size="small" 
@@ -358,28 +358,51 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
           <Box display="flex" flexDirection="row">
             <Box sx={themes.boxStyle}>
               <Typography sx={themes.textHeader}>
-                Payment Details
+                Payment details
               </Typography>
-              <Divider variant="middle"/>
-              <Typography sx={themes.textHeader}>
-              <TextField 
-                    sx={{width:'85%', margin:'15px auto'}} 
-                    id="outline-password-input" 
-                    type="password" 
-                    label="Enter Old Password:" 
-                    variant="filled" 
-                    size="small" 
-                  />
 
-                  <TextField 
-                    sx={{width:'85%', margin:'15px auto'}} 
-                    id="outline-password-input" 
-                    type="password" 
-                    label="Enter New Password:" 
-                    variant="filled" 
-                    size="small" 
-                  />
-              </Typography>
+              <Divider variant="middle"/>
+              
+              <Grid container>
+              
+              <Grid sx={12} sm={12} md={12}>
+              <TextField sx={{width:'90%', margin:'15px auto'}} 
+                id="cardName" 
+                label="Name on card" 
+                variant="filled" 
+                size="small" 
+              />
+              </Grid>
+
+              <Grid sx={12} sm={12} md={12}>
+              <TextField sx={{width:'90%', margin:'15px auto'}} 
+                id="address-company" 
+                label="Card Number" 
+                variant="filled" 
+                size="small" 
+              />
+              </Grid>
+
+              <Grid sx={12} sm={12} md={6}>
+              <TextField sx={{width:'80%', margin:'15px'}} 
+                id="address-unit" 
+                label="Expiry" 
+                variant="filled" 
+                size="small" 
+              />
+              </Grid>
+
+              <Grid sx={12} sm={12} md={6}>
+              <TextField sx={{width:'80%', margin:'15px'}} 
+                id="address-company" 
+                label="CVC" 
+                variant="filled" 
+                size="small" 
+              />
+              </Grid>
+              
+              </Grid>
+              
             </Box>
 
             <Divider orientation="vertical" variant="middle" flexItem />
@@ -399,7 +422,7 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
             <Box sx={{ flex: '1 1 auto' }} />
 
             <Button onClick={handleNext} variant="outlined">
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              {activeStep === steps.length - 1 ? 'Confirm Order' : 'Next'}
             </Button>
           </Box>
         </React.Fragment>

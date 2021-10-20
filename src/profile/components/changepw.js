@@ -3,6 +3,7 @@ import { TextField, Grid, Button, Typography, CardContent, CardHeader,
 Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import { useHistory } from 'react-router-dom'
 import { changePwController, verifyPwController } from '../profile_controller';
+import { useRouteMatch } from 'react-router';
 
 export default function ChangePassword({userProfile}) {
   // Test lines
@@ -10,6 +11,9 @@ export default function ChangePassword({userProfile}) {
   
   // useHistory
   const history = useHistory();
+  
+  //USE ROUTE MATCH TO GET USER ROLE
+  const match = useRouteMatch('/:userrole/profile/changepassword');
 
   // Getting some values into the use states
   const [open, setOpen] = useState(false);
@@ -19,7 +23,7 @@ export default function ChangePassword({userProfile}) {
 
   const cancelBtn = () => {
     if(newPassword === '' && confirmPassword === ''){
-      history.push('/generalmanager/profile');
+      history.push(`/${match.params.userrole}/profile`);
     }
     else{
       cancelBtn1();

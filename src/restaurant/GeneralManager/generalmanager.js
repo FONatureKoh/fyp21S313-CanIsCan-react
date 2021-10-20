@@ -8,7 +8,7 @@ import ManageUser from './components/manageuser';
 import ViewInfo from './components/restaurantprofile';
 import AddSubUser from './components/addsubuser';
 import Stats from './components/statistics';
-import Profile from '../../profile/viewprofile';
+import ViewProfile from '../../profile/viewprofile';
 import { retrieveCatItems } from '../restaurant_controller';
 import { Modal } from '@mui/material';
 import FirstLogin from './components/firstlogin';
@@ -66,6 +66,7 @@ export default function GeneralManager() {
 
   return (
     <Box sx={{ padding:'1% 2%', bgcolor:'#f5f5f5', display:'block'}}>
+      
       <Topbar toggleVisibility={toggleVisibility}/>
 
       {/* Passing some info into the side bar navigation component */}
@@ -83,10 +84,11 @@ export default function GeneralManager() {
           <Route path="/generalmanager/restaurantinformation"> <ViewInfo isChecked={isChecked} toggleChecked={toggleChecked}/> </Route>
           <Route path="/generalmanager/addsub-user" component= {AddSubUser}/>
           <Route path="/generalmanager/statistics" component= {Stats}/>
-          <Route path="/generalmanager/profile" component= {Profile}/>
+          <Route path="/generalmanager/profile" component={ViewProfile}/>
           <Redirect from='/generalmanager' to='/generalmanager/editmenu'/>
         </Switch>
       </Box>
+
       <Modal
         open={0}
         aria-labelledby="modal-modal-title"

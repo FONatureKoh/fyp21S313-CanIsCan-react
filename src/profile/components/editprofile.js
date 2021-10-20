@@ -3,6 +3,7 @@ import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dia
 import john from '../../assets/temp/johnsmith.png'
 import { useHistory } from 'react-router-dom'
 import { retrieveUserProfile } from '../profile_controller';
+import { useRouteMatch } from 'react-router';
 
 export default function EditProfile() {
   // Declaring profile information state
@@ -11,6 +12,10 @@ export default function EditProfile() {
   const [lName, setLName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
+
+  //USE ROUTE MATCH TO GET USER ROLE
+  const match = useRouteMatch('/:userrole/profile/editprofile');
+
   // Testing userprofile retrieval
   useEffect(() => {
     async function getInfo() {
@@ -47,7 +52,7 @@ export default function EditProfile() {
   };
 
   const handleYes = () => {
-    history.push('/generalmanager/profile');
+    history.push(`/${match.params.userrole}/profile`);
   };
 
   function submitChange()
@@ -121,7 +126,7 @@ export default function EditProfile() {
 
             <Grid item xs={12} sx={{textAlign:'center', marginTop:'5%'}}>
               <Button variant="contained" onClick={submitChange} color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start', marginRight:'5%'}}>Confirm</Button>
-              <Button variant="contained" onClick={cancelBtn} color="inherit" sx={{width:'45%', bgcolor:"#CCCCCC", textAlign:'flex-start'}}>Cancel</Button>
+              <Button variant="contained" onClick={handleYes} color="inherit" sx={{width:'45%', bgcolor:"#CCCCCC", textAlign:'flex-start'}}>Cancel</Button>
               <Dialog open={open} onClose={handleNo} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
               <DialogTitle id="alert-dialog-title">
                 {"Unsaved Changes"}

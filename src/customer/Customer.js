@@ -15,6 +15,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import reactDom from 'react-dom';
 import CheckOut from './components/CheckOut';
 import { Link } from 'react-router-dom';
+import ViewProfile from '../profile/viewprofile';
 
 const drawerWidth = 480;
 
@@ -287,6 +288,7 @@ function deleteItem(id){
         <Switch>
           <Route exact path='/customer/browserestaurant'><BrowseRestaurant restData={restData}/> <BrowseRestaurantCat restData={restData} catData={catData}/></Route>
           <Route path='/customer/browserestaurant/restaurantdetails'><RetaurantDetails/> </Route>
+          <Route path='/customer/profile'><ViewProfile/> </Route>
           <Route exact path='/customer/checkout'>
             <CheckOut realCart={realCart} deleteItem={deleteItem} minusQty={minusQty} addQty={addQty} getsub={getsub} subtotal={subtotal} deliveryFee={deliveryFee} gst={gst} total={total} />
           </Route>

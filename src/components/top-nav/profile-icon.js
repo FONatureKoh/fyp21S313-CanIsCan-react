@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Settings from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
@@ -7,9 +7,14 @@ import profilepic from '../../assets/temp/johnsmith.png'
 import { useHistory } from 'react-router-dom';
 import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { Link } from 'react-router-dom';
+import { UserContext } from '../../store/user_context' ;
 
 export default function ProfileIcon() {
 
+  const testContext = useContext(UserContext);
+
+  console.log(testContext)
     const history = useHistory();
     const [openDialog, setOpenDialog] = React.useState(false);
 
@@ -42,7 +47,7 @@ export default function ProfileIcon() {
   return (
     <Container position="absolute" sx={{mr:1}}>
         <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }} >
-            <Typography sx={{alignSelf:'flex-end', mr: '10px', color:'white', textDecoration:'underline'}}>Welcome placeholder <KeyboardArrowDownIcon sx={{textAlign:"end"}}fontSize="smaller"/></Typography>
+            <Typography sx={{alignSelf:'flex-end', mr: '10px', color:'white', textDecoration:'underline'}}>Welcome {testContext.userFullName[0]} <KeyboardArrowDownIcon sx={{textAlign:"end"}}fontSize="smaller"/></Typography>
             <Avatar src={profilepic} alt="profile" sx={{ width: 50 , height: 50}}/>
         </IconButton>
         

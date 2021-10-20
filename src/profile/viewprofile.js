@@ -5,10 +5,13 @@ import { Route, Switch, Link } from 'react-router-dom';
 import EditProfile from './components/editprofile';
 import ChangePassword from './components/changepw';
 import { retrieveUserProfile } from './profile_controller';
+import { useRouteMatch } from 'react-router';
 
 export default function ViewProfile() {
   // Declaring profile information state
   const [userProfile, setUserProfile] = useState('');
+
+  const match = useRouteMatch('/:userrole/profile/');
 
   // User Profile retrieval
   useEffect(() => {
@@ -30,7 +33,7 @@ export default function ViewProfile() {
 
   return (
     <Switch>
-      <Route exact path="/generalmanager/profile">
+      <Route exact path="/:userrole/profile">
       <div>
         <Card variant="outlined" sx={{margin:'auto', marginTop:'20vmin', width:'60%', padding:'5px', borderRadius:'10px'}}>
           <CardHeader title="Personal Information" />
@@ -63,8 +66,8 @@ export default function ViewProfile() {
                 </Grid>
 
                 <Grid item xs={12} sx={{textAlign:'center', marginTop:'5%'}}>
-                  <Button variant="contained" component={Link} to="/generalmanager/profile/editprofile" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start', marginRight:'5%'}}>Edit Information</Button>
-                  <Button variant="contained" component={Link} to="/generalmanager/profile/changepassword" color="inherit" sx={{width:'45%', bgcolor:"#CCCCCC", textAlign:'flex-start'}}>Change Password</Button>
+                  <Button variant="contained" component={Link} to={`/${match.params.userrole}/profile/editprofile`} color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start', marginRight:'5%'}}>Edit Information</Button>
+                  <Button variant="contained" component={Link} to={`/${match.params.userrole}/profile/changepassword`} color="inherit" sx={{width:'45%', bgcolor:"#CCCCCC", textAlign:'flex-start'}}>Change Password</Button>
                 </Grid>
               </Grid>
             </CardContent>

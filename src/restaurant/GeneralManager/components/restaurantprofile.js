@@ -75,7 +75,7 @@ export default function ViewInfo({isChecked, toggleChecked}) {
                 <Typography sx={boldtitle}>Tags</Typography>
                 <Typography>
                   {restaurantTags.map((tag) => (  // Creating a restaurantTags seem to work!
-                    <Chip label= {tag} /> 
+                    <Chip label= {tag} sx={{margin:'3px'}}/> 
                   ))}
                 </Typography>
               </Grid>

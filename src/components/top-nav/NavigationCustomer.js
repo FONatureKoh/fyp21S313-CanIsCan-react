@@ -53,7 +53,7 @@ export default function NavigationCustomer({isVisible, isSelected, setIsSelected
               <ListItemIcon>
                 <Info/>
               </ListItemIcon>
-              <ListItemText primary="Past Orders"/>
+              <ListItemText primary="Order History"/>
             </ListItemButton>
 
             <Divider variant="middle"/>
@@ -73,7 +73,7 @@ export default function NavigationCustomer({isVisible, isSelected, setIsSelected
               <ListItemIcon>
                 <Info/>
               </ListItemIcon>
-              <ListItemText primary="Accepted Orders"/>
+              <ListItemText primary="Reservation History"/>
             </ListItemButton>
         </List>
         <Divider variant="middle"/>
