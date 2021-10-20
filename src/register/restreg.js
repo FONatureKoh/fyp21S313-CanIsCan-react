@@ -27,7 +27,7 @@ export default function RestRegister() {
   }
 
   function register() {
-    const rest_name = rest_name.current.value;
+    const rest_name = restaurant_name.current.value;
     const user = username.current.value;
     const phone_no = restaurant_phone_no.current.value;
     const mail = email.current.value;
