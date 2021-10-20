@@ -5,6 +5,7 @@ import { useHistory} from 'react-router-dom';
 import { loginAuth } from './login_controller';
 import { Alert } from '@mui/material';
 import { UserContext } from '../store/user_context';
+import { retrieveUserProfile } from '../profile/profile_controller';
 
 export default function Login() {
  
@@ -36,6 +37,12 @@ export default function Login() {
     // Await solves the issue of the fulfilled promise
     const userinformation = await loginAuth(username, password);
     window.sessionStorage.setItem('accessToken', userinformation["accessToken"])
+
+    const userProfile = await retrieveUserProfile();
+    if (userProfile)
+    {
+      userContext.userFullName[1](userProfile.first_name + " " + userProfile.last_name)
+    }
     console.log(userinformation);
 
     // console.log(userContext.username[1]);

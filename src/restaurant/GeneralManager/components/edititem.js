@@ -87,7 +87,7 @@ export default function EditItem({menuData}) {
   async function submitChange() {
     var testController = await editRestaurantItem(itemID, imageFile, itemAvailability, itemRestID, 
     itemPngID, itemName, itemPrice, itemDesc, itemAllergy, itemCategory);
-
+    
     console.log(testController);
   }
   
@@ -199,7 +199,7 @@ export default function EditItem({menuData}) {
           </Select>
         </FormControl>
 
-        <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={submitChange}>Confirm Changes</Button>
+        <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={submitChange} component={Link} to={"/generalmanager"}>Confirm Changes</Button>
         <Button variant="contained" color="inherit" sx={{width:'45%', float:'right' }} component={Link} to="/generalmanager">Cancel</Button>
       </Grid>
 

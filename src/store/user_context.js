@@ -12,12 +12,14 @@ export default ({ children }) => {
   const [userFullName, setUserFullName] = useState('');
 
   // User Profile retrieval
+  
   useEffect(() => {
     async function getUserInfo() {
       const userProfile = await retrieveUserProfile();
       if (userProfile)
       {
         setUserFullName(userProfile.first_name + " " + userProfile.last_name)
+        console.log(userProfile)
       }
       else
       {
@@ -29,6 +31,7 @@ export default ({ children }) => {
     }
     getUserInfo();
   },[])
+
   // Creating the userStore JSON so that we can use the function and
   // also the corresponding setFunction easily
   const userStore = {

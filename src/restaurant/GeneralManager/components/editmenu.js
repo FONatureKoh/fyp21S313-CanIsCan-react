@@ -72,7 +72,7 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
   return (
      <Switch>
       <Route exact path="/generalmanager/editmenu">
-        <Box>
+         <Box>
         {/* <Card variant="outlined" sx={{padding:'10px', borderRadius:'20px'}}> */}
         <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
           <CardHeader title="Edit Menu" />
