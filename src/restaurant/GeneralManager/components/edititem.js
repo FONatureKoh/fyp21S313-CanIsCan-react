@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 // Controller import
 import { editRestaurantItem, retrieveCats } from '../../restaurant_controller';
 import { styled } from '@mui/styles';
+import { getImage } from '../../../components/rest-view-menu/items_controller';
 
 export default function EditItem({menuData}) {
   // Pre drawn values from Database -- Thomas
@@ -24,6 +25,16 @@ export default function EditItem({menuData}) {
     }
     retrieveCategories();
   },[])
+
+  useEffect(() => {
+    async function getItemImage() {
+      const imageData = await getImage(imageID);
+      setPreview(imageData);
+      console.log(imageData);
+    }
+    getItemImage();
+  },[])
+
 
   const match = useRouteMatch('/generalmanager/editmenu/edititem/:id');
   
@@ -48,6 +59,26 @@ export default function EditItem({menuData}) {
   const [itemDesc, setItemDesc] = useState(itemSelected.item_desc);
   const [itemAllergy, setItemAllergy] = useState(itemSelected.item_allergen_warning);
   const [itemCategory, setItemCategory] = useState(itemSelected.ri_cat_ID);
+  const [imageID, setImageID] = useState(itemSelected.item_png_ID);
+
+  //PREVIEW IMAGE
+  const [preview, setPreview] = useState();
+
+  useEffect(() => {
+    if(imageFile){
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreview(reader.result);
+        console.log("1" +preview)
+      }
+      reader.readAsDataURL(imageFile);
+    }
+    else
+    {
+      setPreview(null);
+    }
+  }, [imageFile])
+  //END OF PREVIEW IMAGE
 
   // NOTE: Two hidden data need for updating, but not needed for this page
   const [itemPngID, setItemPngID] = useState(itemSelected.item_png_ID);
@@ -71,9 +102,9 @@ export default function EditItem({menuData}) {
     <CardContent >
     <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
       <Grid item xs={6}>
-        <Box width="100%"
-        height="80%">
-          <img src={'asd'} height="200px" width="100%" alt="additem"/>
+        <Box 
+        sx={{alignContent:'center'}}>
+          <img src={preview} height="200px" width="300px" alt="additem"/>
         </Box>
         <Box>
         <label htmlFor="imageFile">
