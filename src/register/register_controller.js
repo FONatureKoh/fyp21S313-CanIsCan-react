@@ -5,13 +5,13 @@ import axios from 'axios';
 ******************************************************************************************/
 const config = require('../store/config.json');
 
-export function restaurantRegister () {
+export function restaurantRegister (username, restaurat_name, email, phone) {
   // x-www-form-urlencoded form creation
   const params = new URLSearchParams();
-  params.append('username', 'something1995');
-  params.append('restaurant_name', 'someplace');
-  params.append('email', 'someemail@example.com');
-  params.append('phone', 99991234)
+  params.append('username', username);
+  params.append('restaurant_name', restaurat_name);
+  params.append('email', email);
+  params.append('phone', phone)
 
   // Looks like have to config so that the request becomes a form request
   const axiosConfig = {
