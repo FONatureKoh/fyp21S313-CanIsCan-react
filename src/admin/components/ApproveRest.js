@@ -1,12 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardContent, Box, Typography, Button } from '@mui/material'
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import { retrievePending } from '../admin_controller';
 
-export default function ApproveRest({restDetails}) {
+export default function ApproveRest() {
   //State for handling accordion open close
   const [expanded, setExpanded] = React.useState(false);
+
+  // State for the restaurant details
+  const [restDetails, setRestDetails] = useState([]);
+
+  // Deploying useEffect 
+  useEffect(() => {
+    async function getRestDetails() {
+      const retrievePendingDetails = await retrievePending();
+      return retrievePendingDetails;
+    }
+    getRestDetails().then((response) => {
+      console.log(response);
+      setRestDetails(response);
+    });
+  },[])
 
   const handleChange = (panel) => (event, isExpanded) => {
       setExpanded(isExpanded ? panel : false);
@@ -30,7 +46,7 @@ export default function ApproveRest({restDetails}) {
                   <Accordion sx={{margin:0.5, borderRadius:1}}>
                   <AccordionSummary sx={{textAlign: 'center', bgcolor: '#bdbdbd', borderRadius: 1, minWidth: 300}}>
                     <Typography sx={{textAlign: 'center'}}>
-                      {item.rest_name}
+                      {item.restaurant_name}
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails sx={{ bgcolor: '#eeeeee'}}>
@@ -40,15 +56,15 @@ export default function ApproveRest({restDetails}) {
                     </Typography>
 
                     <Typography>
-                      {item.rest_name}
+                      {item.restaurant_name}
                     </Typography>
 
                     <Typography sx={themes.textHeader}>
-                      UEN Number:
+                      Phone Number:
                     </Typography>
 
                     <Typography>
-                      {item.uen}
+                      {item.rest_phone_no}
                     </Typography>
 
                     <Typography sx={themes.textHeader}>
@@ -60,7 +76,7 @@ export default function ApproveRest({restDetails}) {
                     </Typography>
                     </Box>
                     <Box sx={{width:'100%', textAlign:'center', mt:'20px'}}>
-                      <Button variant='outlined' color='inherit'  sx={{mr:'10px', width:'100px'}}>APPROVE</Button>
+                      <Button variant='outlined' color='inherit' sx={{mr:'10px', width:'100px'}}>APPROVE</Button>
                       <Button variant='outlined' color='error' sx={{ml:'10px', width:'100px'}}>REJECT</Button>
                     </Box>
                   </AccordionDetails>
