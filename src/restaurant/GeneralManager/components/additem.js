@@ -45,6 +45,25 @@ export default function AddItem() {
     display: 'none',
   });
 
+  //TESTING PREVIEW
+  
+  const [preview, setPreview] = useState();
+
+  useEffect(() => {
+    if(imageFile){
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreview(reader.result);
+        console.log("1" +preview)
+      }
+      reader.readAsDataURL(imageFile);
+    }
+    else
+    {
+      setPreview(null);
+    }
+  }, [imageFile])
+
   return (
     <div>
     <Card>
@@ -54,7 +73,7 @@ export default function AddItem() {
       <Grid item xs={6}>
         <Box width="100%"
         height="80%">
-          <img src={'asd'} height="200px" width="100%" alt="additem"/>
+          <img src={preview} height="200px" width="100%" alt="additem"/>
         </Box>
         <Box>
         <label htmlFor="imageFile">
