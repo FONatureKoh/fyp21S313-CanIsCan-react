@@ -83,6 +83,29 @@ export function addRestaurantItem(imageFile, itemAvailability, itemName, itemPri
 };
 
 /*****************************************************************************************
+ * Delete a Restaurant item                                                              *
+ * ***************************************************************************************
+ * 
+ * ***************************************************************************************/
+export function deleteRestaurantItem(itemID) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  return axios.delete(`${config.apiDomain}/restaurant/restaurantItem/${itemID}`, axiosConfig)
+    .then(res => {
+      // In here we can choose what we want to do with the response of the request
+      return res.data;
+    })
+    .catch(err => {
+      console.log(err)
+    });
+};
+
+/*****************************************************************************************
  * Editing a restaurant Item                                                             *
  * ***************************************************************************************
  * - Takes in ItemID. Since itemID is a primary key, there is no issue in editing the item
