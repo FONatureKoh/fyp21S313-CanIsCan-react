@@ -2,6 +2,7 @@ import logo from '../assets/logo.svg';
 import './restreg.css';
 import React, { useRef } from 'react';
 import { useHistory } from 'react-router-dom';
+import { restaurantRegister } from './register_controller';
 
 export default function RestRegister() {
   const history = useHistory();
@@ -22,6 +23,7 @@ export default function RestRegister() {
     if (user === "" || uen === "" || mail === "")
     {
       alert("Please fill in the fields!");
+      restaurantRegister();
     }
     else
     {
