@@ -17,6 +17,7 @@ import Chip from '@mui/material/Chip';
 import { ListItem } from '@mui/material';
 import { ButtonGroup } from '@mui/material';
 import { List } from '@mui/material';
+import { Grid } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 const steps = ['Verify your orders', 'Confirm delivery address', 'Make payment'];
@@ -263,12 +264,11 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
               color="inherit"
-              disabled={activeStep === 0}
               onClick={handleBack}
               sx={{ mr: 1 }}
               variant="outlined"
             >
-              Back
+              Back to restaurant
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
 
@@ -286,21 +286,48 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
               <Typography sx={themes.textHeader}>
                 Confirm delivery address
               </Typography>
+
               <Divider variant="middle" />
-              <TextField sx={{width:'85%', margin:'15px auto'}} 
-                id="rest-name-field" 
-                label="Restaurant Name (Required*):" 
+
+              <Grid container>
+              
+              <Grid sx={12} sm={12} md={12}>
+              <TextField sx={{width:'90%', margin:'15px auto'}} 
+                id="address-street" 
+                label="Street" 
                 variant="filled" 
                 size="small" 
               />
-
-              <TextField sx={{width:'85%', margin:'15px auto'}}
-                id="rest-address" 
-                label="Restaurant Address (Required*):"  
-                multiline 
-                rows={4} 
+              </Grid>
+              <Grid sx={12} sm={12} md={6}>
+              <TextField sx={{width:'80%', margin:'15px'}} 
+                id="address-unit" 
+                label="Floor / Unit number" 
                 variant="filled" 
+                size="small" 
               />
+              </Grid>
+
+              <Grid sx={12} sm={12} md={6}>
+              <TextField sx={{width:'80%', margin:'15px'}} 
+                id="address-company" 
+                label="Company (optional)" 
+                variant="filled" 
+                size="small" 
+              />
+              </Grid>
+              <Grid sx={12} sm={12} md={12}>
+              <TextField sx={{width:'90%', margin:'15px auto'}} 
+                id="address-company" 
+                label="Note to driver(optional)" 
+                variant="filled" 
+                size="small" 
+                multiline
+                rows={3}
+              />
+              </Grid>
+              </Grid>
+              
             </Box>
         
             <Divider orientation="vertical" variant="middle" flexItem />
