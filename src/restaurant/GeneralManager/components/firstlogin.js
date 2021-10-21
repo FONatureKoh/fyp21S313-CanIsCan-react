@@ -124,13 +124,12 @@ export default function FirstLogin({setFirstLog}) {
   };
 
   const handleReset = () => {
-    setFirstLog(0);
+    setFirstLog(false);
   };
 
   //HANDLE FINAL SUBMIT
   const handleFinish = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    console.log(fName)
   }
 
   return (
@@ -159,7 +158,7 @@ export default function FirstLogin({setFirstLog}) {
       {activeStep === steps.length ? (
         <React.Fragment>
           <Box sx={themes.boxStyle2}>
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-confetti" width="100" height="100" viewBox="0 0 24 24" stroke-width="2" stroke="#597e8d" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          {/* <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-confetti" width="100" height="100" viewBox="0 0 24 24" stroke-width="2" stroke="#597e8d" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <path d="M4 5h2" />
             <path d="M5 4v2" />
@@ -171,7 +170,7 @@ export default function FirstLogin({setFirstLog}) {
             <path d="M18 19h2" />
             <path d="M19 18v2" />
             <path d="M14 16.518l-6.518 -6.518l-4.39 9.58a1.003 1.003 0 0 0 1.329 1.329l9.579 -4.39z" />
-          </svg>
+          </svg> */}
           <Typography sx={themes.textHeader}>
             You are all set up!
           </Typography>

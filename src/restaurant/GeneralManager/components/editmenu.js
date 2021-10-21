@@ -19,6 +19,7 @@ import { DialogTitle } from '@mui/material';
 import { DialogContent } from '@mui/material';
 import { DialogContentText } from '@mui/material';
 import { DialogActions } from '@mui/material';
+import { retrieveCatItems } from '../../restaurant_controller';
 
 export default function Editmenu({menuData, itemSelected, setItemSelected}) {
   // Test console
@@ -27,9 +28,18 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
 
   const [open, setOpen] = useState(false);
   const testContext = useContext(UserContext);
-  const menuList = getMenu(menuData)
+  //const menuList = getMenu(menuData)
   const [newMenu, setNewMenu] = useState('');
-  const [value, setValue] = useState(menuList[0]);
+  const [value, setValue] = useState('0');
+  const [menuData2, setMenuData2] = useState([]);
+
+  useEffect(() => {
+    async function getMenu() {
+      const retrievedItemsData = await retrieveCatItems();
+      setMenuData2(retrievedItemsData);
+    }
+    getMenu();
+  },[])
   
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -86,11 +96,11 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
             
               <TabList onChange={handleChange} aria-label="lab API tabs example">
                 {
-                  getMenu(menuData).map(item => {
-                    return <Tab label={item} value={item}/>
+                  getMenu(menuData2).map((item, index) => {
+                    return <Tab label={item} value={index.toString()}/>
                   })
                 }
-                <Tab icon={<AddIcon fontSize="small"/>}label="ADD MENU" onClick={handleOpen}/>
+                <Tab icon={<AddIcon value="add" fontSize="small"/>}label="ADD MENU" onClick={handleOpen}/>
               </TabList>
             </Box>
             <Box>
@@ -100,9 +110,9 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
             </Box>
             <Box sx={{margin:'10px auto', width:'100%'}}>
             {
-              getMenu(menuData).map(item => {
+              getMenu(menuData2).map((item, index) => {
                 console.log(item);
-                return <TabPanel value={item}> <ViewMenuList menuData={menuData} menuList={item} /></TabPanel>
+                return <TabPanel id={index} value={index.toString()}> <ViewMenuList menuData={menuData2} menuList={item} /></TabPanel>
               })
             }
             </Box>
@@ -134,7 +144,7 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
         </Card>
         </Box>
       </Route>
-     <Route path="/generalmanager/editmenu/edititem"> <EditItem menuData={menuData} /></Route>
+     <Route path="/generalmanager/editmenu/edititem"> <EditItem menuData={menuData2} /></Route>
      <Route path="/generalmanager/editmenu/additem" component= {AddItem}/>
    </Switch>
   )
