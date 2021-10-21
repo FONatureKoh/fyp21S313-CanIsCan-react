@@ -36,10 +36,16 @@ export default function ApproveRest() {
   function approveAccount(restaurant_ID) {
     approveFunction(restaurant_ID).then((response) => {
       if (response == "Successful!") {
-        // getRestDetails().then((response) => {
-        //     console.log(response);
-        //     setRestDetails(response);
-        //   });
+        console.log("Approve function triggered");
+
+        // Refresh the restaurant details state
+        getRestDetails().then((response) => {
+          console.log(response);
+          setRestDetails(response);
+        });
+        
+        // Close the Accordion
+        setExpanded(false);
       }
     })
     // window.location.reload(false);
@@ -102,7 +108,7 @@ export default function ApproveRest() {
                     </Typography>
                     </Box>
                     <Box sx={{width:'100%', textAlign:'center', mt:'20px'}}>
-                      <Button variant='outlined' color='inherit' onClick={approveAccount(item.restaurant_ID)} sx={{mr:'10px', width:'100px'}}>APPROVE</Button>
+                      <Button variant='outlined' color='inherit' onClick={() => {approveAccount(item.restaurant_ID)}} sx={{mr:'10px', width:'100px'}}>APPROVE</Button>
                       <Button variant='outlined' color='error' sx={{ml:'10px', width:'100px'}}>REJECT</Button>
                     </Box>
                   </AccordionDetails>
