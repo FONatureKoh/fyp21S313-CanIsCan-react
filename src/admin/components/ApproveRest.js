@@ -13,6 +13,7 @@ export default function ApproveRest() {
   }
 
   // async function to send the update
+  // NOTE: returns api_msg Successful!
   async function approveFunction(restID) {
     const approveStatus = await approveRestaurant(restID);
     return approveStatus.api_msg;
@@ -48,11 +49,6 @@ export default function ApproveRest() {
         setExpanded(false);
       }
     })
-    // window.location.reload(false);
-    // getRestDetails().then((response) => {
-    //   console.log("Response from approveAccount Function");
-    //   setRestDetails([]);
-    // })
   };
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -67,6 +63,8 @@ export default function ApproveRest() {
     }
   };
 
+  // NOTE: At the Accordion open bracket, I thought to set the panel name dynamically through
+  // using panel and the ID. Since ID is unique, it seem to have worked.
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
         <CardHeader title="Pending Restaurant Registration" />
