@@ -255,3 +255,25 @@ export function retrieveItem(itemID) {
       console.log(error);
     })
 };
+
+/*****************************************************************************************
+ * Restaurant Status retrieval                                                           *
+ * ***************************************************************************************
+ * - Get the status based on the username within the accessToken 
+ * ***************************************************************************************/
+export async function retrieveRestaurantStatus() {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/restaurant/restaurantStatus`, axiosConfig);
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+};
