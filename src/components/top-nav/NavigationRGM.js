@@ -60,7 +60,7 @@ export default function NavigationRGM({isVisible, isSelected, setIsSelected, isC
             <Typography sx={{marginTop:'20px', marginBottom:'20px'}}>Open For Business <Switch checked={isChecked} onClick={()=>toggleChecked()} size="large" /></Typography>
             </ListItemButton>
 
-            <Divider/>
+            <Divider variant="middle"/>
 
             <ListItem>
               <ListItemText primary="Edit Information" />
@@ -80,7 +80,7 @@ export default function NavigationRGM({isVisible, isSelected, setIsSelected, isC
               <ListItemText primary="Update Information"/>
             </ListItemButton>
 
-            <Divider/>
+            <Divider variant="middle"/>
 
             <ListItem key="Account Management" sx={{mt:'10px'}}>
               <ListItemText primary="Account Management" />
@@ -93,7 +93,7 @@ export default function NavigationRGM({isVisible, isSelected, setIsSelected, isC
               <ListItemText primary="Manage Accounts" />
             </ListItemButton>
 
-            <Divider/>
+            <Divider variant="middle"/>
 
             <ListItem key="DashBoard" sx={{mt:'10px'}}>
               <ListItemText primary="Dashboard"/>
@@ -106,7 +106,7 @@ export default function NavigationRGM({isVisible, isSelected, setIsSelected, isC
               <ListItemText primary="View Statistics" />
             </ListItemButton>
         </List>
-        <Divider/>
+        <Divider variant="middle"/>
         <Button variant="outlined" color="inherit" onClick={handleOpenDialog} sx={{margin:'30px auto', width:'90%'}} >Logout</Button>
       </Drawer>
 

@@ -7,7 +7,10 @@ import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import Info from '@mui/icons-material/Info';
 import { Link, useHistory } from "react-router-dom";
-
+import TagIcon from '@mui/icons-material/Tag';
+import SearchIcon from '@mui/icons-material/Search';
+import FoodBankIcon from '@mui/icons-material/FoodBank';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
 
 const drawerWidth = 240;
 
@@ -44,30 +47,41 @@ export default function NavigationAdmin({isVisible, isSelected, setIsSelected}) 
 
             <ListItemButton selected={isSelected === 1} component={ Link } to="/admin/approverestaurant" onClick={() => setIsSelected(1)} >
               <ListItemIcon>
-                <RestaurantMenuIcon/>
+                <PendingActionsIcon/>
               </ListItemIcon>
               <ListItemText primary="Pending Applications" />
             </ListItemButton>
 
             <ListItemButton selected={isSelected === 2} component={ Link } to="/admin/existingrest" onClick={() => setIsSelected(2)} >
               <ListItemIcon>
-                <RestaurantMenuIcon/>
+                <FoodBankIcon/>
               </ListItemIcon>
               <ListItemText primary="Existing Restaurants" />
             </ListItemButton>
-
+            <Divider variant="middle"/>
             <ListItem>
               <ListItemText primary="Account Management" />
             </ListItem>
 
             <ListItemButton selected={isSelected === 3} component={ Link } to="/admin/search" onClick={() => setIsSelected(3)} >
               <ListItemIcon>
-                <Info/>
+                <SearchIcon/>
               </ListItemIcon>
               <ListItemText primary="Search Account"/>
             </ListItemButton>
+            <Divider variant="middle"/>
+            <ListItem>
+              <ListItemText primary="System Management" />
+            </ListItem>
+
+            <ListItemButton selected={isSelected === 4} component={ Link } to="/admin/tags" onClick={() => setIsSelected(4)} >
+              <ListItemIcon>
+                <TagIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Category Tags"/>
+            </ListItemButton>
         </List>
-        <Divider/>
+        <Divider variant="middle"/>
         <Button variant="outlined" color="inherit" onClick={logout} sx={{margin:'30px auto', width:'90%'}} >Logout</Button>
       </Drawer>
     </Box>

@@ -6,6 +6,7 @@ import { Switch, Route, Redirect }from 'react-router-dom';
 import ApproveRest from './components/ApproveRest';
 import ExistingCust from './components/ExistingCust';
 import ExistingRest from './components/ExistingRest';
+import Tags from './components/Tags';
 
 export default function Admin() {
   const [isVisible, setIsVisible] = useState(true); 
@@ -136,6 +137,7 @@ export default function Admin() {
           <Route path='/admin/approverestaurant'><ApproveRest /></Route>
           <Route path='/admin/existingrest'><ExistingRest existingList={existing}/></Route> 
           <Route path='/admin/search'><ExistingCust existingList={existing2}/></Route> 
+          <Route path='/admin/tags'><Tags /></Route> 
           <Redirect from='/admin' to='/admin/approverestaurant'/>
         </Switch>
       </Box>
