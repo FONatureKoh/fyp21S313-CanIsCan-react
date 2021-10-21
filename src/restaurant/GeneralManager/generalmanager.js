@@ -29,6 +29,7 @@ export default function GeneralManager() {
   const [isSelected, setIsSelected] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
   const [menuData, setMenuData] = useState([]);
+  const [firstlog, setFirstLog] = useState(1);
 
   // useEffect to get Restaurant's Items Data
   // NOTE: edited to retrieve restaurant items using the username in
@@ -90,7 +91,7 @@ export default function GeneralManager() {
       </Box>
 
       <Modal
-        open={0}
+        open={firstlog}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -100,9 +101,10 @@ export default function GeneralManager() {
           transform: 'translate(-50%, -50%)',
           width:"50%",
           padding: '2%',
+          maxHeight:'70%',
           overflow: 'auto',
           borderRadius:'5px'}}>
-           <FirstLogin/>
+           <FirstLogin setFirstLog={setFirstLog}/>
          </Box>
       </Modal>
     </Box>

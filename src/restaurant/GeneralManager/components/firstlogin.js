@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -14,12 +14,31 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
+import { styled } from '@mui/styles';
 
 const steps = ['Update your personal profile', 'Update your restaurant profile', 'Change your password'];
 
-export default function FirstLogin() {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
+export default function FirstLogin({setFirstLog}) {
+  const [activeStep, setActiveStep] = useState(0);
+  const [skipped, setSkipped] = useState(new Set());
+
+  //STATES TO DRAW INFORMATION TO USE FOR SUBMISSION
+  const [fName, setFName] = useState('');
+  const [lName, setLName] = useState('');
+  const [personalPhone, setPersonalPhone] = useState('');
+  const [personalAdd, setPersonalAdd] = useState('');
+  const [restAdd, setRestAdd] = useState('');
+  const [postal, setPostal] = useState('');
+  //This is the state that will contain all selected item in an array
+  const [tags, setTags] = useState([]);
+  const [oldPW, setOldPW] = useState('');
+  const [newPW, setNewPW] = useState('');
+  const [confirmNewPW, setConfirmNewPW] = useState('');
+
+  //STYLED INPUT FOR IMAGE UPLOAD WORD
+  const Input = styled('input')({
+    display: 'none',
+  });
 
   //START OF CHIP DROP DOWNLIST
   const names = [
@@ -36,8 +55,6 @@ export default function FirstLogin() {
     'Fine Dining'
   ];
 
-  //This is the state that will contain all selected item in an array
-  const [tags, setTags] = React.useState([]);
 
   //Drop down item settings
   const ITEM_HEIGHT = 40;
@@ -71,10 +88,8 @@ export default function FirstLogin() {
     },
     boxStyle:{
       margin: '50px auto 0px',
-      width: '80%',
-      height: '380px',
+      width: '100%',
       textAlign:'center',
-      border: '1px solid black',
       borderRadius:'5px'
     },
     boxStyle2:{
@@ -109,8 +124,14 @@ export default function FirstLogin() {
   };
 
   const handleReset = () => {
-    setActiveStep(0);
+    setFirstLog(0);
   };
+
+  //HANDLE FINAL SUBMIT
+  const handleFinish = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    console.log(fName)
+  }
 
   return (
     <Box sx={{ width: '80%', margin:'30px auto'}}>
@@ -160,40 +181,75 @@ export default function FirstLogin() {
           </Box>
         </React.Fragment>
       ) 
+      //STEP ONE - PERSONAL INFO
       : activeStep === 0 ? (
         <React.Fragment>
           <Box sx={themes.boxStyle}>
             <Typography sx={themes.textHeader}>
               Update your personal information
             </Typography>
-            <Divider/>
-            <TextField sx={{width:'40%', margin:'15px 2.5%'}} 
-              id="fname-field" 
-              label="First Name:" 
-              variant="filled" 
-              size="small" 
-            />
-            <TextField sx={{width:'40%', margin:'15px 2.5%'}} 
-              id="lname-field" 
-              label="Last Name:" 
-              variant="filled" 
-              size="small" 
-            />
 
-            <TextField sx={{width:'85%', margin:'15px auto'}} 
-                id="phone-field" 
-                label="Phone Number (Required*):" 
-                variant="filled" 
-                size="small" 
-            />
+            <Divider variant="middle"/>
 
-            <TextField sx={{width:'85%', margin:'15px auto'}} 
-                id="address-field" 
-                label="Address (Required*):"  
-                multiline rows={4} 
+            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+              
+              <Box sx={{width:'40%'}}>
+                <Typography sx={{textAlign:'center', fontSize:'15px', mt:'20px', fontWeight:'bold'}}>Profile Photo</Typography>
+                <Box sx={{position:'relative', top:'100px'}}>
+                  <img src='meow' height="200px" width="300px" alt="additem" />
+                  <Box sx={{position:'relative', top:'10px'}}>
+                    <label htmlFor="imageFile">
+                    <Input 
+                      type="file"
+                      id="imageFile"
+                      accept=".png"
+                      // onChange={event => {
+                      //   const imageFile = event.target.files[0];
+                      //   setImageFile(imageFile);
+                      // }} 
+                      />
+                    <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
+                    </label>
+                  </Box>
+                </Box>
+              </Box>
+
+              <Divider orientation="vertical" variant="middle" flexItem />
+
+              <Box sx={{width:'60%'}}>
+                <TextField sx={{width:'40%', margin:'15px 2.5%'}} 
+                id="fname-field" 
+                label="First Name:" 
                 variant="filled" 
-            />
-          </Box>
+                size="small"
+                onChange={(e)=> setFName(e.target.value)}
+                />
+                <TextField sx={{width:'40%', margin:'15px 2.5%'}} 
+                  id="lname-field" 
+                  label="Last Name:" 
+                  variant="filled" 
+                  size="small" 
+                  onChange={(e)=> setLName(e.target.value)}
+                />
+
+                <TextField sx={{width:'85%', margin:'15px auto'}} 
+                  id="phone-field" 
+                  label="Phone Number (Required*):" 
+                  variant="filled" 
+                  size="small" 
+                  onChange={(e)=> setPersonalPhone(e.target.value)}
+                />
+
+                <TextField sx={{width:'85%', margin:'15px auto'}} 
+                  id="address-field" 
+                  label="Address (Required*):"  
+                  multiline rows={4} 
+                  variant="filled" 
+                  onChange={(e)=> setPersonalAdd(e.target.value)}
+                />
+              </Box>
+            </Box>
+          </Box>  
           
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
@@ -213,31 +269,54 @@ export default function FirstLogin() {
           </Box>
         </React.Fragment>
       ) 
+       //STEP TWO - RESTAURANT INFO
       : activeStep === 1 ? (
         <React.Fragment>
           <Box sx={themes.boxStyle}>
             <Typography sx={themes.textHeader}>
               Update your restaurant information
             </Typography>
-            <Divider/>
-            <TextField sx={{width:'85%', margin:'15px auto'}} 
-              id="rest-name-field" 
-              label="Restaurant Name (Required*):" 
-              variant="filled" 
-              size="small" 
-            />
+            <Divider variant="middle" />
+            <Box sx={{height:'180px'}}>
+            <Typography sx={{textAlign:'center', fontSize:'15px', mt:'5px', fontWeight:'bold'}}>Banner Photo</Typography>
+              <img src='meow' height="200px" width="300px" alt="banner" />
 
-            <TextField sx={{width:'85%', margin:'15px auto'}}
+              <Box sx={{position:'relative', top:'10px'}}>
+                <label htmlFor="bannerImage">
+                <Input 
+                  type="file"
+                  id="bannerImage"
+                  accept=".png"
+                  // onChange={event => {
+                  //   const imageFile = event.target.files[0];
+                  //   setImageFile(imageFile);
+                  // }} 
+                  />
+                <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
+                </label>
+                </Box>
+            </Box>
+
+            <Divider variant="middle" />
+
+            <TextField sx={{width:'85%', margin:'30px auto 15px'}}
               id="rest-address" 
               label="Restaurant Address (Required*):"  
               multiline 
               rows={4} 
               variant="filled" 
+              onChange={(e)=> setRestAdd(e.taget.value)}
+            />
+
+            <TextField sx={{width:'85%', marginBottom:'10px auto'}}
+              id="rest-postal" 
+              label="Restaurant Postal Code (Required*):"  
+              variant="filled" 
+              onChange={(e)=> setPostal(e.taget.value)}
             />
 
             <FormControl sx={{ m:"15px auto", width: '85%' }}>
               <InputLabel color='primary' id="restaurant-tags">Tags</InputLabel>
-
               <Select
                 labelId="tags"
                 id="restaurant-tags"
@@ -293,30 +372,33 @@ export default function FirstLogin() {
             <Divider/>
             <Typography sx={themes.textHeader}>
             <TextField 
-                  sx={{width:'85%', margin:'15px auto'}} 
-                  id="outline-password-input" 
+                  sx={{width:'80%', margin:'15px auto'}} 
+                  id="old-pw" 
                   type="password" 
                   label="Enter Old Password:" 
                   variant="filled" 
                   size="small" 
+                  onChange={(e)=> setOldPW(e.taget.value)}
                 />
 
                 <TextField 
-                  sx={{width:'85%', margin:'15px auto'}} 
-                  id="outline-password-input" 
+                  sx={{width:'80%', margin:'15px auto'}} 
+                  id="new-pw" 
                   type="password" 
                   label="Enter New Password:" 
                   variant="filled" 
                   size="small" 
+                  onChange={(e)=> setNewPW(e.taget.value)}
                 />
 
                 <TextField 
-                  sx={{width:'85%', margin:'15px auto'}} 
-                  id="outline-password-input" 
+                  sx={{width:'80%', margin:'15px auto'}} 
+                  id="confirm-new" 
                   type="password" 
                   label="Re-enter New Password:" 
                   variant="filled" 
                   size="small" 
+                  onChange={(e)=> setConfirmNewPW(e.taget.value)}
                 />
 
             </Typography>
@@ -334,7 +416,7 @@ export default function FirstLogin() {
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
 
-            <Button onClick={handleNext} variant="outlined">
+            <Button onClick={handleFinish} variant="outlined">
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>
           </Box>
