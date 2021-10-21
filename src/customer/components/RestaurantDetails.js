@@ -1,9 +1,11 @@
 import React from 'react'
-import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid, CardActionArea } from '@mui/material'
+import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid, CardActionArea, IconButton, Tooltip } from '@mui/material'
 import TestImage from '../../assets/temp/eg-biz1.png'
 import { Rating } from '@mui/material'
 import test from '../../assets/icon-profile.png'
 import { ButtonBase } from '@mui/material'
+import DirectionsOutlinedIcon from '@mui/icons-material/DirectionsOutlined';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 
 export default function RetaurantDetails() {
   return (
@@ -16,13 +18,31 @@ export default function RetaurantDetails() {
         <CardContent >
           <Box sx={{width: "80%", margin: '10px auto'}}> 
             {/* HEADER BOX - REST DETAILS HERE */}
-            <Box>
-              <Typography variant="h4" sx={{}}>
-                Test
-              </Typography>
-              <Typography sx={{fontSize:'small', padding:'10px 0px'}}>
-                <Rating name="read-only" value={4.2} readOnly size='small' precision={0.1}/> 4.2 / 5
-              </Typography>
+            <Box display="flex" flexDirection="row">
+              <Box width="70%">
+                <Typography variant="h4"  sx={{}}>
+                  Test
+                </Typography>
+                <Typography sx={{fontSize:'small', padding:'10px 0px'}}>
+                  <Rating name="read-only" value={4.2} readOnly size='small' precision={0.1}/> 4.2 / 5
+                </Typography>
+              </Box>
+                
+              <Box width='30%' alignSelf="flex-end" textAlign='right'>
+                <Typography>
+                <Tooltip title="Directions">
+                  <IconButton sx={{margin:'0px 5px 5px'}}>
+                    <DirectionsOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+
+                <Tooltip title="Information">
+                  <IconButton sx={{margin:'0px 5px 5px'}}>
+                    <HelpOutlineOutlinedIcon/>
+                  </IconButton>
+                </Tooltip>
+                </Typography>
+              </Box>
             </Box>
             <Divider/>
 

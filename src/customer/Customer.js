@@ -16,6 +16,8 @@ import reactDom from 'react-dom';
 import CheckOut from './components/CheckOut';
 import { Link } from 'react-router-dom';
 import ViewProfile from '../profile/viewprofile';
+import DeliveryHistory from './components/DeliveryHistory';
+import ReservationHistory from './components/ReservationHistory';
 
 const drawerWidth = 480;
 
@@ -289,6 +291,8 @@ function deleteItem(id){
           <Route exact path='/customer/browserestaurant'><BrowseRestaurant restData={restData}/> <BrowseRestaurantCat restData={restData} catData={catData}/></Route>
           <Route path='/customer/browserestaurant/restaurantdetails'><RetaurantDetails/> </Route>
           <Route path='/customer/profile'><ViewProfile/> </Route>
+          <Route path='/customer/deliveryhistory'><DeliveryHistory/> </Route>
+          <Route path='/customer/reservationhistory'><ReservationHistory/> </Route>
           <Route exact path='/customer/checkout'>
             <CheckOut realCart={realCart} deleteItem={deleteItem} minusQty={minusQty} addQty={addQty} getsub={getsub} subtotal={subtotal} deliveryFee={deliveryFee} gst={gst} total={total} />
           </Route>

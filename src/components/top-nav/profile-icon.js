@@ -9,6 +9,7 @@ import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../store/user_context' ;
+import { useRouteMatch } from 'react-router';
 
 export default function ProfileIcon() {
 
@@ -17,7 +18,9 @@ export default function ProfileIcon() {
   console.log(testContext)
     const history = useHistory();
     const [openDialog, setOpenDialog] = React.useState(false);
+    const match = useRouteMatch('/:userrole');
 
+    console.log(match.params.userrole)
     const handleOpenDialog= () => {
         setOpenDialog(true);
     };
@@ -32,8 +35,12 @@ export default function ProfileIcon() {
     }
 
     const handleProfile = () => {
-        history.push("/generalmanager/profile");
-      };
+        history.push(`/${match.params.userrole}/profile`);
+    };
+
+    const handleChangePass = () => {
+      history.push(`/${match.params.userrole}/profile/changepassword`);
+    };
   
     /*Menu*/
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -67,7 +74,7 @@ export default function ProfileIcon() {
                     mt: 1.5,}}}
         >
             <MenuItem onClick={handleProfile}> <PersonIcon color="action" fontSize="small" sx={{mr: 1}}/> Edit Profile</MenuItem>
-            <MenuItem onClick={handleClose}> <LockIcon color="action" fontSize="small" sx={{mr: 1}}/>Change Password</MenuItem>
+            <MenuItem onClick={handleChangePass}> <LockIcon color="action" fontSize="small" sx={{mr: 1}}/>Change Password</MenuItem>
             <MenuItem onClick={handleClose}> <Settings color="action" fontSize="small" sx={{mr: 1}}/> Settings</MenuItem>
             <Divider />
             <MenuItem onClick={handleOpenDialog}>

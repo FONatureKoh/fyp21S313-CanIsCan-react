@@ -49,7 +49,7 @@ export default function NavigationCustomer({isVisible, isSelected, setIsSelected
               <ListItemText primary="Browse Restaurants" />
             </ListItemButton>
 
-            <ListItemButton selected={isSelected === 2} onClick={() => setIsSelected(2)} >
+            <ListItemButton selected={isSelected === 2} component={ Link } to="/customer/deliveryhistory" onClick={() => setIsSelected(2)}  >
               <ListItemIcon>
                 <Info/>
               </ListItemIcon>
@@ -62,14 +62,14 @@ export default function NavigationCustomer({isVisible, isSelected, setIsSelected
               <ListItemText primary="Reservations" />
             </ListItem>
             
-            <ListItemButton selected={isSelected === 3} component={ Link } to="/customer/browserestaurant" onClick={() => setIsSelected(1)} >
+            <ListItemButton selected={isSelected === 3} component={ Link } to="/customer/browserestaurant" onClick={() => setIsSelected(3)} >
               <ListItemIcon>
                 <RestaurantMenuIcon/>
               </ListItemIcon>
               
               <ListItemText primary="Browse Restaurants" />
             </ListItemButton>
-            <ListItemButton selected={isSelected === 4} onClick={() => setIsSelected(2)} >
+            <ListItemButton selected={isSelected === 4} component={ Link } to="/customer/reservationhistory" onClick={() => setIsSelected(4)} >
               <ListItemIcon>
                 <Info/>
               </ListItemIcon>

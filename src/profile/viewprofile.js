@@ -75,9 +75,9 @@ export default function ViewProfile() {
       </div>
       </Route>
 
-      <Route path="/generalmanager/profile/editprofile"><EditProfile userProfile={userProfile}/></Route>
+      <Route path="/:userrole/profile/editprofile"><EditProfile userProfile={userProfile}/></Route>
 
-      <Route path="/generalmanager/profile/changepassword"><ChangePassword userProfile={userProfile}/></Route>
+      <Route path="/:userrole/profile/changepassword"><ChangePassword userProfile={userProfile}/></Route>
     </Switch>
   )
 }
