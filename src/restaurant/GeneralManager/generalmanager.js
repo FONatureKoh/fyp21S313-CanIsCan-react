@@ -9,7 +9,7 @@ import ViewInfo from './components/restaurantprofile';
 import AddSubUser from './components/addsubuser';
 import Stats from './components/statistics';
 import ViewProfile from '../../profile/viewprofile';
-import { retrieveCatItems } from '../restaurant_controller';
+import { retrieveCatItems, retrieveRestaurantStatus } from '../restaurant_controller';
 import { Modal } from '@mui/material';
 import FirstLogin from './components/firstlogin';
 
@@ -25,11 +25,36 @@ import FirstLogin from './components/firstlogin';
 
 export default function GeneralManager() {
   // Setting some general states
+  // const [menuData, setMenuData] = useState([]);
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
-  // const [menuData, setMenuData] = useState([]);
   const [firstlog, setFirstLog] = useState(false);
+
+  // Async function to get status of restaurant
+  async function getStatus() {
+    try {
+      const restaurantStatus = await retrieveRestaurantStatus();
+      if (restaurantStatus == "first") {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
+  // Note: Using useEffect to get the firstlogin status
+  useEffect(() =>{
+    getStatus()
+      .then((response) => {
+        setFirstLog(response);
+      })
+      .catch(error => console.log(error));
+  });
 
   // useEffect to get Restaurant's Items Data
   // NOTE: edited to retrieve restaurant items using the username in
