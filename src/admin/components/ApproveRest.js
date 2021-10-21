@@ -75,12 +75,17 @@ export default function ApproveRest() {
             {
               restDetails.map(item =>{
                 return(
-                  <Accordion sx={{margin:0.5, borderRadius:1}}>
+                  <Accordion 
+                    expanded={expanded === 'panel' + item.restaurant_ID} 
+                    onChange={handleChange('panel' + item.restaurant_ID)} 
+                    sx={{margin:0.5, borderRadius:1}}>
+
                   <AccordionSummary sx={{textAlign: 'center', bgcolor: '#bdbdbd', borderRadius: 1, minWidth: 300}}>
                     <Typography sx={{textAlign: 'center'}}>
                       {item.restaurant_name}
                     </Typography>
                   </AccordionSummary>
+
                   <AccordionDetails sx={{ bgcolor: '#eeeeee'}}>
                     <Box sx={{ width:'100%', textAlign:'center', p:'20px auto'}}>
                     <Typography sx={themes.textHeader}>
@@ -112,7 +117,7 @@ export default function ApproveRest() {
                       <Button variant='outlined' color='error' sx={{ml:'10px', width:'100px'}}>REJECT</Button>
                     </Box>
                   </AccordionDetails>
-                </Accordion>
+                  </Accordion>
                 )
               })
             }
