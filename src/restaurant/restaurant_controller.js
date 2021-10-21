@@ -213,6 +213,28 @@ export function retrieveCatItems(ric_ID) {
 };
 
 /*****************************************************************************************
+ * All Restaurant Items Retrieval based on item category function                        *
+ * ***************************************************************************************
+ * - Retrieves all the items from the database based on username in the access token     
+ * ***************************************************************************************/
+export function retrieveAllItems() {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  return axios.get(`${config.apiDomain}/restaurant/retrieveAllItems`, axiosConfig)
+    .then(response => {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+};
+
+/*****************************************************************************************
  * Single Restaurant Item retrieval                                                      *
  * ***************************************************************************************
  * - Retrieves a single restaurant item based on item's ID    

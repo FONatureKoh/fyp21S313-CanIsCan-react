@@ -29,7 +29,7 @@ export default function GeneralManager() {
   const [isSelected, setIsSelected] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
   // const [menuData, setMenuData] = useState([]);
-  const [firstlog, setFirstLog] = useState(true);
+  const [firstlog, setFirstLog] = useState(false);
 
   // useEffect to get Restaurant's Items Data
   // NOTE: edited to retrieve restaurant items using the username in
