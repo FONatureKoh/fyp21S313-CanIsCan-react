@@ -28,20 +28,20 @@ export default function GeneralManager() {
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
-  const [menuData, setMenuData] = useState([]);
+  // const [menuData, setMenuData] = useState([]);
   const [firstlog, setFirstLog] = useState(true);
 
   // useEffect to get Restaurant's Items Data
   // NOTE: edited to retrieve restaurant items using the username in
   // accesstoken instead.
-  useEffect(() => {
-    async function getMenu() {
-      const retrievedItemsData = await retrieveCatItems();
-      setMenuData(retrievedItemsData);
-      // console.log(retrievedItemsData);
-    }
-    getMenu();
-  },[])
+  // useEffect(() => {
+  //   async function getMenu() {
+  //     const retrievedItemsData = await retrieveCatItems();
+  //     setMenuData(retrievedItemsData);
+  //     // console.log(retrievedItemsData);
+  //   }
+  //   getMenu();
+  // },[])
   
   const toggleChecked = () => {
     if (isChecked)
@@ -80,7 +80,7 @@ export default function GeneralManager() {
 
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>
-          <Route path="/generalmanager/editmenu"> <Editmenu menuData={menuData}/></Route>
+          <Route path="/generalmanager/editmenu"> <Editmenu/></Route>
           <Route path="/generalmanager/manageuser" component= {ManageUser} />
           <Route path="/generalmanager/restaurantinformation"> <ViewInfo isChecked={isChecked} toggleChecked={toggleChecked}/> </Route>
           <Route path="/generalmanager/addsub-user" component= {AddSubUser}/>
