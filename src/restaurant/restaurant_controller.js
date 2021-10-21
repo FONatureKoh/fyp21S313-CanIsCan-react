@@ -6,50 +6,6 @@ import axios from 'axios';
 const config = require('../store/config.json');
 
 /*****************************************************************************************
- * All Categories retrieval based on restaurant ID function                              *
- * ***************************************************************************************
- * - Takes in restaurantID and retrieve all categories based on that restaurant's ID     
- * ***************************************************************************************/
-export function retrieveCats() {
-  // Config for Axios to send authorisation in header
-  const axiosConfig = {
-    headers: {
-      'Authorisation': window.sessionStorage.accessToken
-    }
-  };
-
-  return axios.get(`${config.apiDomain}/restaurant/itemCategory`, axiosConfig)
-  .then(response => {
-    return response.data;
-  })
-  .catch(function (error) {
-    console.log(error);
-  })
-};
-
-/*****************************************************************************************
- * All Restaurant Items Retrieval based on item category function                        *
- * ***************************************************************************************
- * - Retrieves all the items from the database based on username in the access token     
- * ***************************************************************************************/
-export function retrieveCatItems() {
-  // Axios request config to be declared first
-  const axiosConfig = {
-    headers: {
-      'Authorisation': window.sessionStorage.accessToken
-    }
-  };
-
-  return axios.get(`${config.apiDomain}/restaurant/retrieveCategoriesItems`, axiosConfig)
-  .then(response => {
-    return response.data;
-  })
-  .catch(function (error) {
-    console.log(error);
-  })
-};
-
-/*****************************************************************************************
  * Adding a new Restaurant item                                                          *
  * ***************************************************************************************
  * 
@@ -210,4 +166,70 @@ export function retrieveRestaurantTags() {
     .catch(err => {
       console.log(err)
     });
+};
+
+/*****************************************************************************************
+ * All Categories retrieval based on restaurant ID function                              *
+ * ***************************************************************************************
+ * - Retrieves all the restaurant's categories    
+ * ***************************************************************************************/
+export function retrieveCats() {
+  // Config for Axios to send authorisation in header
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  return axios.get(`${config.apiDomain}/restaurant/itemCategory`, axiosConfig)
+    .then(response => {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+};
+
+/*****************************************************************************************
+ * All Restaurant Items Retrieval based on item category function                        *
+ * ***************************************************************************************
+ * - Retrieves all the items from the database based on username in the access token     
+ * ***************************************************************************************/
+export function retrieveCatItems(ric_ID) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  return axios.get(`${config.apiDomain}/restaurant/retrieveCategoriesItems/${ric_ID}`, axiosConfig)
+    .then(response => {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+};
+
+/*****************************************************************************************
+ * Single Restaurant Item retrieval                                                      *
+ * ***************************************************************************************
+ * - Retrieves a single restaurant item based on item's ID    
+ * ***************************************************************************************/
+export function retrieveItem(itemID) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  return axios.get(`${config.apiDomain}/restaurant/restaurantItem/${itemID}`, axiosConfig)
+    .then(response => {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
 };
