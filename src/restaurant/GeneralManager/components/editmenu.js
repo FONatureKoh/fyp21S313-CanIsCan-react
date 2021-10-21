@@ -19,28 +19,69 @@ import { DialogTitle } from '@mui/material';
 import { DialogContent } from '@mui/material';
 import { DialogContentText } from '@mui/material';
 import { DialogActions } from '@mui/material';
-import { retrieveCatItems } from '../../restaurant_controller';
+import { retrieveAllItems, retrieveCatItems, retrieveCats } from '../../restaurant_controller';
 
 export default function Editmenu({menuData, itemSelected, setItemSelected}) {
   // Test console
   // console.log(menuData)
   // console.log(menuList[0]);
-
+  
+  // All useful states
   const [open, setOpen] = useState(false);
   const testContext = useContext(UserContext);
   //const menuList = getMenu(menuData)
   const [newMenu, setNewMenu] = useState('');
   const [value, setValue] = useState('0');
   const [menuData2, setMenuData2] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  // Async Function to get all the items 
+  async function getAllItems(){
+    try {
+      const allItems = await retrieveAllItems();
+      return allItems;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // Async Function to get all the restaurant's categories
+  async function getCategories(){
+    try {
+      const categories = await retrieveCats();
+      return categories;
+    }
+    catch (error) {
+      return error;
+    }
+  }
 
   useEffect(() => {
-    async function getMenu() {
-      const retrievedItemsData = await retrieveCatItems();
-      setMenuData2(retrievedItemsData);
-    }
-    getMenu();
+    // function to get all the restaurant's items
+    getAllItems()
+      .then((response) => {
+        setMenuData2(response);
+      })
+      .catch(error => console.log(error));
+
+    // function to get all restaurant categories name
+    getCategories()
+      .then((response) => {
+        console.log(response);
+
+        // Build the ric_name into an array
+        var ric_name_array = []
+
+        response.forEach(element => {
+          ric_name_array.push(element.ric_name);
+        });
+
+        setCategories(ric_name_array);
+      })
+      .catch(error => console.log(error));
   },[])
-  
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
     console.log(newValue)
@@ -54,25 +95,6 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
   const handleOpen = () => {
     setOpen(true);
   };
-
-  //function to get all menu name
-  function getMenu(menu)
-  {
-    const check = [];
-    const re = [];
-    menu.map(item =>{
-      if(check.includes(item.ric_name) === true)
-      {
-        check.push(item.ric_name)
-      }
-      else
-      {
-        check.push(item.ric_name)
-        re.push(item.ric_name)
-      }
-    })
-    return re;
-  }
 
   function addMenu()
   {
@@ -96,8 +118,8 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
             
               <TabList onChange={handleChange} aria-label="lab API tabs example">
                 {
-                  getMenu(menuData2).map((item, index) => {
-                    return <Tab label={item} value={index.toString()}/>
+                  categories.map((ric_name, index) => {
+                    return <Tab label={ric_name} value={index.toString()}/>
                   })
                 }
                 <Tab icon={<AddIcon value="add" fontSize="small"/>}label="ADD MENU" onClick={handleOpen}/>
@@ -110,9 +132,9 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
             </Box>
             <Box sx={{margin:'10px auto', width:'100%'}}>
             {
-              getMenu(menuData2).map((item, index) => {
-                console.log(item);
-                return <TabPanel id={index} value={index.toString()}> <ViewMenuList menuData={menuData2} menuList={item} /></TabPanel>
+              categories.map((ric_name, index) => {
+                console.log(ric_name);
+                return <TabPanel id={index} value={index.toString()}> <ViewMenuList menuData={menuData2} menuList={ric_name} /></TabPanel>
               })
             }
             </Box>
