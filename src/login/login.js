@@ -54,6 +54,7 @@ export default function Login() {
     if (userinformation != null)
     {
       const ut = userinformation["userType"];
+      console.log(ut);
       // const un = userinformation[0].username;
 
       if(ut === "Restaurant General Manager")
@@ -76,8 +77,10 @@ export default function Login() {
         let path = '/customer';
         history.push(path);
       }
-      else
+      else // Assuming nothing else, then System Administrator
       {
+        let path = '/admin';
+        history.push(path);
         // alert(un + " is a " + ut);
       }
     }
