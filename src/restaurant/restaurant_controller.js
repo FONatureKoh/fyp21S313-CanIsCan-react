@@ -39,29 +39,6 @@ export function addRestaurantItem(imageFile, itemAvailability, itemName, itemPri
 };
 
 /*****************************************************************************************
- * Delete a Restaurant item                                                              *
- * ***************************************************************************************
- * 
- * ***************************************************************************************/
-export function deleteRestaurantItem(itemID) {
-  // Axios request config to be declared first
-  const axiosConfig = {
-    headers: {
-      'Authorisation': window.sessionStorage.accessToken
-    }
-  };
-
-  return axios.delete(`${config.apiDomain}/restaurant/restaurantItem/${itemID}`, axiosConfig)
-    .then(res => {
-      // In here we can choose what we want to do with the response of the request
-      return res.data;
-    })
-    .catch(err => {
-      console.log(err)
-    });
-};
-
-/*****************************************************************************************
  * Editing a restaurant Item                                                             *
  * ***************************************************************************************
  * - Takes in ItemID. Since itemID is a primary key, there is no issue in editing the item
@@ -92,6 +69,29 @@ export function editRestaurantItem(itemID, imageFile, itemAvailability, itemRest
     .then(res => {
       // In here we can choose what we want to do with the response of the request
       // console.log(res)
+      return res.data;
+    })
+    .catch(err => {
+      console.log(err)
+    });
+};
+
+/*****************************************************************************************
+ * Delete a Restaurant item                                                              *
+ * ***************************************************************************************
+ * 
+ * ***************************************************************************************/
+export function deleteRestaurantItem(itemID) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  return axios.delete(`${config.apiDomain}/restaurant/restaurantItem/${itemID}`, axiosConfig)
+    .then(res => {
+      // In here we can choose what we want to do with the response of the request
       return res.data;
     })
     .catch(err => {
@@ -167,6 +167,28 @@ export function retrieveRestaurantTags() {
       console.log(err)
     });
 };
+
+/*****************************************************************************************
+ * Restaurant Adding a new category for items                                            *
+ * ***************************************************************************************
+ * - Adding a new category based on the user input   
+ * ***************************************************************************************/
+export async function addRestaurantCategory(categoryName) {
+  // Config for Axios to send authorisation in header
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  try {
+    const res = await axios.post(`${config.apiDomain}/restaurant/createNewCategory`, {ric_name: categoryName}, axiosConfig);
+    return res.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
+}
 
 /*****************************************************************************************
  * All Categories retrieval based on restaurant ID function                              *
