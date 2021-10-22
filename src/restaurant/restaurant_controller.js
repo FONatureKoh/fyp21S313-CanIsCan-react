@@ -311,3 +311,33 @@ export async function postPersonalProfile (profileImage, fname, lname, phoneNo, 
     console.log(error);
   }
 }
+
+/*****************************************************************************************
+ * First Login set restaurant profile                                                    *
+ * ***************************************************************************************
+ * - send data to the restaurant/restaurantProfile POST route
+ * ***************************************************************************************/
+export async function postRestaurantProfile (bannerImage, address, postalCode, tags) {
+
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  // Construct the form
+  const postForm = new FormData();
+  postForm.append("bannerImage", bannerImage);
+  postForm.append("address", address);
+  postForm.append("postalCode", postalCode);
+  postForm.append("tags", tags);
+
+  try {
+    const response = await axios.post(`${config.apiDomain}/restaurant/restaurantProfile`, postForm, axiosConfig);
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
