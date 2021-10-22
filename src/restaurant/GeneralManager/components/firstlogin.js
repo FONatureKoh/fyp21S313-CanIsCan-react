@@ -15,7 +15,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/styles';
-import { postPersonalProfile, postRestaurantProfile, retrieveRestaurantTags } from '../../restaurant_controller';
+import { postChangePW, postPersonalProfile, postRestaurantProfile, retrieveRestaurantTags } from '../../restaurant_controller';
 
 const steps = ['Update your personal profile', 'Update your restaurant profile', 'Change your password'];
 
@@ -103,8 +103,7 @@ export default function FirstLogin({setFirstLog}) {
     }
   }, [bannerImage])
 
-  // Some useful async functions that goes with the component to make
-  // things easier
+  // Some useful async functions that goes with the component to make things easier
   
   // This one to post the user data to the server
   async function postPersonal(){
@@ -122,6 +121,16 @@ export default function FirstLogin({setFirstLog}) {
   async function postRestaurant(){
     try {
       const response = await postRestaurantProfile(bannerImage, restAdd, restPostal, tags);
+      return response.api_msg;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  async function postPassword(){
+    try {
+      const response = await postChangePW(oldPW, newPW);
       return response.api_msg;
     }
     catch (error) {
@@ -219,6 +228,13 @@ export default function FirstLogin({setFirstLog}) {
     
     // Post the restaurant profile
     postRestaurant()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch(error => console.log(error));
+
+    // Post RGM password update 
+    postPassword()
       .then((response) => {
         console.log(response);
       })
@@ -482,34 +498,34 @@ export default function FirstLogin({setFirstLog}) {
             <Divider/>
             <Typography sx={themes.textHeader}>
             <TextField 
-                  sx={{width:'80%', margin:'15px auto'}} 
-                  id="old-pw" 
-                  type="password" 
-                  label="Enter Old Password:" 
-                  variant="filled" 
-                  size="small" 
-                  onChange={(e)=> setOldPW(e.target.value)}
-                />
+              sx={{width:'80%', margin:'15px auto'}} 
+              id="old-pw" 
+              type="password" 
+              label="Enter Old Password:" 
+              variant="filled" 
+              size="small" 
+              onChange={(e)=> setOldPW(e.target.value)}
+            />
 
-                <TextField 
-                  sx={{width:'80%', margin:'15px auto'}} 
-                  id="new-pw" 
-                  type="password" 
-                  label="Enter New Password:" 
-                  variant="filled" 
-                  size="small" 
-                  onChange={(e)=> setNewPW(e.target.value)}
-                />
+            <TextField 
+              sx={{width:'80%', margin:'15px auto'}} 
+              id="new-pw" 
+              type="password" 
+              label="Enter New Password:" 
+              variant="filled" 
+              size="small" 
+              onChange={(e)=> setNewPW(e.target.value)}
+            />
 
-                <TextField 
-                  sx={{width:'80%', margin:'15px auto'}} 
-                  id="confirm-new" 
-                  type="password" 
-                  label="Re-enter New Password:" 
-                  variant="filled" 
-                  size="small" 
-                  onChange={(e)=> setConfirmNewPW(e.target.value)}
-                />
+            <TextField 
+              sx={{width:'80%', margin:'15px auto'}} 
+              id="confirm-new" 
+              type="password" 
+              label="Re-enter New Password:" 
+              variant="filled" 
+              size="small" 
+              onChange={(e)=> setConfirmNewPW(e.target.value)}
+            />
 
             </Typography>
           </Box>
