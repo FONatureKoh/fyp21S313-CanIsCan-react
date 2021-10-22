@@ -35,7 +35,7 @@ export default function GeneralManager() {
   async function getStatus() {
     try {
       const restaurantStatus = await retrieveRestaurantStatus();
-      if (restaurantStatus == "first") {
+      if (restaurantStatus === "first") {
         return true;
       }
       else {
@@ -116,7 +116,7 @@ export default function GeneralManager() {
       </Box>
 
       <Modal
-        open={firstlog}
+        open={true}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >

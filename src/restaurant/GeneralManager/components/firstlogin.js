@@ -69,6 +69,23 @@ export default function FirstLogin({setFirstLog}) {
       });
   });
 
+  const [preview, setPreview] = useState();
+
+  useEffect(() => {
+    if(profileImage){
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreview(reader.result);
+        console.log("1" +preview)
+      }
+      reader.readAsDataURL(profileImage);
+    }
+    else
+    {
+      setPreview(null);
+    }
+  }, [profileImage])
+
   // Some useful async functions that goes with the component to make
   // things easier
   
@@ -241,7 +258,7 @@ export default function FirstLogin({setFirstLog}) {
       ) 
       //STEP ONE - PERSONAL INFO
       : activeStep === 0 ? (
-        <React.Fragment>
+        <>
           <Box sx={themes.boxStyle}>
             <Typography sx={themes.textHeader}>
               Update your personal information
@@ -254,15 +271,19 @@ export default function FirstLogin({setFirstLog}) {
               <Box sx={{width:'40%'}}>
                 <Typography sx={{textAlign:'center', fontSize:'15px', mt:'20px', fontWeight:'bold'}}>Profile Photo</Typography>
                 <Box sx={{position:'relative', top:'100px'}}>
-                  <img src='meow' height="200px" width="300px" alt="additem" />
+                  <img src={preview} height="200px" width="300px" alt="additem" />
                   <Box sx={{position:'relative', top:'10px'}}>
                     <label htmlFor="profileImage">
-                    <Input 
+                    <input 
                       type="file"
                       id="profileImage"
                       accept=".png"
-                      onChange={event => console.log(event)} 
-                      />
+                      onChange={event => {
+                        const imageFile = event.target.files[0];
+                        setProfileImage(imageFile);
+                        console.log("meow")
+                      }} 
+                      hidden/>
                     <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
                     </label>
                   </Box>
@@ -338,7 +359,7 @@ export default function FirstLogin({setFirstLog}) {
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>
           </Box>
-        </React.Fragment>
+        </>
       ) 
        //STEP TWO - RESTAURANT INFO
       : activeStep === 1 ? (
