@@ -277,3 +277,37 @@ export async function retrieveRestaurantStatus() {
     console.log(error);
   }
 };
+
+/*****************************************************************************************
+ * First Login set user profile                                                          *
+ * ***************************************************************************************
+ * - send data to the user/profilemanagement route
+ * ***************************************************************************************/
+export async function postPersonalProfile (profileImage, fname, lname, phoneNo, email, 
+  address, postalCode) {
+
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  // Construct the form
+  const postForm = new FormData();
+  postForm.append("profileImage", profileImage);
+  postForm.append("fname", fname);
+  postForm.append("lname", lname);
+  postForm.append("phoneNo", phoneNo);
+  postForm.append("email", email);
+  postForm.append("address", address);
+  postForm.append("postalCode", postalCode);
+
+  try {
+    const response = await axios.post(`${config.apiDomain}/users/profilemanagement`, postForm, axiosConfig);
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
