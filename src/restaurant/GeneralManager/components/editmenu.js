@@ -110,25 +110,22 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
     // Add new Category
     addNewCategory()
       .then((response) => {
-        console.log(response);
-
-        // Trigger the categories reload but its not working?
+        // Trigger the categories reload
         getCategories()
           .then((response) => {
             // Build the ric_name into an array
-            var ric_name_array = []
-
-            console.log(response);
+            var ric_name_array = [];
 
             response.forEach(element => {
               ric_name_array.push(element.ric_name);
             });
 
             setCategories(ric_name_array);
+            
+            // Set dialog to close
+            setOpen(false);
           })
           .catch(error => console.log(error));
-
-        setOpen(false);
       })
       .catch(error => console.log(error));
   }
