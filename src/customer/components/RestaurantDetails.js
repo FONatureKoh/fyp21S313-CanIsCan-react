@@ -6,6 +6,7 @@ import test from '../../assets/icon-profile.png'
 import { ButtonBase } from '@mui/material'
 import DirectionsOutlinedIcon from '@mui/icons-material/DirectionsOutlined';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import { Modal } from '@mui/material'
 
 export default function RetaurantDetails() {
   return (
@@ -149,6 +150,29 @@ export default function RetaurantDetails() {
                   {/* END OF MENU ITEM */}
               </Grid>
             </Box>
+
+            {/* DIRECTIONS MODAL */}
+            <Modal
+              open={true}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={{bgcolor:'white',position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width:"30%",
+                padding: '2%',
+                maxHeight:'70%',
+                overflow: 'auto',
+                borderRadius:'5px'}}>
+                  {/* CONTENT */}
+                  <Box>
+                    <img width="300px" height="200px" src="http://maps.google.com/maps/api/staticmap?center=768134&zoom=17&size=400x300&maptype=roadmap&key=AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM&region=SG&markers=color:red%7C768134"></img>
+                  </Box> 
+                  
+              </Box>
+            </Modal>
 
           </Box>
         </CardContent>
