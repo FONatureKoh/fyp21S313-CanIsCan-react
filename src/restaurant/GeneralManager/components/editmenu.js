@@ -19,7 +19,7 @@ import { DialogTitle } from '@mui/material';
 import { DialogContent } from '@mui/material';
 import { DialogContentText } from '@mui/material';
 import { DialogActions } from '@mui/material';
-import { retrieveAllItems, retrieveCatItems, retrieveCats } from '../../restaurant_controller';
+import { addRestaurantCategory, retrieveAllItems, retrieveCatItems, retrieveCats } from '../../restaurant_controller';
 
 export default function Editmenu({menuData, itemSelected, setItemSelected}) {
   // Test console
@@ -57,6 +57,17 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
     }
   }
 
+  // Async function to add a new category for the restaurant
+  async function addNewCategory(){
+    try {
+      const response = await addRestaurantCategory(newMenu);
+      return response.api_msg;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
   useEffect(() => {
     // function to get all the restaurant's items
     getAllItems()
@@ -68,8 +79,6 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
     // function to get all restaurant categories name
     getCategories()
       .then((response) => {
-        console.log(response);
-
         // Build the ric_name into an array
         var ric_name_array = []
 
@@ -89,16 +98,36 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
  
   const handleClose = () => {
     setOpen(false);
-    setNewMenu('')
+    setNewMenu('');
   };
 
   const handleOpen = () => {
     setOpen(true);
   };
 
-  function addMenu()
-  {
-    console.log(newMenu);
+  // Handles when we add new category
+  function addMenu(){
+    // Add new Category
+    addNewCategory()
+      .then((response) => {
+        // Trigger the categories reload
+        getCategories()
+          .then((response) => {
+            // Build the ric_name into an array
+            var ric_name_array = [];
+
+            response.forEach(element => {
+              ric_name_array.push(element.ric_name);
+            });
+
+            setCategories(ric_name_array);
+            
+            // Set dialog to close
+            setOpen(false);
+          })
+          .catch(error => console.log(error));
+      })
+      .catch(error => console.log(error));
   }
 
   return (
@@ -133,7 +162,7 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
             <Box sx={{margin:'10px auto', width:'100%'}}>
             {
               categories.map((ric_name, index) => {
-                console.log(ric_name);
+                // console.log(ric_name);
                 return <TabPanel id={index} value={index.toString()}> <ViewMenuList menuData={menuData2} menuList={ric_name} /></TabPanel>
               })
             }
