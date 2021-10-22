@@ -15,11 +15,12 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/styles';
-import { retrieveRestaurantTags } from '../../restaurant_controller';
+import { postPersonalProfile, postRestaurantProfile, retrieveRestaurantTags } from '../../restaurant_controller';
 
 const steps = ['Update your personal profile', 'Update your restaurant profile', 'Change your password'];
 
 // All useful Async Functions
+// This one to get the tags
 async function getRestaurantTags(){
   try {
     const tags = await retrieveRestaurantTags();
@@ -39,25 +40,25 @@ export default function FirstLogin({setFirstLog}) {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
 
-  //STATES TO DRAW INFORMATION TO USE FOR SUBMISSION
+  // STATES TO DRAW INFORMATION TO USE FOR SUBMISSION
+  const [profileImage, setProfileImage] = useState();
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
   const [personalPhone, setPersonalPhone] = useState('');
+  const [personalEmail, setPersonalEmail] = useState('');
   const [personalAdd, setPersonalAdd] = useState('');
+  const [personalPostal, setPersonalPostal] = useState('');
+
+  //This is the state that will contain all selected item in an array
+  const [bannerImage, setBannerImage] = useState();
   const [restAdd, setRestAdd] = useState('');
-  const [postal, setPostal] = useState('');
-  
+  const [restPostal, setRestPostal] = useState('');
+  const [tags, setTags] = useState([]);
+
   // Password matters
   const [oldPW, setOldPW] = useState('');
   const [newPW, setNewPW] = useState('');
   const [confirmNewPW, setConfirmNewPW] = useState('');
-
-  //This is the state that will contain all selected item in an array
-  const [tags, setTags] = useState([]);
-
-  // States for images
-  const [profileImage, setProfileImage] = useState();
-  const [bannerImage, setBannerImage] = useState();
 
   // useEffect to initialise some important data
   useEffect(() => {
@@ -67,6 +68,32 @@ export default function FirstLogin({setFirstLog}) {
         setRestaurantTags(response);
       });
   });
+
+  // Some useful async functions that goes with the component to make
+  // things easier
+  
+  // This one to post the user data to the server
+  async function postPersonal(){
+    console.log(profileImage);
+    try {
+      const response = await postPersonalProfile(profileImage, fName, lName, personalPhone,
+        personalEmail, personalAdd, personalPostal);
+      return response.api_msg;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  async function postRestaurant(){
+    try {
+      const response = await postRestaurantProfile(bannerImage, restAdd, restPostal, tags);
+      return response.api_msg;
+    }
+    catch (error) {
+      return error;
+    }
+  }
 
   //STYLED INPUT FOR IMAGE UPLOAD WORD
   const Input = styled('input')({
@@ -148,7 +175,20 @@ export default function FirstLogin({setFirstLog}) {
   // NOTE: This is where we submit the data to the database
   const handleFinish = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-
+    
+    // Post the personal profile
+    postPersonal()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch(error => console.log(error));
+    
+    // Post the restaurant profile
+    postRestaurant()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch(error => console.log(error));
   }
 
   return (
@@ -216,15 +256,12 @@ export default function FirstLogin({setFirstLog}) {
                 <Box sx={{position:'relative', top:'100px'}}>
                   <img src='meow' height="200px" width="300px" alt="additem" />
                   <Box sx={{position:'relative', top:'10px'}}>
-                    <label htmlFor="imageFile">
+                    <label htmlFor="profileImage">
                     <Input 
                       type="file"
-                      id="imageFile"
+                      id="profileImage"
                       accept=".png"
-                      onChange={event => {
-                        const imageFile = event.target.files[0];
-                        setProfileImage(imageFile);
-                      }} 
+                      onChange={event => console.log(event)} 
                       />
                     <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
                     </label>
@@ -240,7 +277,7 @@ export default function FirstLogin({setFirstLog}) {
                   label="First Name:" 
                   variant="filled" 
                   size="small"
-                  onChange={(e)=> setFName(e.target.value)}
+                  onChange={(e)=> console.log(e)}
                 />
                 <TextField sx={{width:'40%', margin:'15px 2.5%'}} 
                   id="lname-field" 
@@ -318,11 +355,12 @@ export default function FirstLogin({setFirstLog}) {
               <Box sx={{position:'relative', top:'10px'}}>
                 <label htmlFor="bannerImage">
                 <Input 
-                  type="file"
-                  id="bannerImage"
-                  accept=".png"
+                  type="file" 
+                  id="bannerImage" 
+                  accept=".png" 
                   onChange={event => {
                     const imageFile = event.target.files[0];
+                    console.log(imageFile);
                     setBannerImage(imageFile);
                   }} 
                   />
@@ -345,7 +383,7 @@ export default function FirstLogin({setFirstLog}) {
               id="rest-postal" 
               label="Restaurant Postal Code (Required*):"  
               variant="filled" 
-              onChange={(e)=> setPostal(e.target.value)}
+              onChange={(e)=> setRestPostal(e.target.value)}
             />
 
             <FormControl sx={{ m:"15px auto", width: '85%' }}>
