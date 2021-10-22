@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -15,10 +15,27 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/styles';
+import { retrieveRestaurantTags } from '../../restaurant_controller';
 
 const steps = ['Update your personal profile', 'Update your restaurant profile', 'Change your password'];
 
+// All useful Async Functions
+async function getRestaurantTags(){
+  try {
+    const tags = await retrieveRestaurantTags();
+    return tags.restaurantTags;
+  }
+  catch (error) {
+    return error;
+  }
+}
+
+// The React Function itself
 export default function FirstLogin({setFirstLog}) {
+  // Essential variables
+  const [restaurantTags, setRestaurantTags] = useState([]);
+
+  // Essential states for the react component
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
 
@@ -29,32 +46,32 @@ export default function FirstLogin({setFirstLog}) {
   const [personalAdd, setPersonalAdd] = useState('');
   const [restAdd, setRestAdd] = useState('');
   const [postal, setPostal] = useState('');
-  //This is the state that will contain all selected item in an array
-  const [tags, setTags] = useState([]);
+  
+  // Password matters
   const [oldPW, setOldPW] = useState('');
   const [newPW, setNewPW] = useState('');
   const [confirmNewPW, setConfirmNewPW] = useState('');
+
+  //This is the state that will contain all selected item in an array
+  const [tags, setTags] = useState([]);
+
+  // States for images
+  const [profileImage, setProfileImage] = useState();
+  const [bannerImage, setBannerImage] = useState();
+
+  // useEffect to initialise some important data
+  useEffect(() => {
+    // Setting the restaurant tags
+    getRestaurantTags()
+      .then((response) => {
+        setRestaurantTags(response);
+      });
+  });
 
   //STYLED INPUT FOR IMAGE UPLOAD WORD
   const Input = styled('input')({
     display: 'none',
   });
-
-  //START OF CHIP DROP DOWNLIST
-  const names = [
-    'Western',
-    'Chinese',
-    'Japanese',
-    'Italian',
-    'Korean',
-    'Vietnamese',
-    'Thai',
-    'Indian',
-    'Asian',
-    'Fast Food',
-    'Fine Dining'
-  ];
-
 
   //Drop down item settings
   const ITEM_HEIGHT = 40;
@@ -67,7 +84,6 @@ export default function FirstLogin({setFirstLog}) {
       },
     },
   };
-
     
   const handleChange = (event) => {
     const {
@@ -123,13 +139,16 @@ export default function FirstLogin({setFirstLog}) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  // Function to handle closing of the form.
   const handleReset = () => {
     setFirstLog(false);
   };
 
-  //HANDLE FINAL SUBMIT
+  // HANDLE FINAL SUBMIT 
+  // NOTE: This is where we submit the data to the database
   const handleFinish = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
   }
 
   return (
@@ -202,10 +221,10 @@ export default function FirstLogin({setFirstLog}) {
                       type="file"
                       id="imageFile"
                       accept=".png"
-                      // onChange={event => {
-                      //   const imageFile = event.target.files[0];
-                      //   setImageFile(imageFile);
-                      // }} 
+                      onChange={event => {
+                        const imageFile = event.target.files[0];
+                        setProfileImage(imageFile);
+                      }} 
                       />
                     <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
                     </label>
@@ -217,11 +236,11 @@ export default function FirstLogin({setFirstLog}) {
 
               <Box sx={{width:'60%'}}>
                 <TextField sx={{width:'40%', margin:'15px 2.5%'}} 
-                id="fname-field" 
-                label="First Name:" 
-                variant="filled" 
-                size="small"
-                onChange={(e)=> setFName(e.target.value)}
+                  id="fname-field" 
+                  label="First Name:" 
+                  variant="filled" 
+                  size="small"
+                  onChange={(e)=> setFName(e.target.value)}
                 />
                 <TextField sx={{width:'40%', margin:'15px 2.5%'}} 
                   id="lname-field" 
@@ -240,11 +259,27 @@ export default function FirstLogin({setFirstLog}) {
                 />
 
                 <TextField sx={{width:'85%', margin:'15px auto'}} 
+                  id="email-field" 
+                  label="Email (Required*):" 
+                  variant="filled" 
+                  size="small" 
+                  onChange={(e)=> (e.target.value)}
+                />
+
+                <TextField sx={{width:'85%', margin:'15px auto'}} 
                   id="address-field" 
                   label="Address (Required*):"  
-                  multiline rows={4} 
+                  multiline rows={2} 
                   variant="filled" 
                   onChange={(e)=> setPersonalAdd(e.target.value)}
+                />
+
+                <TextField sx={{width:'85%', margin:'15px auto'}} 
+                  id="postal-code-field" 
+                  label="Postal Code (Required*):"  
+                  variant="filled" 
+                  size="small"
+                  onChange={(e)=> (e.target.value)}
                 />
               </Box>
             </Box>
@@ -286,10 +321,10 @@ export default function FirstLogin({setFirstLog}) {
                   type="file"
                   id="bannerImage"
                   accept=".png"
-                  // onChange={event => {
-                  //   const imageFile = event.target.files[0];
-                  //   setImageFile(imageFile);
-                  // }} 
+                  onChange={event => {
+                    const imageFile = event.target.files[0];
+                    setBannerImage(imageFile);
+                  }} 
                   />
                 <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
                 </label>
@@ -301,17 +336,16 @@ export default function FirstLogin({setFirstLog}) {
             <TextField sx={{width:'85%', margin:'30px auto 15px'}}
               id="rest-address" 
               label="Restaurant Address (Required*):"  
-              multiline 
-              rows={4} 
+              multiline rows={4} 
               variant="filled" 
-              onChange={(e)=> setRestAdd(e.taget.value)}
+              onChange={(e)=> setRestAdd(e.target.value)}
             />
 
             <TextField sx={{width:'85%', marginBottom:'10px auto'}}
               id="rest-postal" 
               label="Restaurant Postal Code (Required*):"  
               variant="filled" 
-              onChange={(e)=> setPostal(e.taget.value)}
+              onChange={(e)=> setPostal(e.target.value)}
             />
 
             <FormControl sx={{ m:"15px auto", width: '85%' }}>
@@ -332,7 +366,7 @@ export default function FirstLogin({setFirstLog}) {
                 )}
                 MenuProps={MenuProps}
               >
-                {names.map((name) => (
+                {restaurantTags.map((name) => (
                   <MenuItem
                     key={name}
                     value={name}
@@ -377,7 +411,7 @@ export default function FirstLogin({setFirstLog}) {
                   label="Enter Old Password:" 
                   variant="filled" 
                   size="small" 
-                  onChange={(e)=> setOldPW(e.taget.value)}
+                  onChange={(e)=> setOldPW(e.target.value)}
                 />
 
                 <TextField 
@@ -387,7 +421,7 @@ export default function FirstLogin({setFirstLog}) {
                   label="Enter New Password:" 
                   variant="filled" 
                   size="small" 
-                  onChange={(e)=> setNewPW(e.taget.value)}
+                  onChange={(e)=> setNewPW(e.target.value)}
                 />
 
                 <TextField 
@@ -397,7 +431,7 @@ export default function FirstLogin({setFirstLog}) {
                   label="Re-enter New Password:" 
                   variant="filled" 
                   size="small" 
-                  onChange={(e)=> setConfirmNewPW(e.taget.value)}
+                  onChange={(e)=> setConfirmNewPW(e.target.value)}
                 />
 
             </Typography>
