@@ -29,7 +29,7 @@ export default function GeneralManager() {
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
-  const [firstlog, setFirstLog] = useState(false);
+  const [firstLog, setFirstLog] = useState(false);
 
   // Async function to get status of restaurant
   async function getStatus() {
@@ -116,7 +116,7 @@ export default function GeneralManager() {
       </Box>
 
       <Modal
-        open={true}
+        open={firstLog}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >

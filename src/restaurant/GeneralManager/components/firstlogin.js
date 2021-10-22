@@ -69,22 +69,39 @@ export default function FirstLogin({setFirstLog}) {
       });
   });
 
-  const [preview, setPreview] = useState();
+  // Preview Images
+  const [profilePreview, setProfilePreview] = useState();
+  const [bannerPreview, setBannerPreview] = useState();
 
+  // Image profilePreview for Profile Picture
   useEffect(() => {
     if(profileImage){
       const reader = new FileReader();
       reader.onload = () => {
-        setPreview(reader.result);
-        console.log("1" +preview)
+        setProfilePreview(reader.result);
+        console.log("1" + profilePreview)
       }
       reader.readAsDataURL(profileImage);
     }
-    else
-    {
-      setPreview(null);
+    else {
+      setProfilePreview(null);
     }
   }, [profileImage])
+
+  // Image preivew for Restaurant Banner
+  useEffect(() => {
+    if(bannerImage){
+      const reader = new FileReader();
+      reader.onload = () => {
+        setBannerPreview(reader.result);
+        console.log("Preivew: " + bannerPreview);
+      }
+      reader.readAsDataURL(bannerImage);
+    }
+    else {
+      setBannerPreview(null);
+    }
+  }, [bannerImage])
 
   // Some useful async functions that goes with the component to make
   // things easier
@@ -271,10 +288,11 @@ export default function FirstLogin({setFirstLog}) {
               <Box sx={{width:'40%'}}>
                 <Typography sx={{textAlign:'center', fontSize:'15px', mt:'20px', fontWeight:'bold'}}>Profile Photo</Typography>
                 <Box sx={{position:'relative', top:'100px'}}>
-                  <img src={preview} height="200px" width="300px" alt="additem" />
+                  <img src={profilePreview} height="200px" width="300px" alt="additem" />
                   <Box sx={{position:'relative', top:'10px'}}>
                     <label htmlFor="profileImage">
                     <input 
+                      hidden 
                       type="file"
                       id="profileImage"
                       accept=".png"
@@ -282,8 +300,7 @@ export default function FirstLogin({setFirstLog}) {
                         const imageFile = event.target.files[0];
                         setProfileImage(imageFile);
                         console.log("meow")
-                      }} 
-                      hidden/>
+                      }} />
                     <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
                     </label>
                   </Box>
@@ -298,7 +315,7 @@ export default function FirstLogin({setFirstLog}) {
                   label="First Name:" 
                   variant="filled" 
                   size="small"
-                  onChange={(e)=> console.log(e)}
+                  onChange={(e)=> setFName(e.target.value)}
                 />
                 <TextField sx={{width:'40%', margin:'15px 2.5%'}} 
                   id="lname-field" 
@@ -321,7 +338,7 @@ export default function FirstLogin({setFirstLog}) {
                   label="Email (Required*):" 
                   variant="filled" 
                   size="small" 
-                  onChange={(e)=> (e.target.value)}
+                  onChange={(e)=> setPersonalEmail(e.target.value)}
                 />
 
                 <TextField sx={{width:'85%', margin:'15px auto'}} 
@@ -337,7 +354,7 @@ export default function FirstLogin({setFirstLog}) {
                   label="Postal Code (Required*):"  
                   variant="filled" 
                   size="small"
-                  onChange={(e)=> (e.target.value)}
+                  onChange={(e)=> setPersonalPostal(e.target.value)}
                 />
               </Box>
             </Box>
@@ -371,11 +388,12 @@ export default function FirstLogin({setFirstLog}) {
             <Divider variant="middle" />
             <Box sx={{height:'180px'}}>
             <Typography sx={{textAlign:'center', fontSize:'15px', mt:'5px', fontWeight:'bold'}}>Banner Photo</Typography>
-              <img src='meow' height="200px" width="300px" alt="banner" />
+              <img src={bannerPreview} height="200px" width="300px" alt="banner" />
 
               <Box sx={{position:'relative', top:'10px'}}>
                 <label htmlFor="bannerImage">
-                <Input 
+                <input
+                  hidden 
                   type="file" 
                   id="bannerImage" 
                   accept=".png" 
