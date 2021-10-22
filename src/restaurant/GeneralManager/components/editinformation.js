@@ -122,8 +122,8 @@ export default function EditProfile({restaurantInfo}) {
     history.push('/generalmanager/restaurantinformation');
   };
 
-  function submitChange()
-  {
+  function submitChange() {
+    history.push('/generalmanager/restaurantinformation');
   }
 
   const Input = styled('input')({
