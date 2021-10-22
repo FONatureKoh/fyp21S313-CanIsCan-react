@@ -255,3 +255,120 @@ export function retrieveItem(itemID) {
       console.log(error);
     })
 };
+
+/*****************************************************************************************
+ * Restaurant Status retrieval                                                           *
+ * ***************************************************************************************
+ * - Get the status based on the username within the accessToken 
+ * ***************************************************************************************/
+export async function retrieveRestaurantStatus() {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/restaurant/restaurantStatus`, axiosConfig);
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+};
+
+/*****************************************************************************************
+ * First Login set user profile                                                          *
+ * ***************************************************************************************
+ * - send data to the user/profilemanagement route
+ * ***************************************************************************************/
+export async function postPersonalProfile (profileImage, fname, lname, phoneNo, email, 
+  address, postalCode) {
+
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  // Construct the form
+  const postForm = new FormData();
+  postForm.append("profileImage", profileImage);
+  postForm.append("fname", fname);
+  postForm.append("lname", lname);
+  postForm.append("phoneNo", phoneNo);
+  postForm.append("email", email);
+  postForm.append("address", address);
+  postForm.append("postalCode", postalCode);
+
+  try {
+    const response = await axios.post(`${config.apiDomain}/users/profilemanagement`, postForm, axiosConfig);
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
+
+/*****************************************************************************************
+ * First Login set restaurant profile                                                    *
+ * ***************************************************************************************
+ * - send data to the restaurant/restaurantProfile POST route
+ * ***************************************************************************************/
+export async function postRestaurantProfile (bannerImage, address, postalCode, tags) {
+
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  // Construct the form
+  const postForm = new FormData();
+  postForm.append("bannerImage", bannerImage);
+  postForm.append("address", address);
+  postForm.append("postalCode", postalCode);
+  postForm.append("tags", tags);
+
+  try {
+    const response = await axios.post(`${config.apiDomain}/restaurant/restaurantProfile`, postForm, axiosConfig);
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
+
+/*****************************************************************************************
+ * First Login RGM User password change                                                  *
+ * ***************************************************************************************
+ * - This takes in the old password, new password and sends it to the backend api 
+ * for updating.
+ * ***************************************************************************************/
+export async function postChangePW(oldPassword, newPassword) {
+  // Test consoles
+  console.log("changePwController");
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  const changeJSON = { 
+    oldPassword: oldPassword,
+    newPassword: newPassword
+   };
+
+  try {
+    const res = await axios.put(`${config.apiDomain}/users/userpassword`, changeJSON, axiosConfig);
+    // In here we can choose what we want to do with the response of the request
+    // console.log(res)
+    console.log(res.data);
+    return res.data;
+  }
+  catch (err) {
+    console.log(err);
+  }
+};
