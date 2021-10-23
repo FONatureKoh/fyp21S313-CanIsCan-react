@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid, CardActionArea, Button, IconButton, Tooltip } from '@mui/material'
+import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid, CardActionArea, IconButton, Tooltip } from '@mui/material'
 import TestImage from '../../assets/temp/eg-biz1.png'
 import { Rating } from '@mui/material'
 import test from '../../assets/icon-profile.png'
@@ -8,16 +8,10 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import ReviewsOutlinedIcon from '@mui/icons-material/ReviewsOutlined';
 import { Modal } from '@mui/material'
-import { format } from 'date-fns';
-
-import TextField from '@mui/material/TextField';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import StaticDatePicker from '@mui/lab/StaticDatePicker';
-import { Landscape } from '@mui/icons-material'
+import { Button } from '@mui/material'
 
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
-export default function RetaurantDetails() {
+export default function RetaurantResDetails() {
   //MODAL CONTROLS - DIRECTIONS / INFO
   const [openInfo, setOpenInfo] = useState(false);
   const handleOpenInfo = () => setOpenInfo(true);
@@ -26,11 +20,6 @@ export default function RetaurantDetails() {
   const [openReview, setOpenReview] = useState(false);
   const handleOpenReview = () => setOpenReview(true);
   const handleCloseReview = () => setOpenReview(false);
-
-  // CALENDAR TESTING
-  const [value, setValue] = React.useState(new Date());
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() + 1);
 
   function getMap(postal){
     const maplink = `http://maps.google.com/maps/api/staticmap?center=${postal}&zoom=17&size=400x300&maptype=roadmap&key=${apiKey}&region=SG&markers=color:red%7C${postal}&scale=2`;
@@ -43,7 +32,7 @@ export default function RetaurantDetails() {
           image={TestImage}
         />
 
-<CardContent >
+        <CardContent >
           <Box sx={{width: "80%", margin: '10px auto'}}> 
             {/* HEADER BOX - REST DETAILS HERE */}
             <Box display="flex" flexDirection="row">
@@ -58,10 +47,10 @@ export default function RetaurantDetails() {
               
               <Box width='45%' textAlign='right' >
                 <Box Box width='100%' >
-                    <Button variant="outlined" color="inherit" sx={{marginRight:'20px'}}>ORDER Delivery</Button>
-                    <Button variant="outlined" color="inherit">Reserve Table</Button>
+                    <Button variant="outlined" sx={{marginRight:'20px'}}>ORDER Delivery</Button>
+                    <Button variant="outlined">Reservation</Button>
                 </Box>
-                <Box width='100%' alignSelf="flex-end" sx={{mt:'3px'}} >
+                <Box width='100%' alignSelf="flex-end" >
                   <Typography>
                   <Tooltip title="Information">
                     <IconButton sx={{margin:'0px 5px 5px' }} onClick={handleOpenInfo}>
@@ -270,9 +259,9 @@ export default function RetaurantDetails() {
             </Modal>
             {/* END OF REVIEW MODAL */}
 
-            {/* RESERVATION MODAL */}
+            {/* RESERVE MODAL */}
             <Modal
-              open={true}
+              open={openReview}
               onClose={handleCloseReview}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
@@ -291,77 +280,21 @@ export default function RetaurantDetails() {
                 <CardContent >
                   <Box textAlign="center">
                     <Typography variant="h5">Restaurant Name</Typography>
-                    <Typography variant="subtitle2">Select date / timeslot</Typography>
+                    <Typography variant="subtitle2">Reviews</Typography>
                   </Box>
-                  <Box textAlign="center" sx={{mt:'20px', mb:'10px'}}>
-                  <Typography variant="h6">You have selected</Typography>
-                  <Typography variant="subtitle1">{format(value, 'dd MMMM yyyy')}</Typography>
-                  <Typography variant="subtitle1">TIME</Typography>
-                  </Box>
-                  
-                  <Divider variant="middle"/>
-                  <Box display="flex">
-                    <Box sx={{mt:'0px auto', width:'60%'}}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <StaticDatePicker
-                        openTo="day"
-                        showToolbar={false}
-                        orientation="landscape"
-                        minDate={startDate}
-                        value={value}
-                        onChange={(newValue) => {
-                          setValue(newValue);
-                        }}
-                      />
-                    </LocalizationProvider>
-                    </Box>
+
+                  <Box display="flex" flexDirection="column" width="60%" height="100px" border="1px solid black" margin="10px auto" padding="20px">
+                    <Typography variant="h6">Title</Typography>
+                    <Typography><Rating value={3} size="small"/></Typography>
+                    <Typography variant="subtitle2">Information about the review</Typography>
                     
-                      <Divider orientation="vertical" variant="middle" flexItem />
-                    <Divider variant="middle" />
-                    <Box sx={{m:'20px auto', width:'40%'}}>
-                      Slots
-                      <Grid container>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >13:30</Button>
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >14:30</Button>
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >15:30</Button>
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >16:30</Button>
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >17:30</Button>
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >18:30</Button>
-                        </Grid>
-                      </Grid>
-                    </Box>
+                    <Typography variant="subtitle" fontSize="12px" alignSelf='flex-end'>Reviewed by: Kelvin K.</Typography>
                   </Box>
-
-                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                    <Button
-                      color="inherit"
-                      sx={{ mr: 1 }}
-                      variant="outlined"
-                    >
-                      Cancel
-                    </Button>
-                    <Box sx={{ flex: '1 1 auto' }} />
-
-                    <Button color="inherit" variant="outlined">
-                      NEXT
-                    </Button>
-                  </Box>
-                  
                 </CardContent>
               </Card>
             </Modal>
-            {/* END OF RESERVATION MODAL */}
+            {/* END OF REVIEW MODAL */}
+
 
           </Box>
         </CardContent>

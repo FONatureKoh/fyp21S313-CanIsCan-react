@@ -12,7 +12,6 @@ import { List, ListItem } from '@mui/material';
 import { Divider } from '@mui/material';
 import { ButtonGroup } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import reactDom from 'react-dom';
 import CheckOut from './components/CheckOut';
 import { Link } from 'react-router-dom';
 import ViewProfile from '../profile/viewprofile';
@@ -288,8 +287,10 @@ function deleteItem(id){
       <NavigationCustomer isVisible={isVisible} isSelected={isSelected} setIsSelected={setIsSelected} />
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>
+          {/* DELIVERY */}
           <Route exact path='/customer/browserestaurant'><BrowseRestaurant restData={restData}/> <BrowseRestaurantCat restData={restData} catData={catData}/></Route>
           <Route path='/customer/browserestaurant/restaurantdetails'><RetaurantDetails/> </Route>
+
           <Route path='/customer/profile'><ViewProfile/> </Route>
           <Route path='/customer/deliveryhistory'><DeliveryHistory/> </Route>
           <Route path='/customer/reservationhistory'><ReservationHistory/> </Route>

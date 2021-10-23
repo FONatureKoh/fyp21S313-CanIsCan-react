@@ -62,7 +62,7 @@ export default function NavigationCustomer({isVisible, isSelected, setIsSelected
               <ListItemText primary="Reservations" />
             </ListItem>
             
-            <ListItemButton selected={isSelected === 3} component={ Link } to="/customer/browserestaurant" onClick={() => setIsSelected(3)} >
+            <ListItemButton selected={isSelected === 3} onClick={() => setIsSelected(3)} >
               <ListItemIcon>
                 <RestaurantMenuIcon/>
               </ListItemIcon>
