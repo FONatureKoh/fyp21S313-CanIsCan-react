@@ -16,41 +16,43 @@ export default function ProfileIcon() {
   const testContext = useContext(UserContext);
 
   console.log(testContext)
-    const history = useHistory();
-    const [openDialog, setOpenDialog] = React.useState(false);
-    const match = useRouteMatch('/:userrole');
 
-    console.log(match.params.userrole)
-    const handleOpenDialog= () => {
-        setOpenDialog(true);
-    };
+  const history = useHistory();
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const match = useRouteMatch('/:userrole');
 
-    const handleCloseDialog = () => {
-        setOpenDialog(false);
-    };
+  console.log(match.params.userrole)
+  const handleOpenDialog= () => {
+    setOpenDialog(true);
+  };
 
-    function logout(){
-        let path = '/';
-        history.push(path);
-    }
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
-    const handleProfile = () => {
-        history.push(`/${match.params.userrole}/profile`);
-    };
+  function logout(){
+    let path = '/';
+    history.push(path);
+  }
 
-    const handleChangePass = () => {
-      history.push(`/${match.params.userrole}/profile/changepassword`);
-    };
-  
-    /*Menu*/
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+  const handleProfile = () => {
+    history.push(`/${match.params.userrole}/profile`);
+  };
+
+  const handleChangePass = () => {
+    history.push(`/${match.params.userrole}/profile/changepassword`);
+  };
+
+  /*Menu*/
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Container position="absolute" sx={{mr:1}}>
         <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }} >
@@ -59,34 +61,36 @@ export default function ProfileIcon() {
         </IconButton>
         
         <Menu
-            anchorEl={anchorEl}
-            id="menu"
-            open={open}
-            onClose={handleClose}
-            onClick={handleClose}
-            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-            PaperProps={{
-                elevation: 0,
-                sx: {
-                    overflow: 'visible',
-                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                    mt: 1.5,}}}
-        >
-            <MenuItem onClick={handleProfile}> <PersonIcon color="action" fontSize="small" sx={{mr: 1}}/> Edit Profile</MenuItem>
-            <MenuItem onClick={handleChangePass}> <LockIcon color="action" fontSize="small" sx={{mr: 1}}/>Change Password</MenuItem>
-            <MenuItem onClick={handleClose}> <Settings color="action" fontSize="small" sx={{mr: 1}}/> Settings</MenuItem>
-            <Divider />
-            <MenuItem onClick={handleOpenDialog}>
-                <Button variant="outlined" color="inherit" sx={{width:"100%"}}>Logout</Button>
-            </MenuItem>
+          anchorEl={anchorEl}
+          id="menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+          PaperProps={{
+            elevation: 0,
+            sx: {
+              overflow: 'visible',
+              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+              mt: 1.5,}}
+          }>
+
+          <MenuItem onClick={handleProfile}> <PersonIcon color="action" fontSize="small" sx={{mr: 1}}/> Edit Profile</MenuItem>
+          <MenuItem onClick={handleChangePass}> <LockIcon color="action" fontSize="small" sx={{mr: 1}}/>Change Password</MenuItem>
+          <MenuItem onClick={handleClose}> <Settings color="action" fontSize="small" sx={{mr: 1}}/> Settings</MenuItem>
+          <Divider />
+
+          <MenuItem onClick={handleOpenDialog}>
+            <Button variant="outlined" color="inherit" sx={{width:"100%"}}>Logout</Button>
+          </MenuItem>
         </Menu> 
 
         <Dialog
-            open={openDialog}
-            onClose={handleCloseDialog}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
+          open={openDialog}
+          onClose={handleCloseDialog}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
         >
         <DialogTitle id="alert-dialog-title">
           {"Confirm logout?"}

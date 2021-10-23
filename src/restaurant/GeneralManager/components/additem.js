@@ -45,8 +45,7 @@ export default function AddItem() {
     display: 'none',
   });
 
-  //TESTING PREVIEW
-  
+  // Image Preivew Stuff  
   const [preview, setPreview] = useState();
 
   useEffect(() => {

@@ -1,12 +1,24 @@
 import { useState, createContext, useEffect} from "react";
 import { retrieveUserProfile } from '../profile/profile_controller'
 
+// Async function to get the profile independently based on already created
+// profile controller from profile folder
+async function getUserInfo() {
+  try {
+    const userProfile = await retrieveUserProfile();
+    return userProfile;
+  }
+  catch (error) {
+    return error;
+  }
+}
+
 // Creating the useContext
 export const UserContext = createContext(null);
 
 // Default export so that we can name the function as we import
 export default ({ children }) => {
-  
+  // Use states for the user stuff
   const [userName, setUserName] = useState('');
   const [userType, setUserType] = useState('');
   const [userFullName, setUserFullName] = useState('');
@@ -14,22 +26,19 @@ export default ({ children }) => {
   // User Profile retrieval
   
   useEffect(() => {
-    async function getUserInfo() {
-      const userProfile = await retrieveUserProfile();
-      if (userProfile)
-      {
-        setUserFullName(userProfile.first_name + " " + userProfile.last_name)
-        console.log(userProfile)
-      }
-      else
-      {
-        //if user is not logged in, redirect to login
-        //setUserFullName(userProfile.first_name + " " + userProfile.last_name)
-        console.log("user not logged in")
-      }
-      console.log(userProfile)
-    }
-    getUserInfo();
+    getUserInfo()
+      .then((response) => {
+        // Set all the useful stuff into the 3 states
+        setUserName(response.username);
+        setUserType(response.user_type);
+        setUserFullName(response.first_name + " " + response.last_name);
+
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+        console.log("user not logged in");
+      })
   },[])
 
   // Creating the userStore JSON so that we can use the function and

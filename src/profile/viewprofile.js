@@ -9,7 +9,7 @@ import { useRouteMatch } from 'react-router';
 
 export default function ViewProfile() {
   // Declaring profile information state
-  const [userProfile, setUserProfile] = useState('');
+  const [userProfile, setUserProfile] = useState([]);
 
   const match = useRouteMatch('/:userrole/profile/');
 
@@ -62,6 +62,9 @@ export default function ViewProfile() {
                   <Typography sx={boldtitle}>Address</Typography>
                   <Typography>
                     {userProfile.home_address}
+                  </Typography>
+                  <Typography>
+                    S({userProfile.home_postal_code})
                   </Typography>
                 </Grid>
 

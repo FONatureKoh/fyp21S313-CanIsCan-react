@@ -5,6 +5,7 @@ import { Box } from '@mui/system';
 import { Switch, Route, Redirect }from 'react-router-dom';
 import PendingReservations from './components/PendingReservations';
 import AcceptedReservations from './components/AcceptedReservations';
+import ViewProfile from '../../profile/viewprofile';
 
 export default function ReservationsManager() {
   
@@ -31,6 +32,7 @@ export default function ReservationsManager() {
         <Switch>
           <Route path='/reservationsmanager/viewpendingres'><PendingReservations/></Route>
           <Route path='/reservationsmanager/acceptedres'><AcceptedReservations/></Route>
+          <Route path="/reservationsmanager/profile" component={ViewProfile}/>
           <Redirect from='/reservationsmanager' to='/reservationsmanager/viewpendingres'/>
         </Switch>
       </Box>

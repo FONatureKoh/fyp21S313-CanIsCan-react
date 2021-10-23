@@ -3,6 +3,7 @@ import NavigationDM from '../../components/top-nav/NavigationDM'
 import Topbar from '../../components/top-nav/topbar';
 import { Box } from '@mui/system';
 import ViewPending from './components/ViewPending';
+import ViewProfile from '../../profile/viewprofile';
 import AcceptedOrders from './components/AcceptedOrders';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
@@ -47,6 +48,7 @@ export default function DeliveriesManager() {
         <Switch>
           <Route path='/deliveriesmanager/viewpending'><ViewPending/></Route>
           <Route path='/deliveriesmanager/acceptedorders'><AcceptedOrders/></Route>
+          <Route path="/deliveriesmanager/profile" component={ViewProfile}/>
           <Redirect from='/deliveriesmanager' to='/deliveriesmanager/viewpending'/>
         </Switch>
       </Box>

@@ -87,3 +87,37 @@ export function verifyPwController(oldPassword) {
       console.log(err)
     });
 };
+
+/*****************************************************************************************
+ * First Login set user profile                                                          *
+ * ***************************************************************************************
+ * - send data to the user/profilemanagement route
+ * ***************************************************************************************/
+export async function editPersonalProfile (profileImage, fname, lname, phoneNo, email, 
+  address, postalCode) {
+
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  // Construct the form
+  const editForm = new FormData();
+  editForm.append("profileImage", profileImage);
+  editForm.append("fname", fname);
+  editForm.append("lname", lname);
+  editForm.append("phoneNo", phoneNo);
+  editForm.append("email", email);
+  editForm.append("address", address);
+  editForm.append("postalCode", postalCode);
+
+  try {
+    const response = await axios.put(`${config.apiDomain}/users/profilemanagement`, editForm, axiosConfig);
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}

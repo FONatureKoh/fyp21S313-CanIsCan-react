@@ -1,39 +1,85 @@
-import React, {useState, useEffect} from 'react'
-import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
+import React, {useState, useEffect} from 'react';
+import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dialog, 
+DialogActions, DialogContent, DialogContentText, DialogTitle, Input } from '@mui/material';
 import john from '../../assets/temp/johnsmith.png'
 import { useHistory } from 'react-router-dom'
-import { retrieveUserProfile } from '../profile_controller';
+import { editPersonalProfile, retrieveUserProfile } from '../profile_controller';
 import { useRouteMatch } from 'react-router';
+import { styled } from '@mui/styles';
 
 export default function EditProfile() {
+  // USE ROUTE MATCH TO GET USER ROLE
+  const match = useRouteMatch('/:userrole/profile/editprofile');
+
   // Declaring profile information state
+  const [profileImage, setProfileImage] = useState('');
   const [username, setUsername] = useState('')
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
   const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
+  const [postalCode, setPostalCode] = useState('');
 
-  //USE ROUTE MATCH TO GET USER ROLE
-  const match = useRouteMatch('/:userrole/profile/editprofile');
-
-  // Testing userprofile retrieval
-  useEffect(() => {
-    async function getInfo() {
-      const testUserProfile = await retrieveUserProfile();
-      setUsername(testUserProfile.username);
-      setFName(testUserProfile.first_name);
-      setLName(testUserProfile.last_name);
-      setPhone(testUserProfile.phone_no);
-      setAddress(testUserProfile.home_address)
-      console.log(testUserProfile)
+  // Async Function for editprofile
+  async function getProfileInfo() {
+    try {
+      const userProfile = await retrieveUserProfile();
+      return userProfile;
     }
-    getInfo();
+    catch (error) {
+      return error;
+    }
+  }
+
+  // Async Function to edit profile
+  async function editProfileInfo() {
+    try {
+      const response = await editPersonalProfile(profileImage, fName,
+        lName, phone, email, address, postalCode);
+      return response.api_msg;
+    } 
+    catch (error) {
+      return error;
+    }
+  }
+  
+  // Image Preivew Stuff  
+  const [preview, setPreview] = useState();
+
+  useEffect(() => {
+    if(profileImage){
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreview(reader.result);
+        console.log("1" +preview)
+      }
+      reader.readAsDataURL(profileImage);
+    }
+    else
+    {
+      setPreview(null);
+    }
+  }, [profileImage])
+
+  // Userprofile Retrieval 
+  useEffect(() => {
+    getProfileInfo()
+      .then((response) => {
+        setUsername(response.username);
+        setFName(response.first_name);
+        setLName(response.last_name);
+        setPhone(response.phone_no);
+        setEmail(response.email);
+        setAddress(response.home_address);
+        setPostalCode(response.home_postal_code);
+      })
+      .catch(error => console.log(error));
   },[])
 
   const history = useHistory();
   const [open, setOpen] = useState(false);
   
-
   const cancelBtn = () => {
     // if(name == personalinfo.name && phone == personalinfo.phone && address == personalinfo.address){
     //   history.push('/generalmanager/profile');
@@ -55,13 +101,20 @@ export default function EditProfile() {
     history.push(`/${match.params.userrole}/profile`);
   };
 
-  function submitChange()
-  {
-    console.log(username);
-    console.log(fName);
-    console.log(phone);
-    console.log(address);
+  function submitChange(){
+    editProfileInfo()
+      .then((response) => {
+        if (response === "Successful!")
+          history.push(`/${match.params.userrole}/profile`);
+        else
+          alert("Something went wrong: " + response);
+      })
+      .catch(error => console.log(error));
   }
+
+  const Input = styled('input')({
+    display: 'none',
+  });
 
   return (
     <div>
@@ -70,10 +123,18 @@ export default function EditProfile() {
         <CardContent >
           <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
             <Grid item xs={6} sx={{textAlign:'center', marginTop:'10%;'}}>
-              <img src={john} width="60%"/>
-              <Typography sx={{textAlign:'center', fontSize:'1 0px', textDecoration:'underline', cursor:'pointer'}}>
-                Upload Photo
-              </Typography>
+              <img src={preview} alt="No Preview Available" width="60%"/>
+              <label htmlFor="imageFile">
+              <Input 
+                type="file"
+                id="imageFile"
+                accept=".png"
+                onChange={event => {
+                  const imageFile = event.target.files[0];
+                  setProfileImage(imageFile);
+                }} />
+              <Typography sx={{textAlign:'center', fontSize:'1 0px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
+              </label>
             </Grid>
 
             <Grid item xs={6} sx={{textAlign:'center'}}>
@@ -115,12 +176,30 @@ export default function EditProfile() {
               />
 
               <TextField sx={{width:'100%', margin:'15px'}} 
+                id="filled-basic" 
+                label="Email (Required*):" 
+                variant="filled" 
+                size="small" 
+                value={email} 
+                onChange={(e)=>setEmail(e.target.value)}
+              />
+
+              <TextField sx={{width:'100%', margin:'15px'}} 
                 id="filled-multiline-static" 
                 label="Address (Required*):"  
                 multiline rows={4} 
                 variant="filled" 
                 value={address} 
                 onChange={(e)=>setAddress(e.target.value)}
+              />
+
+              <TextField sx={{width:'100%', margin:'15px'}} 
+                id="filled-basic" 
+                label="Postal Code (Required*):" 
+                variant="filled" 
+                size="small" 
+                value={postalCode} 
+                onChange={(e)=>setPostalCode(e.target.value)}
               />
             </Grid>
 
