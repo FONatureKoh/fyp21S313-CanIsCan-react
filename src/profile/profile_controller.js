@@ -93,7 +93,7 @@ export function verifyPwController(oldPassword) {
  * ***************************************************************************************
  * - send data to the user/profilemanagement route
  * ***************************************************************************************/
-export async function postPersonalProfile (profileImage, fname, lname, phoneNo, email, 
+export async function editPersonalProfile (profileImage, fname, lname, phoneNo, email, 
   address, postalCode) {
 
   // Axios request config to be declared first
@@ -104,17 +104,17 @@ export async function postPersonalProfile (profileImage, fname, lname, phoneNo, 
   };
 
   // Construct the form
-  const postForm = new FormData();
-  postForm.append("profileImage", profileImage);
-  postForm.append("fname", fname);
-  postForm.append("lname", lname);
-  postForm.append("phoneNo", phoneNo);
-  postForm.append("email", email);
-  postForm.append("address", address);
-  postForm.append("postalCode", postalCode);
+  const editForm = new FormData();
+  editForm.append("profileImage", profileImage);
+  editForm.append("fname", fname);
+  editForm.append("lname", lname);
+  editForm.append("phoneNo", phoneNo);
+  editForm.append("email", email);
+  editForm.append("address", address);
+  editForm.append("postalCode", postalCode);
 
   try {
-    const response = await axios.post(`${config.apiDomain}/users/profilemanagement`, postForm, axiosConfig);
+    const response = await axios.put(`${config.apiDomain}/users/profilemanagement`, editForm, axiosConfig);
     return response.data;
   } 
   catch (error) {
