@@ -19,15 +19,19 @@ export default function AddItem() {
   const [itemAllergy, setItemAllergy] = useState();
   const [itemCategory, setItemCategory] = useState('');
 
-  // Function to generate a form to send to the backend server
-  async function addItem() {
-    var addItemController = await addRestaurantItem(
-      imageFile, itemAvailability, itemName, itemPrice, itemDesc, 
-      itemAllergy, itemCategory
-    );
-    console.log (addItemController);
+  // Async Function for adding item
+  async function postAddItem () {
+    try {
+      const response = await addRestaurantItem(imageFile, itemAvailability, 
+        itemName, itemPrice, itemDesc, itemAllergy, itemCategory);
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
+    
   }
-  
+
   // Deploying useEffect to get the category list -- Thomas
   useEffect(() => {
     // Function to get all restaurant item category / categories
@@ -40,10 +44,6 @@ export default function AddItem() {
     }
     retrieveCategories()
   },[])
-
-  const Input = styled('input')({
-    display: 'none',
-  });
 
   // Image Preivew Stuff  
   const [preview, setPreview] = useState();
@@ -62,6 +62,19 @@ export default function AddItem() {
       setPreview(null);
     }
   }, [imageFile])
+
+  // Function to generate a form to send to the backend server
+  function addItem() {
+    postAddItem()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch(error => console.log(error));
+  }
+
+  const Input = styled('input')({
+    display: 'none',
+  });
 
   return (
     <div>
