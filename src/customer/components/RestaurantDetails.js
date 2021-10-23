@@ -1,14 +1,29 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid, CardActionArea, IconButton, Tooltip } from '@mui/material'
 import TestImage from '../../assets/temp/eg-biz1.png'
 import { Rating } from '@mui/material'
 import test from '../../assets/icon-profile.png'
 import { ButtonBase } from '@mui/material'
-import DirectionsOutlinedIcon from '@mui/icons-material/DirectionsOutlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import ReviewsOutlinedIcon from '@mui/icons-material/ReviewsOutlined';
 import { Modal } from '@mui/material'
 
+const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
 export default function RetaurantDetails() {
+  //MODAL CONTROLS - DIRECTIONS / INFO
+  const [openInfo, setOpenInfo] = useState(false);
+  const handleOpenInfo = () => setOpenInfo(true);
+  const handleCloseInfo = () => setOpenInfo(false);
+
+  const [openReview, setOpenReview] = useState(false);
+  const handleOpenReview = () => setOpenReview(true);
+  const handleCloseReview = () => setOpenReview(false);
+
+  function getMap(postal){
+    const maplink = `http://maps.google.com/maps/api/staticmap?center=${postal}&zoom=17&size=400x300&maptype=roadmap&key=${apiKey}&region=SG&markers=color:red%7C${postal}&scale=2`;
+    return maplink;
+  }
   return (
       <Card variant="outlined" sx={{ borderRadius:'10px'}}>
         <CardMedia sx={{height:'300px' }}
@@ -31,15 +46,15 @@ export default function RetaurantDetails() {
                 
               <Box width='30%' alignSelf="flex-end" textAlign='right'>
                 <Typography>
-                <Tooltip title="Directions">
-                  <IconButton sx={{margin:'0px 5px 5px'}}>
-                    <DirectionsOutlinedIcon />
+                <Tooltip title="Information">
+                  <IconButton sx={{margin:'0px 5px 5px' }} onClick={handleOpenInfo}>
+                    <InfoOutlinedIcon />
                   </IconButton>
                 </Tooltip>
 
-                <Tooltip title="Information">
-                  <IconButton sx={{margin:'0px 5px 5px'}}>
-                    <HelpOutlineOutlinedIcon/>
+                <Tooltip title="Reviews">
+                  <IconButton sx={{margin:'0px 5px 5px'}} onClick={handleOpenReview}>
+                    <ReviewsOutlinedIcon/>
                   </IconButton>
                 </Tooltip>
                 </Typography>
@@ -151,28 +166,91 @@ export default function RetaurantDetails() {
               </Grid>
             </Box>
 
-            {/* DIRECTIONS MODAL */}
+            {/* INFO MODAL */}
             <Modal
-              open={true}
+              open={openInfo}
+              onClose={handleCloseInfo}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <Box sx={{bgcolor:'white',position: 'absolute',
+              <Card variant="outlined" sx={{ position: 'absolute',
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                width:"30%",
-                padding: '2%',
-                maxHeight:'70%',
-                overflow: 'auto',
-                borderRadius:'5px'}}>
-                  {/* CONTENT */}
-                  <Box>
-                    <img width="300px" height="200px" src="http://maps.google.com/maps/api/staticmap?center=768134&zoom=17&size=400x300&maptype=roadmap&key=AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM&region=SG&markers=color:red%7C768134"></img>
-                  </Box> 
-                  
-              </Box>
+                width:"600px",
+                maxHeight:'70%',}}>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={TestImage}
+                />
+                <CardContent >
+                  <Box textAlign="center">
+                    <Typography variant="h5">Restaurant Name</Typography>
+                    <Typography variant="subtitle2">Tags</Typography>
+                  </Box>
+                  <Box display="flex" flexDirection="row" sx={{mt:'20px'}}>
+                    <Box width='50%' padding="10px 20px">
+                      <Typography variant="h6">
+                        Address
+                      </Typography>
+                      <Typography variant="subtitle2">
+                        930 Hougang Street 91
+                      </Typography>
+                      <Typography variant="subtitle2">
+                        S (530930)
+                      </Typography>
+                      <Typography variant="h6" sx={{mt:'10px'}}>
+                        Operating Hours
+                      </Typography>
+                      <Typography variant="subtitle2">
+                        Time to time
+                      </Typography>
+                    </Box>
+                    <Box alignContent="flex-end">
+                    <img width="300px" height="200px" src={getMap(530930)}/>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
             </Modal>
+            {/* END OF INFO MODAL */}
+
+            {/* REVIEW MODAL */}
+            <Modal
+              open={openReview}
+              onClose={handleCloseReview}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Card variant="outlined" sx={{ position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width:"50%",
+                maxHeight:'70%',}}>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={TestImage}
+                />
+                <CardContent >
+                  <Box textAlign="center">
+                    <Typography variant="h5">Restaurant Name</Typography>
+                    <Typography variant="subtitle2">Reviews</Typography>
+                  </Box>
+
+                  <Box display="flex" flexDirection="column" width="60%" height="100px" border="1px solid black" margin="10px auto" padding="20px">
+                    <Typography variant="h6">Title</Typography>
+                    <Typography><Rating value={3} size="small"/></Typography>
+                    <Typography variant="subtitle2">Information about the review</Typography>
+                    
+                    <Typography variant="subtitle" fontSize="12px" alignSelf='flex-end'>Reviewed by: Kelvin K.</Typography>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Modal>
+            {/* END OF REVIEW MODAL */}
 
           </Box>
         </CardContent>
