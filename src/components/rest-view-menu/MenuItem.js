@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { Box } from '@mui/system';
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { getImage } from './items_controller';
 import { deleteRestaurantItem } from '../../restaurant/restaurant_controller';
@@ -17,9 +17,23 @@ const themes = {
 };
 
 export default function MenuItem({item, menuData}) {
+  // Other stuff
+  const history = useHistory();
+
   // Some useStates
   const [openDialog, setOpenDialog] = useState(false);
   const [itemImage, setItemImage] = useState('');
+
+  // Async Functions so that we can use await
+  async function deleteItem() {
+    try {
+      const response = await deleteRestaurantItem(item.ri_item_ID);
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
+  }
 
   // NOTE: I used a useEffect here, as I'm not sure how else to set the item path
   // as the item opens up. The idea here is that it will take in the item's png id
@@ -44,8 +58,12 @@ export default function MenuItem({item, menuData}) {
 
   // handleConfirmDialog for when user confirms the delete
   const handleConfirmDialog = () => {
-    deleteRestaurantItem(item.ri_item_ID);
-    setOpenDialog(false);
+    deleteItem()
+      .then((response) => {
+        setOpenDialog(false);
+        history.push(`/generalmanager/`);
+      })
+      .catch(error => console.log(error));
   };
 
   // handleCloseDialog for when user cancels
@@ -98,8 +116,8 @@ export default function MenuItem({item, menuData}) {
           </Grid>
       </Grid>
       <Box sx={{width:'100%', textAlign:'center'}}>
-        <Button variant='outlined' color='inherit' component={ Link } to={`/generalmanager/editmenu/edititem/${item.ri_item_ID}`} sx={{mr:'10px', width:'100px'}}>EDIT</Button>
-        <Button variant='outlined' color='error' sx={{ml:'10px', width:'100px'}} onClick={handleOpenDialog}>DELETE</Button>
+        <Button variant='outlined' color='inherit' component={Link} to={`/generalmanager/editmenu/edititem/${item.ri_item_ID}`} sx={{mr:'10px', width:'100px'}}>EDIT</Button>
+        <Button variant='outlined' color='error' sx={{ml:'10px', width:'100px'}} onClick={handleOpenDialog} >DELETE</Button>
       </Box>
 
       <Dialog

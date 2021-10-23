@@ -81,7 +81,7 @@ export function editRestaurantItem(itemID, imageFile, itemAvailability, itemRest
  * ***************************************************************************************
  * 
  * ***************************************************************************************/
-export function deleteRestaurantItem(itemID) {
+export async function deleteRestaurantItem(itemID) {
   // Axios request config to be declared first
   const axiosConfig = {
     headers: {
@@ -89,14 +89,13 @@ export function deleteRestaurantItem(itemID) {
     }
   };
 
-  return axios.delete(`${config.apiDomain}/restaurant/restaurantItem/${itemID}`, axiosConfig)
-    .then(res => {
-      // In here we can choose what we want to do with the response of the request
-      return res.data;
-    })
-    .catch(err => {
-      console.log(err)
-    });
+  try {
+    const res = await axios.delete(`${config.apiDomain}/restaurant/restaurantItem/${itemID}`, axiosConfig);
+    return res.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
 };
 
 /*****************************************************************************************
