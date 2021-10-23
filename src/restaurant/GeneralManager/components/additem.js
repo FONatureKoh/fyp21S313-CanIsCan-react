@@ -163,7 +163,7 @@ export default function AddItem() {
           </Select>
         </FormControl>
 
-        <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={addItem}>Add Item</Button>
+        <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={addItem} component={Link} to={"/generalmanager"}>Add Item</Button>
         <Button variant="contained" color="inherit" sx={{width:'45%', float:'right'}} component={Link} to="/generalmanager">Cancel</Button>
       </Grid>
 
