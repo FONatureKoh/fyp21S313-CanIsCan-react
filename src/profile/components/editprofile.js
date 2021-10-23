@@ -11,29 +11,42 @@ export default function EditProfile() {
   const [fName, setFName] = useState('');
   const [lName, setLName] = useState('');
   const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
+  const [postalCode, setPostalCode] = useState('');
 
-  //USE ROUTE MATCH TO GET USER ROLE
+  // USE ROUTE MATCH TO GET USER ROLE
   const match = useRouteMatch('/:userrole/profile/editprofile');
 
-  // Testing userprofile retrieval
-  useEffect(() => {
-    async function getInfo() {
-      const testUserProfile = await retrieveUserProfile();
-      setUsername(testUserProfile.username);
-      setFName(testUserProfile.first_name);
-      setLName(testUserProfile.last_name);
-      setPhone(testUserProfile.phone_no);
-      setAddress(testUserProfile.home_address)
-      console.log(testUserProfile)
+  // Async Functions for editprofile
+  async function getProfileInfo() {
+    try {
+      const userProfile = await retrieveUserProfile();
+      return userProfile;
     }
-    getInfo();
+    catch (error) {
+      return error;
+    }
+  }
+  
+  // Userprofile Retrieval 
+  useEffect(() => {
+    getProfileInfo()
+      .then((response) => {
+        setUsername(response.username);
+        setFName(response.first_name);
+        setLName(response.last_name);
+        setPhone(response.phone_no);
+        setEmail(response.email);
+        setAddress(response.home_address);
+        setPostalCode(response.home_postal_code);
+      })
+      .catch(error => console.log(error));
   },[])
 
   const history = useHistory();
   const [open, setOpen] = useState(false);
   
-
   const cancelBtn = () => {
     // if(name == personalinfo.name && phone == personalinfo.phone && address == personalinfo.address){
     //   history.push('/generalmanager/profile');
@@ -115,12 +128,30 @@ export default function EditProfile() {
               />
 
               <TextField sx={{width:'100%', margin:'15px'}} 
+                id="filled-basic" 
+                label="Email (Required*):" 
+                variant="filled" 
+                size="small" 
+                value={email} 
+                onChange={(e)=>setEmail(e.target.value)}
+              />
+
+              <TextField sx={{width:'100%', margin:'15px'}} 
                 id="filled-multiline-static" 
                 label="Address (Required*):"  
                 multiline rows={4} 
                 variant="filled" 
                 value={address} 
                 onChange={(e)=>setAddress(e.target.value)}
+              />
+
+              <TextField sx={{width:'100%', margin:'15px'}} 
+                id="filled-basic" 
+                label="Postal Code (Required*):" 
+                variant="filled" 
+                size="small" 
+                value={postalCode} 
+                onChange={(e)=>setPostalCode(e.target.value)}
               />
             </Grid>
 
