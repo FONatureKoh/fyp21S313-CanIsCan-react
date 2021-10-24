@@ -106,9 +106,9 @@ export default function GeneralManager() {
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>
           <Route path="/generalmanager/editmenu"> <Editmenu/></Route>
-          <Route path="/generalmanager/manageuser" component= {ManageUser} />
+          <Route path="/generalmanager/manageuser"> <ManageUser/></Route>
           <Route path="/generalmanager/restaurantinformation"> <ViewInfo isChecked={isChecked} toggleChecked={toggleChecked}/> </Route>
-          <Route path="/generalmanager/addsub-user" component= {AddSubUser}/>
+          {/* <Route path="/generalmanager/addsub-user" component= {AddSubUser}/> */}
           <Route path="/generalmanager/statistics" component= {Stats}/>
           <Route path="/generalmanager/profile" component={ViewProfile}/>
           <Redirect from='/generalmanager' to='/generalmanager/editmenu'/>

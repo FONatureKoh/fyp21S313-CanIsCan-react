@@ -6,6 +6,7 @@ import { subUser } from '../../restaurant_controller';
 
 export default function EditSubUser({userData}) {
   const match = useRouteMatch('/generalmanager/manageuser/editsubuser/:id');
+  console.log("EditSubUser Triggered");
 
   let subSelected;
   for(const sub of userData)

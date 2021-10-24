@@ -10,6 +10,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 import { allSubUsers } from '../../restaurant_controller';
 
 export default function ManageUser() {
+  console.log("Manageuser triggered");
   // Usestate for page controls
   const [userIDSelected, setUserIDSelected] = useState('');    
   const [openDialog, setOpenDialog] = useState(false);

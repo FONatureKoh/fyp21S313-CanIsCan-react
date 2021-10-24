@@ -22,6 +22,7 @@ import { DialogActions } from '@mui/material';
 import { addRestaurantCategory, retrieveAllItems, retrieveCatItems, retrieveCats } from '../../restaurant_controller';
 
 export default function Editmenu({menuData, itemSelected, setItemSelected}) {
+  console.log("editmenu triggered");
   // Test console
   // console.log(menuData)
   // console.log(menuList[0]);
