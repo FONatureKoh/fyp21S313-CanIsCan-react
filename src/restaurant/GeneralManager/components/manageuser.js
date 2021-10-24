@@ -66,7 +66,9 @@ export default function ManageUser() {
 
         setSubUsersArray(subuser_array);
       })
-  })
+      .catch(error => console.log(error));
+      
+  },[]);
 
   const columns = [
     { field: 'id', headerName: 'User ID', width: 100 },
