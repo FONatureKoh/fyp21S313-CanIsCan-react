@@ -29,6 +29,9 @@ export default function EditSubUser({userData}) {
   const [phone, setPhone] = useState(subSelected.email);
   const [role, setRole] = useState(subSelected.subuser_type);
 
+  // NOTE: I tried to implement how I have been doing it over the last few days, to declare
+  // the async function and then call that async function through the .then to set the data
+  // but that didn't help either. I left this here for now Lines 35 to 62 is what I was trying.
   // Rather than taking from the parent we do one more controller
   // to retrieve the data based on the user ID, since we are requiring different set
   // of Data from the manageuse to the editsubuser. Edit subuser only needs that 1 user info
