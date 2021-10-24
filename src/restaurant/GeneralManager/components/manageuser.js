@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Card, CardHeader, Box } from '@mui/material'
 import { CardContent } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
@@ -6,14 +6,32 @@ import { Link } from 'react-router-dom'
 import { Route, Switch } from 'react-router';
 import AddSubUser from './addsubuser';
 import EditSubUser from './editsubuser';
-import { useState } from 'react';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-
+import { allSubUsers } from '../../restaurant_controller';
 
 export default function ManageUser() {
+  // Usestate for page controls
   const [userIDSelected, setUserIDSelected] = useState('');    
   const [openDialog, setOpenDialog] = useState(false);
+  const [subUsersArray, setSubUsersArray] = useState([]);
 
+  // Creating allSubUsers to store original array
+  const [subUsers, setSubUsers] = useState([]);
+
+  // Async functions used for this page
+  async function getSubUsers() {
+    try {
+      const response = await allSubUsers();
+      setSubUsers(response);
+
+      return response;  
+    } 
+    catch (error) {
+      return error;
+    }
+  }
+
+  // Essential page functions
   const handleOpenDialog= () => {
       setOpenDialog(true);
   };
@@ -22,59 +40,81 @@ export default function ManageUser() {
       setOpenDialog(false);
   };
 
-const columns = [
-  { field: 'id', headerName: 'ID', width: 100 },
-  { field: 'name', headerName: 'Name', width: 300 },
-  { field: 'type', headerName: 'Account Type', width: 300 },
-  {
-    field: "  ",
-    renderCell: (cellValues) => {
-      return (
-        <Button
-          variant="outlined"
-          id={cellValues.id}
-          color="inherit"
-          fullWidth
-          component={ Link } 
-          to={`/generalmanager/manageuser/editsubuser/${cellValues.id}`}
-        >
-          Edit
-        </Button>
-      );
-    }
-  },
-  {
-    field: " ",
-    renderCell: (cellValues) => {
-      return (
-        <Button
-          id={cellValues.name}
-          variant="outlined"
-          color="error"
-          fullWidth
-          onClick={setUserIDSelected(cellValues.name)}
-          onClick={handleOpenDialog}
-        >
-          Remove
-        </Button>
-      );
-    }
-  }
-];
+  // Deployed the useEffect to get the restaurant subuser stuff
+  useEffect(() => {
+    getSubUsers()
+      .then((response) => {
+        // We now construct only what we need from the data retrieved
+        var subuser_array = [];
 
-const rows = [
-  { id: 1, name: 'Thomas Koh', type: 'Restaurant General Manager'},
-  { id: 2, name: 'Kelvin Koh Jia Jun', type: 'Deliveries Manager'},
-  { id: 3, name: 'Donna', type: 'Reservations Manager'},
-  { id: 4, name: 'Duncan', type: 'Deliveries Manager'},
-  { id: 5, name: 'Hong Wei', type: 'Deliveries Manager'},
-  { id: 6, name: 'Prem', type: 'Reservations Manager'},
-  { id: 7, name: 'Ng Yong Wen', type: 'Reservations Manager'},
-  { id: 8, name: 'Sam Chua', type: 'Deliveries Manager'},
-  { id: 9, name: 'Tan Ah Koi', type: 'Reservations Manager'},
-];
+        response.forEach(subuser => {
+          var temp_json = {
+            id: subuser.subuser_ID,
+            name: subuser.first_name + " " + subuser.last_name,
+            type: subuser.subuser_type
+          };
 
-console.log(userIDSelected);
+          subuser_array.push(temp_json);
+        });
+
+        setSubUsersArray(subuser_array);
+      })
+  })
+
+  const columns = [
+    { field: 'id', headerName: 'User ID', width: 100 },
+    { field: 'name', headerName: 'Name', width: 300 },
+    { field: 'type', headerName: 'Account Type', width: 300 },
+    {
+      field: "  ",
+      renderCell: (cellValues) => {
+        return (
+          <Button
+            variant="outlined"
+            id={cellValues.id}
+            color="inherit"
+            fullWidth
+            component={ Link } 
+            to={`/generalmanager/manageuser/editsubuser/${cellValues.id}`}
+          >
+            Edit
+          </Button>
+        );
+      }
+    },
+    {
+      field: " ",
+      renderCell: (cellValues) => {
+        return (
+          <Button
+            id={cellValues.name}
+            variant="outlined"
+            color="error"
+            fullWidth
+            onClick={setUserIDSelected(cellValues.name)}
+            onClick={handleOpenDialog}
+          >
+            Remove
+          </Button>
+        );
+      }
+    }
+  ];
+
+  // const subUsers = [
+  //   { id: 1, name: 'Thomas Koh', type: 'Restaurant General Manager'},
+  //   { id: 2, name: 'Kelvin Koh Jia Jun', type: 'Deliveries Manager'},
+  //   { id: 3, name: 'Donna', type: 'Reservations Manager'},
+  //   { id: 4, name: 'Duncan', type: 'Deliveries Manager'},
+  //   { id: 5, name: 'Hong Wei', type: 'Deliveries Manager'},
+  //   { id: 6, name: 'Prem', type: 'Reservations Manager'},
+  //   { id: 7, name: 'Ng Yong Wen', type: 'Reservations Manager'},
+  //   { id: 8, name: 'Sam Chua', type: 'Deliveries Manager'},
+  //   { id: 9, name: 'Tan Ah Koi', type: 'Reservations Manager'},
+  // ];
+
+  // console.log(userIDSelected);
+
   return (
       <Switch>
         <Route exact path="/generalmanager/manageuser">
@@ -87,17 +127,17 @@ console.log(userIDSelected);
             </Box>
             <Box height="400px" sx={{'.MuiDataGrid-columnHeaderWrapper': {backgroundColor:'#eeeeee'}}} >
               <DataGrid
-              rows={rows}
+              rows={subUsersArray}
               columns={columns}
               pageSize={5}
               rowsPerPageOptions={[5]}
             />
-                <Dialog
-                    open={openDialog}
-                    onClose={handleCloseDialog}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
+              <Dialog
+                open={openDialog}
+                onClose={handleCloseDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
                 <DialogTitle id="alert-dialog-title">
                   {"Confirm item deletion?"}
                 </DialogTitle>
@@ -118,9 +158,7 @@ console.log(userIDSelected);
         </Card>
         </Route>
         <Route path="/generalmanager/manageuser/addsubuser"><AddSubUser/></Route>
-        <Route path="/generalmanager/manageuser/editsubuser"><EditSubUser userData={rows}/></Route>
-      </Switch>
-
-      
+        <Route path="/generalmanager/manageuser/editsubuser"><EditSubUser userData={subUsers}/></Route>
+      </Switch> 
   )
 }

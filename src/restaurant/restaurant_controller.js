@@ -393,3 +393,47 @@ export async function postChangePW(oldPassword, newPassword) {
     console.log(err);
   }
 };
+
+/*****************************************************************************************
+ * For RGM to retrieve all the subusers                                                  *
+ * ***************************************************************************************
+ * - This retrieves all the subusers based on the rgm's username
+ * ***************************************************************************************/
+export async function allSubUsers() {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    // This should get an Array of objects
+    const res = await axios.get(`${config.apiDomain}/restaurant/rgm/allsubusers`, axiosConfig);
+  
+    return res.data;
+  }
+  catch (err) {
+    console.log(err);
+  }
+};
+
+/*****************************************************************************************
+ * For RGM to retrieve all the subusers                                                  *
+ * ***************************************************************************************
+ * - This retrieves all the subusers based on the rgm's username
+ * ***************************************************************************************/
+export async function subUser(userID) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    // This should get an Array of objects
+    const res = await axios.get(`${config.apiDomain}/restaurant/rgm/subuser/${userID}`, axiosConfig);
+  
+    return res.data;
+  }
+  catch (err) {
+    console.log(err);
+  }
+};
