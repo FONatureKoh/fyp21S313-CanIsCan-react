@@ -19,7 +19,7 @@ import { TimePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 // Controller import
-//import { editRestaurantInfo } from '../../restaurant_controller';
+import { editRestaurantInfo } from '../../restaurant_controller';
 
 export default function EditProfile({restaurantInfo}) {
   // Testing purposes
@@ -60,6 +60,7 @@ export default function EditProfile({restaurantInfo}) {
   const [imageFile, setImageFile] = useState();
   const [restaurantName, setRestaurantName] = useState(restaurantInfo.restaurant_name);
   const [restaurantPhone, setRestaurantPhone] = useState(restaurantInfo.rest_phone_no);
+  const [restaurantEmail, setRestaurantEmail] = useState(restaurantInfo.rest_email);
   const [restaurantAddress, setRestaurantAddress] = useState(restaurantInfo.rest_address_info);
   const [postalCode, setPostalCode] = useState(restaurantInfo.rest_postal_code);
   const [openTime, setOpenTime] = useState(timeToDate(restaurantInfo.rest_opening_time));
@@ -92,11 +93,17 @@ export default function EditProfile({restaurantInfo}) {
     );
   }
   
-
-  {/*async function editRestaurantInfo() {
-    var testController = await editRestaurantInfo(imageBanner, rName, rPhone, rAddress, openTime, closeTime);
-    console.log (testController);
-  }*/}
+  async function editRestInfo() {
+    try {
+      const response = await editRestaurantInfo(imageFile, restaurantName, restaurantPhone, restaurantEmail,
+        restaurantAddress, postalCode, openTime, closeTime, tags);
+      
+      return response.api_msg;
+    }
+    catch (error) {
+      return error;
+    }
+  }
 
   const cancelBtn = () => {
     if(restaurantName === restaurantInfo.restaurant_name && 
@@ -123,6 +130,10 @@ export default function EditProfile({restaurantInfo}) {
   };
 
   function submitChange() {
+    editRestInfo()
+      .then((response) => alert(response))
+      .catch(error => alert(error));
+    
     history.push('/generalmanager/restaurantinformation');
   }
 
@@ -140,7 +151,7 @@ export default function EditProfile({restaurantInfo}) {
         <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
           <Grid item xs={12} sx={{textAlign:'center', marginTop:'3%;'}}>
             <Box>
-            <img src={bannerpic} width="55%"/>
+              <img src={bannerpic} width="55%"/>
             </Box>
             <Box> 
             <label htmlFor="imageBanner">
@@ -201,6 +212,15 @@ export default function EditProfile({restaurantInfo}) {
               size="small" 
               value={restaurantPhone} 
               onChange={(e)=>setRestaurantPhone(e.target.value)}
+            />
+
+            <TextField sx={{width:'100%', margin:'15px auto'}} 
+              id="filled-basic" 
+              label="Restaurant Email (Required*):" 
+              variant="filled" 
+              size="small" 
+              value={restaurantEmail} 
+              onChange={(e)=>setRestaurantEmail(e.target.value)}
             />
 
             <TextField sx={{width:'100%', margin:'15px auto'}}
