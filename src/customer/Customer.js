@@ -17,13 +17,16 @@ import { Link } from 'react-router-dom';
 import ViewProfile from '../profile/viewprofile';
 import DeliveryHistory from './components/DeliveryHistory';
 import ReservationHistory from './components/ReservationHistory';
+import { retrieveAllRestaurants, retrieveRestaurantTags } from './customer_controller';
 
 const drawerWidth = 480;
 
 export default function Customer() {
-  
+  // Other useStates
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
+  const [restaurantsArray, setRestaurantsArray] = useState([]);
+  const [tagsArray, setTagsArray] = useState([]);
 
   //CART CALCULATION
   const [deliveryFee, setDeliveryFee] = useState(0);
@@ -44,6 +47,45 @@ export default function Customer() {
     setCartOpen(false);
   }
 
+  // Async functions for customers
+  // For Categories
+  async function getAllRestaurantTags() {
+    try{
+      const response = await retrieveRestaurantTags();
+      return response.restaurantTags;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // For restaurant Info
+  async function getAllRestaurants() {
+    try {
+      const response = await retrieveAllRestaurants();
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // useEffect to load the restaurants once on mount
+  useEffect(() => {
+    getAllRestaurantTags()
+      .then((response) => {
+        console.log(response);
+        setTagsArray(response);  
+      })
+      .catch(error => console.log(error));
+
+    getAllRestaurants()
+      .then((response) => {
+        console.log(response);
+        setRestaurantsArray(response);
+      })
+      .catch(error => console.log(error));
+  }, [])
 
   const catData=['Cafe', 'Japanese', 'Indian', 'Chinese', 'Malay'];
 
@@ -288,7 +330,7 @@ function deleteItem(id){
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>
           {/* DELIVERY */}
-          <Route exact path='/customer/browserestaurant'><BrowseRestaurant restData={restData}/> <BrowseRestaurantCat restData={restData} catData={catData}/></Route>
+          <Route exact path='/customer/browserestaurant'><BrowseRestaurant restData={restaurantsArray}/> <BrowseRestaurantCat restData={restaurantsArray} catData={tagsArray}/></Route>
           <Route path='/customer/browserestaurant/restaurantdetails'><RetaurantDetails/> </Route>
 
           <Route path='/customer/profile'><ViewProfile/> </Route>
