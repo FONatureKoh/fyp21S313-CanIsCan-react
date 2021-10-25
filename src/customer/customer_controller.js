@@ -11,19 +11,17 @@ const config = require('../store/config.json');
  * - Takes in restaurantID and retrieve all *
  * menu items based on that restaurant ID   
  * *******************************************/
-export function retrieveRestInfo(rest_ID) {
-  return axios.get(`${config.apiDomain}/restaurant/retrieveRestaurantInfo`, {
-    headers: {
-      'Authorisation': window.sessionStorage.accessToken
-    },
-    params: {
-      restaurantID: rest_ID
-    }
-  })
-  .then(response => {
+export async function retrieveAllRestaurants() {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/customer/allRestaurantInfo`, axiosConfig);
     return response.data;
-  })
-  .catch(function (error) {
+  } 
+  catch (error) {
     console.log(error);
-  })
+  }
 };

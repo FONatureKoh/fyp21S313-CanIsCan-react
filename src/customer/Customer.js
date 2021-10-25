@@ -17,11 +17,15 @@ import { Link } from 'react-router-dom';
 import ViewProfile from '../profile/viewprofile';
 import DeliveryHistory from './components/DeliveryHistory';
 import ReservationHistory from './components/ReservationHistory';
+import { retrieveAllRestaurants } from './customer_controller';
 
 const drawerWidth = 480;
 
 export default function Customer() {
-  
+  // Some variable declarations
+  let restaurantsArray = [];
+
+  // Other useStates
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
 
@@ -44,6 +48,29 @@ export default function Customer() {
     setCartOpen(false);
   }
 
+  // Async functions for customers
+  // For Categories
+
+  // For restaurant Info
+  async function getAllRestaurants() {
+    try {
+      const response = await retrieveAllRestaurants();
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // useEffect to load the restaurants once on mount
+  useEffect(() => {
+    getAllRestaurants()
+      .then((response) => {
+        console.log(response);
+        restaurantsArray = response;
+      })
+      .catch(error => console.log(error));
+  }, [])
 
   const catData=['Cafe', 'Japanese', 'Indian', 'Chinese', 'Malay'];
 
