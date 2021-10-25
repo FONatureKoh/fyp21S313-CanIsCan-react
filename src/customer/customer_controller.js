@@ -5,12 +5,9 @@ import axios from 'axios';
 ******************************************************************************************/
 const config = require('../store/config.json');
 
-/********************************************
- * All Items Retrieval function             *
- * ******************************************
- * - Takes in restaurantID and retrieve all *
- * menu items based on that restaurant ID   
- * *******************************************/
+/*****************************************************************************************
+ * Retrieve all restaurants from the system                                              *
+******************************************************************************************/
 export async function retrieveAllRestaurants() {
   // Axios request config to be declared first
   const axiosConfig = {
@@ -25,3 +22,40 @@ export async function retrieveAllRestaurants() {
     console.log(error);
   }
 };
+
+/*****************************************************************************************
+ * Retrieve all the restaurant tags                                                      *
+******************************************************************************************/
+export async function retrieveRestaurantTags() {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/restaurant/tags`, axiosConfig);
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+};
+
+/*****************************************************************************************
+ * Retrieve all the restaurants based on the user selected category                      *
+******************************************************************************************/
+export async function getCategoryRestaurant(tag) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/customer/selectedRestaurantInfo/${tag}`, axiosConfig);
+    console.log(response);
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
