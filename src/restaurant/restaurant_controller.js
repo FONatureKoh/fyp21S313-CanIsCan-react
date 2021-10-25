@@ -395,6 +395,37 @@ export async function postChangePW(oldPassword, newPassword) {
 };
 
 /*****************************************************************************************
+ * For RGM to add subuser to the system                                                  *
+ * ***************************************************************************************
+ * - This adds a new subuser to the system
+ * ***************************************************************************************/
+export async function postAddNewSubUser(username, fname, lname, email, phone, role) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  const postData = { 
+    subuser_username: username,
+    fname: fname,
+    lname: lname,
+    email: email,
+    phone: phone,
+    role: role
+  };
+
+  try {
+    // This should get an Array of objects
+    const res = await axios.post(`${config.apiDomain}/restaurant/rgm/addsubuser`, postData, axiosConfig);
+  
+    return res.data;
+  }
+  catch (err) {
+    console.log(err);
+  }
+};
+
+/*****************************************************************************************
  * For RGM to retrieve all the subusers                                                  *
  * ***************************************************************************************
  * - This retrieves all the subusers based on the rgm's username
