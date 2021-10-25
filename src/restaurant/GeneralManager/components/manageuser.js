@@ -34,12 +34,15 @@ export default function ManageUser() {
   }
 
   // Essential page functions
+  // This following function is for deleting the user
   const handleOpenDialog= () => {
-      setOpenDialog(true);
+    console.log(userIDSelected);
+    
+    setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
-      setOpenDialog(false);
+    setOpenDialog(false);
   };
 
   // Deployed the useEffect to get the restaurant subuser stuff
