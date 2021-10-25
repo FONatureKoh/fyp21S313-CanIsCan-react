@@ -11,7 +11,7 @@ import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 
 const drawerWidth = 240;
 
-export default function NavigationRGM({isVisible, isSelected, setIsSelected, isChecked, toggleChecked}) {
+export default function NavigationRGM({restaurantName, isVisible, isSelected, setIsSelected, isChecked, toggleChecked}) {
   const history = useHistory();
   const [openDialog, setOpenDialog] = React.useState(false);
 
@@ -49,7 +49,7 @@ export default function NavigationRGM({isVisible, isSelected, setIsSelected, isC
             <ListItem sx={{bgcolor:"#eeeeee", color:'black', width:'85%', alignSelf:'center', margin:'5px auto', borderRadius:'10px'}}>
               <ListItemText>
                 <Typography sx={{textDecoration:'underline'}}variant="body2">Restaurant Name:</Typography>
-                <Typography >PlaceHolder</Typography>
+                <Typography >{restaurantName}</Typography>
                 <Typography sx={{textDecoration:'underline'}} variant="body2">Role:</Typography>
                 <Typography>General Manager</Typography>
               </ListItemText>

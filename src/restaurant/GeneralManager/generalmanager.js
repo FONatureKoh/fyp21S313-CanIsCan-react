@@ -9,7 +9,7 @@ import ViewInfo from './components/restaurantprofile';
 import AddSubUser from './components/addsubuser';
 import Stats from './components/statistics';
 import ViewProfile from '../../profile/viewprofile';
-import { retrieveCatItems, retrieveRestaurantStatus } from '../restaurant_controller';
+import { restaurantProfile, retrieveCatItems, retrieveRestaurantStatus } from '../restaurant_controller';
 import { Modal } from '@mui/material';
 import FirstLogin from './components/firstlogin';
 
@@ -30,6 +30,7 @@ export default function GeneralManager() {
   const [isSelected, setIsSelected] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
   const [firstLog, setFirstLog] = useState(false);
+  const [restaurantName, setRestaurantName] = useState('');
 
   // Async function to get status of restaurant
   async function getStatus() {
@@ -43,7 +44,18 @@ export default function GeneralManager() {
       }
     }
     catch (error) {
-      console.log(error);
+      return error;
+    }
+  }
+
+  // Async function to get the restaurant Info
+  async function getRestaurantName() {
+    try{
+      const response = await restaurantProfile();
+      return response.restaurant_name;
+    }
+    catch (error) {
+      return error;
     }
   }
 
@@ -52,6 +64,13 @@ export default function GeneralManager() {
     getStatus()
       .then((response) => {
         setFirstLog(response);
+      })
+      .catch(error => console.log(error));
+    
+    // Get restaurant Name
+    getRestaurantName()
+      .then((response) => {
+        setRestaurantName(response);
       })
       .catch(error => console.log(error));
   });
@@ -97,6 +116,7 @@ export default function GeneralManager() {
 
       {/* Passing some info into the side bar navigation component */}
       <NavigationRGM 
+        restaurantName={restaurantName}
         isVisible={isVisible} 
         isSelected={isSelected} 
         setIsSelected={setIsSelected} 
