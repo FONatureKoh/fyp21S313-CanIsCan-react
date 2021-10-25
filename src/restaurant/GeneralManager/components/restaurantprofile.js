@@ -48,8 +48,6 @@ export default function ViewInfo({isChecked, toggleChecked}) {
         // console.log(response);
       })
       .catch(error => console.log(error));
-    
-
   },[])
     
   const boldtitle = {

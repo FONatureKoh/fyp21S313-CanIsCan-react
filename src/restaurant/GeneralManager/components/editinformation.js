@@ -95,7 +95,7 @@ export default function EditProfile({restaurantInfo}) {
   
   async function editRestInfo() {
     try {
-      const response = await editRestaurantInfo(imageFile, restaurantName, restaurantPhone, restaurantEmail,
+      const response = await editRestaurantInfo(imageFile, restaurantInfo.rest_banner_ID, restaurantName, restaurantPhone, restaurantEmail,
         restaurantAddress, postalCode, openTime, closeTime, tags);
       
       return response.api_msg;

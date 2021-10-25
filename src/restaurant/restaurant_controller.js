@@ -150,7 +150,7 @@ export function restaurantProfile() {
  * ***************************************************************************************
  * - This takes all the info from the RGM and creates the subuser based on the given data
  * ***************************************************************************************/
-export async function editRestaurantInfo(bannerImage, rest_name, rest_phone_no, email, address, 
+export async function editRestaurantInfo(bannerImage, originalImageID, rest_name, rest_phone_no, email, address, 
   postal_code, opening_time, closing_time, tags) {
   // Axios request config to be declared first
   const axiosConfig = {
@@ -162,6 +162,7 @@ export async function editRestaurantInfo(bannerImage, rest_name, rest_phone_no, 
 
   const editForm = new FormData();
   editForm.append("bannerImage", bannerImage);
+  editForm.append("originalImageID", originalImageID);
   editForm.append("restaurantName", rest_name);
   editForm.append("phoneNo", rest_phone_no);
   editForm.append("email", email)
