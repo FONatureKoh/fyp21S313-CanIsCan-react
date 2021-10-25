@@ -3,34 +3,24 @@ import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dia
 DialogActions, DialogContent, DialogContentText, DialogTitle, Input } from '@mui/material';
 import john from '../../assets/temp/johnsmith.png'
 import { useHistory } from 'react-router-dom'
-import { editPersonalProfile, retrieveUserProfile } from '../profile_controller';
+import { editPersonalProfile, getImage, retrieveUserProfile } from '../profile_controller';
 import { useRouteMatch } from 'react-router';
 import { styled } from '@mui/styles';
 
-export default function EditProfile() {
+export default function EditProfile({userProfile}) {
   // USE ROUTE MATCH TO GET USER ROLE
   const match = useRouteMatch('/:userrole/profile/editprofile');
 
   // Declaring profile information state
   const [profileImage, setProfileImage] = useState('');
-  const [username, setUsername] = useState('')
-  const [fName, setFName] = useState('');
-  const [lName, setLName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-
-  // Async Function for editprofile
-  async function getProfileInfo() {
-    try {
-      const userProfile = await retrieveUserProfile();
-      return userProfile;
-    }
-    catch (error) {
-      return error;
-    }
-  }
+  const [imageFile, setImageFile] = useState('');
+  const [username, setUsername] = useState(userProfile.username);
+  const [fName, setFName] = useState(userProfile.first_name);
+  const [lName, setLName] = useState(userProfile.last_name);
+  const [phone, setPhone] = useState(userProfile.phone_no);
+  const [email, setEmail] = useState(userProfile.email);
+  const [address, setAddress] = useState(userProfile.address);
+  const [postalCode, setPostalCode] = useState(userProfile.postal_code);
 
   // Async Function to edit profile
   async function editProfileInfo() {
@@ -43,39 +33,49 @@ export default function EditProfile() {
       return error;
     }
   }
-  
+
+  // Retrieve profile image
+  async function getProfileImage(imageID) {
+    try {
+      console.log(imageID);
+      const response = await getImage(imageID);
+
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
   // Image Preivew Stuff  
   const [preview, setPreview] = useState();
 
+  // Getting the profile image
   useEffect(() => {
-    if(profileImage){
+    console.log("useEffect triggered");
+
+    getProfileImage(userProfile.profile_image)
+      .then((response) => {
+        console.log(response);
+        setPreview(response);
+      })
+  }, [])
+
+  // Imagefile preview render
+  useEffect(() => {
+    console.log("Imagefile useEfect triggered");
+    if(imageFile){
       const reader = new FileReader();
       reader.onload = () => {
         setPreview(reader.result);
         console.log("1" +preview)
       }
-      reader.readAsDataURL(profileImage);
+      reader.readAsDataURL(imageFile);
     }
-    else
-    {
+    else{
       setPreview(null);
     }
-  }, [profileImage])
-
-  // Userprofile Retrieval 
-  useEffect(() => {
-    getProfileInfo()
-      .then((response) => {
-        setUsername(response.username);
-        setFName(response.first_name);
-        setLName(response.last_name);
-        setPhone(response.phone_no);
-        setEmail(response.email);
-        setAddress(response.home_address);
-        setPostalCode(response.home_postal_code);
-      })
-      .catch(error => console.log(error));
-  },[])
+  }, [imageFile])
 
   const history = useHistory();
   const [open, setOpen] = useState(false);
@@ -104,8 +104,10 @@ export default function EditProfile() {
   function submitChange(){
     editProfileInfo()
       .then((response) => {
-        if (response === "Successful!")
+        if (response === "Successful!") {          
+          alert("Update successful!");
           history.push(`/${match.params.userrole}/profile`);
+        }
         else
           alert("Something went wrong: " + response);
       })

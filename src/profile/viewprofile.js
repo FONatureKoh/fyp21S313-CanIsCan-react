@@ -4,24 +4,58 @@ import john from '../assets/temp/johnsmith.png'
 import { Route, Switch, Link } from 'react-router-dom';
 import EditProfile from './components/editprofile';
 import ChangePassword from './components/changepw';
-import { retrieveUserProfile } from './profile_controller';
+import { getImage, retrieveUserProfile } from './profile_controller';
 import { useRouteMatch } from 'react-router';
 
 export default function ViewProfile() {
   // Declaring profile information state
   const [userProfile, setUserProfile] = useState([]);
+  const [profileImage, setprofileImage] = useState('');
 
   const match = useRouteMatch('/:userrole/profile/');
 
+  // Async Functions
+  async function getUserInfo() {
+    try {
+      const userProfile = await retrieveUserProfile();
+      return userProfile;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // Retrieve profile image
+  async function getProfileImage(imageID) {
+    try {
+      console.log(imageID);
+      const response = await getImage(imageID);
+
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
   // User Profile retrieval
   useEffect(() => {
-    async function getUserInfo() {
-      const userProfile = await retrieveUserProfile();
-      setUserProfile(userProfile);
-      
-      console.log(userProfile)
-    }
-    getUserInfo();
+    console.log("Use effect triggered!")
+
+    // Get userInfo
+    getUserInfo()
+      .then((response) => {
+        // Set the user's profile
+        setUserProfile(response);
+        
+        // set the user's image
+        getProfileImage(response.profile_image)
+          .then((response) => {
+            setprofileImage(response);
+          })
+          .catch(error => console.log(error));   
+      })
+      .catch(error => console.log(error));     
   },[])
     
   const boldtitle = {
@@ -40,7 +74,7 @@ export default function ViewProfile() {
             <CardContent>
               <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
                 <Grid item xs={6} sx={{textAlign:'center', marginTop:'10%;'}}>
-                  <img src={john} width="60%"/>
+                  <img src={profileImage} width="60%"/>
                 </Grid>
 
                 <Grid item xs={6} sx={{textAlign:'center'}}>
@@ -61,10 +95,10 @@ export default function ViewProfile() {
 
                   <Typography sx={boldtitle}>Address</Typography>
                   <Typography>
-                    {userProfile.home_address}
+                    {userProfile.address}
                   </Typography>
                   <Typography>
-                    S({userProfile.home_postal_code})
+                    S({userProfile.postal_code})
                   </Typography>
                 </Grid>
 
@@ -78,8 +112,7 @@ export default function ViewProfile() {
       </div>
       </Route>
 
-      <Route path="/:userrole/profile/editprofile"><EditProfile userProfile={userProfile}/></Route>
-
+      <Route path="/:userrole/profile/editprofile"><EditProfile userProfile={userProfile} profileImage={profileImage}/></Route>
       <Route path="/:userrole/profile/changepassword"><ChangePassword userProfile={userProfile}/></Route>
     </Switch>
   )

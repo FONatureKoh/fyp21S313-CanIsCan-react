@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid, CardActionArea, Button, IconButton, Tooltip } from '@mui/material'
 import TestImage from '../../assets/temp/eg-biz1.png'
 import { Rating } from '@mui/material'
@@ -14,10 +14,74 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { Landscape } from '@mui/icons-material'
+import { useRouteMatch } from 'react-router'
+import { retrieveAllRestaurantItems } from '../customer_controller'
 
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
 
 export default function RetaurantDetails() {
+  // Added MATCH - Thomas
+  const match = useRouteMatch('/customer/browserestaurant/restaurantdetails/:id');
+  const restID = match.params.id;
+
+  // Useful variables at the start
+  var itemMenusArray = [];
+  var itemsArray = [];
+
+  // Async function to retrieve all restaurant items
+  async function getItems(){
+    try {
+      const response = await retrieveAllRestaurantItems(restID);
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+  
+  // Simple function to filter out only distinct values
+  async function removeusingSet(arr) {
+    try {
+      let outputArray = Array.from(new Set(arr));
+      return outputArray;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // Do we need useEffect for this? Not sure if I could just load the damn thing
+  // into states. Had a lot of issues of the Array not filtering
+  useEffect(() => {
+    // Async function trigger to parse data 
+    getItems()
+      .then((response) => {
+        console.log(response);
+
+        response.forEach(item => {
+          const tempJson = {
+            itemID: item.ri_item_ID,
+            itemName: item.item_name,
+            itemDesc: item.item_desc,
+            itemAllergen: item.item_allergen_warning,
+            itemPrice: item.item_price,
+            itemMenu: item.ric_name
+          }
+          itemsArray.push(tempJson);
+
+          itemMenusArray.push(item.ric_name);
+        })
+
+        // Trigger array filter async function
+        removeusingSet(itemMenusArray)
+          .then((response) => {
+            itemMenusArray = response;
+          })
+          .catch(error => console.log(error));
+      })
+      .catch(error => console.log(error));
+  }, []);
+
   //MODAL CONTROLS - DIRECTIONS / INFO
   const [openInfo, setOpenInfo] = useState(false);
   const handleOpenInfo = () => setOpenInfo(true);

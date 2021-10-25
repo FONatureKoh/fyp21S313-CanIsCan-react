@@ -121,3 +121,32 @@ export async function editPersonalProfile (profileImage, fname, lname, phoneNo, 
     console.log(error);
   }
 }
+
+/*****************************************************************************************
+ * Retrieve image function                                                               *
+******************************************************************************************
+ * - Takes in itemPngID and then fetches the image in form of image/png 
+ */
+
+export async function getImage(profileImagePng) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    },
+    responseType: 'arraybuffer'
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/users/profileImage/${profileImagePng}`, axiosConfig);
+    let blob = new Blob(
+      [response.data],
+      { type: response.headers['content-type'] }
+    );
+    let image = URL.createObjectURL(blob);
+    return image;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
