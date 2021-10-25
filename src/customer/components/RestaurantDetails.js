@@ -5,7 +5,6 @@ import { Rating } from '@mui/material'
 import test from '../../assets/icon-profile.png'
 import { ButtonBase } from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import ReviewsOutlinedIcon from '@mui/icons-material/ReviewsOutlined';
 import { Modal } from '@mui/material'
 import { format } from 'date-fns';
@@ -23,9 +22,15 @@ export default function RetaurantDetails() {
   const handleOpenInfo = () => setOpenInfo(true);
   const handleCloseInfo = () => setOpenInfo(false);
 
+  //MODAL CONTROLS - REVIEWS
   const [openReview, setOpenReview] = useState(false);
   const handleOpenReview = () => setOpenReview(true);
   const handleCloseReview = () => setOpenReview(false);
+
+  //MODAL CONTROLS - REVIEWS
+  const [openReserve, setOpenReserve] = useState(false);
+  const handleOpenReserve= () => setOpenReserve(true);
+  const handleCloseReserve = () => setOpenReserve(false);
 
   // CALENDAR TESTING
   const [value, setValue] = React.useState(new Date());
@@ -59,7 +64,7 @@ export default function RetaurantDetails() {
               <Box width='45%' textAlign='right' >
                 <Box Box width='100%' >
                     <Button variant="outlined" color="inherit" sx={{marginRight:'20px'}}>ORDER Delivery</Button>
-                    <Button variant="outlined" color="inherit">Reserve Table</Button>
+                    <Button variant="outlined" color="inherit" onClick={handleOpenReserve}>Reserve Table</Button>
                 </Box>
                 <Box width='100%' alignSelf="flex-end" sx={{mt:'3px'}} >
                   <Typography>
@@ -272,8 +277,8 @@ export default function RetaurantDetails() {
 
             {/* RESERVATION MODAL */}
             <Modal
-              open={true}
-              onClose={handleCloseReview}
+              open={openReserve}
+              onClose={handleCloseReserve}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
@@ -282,7 +287,8 @@ export default function RetaurantDetails() {
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
                 width:"50%",
-                maxHeight:'70%',}}>
+                maxHeight:'70%',
+                overflow:'auto'}}>
                 <CardMedia
                   component="img"
                   height="140"
@@ -300,47 +306,58 @@ export default function RetaurantDetails() {
                   </Box>
                   
                   <Divider variant="middle"/>
+
+                  <Grid container>
+                    <Grid item md={6} sm={12} xs={12} sx={{mt:'15px', minWidth:'300px'}}>
+                      <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <StaticDatePicker
+                          openTo="day"
+                          showToolbar={false}
+                          orientation="landscape"
+                          minDate={startDate}
+                          value={value}
+                          onChange={(newValue) => {
+                            setValue(newValue);
+                          }}
+                        />
+                      </LocalizationProvider>
+                    </Grid>
+
+                    <Grid item md={6} sm={12} xs={12} sx={{mt:'15px'}}>
+                      <Box sx={{m:'20px auto', width:'100%'}}>
+                        Slots
+                        <Grid container>
+                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
+                            <Button color="inherit" disabled variant='contained' >13:30</Button>
+                          </Grid>
+                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
+                            <Button color="inherit" variant='contained' >14:30</Button>
+                          </Grid>
+                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
+                            <Button color="inherit" variant='contained' >15:30</Button>
+                          </Grid>
+                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
+                            <Button color="inherit" variant='contained' >16:30</Button>
+                          </Grid>
+                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
+                            <Button color="inherit" variant='contained' >17:30</Button>
+                          </Grid>
+                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
+                            <Button color="inherit" variant='contained' >18:30</Button>
+                          </Grid>
+                        </Grid>
+                      </Box>
+                    </Grid>
+
+                  </Grid>
                   <Box display="flex">
                     <Box sx={{mt:'0px auto', width:'60%'}}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <StaticDatePicker
-                        openTo="day"
-                        showToolbar={false}
-                        orientation="landscape"
-                        minDate={startDate}
-                        value={value}
-                        onChange={(newValue) => {
-                          setValue(newValue);
-                        }}
-                      />
-                    </LocalizationProvider>
+                    
                     </Box>
                     
-                      <Divider orientation="vertical" variant="middle" flexItem />
                     <Divider variant="middle" />
-                    <Box sx={{m:'20px auto', width:'40%'}}>
-                      Slots
-                      <Grid container>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >13:30</Button>
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >14:30</Button>
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >15:30</Button>
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >16:30</Button>
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >17:30</Button>
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >18:30</Button>
-                        </Grid>
-                      </Grid>
-                    </Box>
+                    
+                    
                   </Box>
 
                   <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
