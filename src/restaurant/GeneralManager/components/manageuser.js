@@ -10,11 +10,6 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 import { allSubUsers } from '../../restaurant_controller';
 
 export default function ManageUser() {
-  // I put in this console log to see if this is getting triggered or the edituser
-  // Turns out both this and the edituser keeps firing again and again and I'm not sure why.
-  // Will research omw to work
-  console.log("Manageuser triggered");
-  
   // Usestate for page controls
   const [userIDSelected, setUserIDSelected] = useState('');    
   const [openDialog, setOpenDialog] = useState(false);
@@ -67,7 +62,6 @@ export default function ManageUser() {
         setSubUsersArray(subuser_array);
       })
       .catch(error => console.log(error));
-      
   },[]);
 
   const columns = [
