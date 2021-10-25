@@ -41,16 +41,19 @@ export default function BrowseRestaurant({restData}) {
                 <CardContent >
                   <Box > </Box>
                   <Typography gutterBottom variant="h6" component="div" noWrap >
-                   {rest.name}
+                   {rest.restaurant_name}
                   </Typography>
-                  <Rating name="read-only" value={rest.rating} readOnly size='small' precision={0.1}/>
+                  <Rating name="read-only" value={rest.rest_rating} readOnly size='small' precision={0.1}/>
                   <Typography variant="body2" color="text.secondary">
-                  <Chip label={rest.category} />
+                    {rest.rest_tags.map(tag => (
+                      <Chip label={tag} />
+                    ))}
+                  
                   </Typography>
                 </CardContent>
                 <CardActionArea className="123" sx={{padding:'10px'}}>
                   <Box sx={{width:'100%'}}>
-                    <Button invisible variant="outlined" color="inherit" sx={{width:'100%'}} component={ Link } to={`/customer/browserestaurant/restaurantdetails/${rest.id}`}>View Restaurant</Button>
+                    <Button invisible variant="outlined" color="inherit" sx={{width:'100%'}} component={ Link } to={`/customer/browserestaurant/restaurantdetails/${rest.restaurant_ID}`}>View Restaurant</Button>
                   </Box>
                 </CardActionArea>
               </Card>

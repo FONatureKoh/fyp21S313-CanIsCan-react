@@ -22,12 +22,10 @@ import { retrieveAllRestaurants } from './customer_controller';
 const drawerWidth = 480;
 
 export default function Customer() {
-  // Some variable declarations
-  let restaurantsArray = [];
-
   // Other useStates
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
+  const [restaurantsArray, setRestaurantsArray] = useState([]);
 
   //CART CALCULATION
   const [deliveryFee, setDeliveryFee] = useState(0);
@@ -67,7 +65,7 @@ export default function Customer() {
     getAllRestaurants()
       .then((response) => {
         console.log(response);
-        restaurantsArray = response;
+        setRestaurantsArray(response);
       })
       .catch(error => console.log(error));
   }, [])
@@ -315,7 +313,7 @@ function deleteItem(id){
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>
           {/* DELIVERY */}
-          <Route exact path='/customer/browserestaurant'><BrowseRestaurant restData={restData}/> <BrowseRestaurantCat restData={restData} catData={catData}/></Route>
+          <Route exact path='/customer/browserestaurant'><BrowseRestaurant restData={restaurantsArray}/> <BrowseRestaurantCat restData={restaurantsArray} catData={catData}/></Route>
           <Route path='/customer/browserestaurant/restaurantdetails'><RetaurantDetails/> </Route>
 
           <Route path='/customer/profile'><ViewProfile/> </Route>
