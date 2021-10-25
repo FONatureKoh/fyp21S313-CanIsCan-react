@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { Card, CardHeader, CardContent, Box, Button, Typography, Grid, Modal, CardMedia, IconButton, Tooltip } from '@mui/material'
+import { Card, CardHeader, CardContent, Box, Button, Typography, Grid, Modal, CardMedia, IconButton, Tooltip, Accordion, AccordionSummary, AccordionDetails, ListItem } from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import TestImage from '../../assets/temp/eg-biz1.png'
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Divider } from '@mui/material';
 
 const themes = {
   textHeader: {
@@ -16,6 +18,7 @@ const themes = {
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
 export default function ReservationHistory() {
   const [buttonTab, setButtonTab] = useState(1);
+  const [accOpen, setAccOpen] = useState(false);
   
   //MODAL CONTROLS - DIRECTIONS / INFO
   const [openInfo, setOpenInfo] = useState(false);
@@ -27,6 +30,41 @@ export default function ReservationHistory() {
     const maplink = `http://maps.google.com/maps/api/staticmap?center=${postal}&zoom=17&size=400x300&maptype=roadmap&key=${apiKey}&region=SG&markers=color:red%7C${postal}&scale=2`;
     return maplink;
   }
+
+  //CART TESTING
+  const [realCart, setRealCart]= useState([
+    {
+      id: 1,
+      item: 'dog food',
+      price: 12.1,
+      qty: 3 
+    },
+    {
+      id: 2,
+      item: 'cat food',
+      price: 13,
+      qty: 2
+    },
+    {
+      id: 3,
+      item: 'giraffe food',
+      price: 23,
+      qty: 1
+    },
+    {
+      id: 4,
+      item: 'giraffe food',
+      price: 23,
+      qty: 1
+    },
+    {
+      id: 5,
+      item: 'giraffe food',
+      price: 23,
+      qty: 1
+    }
+  ])
+
 
   return (
       <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
@@ -40,6 +78,7 @@ export default function ReservationHistory() {
           {
             buttonTab === 1 ? (
               <>
+              {/* UPCOMING RESERVATION */}
               <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto'}}>
                 <CardHeader title="Upcoming Reservation" sx={{textAlign:"center"}}/>
                 <CardContent >
@@ -62,10 +101,29 @@ export default function ReservationHistory() {
                       </IconButton>
                     </Tooltip>
                   </Typography>
+
+                  <Divider variant="middle" />
+
                   <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'30px' }}>
                     Reservation Details
                   </Typography>
                   <Grid container>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                        Reservation Number
+                      </Typography>
+                      <Typography variant="subtitle1" >
+                        12343
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                        No. of Pax
+                      </Typography>
+                      <Typography variant="subtitle1" >
+                        2
+                      </Typography>
+                    </Grid>
                     <Grid item xs={12} sm={12} md={6}>
                       <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
                         Reservation Date
@@ -83,6 +141,45 @@ export default function ReservationHistory() {
                       </Typography>
                     </Grid>
                   </Grid>
+                  <Accordion sx={{border:'1px solid #eeeeee', mt:'20px'}} expanded={accOpen} >
+                    {/* HEADER OF ACCORDION */}
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="item-details"
+                      id="item-details"
+                      sx={{borderBottom:'0.5px solid #eeeeee'}}
+                      onClick={()=>{setAccOpen(!accOpen)}}
+                    >
+                      <Typography sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                        Preordered item details
+                      </Typography>
+                    </AccordionSummary>
+                    {/* INNDER ACCORDION */}
+                    <AccordionDetails>
+                      {realCart.map(item => (
+                        <ListItem key={item.id} sx={{margin:'20px auto'}}>
+                          <Box width='70%'>
+                            <Typography variant="h6">
+                              {item.item}
+                            </Typography>
+                            <Typography variant="subtitle">
+                              Unit Price: S${item.price.toFixed(2)}
+                            </Typography>
+                          </Box>
+                          <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
+                            <Typography variant="subtitle2">
+                              Quantity: {item.qty}
+                            </Typography>
+                              <Typography variant="subtitle2">
+                                Price: S$ {(item.qty * item.price).toFixed(2)}
+                              </Typography>
+                            </Box>
+                        </ListItem>
+                      ))}
+                    </AccordionDetails>
+                  </Accordion>
+
+
                   {/* CONTAINER FOR BUTTONS */}
                   <Grid container sx={{mt:'50px'}}>
                     <Grid item xs={12} sm={12} md={3}>
@@ -103,9 +200,166 @@ export default function ReservationHistory() {
                 </Box>
                 </CardContent>
               </Card>
+              {/* END OF UPCOMING RESERVATION */}
               </>
             ) : (
               <>
+              {/* START OF PAST RESERVATIONS */}
+              <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto 20px'}}>
+                <Box sx={{float:'right', margin:'5px 10px 0px 0px', position:'absolute', right:'11%'}}>
+                  <Button variant='contained' color="inherit" >reserve again</Button>
+                </Box>
+                <CardContent>
+                  <Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}>
+                  <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mb:'10px' }}>
+                    Reservation number - 123552
+                  </Typography>
+                  
+                  <Divider variant="middle" />
+                  <Typography variant="subtitle1" sx={themes.textHeader}>
+                    Reservation Details
+                  </Typography>
+
+                  <Grid container>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                        Fulfiled by
+                      </Typography>
+                      <Typography variant="subtitle1" >
+                        Restaurant Name
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                        No. of Pax
+                      </Typography>
+                      <Typography variant="subtitle1" >
+                        2
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                        Reservation Date
+                      </Typography>
+                      <Typography variant="subtitle1" >
+                        Date placeholder
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                        Reservation Time
+                      </Typography>
+                      <Typography variant="subtitle1" >
+                        Time slot placeholder
+                      </Typography>
+                    </Grid>
+                  </Grid>
+
+                  <Accordion sx={{border:'1px solid #eeeeee', mt:'20px'}} expanded={accOpen} >
+                    {/* HEADER OF ACCORDION */}
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="item-details"
+                      id="item-details"
+                      sx={{borderBottom:'0.5px solid #eeeeee'}}
+                      onClick={()=>{setAccOpen(!accOpen)}}
+                    >
+                      <Typography sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                        Preordered item details
+                      </Typography>
+                    </AccordionSummary>
+                    {/* INNDER ACCORDION */}
+                    <AccordionDetails>
+                      {realCart.map(item => (
+                        <ListItem key={item.id} sx={{margin:'20px auto'}}>
+                          <Box width='70%'>
+                            <Typography variant="h6">
+                              {item.item}
+                            </Typography>
+                            <Typography variant="subtitle">
+                              Unit Price: S${item.price.toFixed(2)}
+                            </Typography>
+                          </Box>
+                          <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
+                            <Typography variant="subtitle2">
+                              Quantity: {item.qty}
+                            </Typography>
+                              <Typography variant="subtitle2">
+                                Price: S$ {(item.qty * item.price).toFixed(2)}
+                              </Typography>
+                            </Box>
+                        </ListItem>
+                      ))}
+                    </AccordionDetails>
+                  </Accordion>
+                  <Box textAlign="center" sx={{mt:'30px'}}>
+                    <Button fullWidth variant="outlined" color="inherit" >LEAVE REVIEW</Button>
+                  </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+              {/* END OF PAST RESERVATIONS */}
+
+              {/* START OF PAST RESERVATIONS 2*/}
+              <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto'}}>
+                <Box sx={{float:'right', margin:'5px 10px 0px 0px', position:'absolute', right:'11%'}}>
+                  <Button variant='contained' color="inherit" >reserve again</Button>
+                </Box>
+                <CardContent>
+                  <Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}>
+                  <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mb:'10px' }}>
+                    Reservation number - 123552
+                  </Typography>
+                  
+                  <Divider variant="middle" />
+                  <Typography variant="subtitle1" sx={themes.textHeader}>
+                    Reservation Details
+                  </Typography>
+
+                  <Grid container>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                        Fulfiled by
+                      </Typography>
+                      <Typography variant="subtitle1" >
+                        Restaurant Name
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                        No. of Pax
+                      </Typography>
+                      <Typography variant="subtitle1" >
+                        2
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                        Reservation Date
+                      </Typography>
+                      <Typography variant="subtitle1" >
+                        Date placeholder
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                        Reservation Time
+                      </Typography>
+                      <Typography variant="subtitle1" >
+                        Time slot placeholder
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Box sx={{mt:'30px'}}>
+                    No items were preordered.
+                  </Box>
+                  <Box textAlign="center" sx={{mt:'30px'}}>
+                    <Button fullWidth variant="outlined" color="inherit" >LEAVE REVIEW</Button>
+                  </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+              {/* END OF PAST RESERVATIONS */}
               </>
             )
           }
@@ -159,6 +413,10 @@ export default function ReservationHistory() {
               </Card>
             </Modal>
             {/* END OF INFO MODAL */}
+
+            <Box textAlign="center" sx={{mt:'30px'}}>
+              <Button fullWidth variant="outlined" color="inherit" >Load More</Button>
+            </Box>
         </CardContent>
       </Card>
   )

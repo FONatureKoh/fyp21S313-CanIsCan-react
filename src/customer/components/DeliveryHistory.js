@@ -103,7 +103,7 @@ export default function DeliveryHistory() {
                 <Grid container>
                     <Grid item xs={12} md={12} sm={12}>
                       <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                        Order Number:
+                        Order Number
                       </Typography>
                       <Typography variant="subtitle1" textAlign="left">
                         123786
@@ -111,7 +111,7 @@ export default function DeliveryHistory() {
                     </Grid>
                     <Grid item xs={8} md={8} sm={8}>
                       <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                        Address:
+                        Address
                       </Typography>
                       <Typography variant="subtitle1" textAlign="left">
                         930 Hougang Street 91 #12-117 
@@ -119,7 +119,7 @@ export default function DeliveryHistory() {
                     </Grid>
                     <Grid item xs={4} md={4} sm={4}>
                       <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                        Total Price:
+                        Total Price
                       </Typography>
                       <Typography variant="subtitle1" textAlign="left">
                         S${}
@@ -174,6 +174,105 @@ export default function DeliveryHistory() {
             <>
             {/* START OF PAST ORDERS */}
 
+            <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto'}}>
+              <Box sx={{float:'right', margin:'5px 10px 0px 0px', position:'absolute', right:'11%'}}>
+                <Button variant='contained' color="inherit" >order again</Button>
+              </Box>
+              <CardContent >
+              <Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}>
+                <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mb:'10px' }}>
+                  Order number - 123552
+                </Typography>
+                
+                <Divider variant="middle" />
+                <Typography variant="subtitle1" sx={themes.textHeader}>
+                  Order Details
+                </Typography>
+                {/* START OF CONTENT BELOW 'ORDER DETAILS' */}
+                <Grid container>
+                    <Grid item xs={8} md={8} sm={8}>
+                      <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                        Fulfilled by
+                      </Typography>
+                      <Typography variant="subtitle1" textAlign="left">
+                        Restaurant Name
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4} md={4} sm={4}>
+                      <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                        Status
+                      </Typography>
+                      <Typography variant="subtitle1" textAlign="left">
+                        Fulfilled / Cancelled
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={8} md={8} sm={8}>
+                      <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                        Address
+                      </Typography>
+                      <Typography variant="subtitle1" textAlign="left">
+                        930 Hougang Street 91 #12-117 
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4} md={4} sm={4}>
+                      <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                        Total Price
+                      </Typography>
+                      <Typography variant="subtitle1" textAlign="left">
+                        S${}
+                      </Typography>
+                    </Grid>
+                </Grid>
+
+                <Accordion sx={{border:'1px solid #eeeeee', mt:'20px'}} expanded={accOpen} >
+                  {/* HEADER OF ACCORDION */}
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="item-details"
+                    id="item-details"
+                    sx={{borderBottom:'0.5px solid #eeeeee'}}
+                    onClick={()=>{setAccOpen(!accOpen)}}
+                  >
+                    <Typography sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                      Item Details
+                    </Typography>
+                  </AccordionSummary>
+                  {/* INNDER ACCORDION */}
+                  <AccordionDetails>
+                    {realCart.map(item => (
+                      <ListItem key={item.id} sx={{margin:'20px auto'}}>
+                        <Box width='70%'>
+                          <Typography variant="h6">
+                            {item.item}
+                          </Typography>
+                          <Typography variant="subtitle">
+                            Unit Price: S${item.price.toFixed(2)}
+                          </Typography>
+                        </Box>
+                        <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
+                          <Typography variant="subtitle2">
+                            Quantity: {item.qty}
+                          </Typography>
+                            <Typography variant="subtitle2">
+                              Price: S$ {(item.qty * item.price).toFixed(2)}
+                            </Typography>
+                          </Box>
+                      </ListItem>
+                    ))}
+                  </AccordionDetails>
+                </Accordion>
+                <Box textAlign="center" sx={{mt:'30px'}}>
+                  <Button fullWidth variant="outlined" color="inherit" >LEAVE REVIEW</Button>
+                </Box>
+              </Box>
+              
+              </CardContent>
+            </Card>
+            
+            <Box textAlign="center" sx={{mt:'30px'}}>
+              <Button fullWidth variant="outlined" color="inherit" >Load More</Button>
+            </Box>
+            {/* END OF PAST ORDERS */}
             </>
           )
           

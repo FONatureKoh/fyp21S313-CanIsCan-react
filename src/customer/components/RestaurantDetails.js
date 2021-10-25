@@ -16,6 +16,7 @@ import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { Landscape } from '@mui/icons-material'
 
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
+
 export default function RetaurantDetails() {
   //MODAL CONTROLS - DIRECTIONS / INFO
   const [openInfo, setOpenInfo] = useState(false);
