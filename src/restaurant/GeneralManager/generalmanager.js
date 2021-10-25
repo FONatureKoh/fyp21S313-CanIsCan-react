@@ -108,7 +108,7 @@ export default function GeneralManager() {
           <Route path="/generalmanager/editmenu"> <Editmenu/></Route>
           <Route path="/generalmanager/manageuser"> <ManageUser/></Route>
           <Route path="/generalmanager/restaurantinformation"> <ViewInfo isChecked={isChecked} toggleChecked={toggleChecked}/> </Route>
-          {/* <Route path="/generalmanager/addsub-user" component= {AddSubUser}/> */}
+          <Route path="/generalmanager/addsub-user" component= {AddSubUser}/>
           <Route path="/generalmanager/statistics" component= {Stats}/>
           <Route path="/generalmanager/profile" component={ViewProfile}/>
           <Redirect from='/generalmanager' to='/generalmanager/editmenu'/>
