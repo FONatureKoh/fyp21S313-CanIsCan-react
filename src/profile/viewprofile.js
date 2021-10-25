@@ -10,18 +10,31 @@ import { useRouteMatch } from 'react-router';
 export default function ViewProfile() {
   // Declaring profile information state
   const [userProfile, setUserProfile] = useState([]);
+  const [profileImage, setprofileImage] = useState('');
 
   const match = useRouteMatch('/:userrole/profile/');
 
+  // Async Functions
+  async function getUserInfo() {
+    try {
+      const userProfile = await retrieveUserProfile();
+      return userProfile;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
   // User Profile retrieval
   useEffect(() => {
-    async function getUserInfo() {
-      const userProfile = await retrieveUserProfile();
-      setUserProfile(userProfile);
-      
-      console.log(userProfile)
-    }
-    getUserInfo();
+    console.log("Use effect triggered!")
+
+    // Get userInfo
+    getUserInfo()
+      .then(response => setUserProfile(response))
+      .catch(error => console.log(error));
+
+        
   },[])
     
   const boldtitle = {
@@ -78,8 +91,7 @@ export default function ViewProfile() {
       </div>
       </Route>
 
-      <Route path="/:userrole/profile/editprofile"><EditProfile userProfile={userProfile}/></Route>
-
+      <Route path="/:userrole/profile/editprofile"><EditProfile setUserProfile={setUserProfile}/></Route>
       <Route path="/:userrole/profile/changepassword"><ChangePassword userProfile={userProfile}/></Route>
     </Switch>
   )

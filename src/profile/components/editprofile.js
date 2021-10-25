@@ -104,8 +104,10 @@ export default function EditProfile() {
   function submitChange(){
     editProfileInfo()
       .then((response) => {
-        if (response === "Successful!")
+        if (response === "Successful!") {          
+          alert("Update successful!");
           history.push(`/${match.params.userrole}/profile`);
+        }
         else
           alert("Something went wrong: " + response);
       })
