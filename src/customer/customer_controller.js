@@ -82,7 +82,7 @@ export async function getCategoryRestaurant(tag) {
 /*****************************************************************************************
  * Retrieve all the restaurants based on the user selected category                      *
 ******************************************************************************************/
-export async function getImage(itemPngID) {
+export async function getItemImage(itemPngID) {
   // Axios request config to be declared first
   const axiosConfig = {
     headers: {
