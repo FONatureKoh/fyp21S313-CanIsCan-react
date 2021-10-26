@@ -80,7 +80,7 @@ export default function RetaurantDetails() {
                 itemMenu: item.ric_name
               }
               itemsArray.push(tempJson);
-              this.setState({ itemMenusState: [...this.state.itemMenusState, ...[tempJson] ] })
+              setItemMenusState(oldArray => [...oldArray, tempJson]);
             })
             .catch(error => console.log(error));
           itemMenusArray.push(item.ric_name);
