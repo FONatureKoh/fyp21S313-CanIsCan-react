@@ -24,6 +24,8 @@ export default function RetaurantDetails() {
   const match = useRouteMatch('/customer/browserestaurant/restaurantdetails/:id');
   const restID = match.params.id;
 
+  const [menusState, setMenusState] = useState([])
+  const [itemMenusState, setItemMenusState] = useState([])
   // Useful variables at the start
   var itemMenusArray = [];
   var itemsArray = [];
@@ -57,7 +59,6 @@ export default function RetaurantDetails() {
     getItems()
       .then((response) => {
         console.log(response);
-
         response.forEach(item => {
           // We got to transform the picture here already, so we call the async
           // controller here directly
@@ -79,22 +80,33 @@ export default function RetaurantDetails() {
                 itemMenu: item.ric_name
               }
               itemsArray.push(tempJson);
+              setItemMenusState(oldArray => [...oldArray, tempJson]);
             })
             .catch(error => console.log(error));
-
           itemMenusArray.push(item.ric_name);
         })
-
+      
+       
+       
         // Trigger array filter async function
         removeusingSet(itemMenusArray)
           .then((response) => {
             itemMenusArray = response;
+            setMenusState(itemMenusArray)
             console.log(itemMenusArray);
           })
           .catch(error => console.log(error));
       })
       .catch(error => console.log(error));
   }, []);
+
+  // useEffect(()=>{
+  //   const testArray = await getItems();
+  // },[])
+  console.log(menusState)
+  console.log(itemMenusArray)
+  
+  console.log(itemMenusState)
 
   //MODAL CONTROLS - DIRECTIONS / INFO
   const [openInfo, setOpenInfo] = useState(false);
@@ -127,7 +139,7 @@ export default function RetaurantDetails() {
           image={TestImage}
         />
 
-<CardContent >
+        <CardContent >
           <Box sx={{width: "80%", margin: '10px auto'}}> 
             {/* HEADER BOX - REST DETAILS HERE */}
             <Box display="flex" flexDirection="row">
@@ -142,8 +154,8 @@ export default function RetaurantDetails() {
               
               <Box width='45%' textAlign='right' >
                 <Box Box width='100%' >
-                    <Button variant="outlined" color="inherit" sx={{marginRight:'20px'}}>ORDER Delivery</Button>
-                    <Button variant="outlined" color="inherit" onClick={handleOpenReserve}>Reserve Table</Button>
+                    <Button variant="outlined" color="inherit">ORDER Delivery</Button>
+                    <Button variant="outlined" color="inherit"  sx={{marginLeft:'20px'}} onClick={handleOpenReserve}>Reserve Table</Button>
                 </Box>
                 <Box width='100%' alignSelf="flex-end" sx={{mt:'3px'}} >
                   <Typography>
@@ -166,106 +178,55 @@ export default function RetaurantDetails() {
 
             
             {/* MENU BOX - CONTAINER FOR EACH MENU OFFERED BY THE REST */}
-            <Box>
-              <Typography variant="h4" sx={{padding:'20px 0px'}}>
-                Menu Name
-              </Typography>
-
-              <Grid 
-                container
-                spacing={{ xs: 2, md: 3 }} 
-                columns={{ xs: 4, sm: 12, md: 12 }}
-                direction="row"
-                justify="flex-start"
-                alignItems="flex-start"
-              >
-
-                {/* EACH MENU ITEM */}
-                <Grid item xs={12} sm={12} md={6}>
-                  
-                <ButtonBase sx={{display:'block', textAlign:'initial', width:'100%'}}>
-                <Card sx={{ display: 'flex', width:'100%'}}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', width:'80%'}}>
-                  <CardContent sx={{ flex: '1 0 auto'}}>
-                    <Typography component="div" variant="h6">
-                      Fries
-                    </Typography>
-                    <Typography variant="subtitle2" color="text.secondary" component="div">
-                      Deep Fried Fries with some cheese cheese cheese sauce.
-                    </Typography>
-                    <Typography variant="subtitle1">
-                     Price: $ 3.20
-                    </Typography>
-                  </CardContent>
-                  </Box>
-                  <CardMedia
-                    component="img"
-                    sx={{ width: 151, margin:'1%'}}
-                    image={test}
-                    alt="fooditemname"
-                  />
-                </Card>
-                </ButtonBase>
-                </Grid>
-                {/* END OF MENU ITEM */}
-
-                {/* EACH MENU ITEM */}
-                <Grid item xs={12} sm={12} md={6}>
-                  <ButtonBase sx={{display:'block', textAlign:'initial', width:'100%'}}>
-                  <Card sx={{ display: 'flex', width:'100%'}}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', width:'80%'}}>
-                    <CardContent sx={{ flex: '1 0 auto'}}>
-                      <Typography component="div" variant="h6">
-                        Fries
-                      </Typography>
-                      <Typography variant="subtitle2" color="text.secondary" component="div">
-                        Deep Fried Fries with some cheese cheese cheese sauce.
-                      </Typography>
-                      <Typography variant="subtitle1">
-                       Price: $ 3.20
-                      </Typography>
-                    </CardContent>
-                    </Box>
-                    <CardMedia
-                      component="img"
-                      sx={{ width: 151, margin:'1%'}}
-                      image={test}
-                      alt="fooditemname"
-                    />
-                  </Card>
-                  </ButtonBase>
+            
+            <Box sx={{paddingBottom:'20px'}}>
+              {
+                menusState.map((item) =>{
+                  return <>
+                  {/* HEADER */}
+                  <Typography variant="h5" sx={{padding:'20px 0px'}}>
+                    {item}
+                  </Typography>
+                  {/* END OF HEADER */}
+                  <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 12 }} direction="row" justify="flex-start" alignItems="flex-start">
+                    {
+                      itemMenusState.map(item2 =>{
+                        if (item2.itemMenu === item)
+                        return <>
+                          <Grid item xs={12} sm={12} md={6}>
+                          <ButtonBase sx={{display:'block', textAlign:'initial', width:'100%'}}>
+                          <Card sx={{ display: 'flex', width:'100%', height:'130px'}}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', width:'80%'}}>
+                            <CardContent sx={{ flex: '1 0 auto'}}>
+                              <Typography component="div" variant="h6">
+                                {item2.itemName}
+                              </Typography>
+                              <Typography variant="subtitle2" color="text.secondary" component="div">
+                                {item2.itemDesc}
+                              </Typography>
+                              <Typography variant="subtitle1">
+                              Price: $ {item2.itemPrice.toFixed(2)}
+                              </Typography>
+                            </CardContent>
+                            </Box>
+                            <CardMedia
+                              component="img"
+                              sx={{ width: 151, margin:'1%'}}
+                              image={item2.itemImage}
+                              alt="fooditemname"
+                            />
+                          </Card>
+                          </ButtonBase>
+                          </Grid>
+                      </>
+                      })
+                    }
+                    
                   </Grid>
-                  {/* END OF MENU ITEM */}
+                  </>
+                })
+              }
 
-                  
-                {/* EACH MENU ITEM */}
-                <Grid item xs={12} sm={12} md={6}>
-                  <ButtonBase sx={{display:'block', textAlign:'initial', width:'100%'}}>
-                  <Card sx={{ display: 'flex', width:'100%'}}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', width:'80%'}}>
-                    <CardContent sx={{ flex: '1 0 auto'}}>
-                      <Typography component="div" variant="h6">
-                        Fries
-                      </Typography>
-                      <Typography variant="subtitle2" color="text.secondary" component="div">
-                        Deep Fried Fries with some cheese cheese cheese sauce.
-                      </Typography>
-                      <Typography variant="subtitle1">
-                       Price: $ 3.20
-                      </Typography>
-                    </CardContent>
-                    </Box>
-                    <CardMedia
-                      component="img"
-                      sx={{ width: 151, margin:'1%'}}
-                      image={test}
-                      alt="fooditemname"
-                    />
-                  </Card>
-                  </ButtonBase>
-                  </Grid>
-                  {/* END OF MENU ITEM */}
-              </Grid>
             </Box>
 
             {/* INFO MODAL */}
@@ -398,6 +359,7 @@ export default function RetaurantDetails() {
                           onChange={(newValue) => {
                             setValue(newValue);
                           }}
+                          renderInput={(params) => <TextField {...params} />}
                         />
                       </LocalizationProvider>
                     </Grid>
