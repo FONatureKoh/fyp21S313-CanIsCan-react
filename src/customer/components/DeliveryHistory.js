@@ -23,41 +23,25 @@ const steps = [
 
 
 export default function DeliveryHistory() {
-  // COnsole log
-  console.log("Delivery History loaded");
-  
-  // useState or use Array? I changed this part here
+  // useStates for orders
   const [orderHistory, setOrderHistory] = useState([]);
 
-  // Async function to rule it all
-  async function getOrdersAndItems() {
+  // Async functions for order retrieval
+  async function getOrders() {
     try {
-      // Declare a temp Array
-      var orderDetailsArray = [];
-
-      // First we await the orders
       const response = await getAllOrders();
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
+  }
 
-      // Response is an Array
-      response.forEach(order => {
-        // We transform the data first
-        var tempJSON = {
-          orderID: order.order_ID,
-          restaurantName: order.o_rest_name,
-          address: order.delivery_address + " S(" + order.delivery_postal_code + ")",
-          price: order.total_cost,
-          status: order.order_status
-        }
-
-        // With that, we now have the order_ID which we can then use to get all the 
-        // items that comes with it
-        const items = getAllOrderItems(order.order_ID);
-
-        tempJSON["items"] = items;
-        orderDetailsArray.push(tempJSON);
-        console.log(orderDetailsArray);
-      })
-      return orderDetailsArray;
+  // Async function for item retrieval
+  async function getSelectedOrderItems(orderID) {
+    try {
+      const response = await getAllOrderItems(orderID);
+      return response;
     }
     catch (error) {
       return error;
@@ -66,21 +50,40 @@ export default function DeliveryHistory() {
 
   // useEffect to load all these data in for first render
   useEffect(() => {
-    console.log("useEffect triggered");
+    // Get the orders first
+    getOrders()
+      .then((response) => {
+        // Declare a temp array
+        var orderDetailsArray = [];
 
-    async function triggerGetInfo() {
-      try {
-        const ordersArray = await getOrdersAndItems();
-        
-        setOrderHistory(ordersArray); // This is where we supposed to set it
-      }
-      catch (error) {
-        console.log(error);
-      }
-    }
-    triggerGetInfo();
+        console.log(response);
 
-    console.log(orderHistory);
+        response.forEach(element => {
+          // Declare a temp json
+          var tempJSON = {};
+          
+          tempJSON = {
+            orderID: element.order_ID,
+            restaurantName: element.o_rest_name,
+            address: element.delivery_address + " S(" + element.delivery_postal_code + ")",
+            price: element.total_cost,
+            status: element.order_status
+          }
+
+          // Now we get the items
+          getSelectedOrderItems(element.order_ID)
+            .then((response) => {
+              tempJSON["items"] = response;
+
+              orderDetailsArray.push(tempJSON);
+            })
+            .catch(error => console.log(error));
+        });
+
+        setOrderHistory(orderDetailsArray);
+        console.log(orderHistory);
+      })
+      .catch(error => console.log(error));
   }, [])
 
   // ACCORDION CONTROL
