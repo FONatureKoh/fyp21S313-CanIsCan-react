@@ -247,99 +247,101 @@ export default function DeliveryHistory() {
             {/* START OF PAST ORDERS */}
             {
               orderHistory.map(order => {
-                return <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto'}}>
-                  <Box sx={{float:'right', margin:'5px 10px 0px 0px', position:'absolute', right:'11%'}}>
-                    <Button variant='contained' color="inherit" >order again</Button>
-                  </Box>
-                  <CardContent >
-                    <Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}>
-                      <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mb:'10px' }}>
-                        Order Number - {order.orderID}
-                      </Typography>
-                      
-                      <Divider variant="middle" />
-                      <Typography variant="subtitle1" sx={themes.textHeader}>
-                        Order Details
-                      </Typography>
-                      {/* START OF CONTENT BELOW 'ORDER DETAILS' */}
-                      <Grid container>
-                          <Grid item xs={8} md={8} sm={8}>
-                            <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                              Fulfilled by
-                            </Typography>
-                            <Typography variant="subtitle1" textAlign="left">
-                              {order.restaurantName}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={4} md={4} sm={4}>
-                            <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                              Status
-                            </Typography>
-                            <Typography variant="subtitle1" textAlign="left">
-                              {order.status}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={8} md={8} sm={8}>
-                            <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                              Address
-                            </Typography>
-                            <Typography variant="subtitle1" textAlign="left">
-                              {order.address}
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={4} md={4} sm={4}>
-                            <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                              Total Price
-                            </Typography>
-                            <Typography variant="subtitle1" textAlign="left">
-                              S${order.price}
-                            </Typography>
-                          </Grid>
-                      </Grid>
+                if (order.status == "fulfilled") {
+                  return <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto'}}>
+                    <Box sx={{float:'right', margin:'5px 10px 0px 0px', position:'absolute', right:'11%'}}>
+                      <Button variant='contained' color="inherit" >order again</Button>
+                    </Box>
+                    <CardContent >
+                      <Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}>
+                        <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mb:'10px' }}>
+                          Order Number - {order.orderID}
+                        </Typography>
+                        
+                        <Divider variant="middle" />
+                        <Typography variant="subtitle1" sx={themes.textHeader}>
+                          Order Details
+                        </Typography>
+                        {/* START OF CONTENT BELOW 'ORDER DETAILS' */}
+                        <Grid container>
+                            <Grid item xs={8} md={8} sm={8}>
+                              <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                                Fulfilled by
+                              </Typography>
+                              <Typography variant="subtitle1" textAlign="left">
+                                {order.restaurantName}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={4} md={4} sm={4}>
+                              <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                                Status
+                              </Typography>
+                              <Typography variant="subtitle1" textAlign="left">
+                                {order.status}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={8} md={8} sm={8}>
+                              <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                                Address
+                              </Typography>
+                              <Typography variant="subtitle1" textAlign="left">
+                                {order.address}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={4} md={4} sm={4}>
+                              <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                                Total Price
+                              </Typography>
+                              <Typography variant="subtitle1" textAlign="left">
+                                S${order.price.toFixed(2)}
+                              </Typography>
+                            </Grid>
+                        </Grid>
 
-                      <Accordion sx={{border:'1px solid #eeeeee', mt:'20px'}} expanded={accOpen} >
-                        {/* HEADER OF ACCORDION */}
-                        <AccordionSummary
-                          expandIcon={<ExpandMoreIcon />}
-                          aria-controls="item-details"
-                          id="item-details"
-                          sx={{borderBottom:'0.5px solid #eeeeee'}}
-                          onClick={()=>{setAccOpen(!accOpen)}}
-                        >
-                          <Typography sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                            Item Details
-                          </Typography>
-                        </AccordionSummary>
-                        {/* INNDER ACCORDION */}
-                        <AccordionDetails>
-                          {realCart.map(item => (
-                            <ListItem key={item.id} sx={{margin:'20px auto'}}>
-                              <Box width='70%'>
-                                <Typography variant="h6">
-                                  {item.item}
-                                </Typography>
-                                <Typography variant="subtitle">
-                                  Unit Price: S${item.price.toFixed(2)}
-                                </Typography>
-                              </Box>
-                              <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
-                                <Typography variant="subtitle2">
-                                  Quantity: {item.qty}
-                                </Typography>
-                                  <Typography variant="subtitle2">
-                                    Price: S$ {(item.qty * item.price).toFixed(2)}
+                        <Accordion sx={{border:'1px solid #eeeeee', mt:'20px'}} expanded={accOpen} >
+                          {/* HEADER OF ACCORDION */}
+                          <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="item-details"
+                            id="item-details"
+                            sx={{borderBottom:'0.5px solid #eeeeee'}}
+                            onClick={()=>{setAccOpen(!accOpen)}}
+                          >
+                            <Typography sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                              Item Details
+                            </Typography>
+                          </AccordionSummary>
+                          {/* INNDER ACCORDION */}
+                          <AccordionDetails>
+                            {order.items.map(item => (
+                              <ListItem key={item.do_item_ID} sx={{margin:'20px auto'}}>
+                                <Box width='70%'>
+                                  <Typography variant="h6">
+                                    {item.do_item_name}
+                                  </Typography>
+                                  <Typography variant="subtitle">
+                                    Unit Price: S${item.do_item_price.toFixed(2)}
                                   </Typography>
                                 </Box>
-                            </ListItem>
-                          ))}
-                        </AccordionDetails>
-                      </Accordion>
-                      <Box textAlign="center" sx={{mt:'30px'}}>
-                        <Button fullWidth variant="outlined" color="inherit" onClick={handleOpenReview} >LEAVE REVIEW</Button>
+                                <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
+                                  <Typography variant="subtitle2">
+                                    Quantity: {item.do_item_qty}
+                                  </Typography>
+                                    <Typography variant="subtitle2">
+                                      Price: S$ {(item.do_item_qty * item.do_item_price).toFixed(2)}
+                                    </Typography>
+                                  </Box>
+                              </ListItem>
+                            ))}
+                          </AccordionDetails>
+                        </Accordion>
+                        <Box textAlign="center" sx={{mt:'30px'}}>
+                          <Button fullWidth variant="outlined" color="inherit" onClick={handleOpenReview} >LEAVE REVIEW</Button>
+                        </Box>
                       </Box>
-                    </Box>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                }
               })
             }
             
