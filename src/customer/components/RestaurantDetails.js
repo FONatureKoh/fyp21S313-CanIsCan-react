@@ -1,11 +1,10 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid, CardActionArea, Button, IconButton, Tooltip } from '@mui/material'
 import TestImage from '../../assets/temp/eg-biz1.png'
 import { Rating } from '@mui/material'
 import test from '../../assets/icon-profile.png'
 import { ButtonBase } from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import ReviewsOutlinedIcon from '@mui/icons-material/ReviewsOutlined';
 import { Modal } from '@mui/material'
 import { format } from 'date-fns';
@@ -15,17 +14,88 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { Landscape } from '@mui/icons-material'
+import { useRouteMatch } from 'react-router'
+import { retrieveAllRestaurantItems } from '../customer_controller'
 
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
+
 export default function RetaurantDetails() {
+  // Added MATCH - Thomas
+  const match = useRouteMatch('/customer/browserestaurant/restaurantdetails/:id');
+  const restID = match.params.id;
+
+  // Useful variables at the start
+  var itemMenusArray = [];
+  var itemsArray = [];
+
+  // Async function to retrieve all restaurant items
+  async function getItems(){
+    try {
+      const response = await retrieveAllRestaurantItems(restID);
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+  
+  // Simple function to filter out only distinct values
+  async function removeusingSet(arr) {
+    try {
+      let outputArray = Array.from(new Set(arr));
+      return outputArray;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // Do we need useEffect for this? Not sure if I could just load the damn thing
+  // into states. Had a lot of issues of the Array not filtering
+  useEffect(() => {
+    // Async function trigger to parse data 
+    getItems()
+      .then((response) => {
+        console.log(response);
+
+        response.forEach(item => {
+          const tempJson = {
+            itemID: item.ri_item_ID,
+            itemName: item.item_name,
+            itemDesc: item.item_desc,
+            itemAllergen: item.item_allergen_warning,
+            itemPrice: item.item_price,
+            itemMenu: item.ric_name
+          }
+          itemsArray.push(tempJson);
+
+          itemMenusArray.push(item.ric_name);
+        })
+
+        // Trigger array filter async function
+        removeusingSet(itemMenusArray)
+          .then((response) => {
+            itemMenusArray = response;
+          })
+          .catch(error => console.log(error));
+      })
+      .catch(error => console.log(error));
+  }, []);
+
   //MODAL CONTROLS - DIRECTIONS / INFO
   const [openInfo, setOpenInfo] = useState(false);
   const handleOpenInfo = () => setOpenInfo(true);
   const handleCloseInfo = () => setOpenInfo(false);
 
+  //MODAL CONTROLS - REVIEWS
   const [openReview, setOpenReview] = useState(false);
   const handleOpenReview = () => setOpenReview(true);
   const handleCloseReview = () => setOpenReview(false);
+
+  //MODAL CONTROLS - REVIEWS
+  const [openReserve, setOpenReserve] = useState(false);
+  const handleOpenReserve= () => setOpenReserve(true);
+  const handleCloseReserve = () => setOpenReserve(false);
 
   // CALENDAR TESTING
   const [value, setValue] = React.useState(new Date());
@@ -59,7 +129,7 @@ export default function RetaurantDetails() {
               <Box width='45%' textAlign='right' >
                 <Box Box width='100%' >
                     <Button variant="outlined" color="inherit" sx={{marginRight:'20px'}}>ORDER Delivery</Button>
-                    <Button variant="outlined" color="inherit">Reserve Table</Button>
+                    <Button variant="outlined" color="inherit" onClick={handleOpenReserve}>Reserve Table</Button>
                 </Box>
                 <Box width='100%' alignSelf="flex-end" sx={{mt:'3px'}} >
                   <Typography>
@@ -272,8 +342,8 @@ export default function RetaurantDetails() {
 
             {/* RESERVATION MODAL */}
             <Modal
-              open={true}
-              onClose={handleCloseReview}
+              open={openReserve}
+              onClose={handleCloseReserve}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
@@ -282,7 +352,8 @@ export default function RetaurantDetails() {
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
                 width:"50%",
-                maxHeight:'70%',}}>
+                maxHeight:'70%',
+                overflow:'auto'}}>
                 <CardMedia
                   component="img"
                   height="140"
@@ -300,47 +371,58 @@ export default function RetaurantDetails() {
                   </Box>
                   
                   <Divider variant="middle"/>
+
+                  <Grid container>
+                    <Grid item md={6} sm={12} xs={12} sx={{mt:'15px', minWidth:'300px'}}>
+                      <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <StaticDatePicker
+                          openTo="day"
+                          showToolbar={false}
+                          orientation="landscape"
+                          minDate={startDate}
+                          value={value}
+                          onChange={(newValue) => {
+                            setValue(newValue);
+                          }}
+                        />
+                      </LocalizationProvider>
+                    </Grid>
+
+                    <Grid item md={6} sm={12} xs={12} sx={{mt:'15px'}}>
+                      <Box sx={{m:'20px auto', width:'100%'}}>
+                        Slots
+                        <Grid container>
+                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
+                            <Button color="inherit" disabled variant='contained' >13:30</Button>
+                          </Grid>
+                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
+                            <Button color="inherit" variant='contained' >14:30</Button>
+                          </Grid>
+                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
+                            <Button color="inherit" variant='contained' >15:30</Button>
+                          </Grid>
+                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
+                            <Button color="inherit" variant='contained' >16:30</Button>
+                          </Grid>
+                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
+                            <Button color="inherit" variant='contained' >17:30</Button>
+                          </Grid>
+                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
+                            <Button color="inherit" variant='contained' >18:30</Button>
+                          </Grid>
+                        </Grid>
+                      </Box>
+                    </Grid>
+
+                  </Grid>
                   <Box display="flex">
                     <Box sx={{mt:'0px auto', width:'60%'}}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                      <StaticDatePicker
-                        openTo="day"
-                        showToolbar={false}
-                        orientation="landscape"
-                        minDate={startDate}
-                        value={value}
-                        onChange={(newValue) => {
-                          setValue(newValue);
-                        }}
-                      />
-                    </LocalizationProvider>
+                    
                     </Box>
                     
-                      <Divider orientation="vertical" variant="middle" flexItem />
                     <Divider variant="middle" />
-                    <Box sx={{m:'20px auto', width:'40%'}}>
-                      Slots
-                      <Grid container>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >13:30</Button>
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >14:30</Button>
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >15:30</Button>
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >16:30</Button>
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >17:30</Button>
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={6} sx={{mt:'15px'}}>
-                          <Button variant='contained' >18:30</Button>
-                        </Grid>
-                      </Grid>
-                    </Box>
+                    
+                    
                   </Box>
 
                   <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
