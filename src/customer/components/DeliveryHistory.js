@@ -94,7 +94,9 @@ export default function DeliveryHistory() {
   const [openReview, setOpenReview] = useState(false);
   const handleOpenReview = () => setOpenReview(true);
   const handleCloseReview = () => setOpenReview(false);
-  
+
+  console.log(orderHistory);
+
   //CART TESTING
   const [realCart, setRealCart]= useState([
     {
