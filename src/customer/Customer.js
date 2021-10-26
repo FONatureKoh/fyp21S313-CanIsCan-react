@@ -18,6 +18,7 @@ import ViewProfile from '../profile/viewprofile';
 import DeliveryHistory from './components/DeliveryHistory';
 import ReservationHistory from './components/ReservationHistory';
 import { retrieveAllRestaurants, retrieveRestaurantTags } from './customer_controller';
+import OrderDelivery from './components/OrderDelivery';
 
 const drawerWidth = 480;
 
@@ -87,122 +88,6 @@ export default function Customer() {
       .catch(error => console.log(error));
   }, [])
 
-  const catData=['Cafe', 'Japanese', 'Indian', 'Chinese', 'Malay'];
-
-  const restData = [{
-    id: 1,
-    name: "Default co", 
-    phone: '+65 8765 4321',
-    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-    rating: 4.5,
-    category: 'Cafe'
-  },
-  {
-    id: 2,
-    name: "Kelvin co", 
-    phone: '+65 8765 4321',
-    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-    rating: 4,
-    category: 'Japanese'
-  },
-  {
-    id: 3,
-    name: "Train Cafe", 
-    phone: '+65 8765 4321',
-    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-    rating: 4.5,
-    category: 'Indian'
-  },
-  {
-    id: 4,
-    name: "Koi The", 
-    phone: '+65 8765 4321',
-    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-    rating: 4,
-    category: 'Cafe'
-  },
-  {
-    id: 5,
-    name: "Shooting Star Cafe", 
-    phone: '+65 8765 4321',
-    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-    rating: 4.2,
-    category: 'Thai'
-  },
-  {
-    id: 6,
-    name: "Default co", 
-    phone: '+65 8765 4321',
-    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-    rating: 4.5,
-    category: 'Chinese'
-  },
-  {
-    id: 7,
-    name: "Default co", 
-    phone: '+65 8765 4321',
-    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-    rating: 4.5,
-    category: 'Chinese'
-  },
-  {
-    id: 8,
-    name: "Default co", 
-    phone: '+65 8765 4321',
-    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-    rating: 4.5,
-    category: 'Chinese'
-  },
-  {
-    id: 9,
-    name: "Default co", 
-    phone: '+65 8765 4321',
-    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-    rating: 4.5,
-    category: 'Chinese'
-  },
-  {
-    id: 10,
-    name: "Default co", 
-    phone: '+65 8765 4321',
-    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-    rating: 4.5,
-    category: 'Chinese'
-  },
-  {
-    id: 11,
-    name: "Default co", 
-    phone: '+65 8765 4321',
-    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-    rating: 4.5,
-    category: 'Chinese'
-  },
-  {
-    id: 12,
-    name: "Default co", 
-    phone: '+65 8765 4321',
-    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-    rating: 4.5,
-    category: 'Chinese'
-  },
-  {
-    id: 13,
-    name: "Default co", 
-    phone: '+65 8765 4321',
-    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-    rating: 4.5,
-    category: 'Chinese'
-  },
-  {
-    id: 14,
-    name: "Default co", 
-    phone: '+65 8765 4321',
-    address: 'Blk222, Ang Mo Kio Avenue 2 #02-222 S(222222)',
-    rating: 4.5,
-    category: 'Chinese'
-  }
-]
-
 //CART TESTING
 const [realCart, setRealCart]= useState([
   {
@@ -257,39 +142,6 @@ function deleteItem(id){
   setRealCart(newCart)
 }
 
-// CART DUMMY
-  const cart = [
-    {
-      'id': 1,
-      'item': 'dog food',
-      'price': 12.1,
-      'qty': 3 
-    },
-    {
-      'id': 2,
-      'item': 'cat food',
-      'price': 13,
-      'qty': 2
-    },
-    {
-      'id': 3,
-      'item': 'giraffe food',
-      'price': 23,
-      'qty': 1
-    },
-    {
-      'id': 4,
-      'item': 'mouse food',
-      'price': 3.5,
-      'qty': 2
-    },
-    {
-      'id': 5,
-      'item': 'cockroach food',
-      'price': 1,
-      'qty': 22
-    }
-  ]
 
   //CART CALCULATIONS
   //ITEM UNIT PRICE * QTY
@@ -332,6 +184,8 @@ function deleteItem(id){
           {/* DELIVERY */}
           <Route exact path='/customer/browserestaurant'><BrowseRestaurant restData={restaurantsArray}/> <BrowseRestaurantCat restData={restaurantsArray} catData={tagsArray}/></Route>
           <Route path='/customer/browserestaurant/restaurantdetails'><RetaurantDetails/> </Route>
+          <Route path='/customer/browserestaurant/orderdelivery'><OrderDelivery/> </Route>
+
 
           <Route path='/customer/profile'><ViewProfile/> </Route>
           <Route path='/customer/deliveryhistory'><DeliveryHistory/> </Route>

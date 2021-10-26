@@ -13,9 +13,9 @@ import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import StaticDatePicker from '@mui/lab/StaticDatePicker';
-import { Landscape } from '@mui/icons-material'
 import { useRouteMatch } from 'react-router'
 import { retrieveAllRestaurantItems, getItemImage } from '../customer_controller'
+import { Link } from 'react-router-dom'
 
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
 
@@ -154,7 +154,7 @@ export default function RetaurantDetails() {
               
               <Box width='45%' textAlign='right' >
                 <Box Box width='100%' >
-                    <Button variant="outlined" color="inherit">ORDER Delivery</Button>
+                    <Button variant="outlined" color="inherit" component={ Link } to={`/customer/browserestaurant/orderdelivery/${restID}`}>ORDER Delivery</Button>
                     <Button variant="outlined" color="inherit"  sx={{marginLeft:'20px'}} onClick={handleOpenReserve}>Reserve Table</Button>
                 </Box>
                 <Box width='100%' alignSelf="flex-end" sx={{mt:'3px'}} >
