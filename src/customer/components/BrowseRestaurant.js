@@ -44,7 +44,7 @@ export default function BrowseRestaurant({restData}) {
                     <Typography gutterBottom variant="h6" component="div" noWrap >
                     {rest.restaurant_name}
                     </Typography>
-                    <Rating name="read-only" value={rest.rest_rating} readOnly size='small' precision={0.1}/>
+                    <Rating name="read-only" value={rest.rest_rating} readOnly size='small' precision={0.1}/> {rest.rest_rating}
                     <Typography variant="body2" color="text.secondary">
                       {rest.rest_tags.map(tag => (
                         <Chip label={tag} sx={{margin:'3px'}}/>
