@@ -57,6 +57,7 @@ export default function DeliveryHistory() {
         orderDetailsArray.push(tempJSON);
         console.log(orderDetailsArray);
       })
+      return orderDetailsArray;
     }
     catch (error) {
       return error;
