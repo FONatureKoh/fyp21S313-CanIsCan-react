@@ -80,7 +80,7 @@ export default function DeliveryHistory() {
         });
 
         setOrderHistory(orderDetailsArray);
-        console.log(orderDetailsArray);
+        console.log(orderHistory);
       })
       .catch(error => console.log(error));
   }, [])
