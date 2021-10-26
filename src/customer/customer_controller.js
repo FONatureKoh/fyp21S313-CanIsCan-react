@@ -104,3 +104,41 @@ export async function getItemImage(itemPngID) {
     console.log(error);
   }
 }
+
+/*****************************************************************************************
+ * Retrieve all the restaurants based on the user selected category                      *
+******************************************************************************************/
+export async function getAllOrders() {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/customer/alldeliveryorders`, axiosConfig);
+    
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
+
+/*****************************************************************************************
+ * Retrieve all the order items based on the delivery order                              *
+******************************************************************************************/
+export async function getAllOrderItems(do_ID) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/customer/orderitems/${do_ID}`, axiosConfig);
+    
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
