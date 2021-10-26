@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
-import { Card, CardHeader, CardContent, Box, Typography, Stepper, Step, StepLabel, Divider, Accordion, AccordionSummary, AccordionDetails, Grid, ListItem, Button } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Card, CardHeader, CardContent, Box, Typography, Stepper, Step, StepLabel, Divider, Accordion, AccordionSummary, AccordionDetails, Grid, ListItem, 
+  Button, Modal, CardMedia, Rating, TextField } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { getAllOrderItems, getAllOrders } from '../customer_controller';
 
 const themes = {
   textHeader: {
@@ -11,8 +13,8 @@ const themes = {
   }
 };
 
- //STEPPER - FOR STATUS
- const steps = [
+//STEPPER - FOR STATUS
+const steps = [
   'Order accepted',
   'Preparing order',
   'Order on the way',
@@ -21,9 +23,77 @@ const themes = {
 
 
 export default function DeliveryHistory() {
+  // useStates for orders
+  const [orderHistory, setOrderHistory] = useState([]);
+
+  // Async functions for order retrieval
+  async function getOrders() {
+    try {
+      const response = await getAllOrders();
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // Async function for item retrieval
+  async function getSelectedOrderItems(orderID) {
+    try {
+      const response = await getAllOrderItems(orderID);
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // useEffect to load all these data in for first render
+  useEffect(() => {
+    // Get the orders first
+    getOrders()
+      .then((response) => {
+        // Declare a temp array
+        var orderDetailsArray = [];
+
+        console.log(response);
+
+        response.forEach(element => {
+          // Declare a temp json
+          var tempJSON = {};
+          
+          tempJSON = {
+            orderID: element.order_ID,
+            restaurantName: element.o_rest_name,
+            address: element.delivery_address + " S(" + element.delivery_postal_code + ")",
+            price: element.total_cost,
+            status: element.order_status
+          }
+
+          // Now we get the items
+          getSelectedOrderItems(element.order_ID)
+            .then((response) => {
+              tempJSON["items"] = response;
+
+              orderDetailsArray.push(tempJSON);
+            })
+            .catch(error => console.log(error));
+        });
+
+        setOrderHistory(orderDetailsArray);
+        console.log(orderHistory);
+      })
+      .catch(error => console.log(error));
+  }, [])
+
   // ACCORDION CONTROL
   const [accOpen, setAccOpen] = useState(false);
   const [buttonTab, setButtonTab] = useState(1);
+
+  //MODAL CONTROLS - REVIEWS
+  const [openReview, setOpenReview] = useState(false);
+  const handleOpenReview = () => setOpenReview(true);
+  const handleCloseReview = () => setOpenReview(false);
   
   //CART TESTING
   const [realCart, setRealCart]= useState([
@@ -173,7 +243,15 @@ export default function DeliveryHistory() {
           (
             <>
             {/* START OF PAST ORDERS */}
-
+            {
+              orderHistory.map(order => {
+                <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto'}}>
+                  <Box sx={{float:'right', margin:'5px 10px 0px 0px', position:'absolute', right:'11%'}}>
+                    <Button variant='contained' color="inherit" >order again</Button>
+                  </Box>
+                </Card>
+              })
+            }
             <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto'}}>
               <Box sx={{float:'right', margin:'5px 10px 0px 0px', position:'absolute', right:'11%'}}>
                 <Button variant='contained' color="inherit" >order again</Button>
@@ -262,7 +340,7 @@ export default function DeliveryHistory() {
                   </AccordionDetails>
                 </Accordion>
                 <Box textAlign="center" sx={{mt:'30px'}}>
-                  <Button fullWidth variant="outlined" color="inherit" >LEAVE REVIEW</Button>
+                  <Button fullWidth variant="outlined" color="inherit" onClick={handleOpenReview} >LEAVE REVIEW</Button>
                 </Box>
               </Box>
               
@@ -277,6 +355,53 @@ export default function DeliveryHistory() {
           )
           
         }
+
+        {/* REVIEW MODAL */}
+        <Modal
+          open={openReview}
+          onClose={handleCloseReview}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Card variant="outlined" sx={{ position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width:"50%",
+            maxHeight:'70%',}}>
+            <CardContent >
+              <Box textAlign="center" sx={{mb:'20px'}}>
+                <Typography variant="h6">Let us know your experience</Typography>
+                <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', }}>Your order from </Typography>
+                <Typography variant="subtitle1">Restaurant Name</Typography>
+              </Box>
+              
+              <Divider variant="middle"/>
+
+              <Box textAlign="center" width="60%" margin="10px auto" >
+                <Typography  variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', }}>How was the delivery?</Typography>
+                <Typography sx={{mb:'20px'}}><Rating size="large"/></Typography>
+                <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', }}>Information about the review</Typography>
+                <TextField  fullWidth id="filled-basic" label="Title (Optional)" variant="filled" sx={{mb:'20px'}}/>
+                <TextField
+                  fullWidth
+                  id="filled-textarea"
+                  label="Let us know more (Optional)"
+                  placeholder="Placeholder"
+                  multiline
+                  variant="filled"
+                  rows="3"
+                />
+              </Box>
+
+              <Box textAlign="center" width="60%" margin="10px auto" >
+                <Button variant="outlined" color="error" sx={{margin:'10px 10px'}} onClick={handleCloseReview}>Cancel</Button>
+                <Button variant="outlined" color="inherit" sx={{margin:'10px 10px'}}>Submit</Button>
+              </Box>
+            </CardContent>
+          </Card>
+        </Modal>
+        {/* END OF REVIEW MODAL */}
 
         </CardContent>
       </Card>

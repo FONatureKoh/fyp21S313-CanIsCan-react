@@ -99,31 +99,6 @@ export async function deleteRestaurantItem(itemID) {
 };
 
 /*****************************************************************************************
- * RGM add subUsers                                                                      *
- * ***************************************************************************************
- * - This takes all the info from the RGM and creates the subuser based on the given data
- * ***************************************************************************************/
-export function addRestaurantSubuser(itemID, itemName, itemPrice, itemDesc, itemAllergy) {
-  const editItemForm = new FormData();
-  editItemForm.append("itemID", itemID)
-  // editItemForm.append("imageFile", imageFile);
-  editItemForm.append("itemName", itemName);
-  editItemForm.append("itemPrice", itemPrice);
-  editItemForm.append("itemDesc", itemDesc);
-  editItemForm.append("itemAllergy", itemAllergy);
-
-  return axios.put(`${config.apiDomain}/restaurant/restaurantItem/${itemID}`, editItemForm)
-    .then(res => {
-      // In here we can choose what we want to do with the response of the request
-      // console.log(res)
-      return res.data;
-    })
-    .catch(err => {
-      console.log(err)
-    });
-};
-
-/*****************************************************************************************
  * RGM retrieving of restaurant's profile                                                *
  * ***************************************************************************************
  * - This takes all the info from the RGM and creates the subuser based on the given data
@@ -516,9 +491,9 @@ export async function allSubUsers() {
 };
 
 /*****************************************************************************************
- * For RGM to retrieve all the subusers                                                  *
+ * For RGM to a single SubUser                                                           *
  * ***************************************************************************************
- * - This retrieves all the subusers based on the rgm's username
+ * - This retrieves subuser based on the subuser ID
  * ***************************************************************************************/
 export async function subUser(userID) {
   // Axios request config to be declared first

@@ -414,9 +414,9 @@ export default function ReservationHistory() {
             </Modal>
             {/* END OF INFO MODAL */}
 
-            <Box textAlign="center" sx={{mt:'30px'}}>
+            {/* <Box textAlign="center" sx={{mt:'30px'}}>
               <Button fullWidth variant="outlined" color="inherit" >Load More</Button>
-            </Box>
+            </Box> */}
         </CardContent>
       </Card>
   )

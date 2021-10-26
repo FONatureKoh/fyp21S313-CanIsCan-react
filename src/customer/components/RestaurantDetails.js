@@ -15,7 +15,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { Landscape } from '@mui/icons-material'
 import { useRouteMatch } from 'react-router'
-import { retrieveAllRestaurantItems } from '../customer_controller'
+import { retrieveAllRestaurantItems, getItemImage } from '../customer_controller'
 
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
 
@@ -59,15 +59,28 @@ export default function RetaurantDetails() {
         console.log(response);
 
         response.forEach(item => {
-          const tempJson = {
-            itemID: item.ri_item_ID,
-            itemName: item.item_name,
-            itemDesc: item.item_desc,
-            itemAllergen: item.item_allergen_warning,
-            itemPrice: item.item_price,
-            itemMenu: item.ric_name
-          }
-          itemsArray.push(tempJson);
+          // We got to transform the picture here already, so we call the async
+          // controller here directly
+          let tempItemImageURL = '';
+
+          getItemImage(item.item_png_ID)
+            .then((response) => {
+              // Temp imageURL
+              tempItemImageURL = response;
+              console.log(tempItemImageURL);
+
+              const tempJson = {
+                itemID: item.ri_item_ID,
+                itemImage: tempItemImageURL,
+                itemName: item.item_name,
+                itemDesc: item.item_desc,
+                itemAllergen: item.item_allergen_warning,
+                itemPrice: item.item_price,
+                itemMenu: item.ric_name
+              }
+              itemsArray.push(tempJson);
+            })
+            .catch(error => console.log(error));
 
           itemMenusArray.push(item.ric_name);
         })
@@ -76,6 +89,7 @@ export default function RetaurantDetails() {
         removeusingSet(itemMenusArray)
           .then((response) => {
             itemMenusArray = response;
+            console.log(itemMenusArray);
           })
           .catch(error => console.log(error));
       })
