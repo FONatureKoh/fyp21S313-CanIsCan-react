@@ -22,6 +22,9 @@ const steps = [
 
 
 export default function DeliveryHistory() {
+  // useStates for orders
+  const [orderHistory, setOrderHistory] = useState([]);
+
   // Async functions for order retrieval
   async function getOrders() {
     try {
@@ -81,9 +84,6 @@ export default function DeliveryHistory() {
       })
       .catch(error => console.log(error));
   }, [])
-
-  // useStates for orders
-  const [orderHistory, setOrderHistory] = useState([]);
 
   // ACCORDION CONTROL
   const [accOpen, setAccOpen] = useState(false);
@@ -237,7 +237,15 @@ export default function DeliveryHistory() {
           (
             <>
             {/* START OF PAST ORDERS */}
-
+            {
+              orderHistory.map(order => {
+                <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto'}}>
+                  <Box sx={{float:'right', margin:'5px 10px 0px 0px', position:'absolute', right:'11%'}}>
+                    <Button variant='contained' color="inherit" >order again</Button>
+                  </Box>
+                </Card>
+              })
+            }
             <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto'}}>
               <Box sx={{float:'right', margin:'5px 10px 0px 0px', position:'absolute', right:'11%'}}>
                 <Button variant='contained' color="inherit" >order again</Button>
