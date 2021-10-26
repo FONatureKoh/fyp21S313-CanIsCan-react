@@ -36,11 +36,9 @@ export default function Login() {
   async function Login(){
     // Await solves the issue of the fulfilled promise
     const userinformation = await loginAuth(username, password);
-    window.sessionStorage.setItem('accessToken', userinformation["accessToken"])
 
     const userProfile = await retrieveUserProfile();
-    if (userProfile)
-    {
+    if (userProfile) {
       userContext.userFullName[1](userProfile.first_name + " " + userProfile.last_name)
     }
     console.log(userinformation);
@@ -51,8 +49,10 @@ export default function Login() {
     // userContext.username.setUserName(userinformation[0].username);
     // setUserType(userinformation[0].user_type);
 
-    if (userinformation != null)
-    {
+    if (userinformation != null) {
+      // If there's userinformation, we can proceed with the login
+      window.sessionStorage.setItem('accessToken', userinformation["accessToken"]);
+
       const ut = userinformation["userType"];
       console.log(ut);
       // const un = userinformation[0].username;
@@ -84,8 +84,7 @@ export default function Login() {
         // alert(un + " is a " + ut);
       }
     }
-    else
-    {
+    else {
       //place holder for now
       alert("Invalid credentials! Please try again!");
     }
