@@ -20,7 +20,6 @@ import ReservationHistory from './components/ReservationHistory';
 import { retrieveAllRestaurants, retrieveRestaurantTags } from './customer_controller';
 import OrderDelivery from './components/OrderDelivery';
 
-const drawerWidth = 480;
 
 export default function Customer() {
   // Other useStates
@@ -183,123 +182,20 @@ function deleteItem(id){
         <Switch>
           {/* DELIVERY */}
           <Route exact path='/customer/browserestaurant'><BrowseRestaurant restData={restaurantsArray}/> <BrowseRestaurantCat restData={restaurantsArray} catData={tagsArray}/></Route>
-          <Route path='/customer/browserestaurant/restaurantdetails'><RetaurantDetails/> </Route>
-          <Route path='/customer/browserestaurant/orderdelivery'><OrderDelivery/> </Route>
+          <Route path='/customer/restaurantdetails'><RetaurantDetails/> </Route>
+          <Route path='/customer/orderdelivery'><OrderDelivery/> </Route>
 
 
           <Route path='/customer/profile'><ViewProfile/> </Route>
           <Route path='/customer/deliveryhistory'><DeliveryHistory/> </Route>
           <Route path='/customer/reservationhistory'><ReservationHistory/> </Route>
-          <Route exact path='/customer/checkout'>
+          {/* <Route exact path='/customer/checkout'>
             <CheckOut realCart={realCart} deleteItem={deleteItem} minusQty={minusQty} addQty={addQty} getsub={getsub} subtotal={subtotal} deliveryFee={deliveryFee} gst={gst} total={total} />
-          </Route>
+          </Route> */}
           <Redirect from='/customer' to='/customer/browserestaurant'/>
         </Switch>
-        <Cart openCart={openCart} cart={realCart}/>
+        {/* <Cart openCart={openCart} cart={realCart}/> */}
       </Box>
-
-      {/* CART DRAWER */}
-      <Drawer
-        anchor="right"
-        open={cartOpen}
-        onClose={closeCart}
-      >
-        <Box sx={{width: drawerWidth}}>
-          <List>
-            <ListItem >
-              <Typography variant="h5" sx={{margin:'30px auto 0px'}}>
-                Your cart
-              </Typography>
-            </ListItem>
-            <ListItem >
-              <Typography variant="subtitle2" sx={{margin:'0px auto'}}>
-                Ordering from: placeholder
-              </Typography>
-            </ListItem>
-            <Divider variant='middle' />
-
-            {realCart.map(item => (
-              <ListItem key={item.id} sx={{margin:'20px auto'}}>
-                <Box width='70%'>
-                  <Typography variant="h6">
-                    {item.item}
-                  </Typography>
-                  <Typography variant="subtitle">
-                    Unit Price: S${item.price.toFixed(2)}
-                  </Typography>
-                </Box>
-                <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
-                  <Typography variant="subtitle2">
-                      <ButtonGroup color="inherit" size="small">
-                        {item.qty === 1 ? <Button onClick={() => deleteItem(item.id)}><DeleteOutlineOutlinedIcon fontSize="small" variant="" /></Button> : <Button onClick={()=> minusQty(item.id)}>-</Button>}
-                        <Button >{item.qty}</Button>
-                        <Button onClick={()=>addQty(item.id)}>+</Button>
-                      </ButtonGroup>
-                    </Typography>
-                    <Typography variant="subtitle2">
-                      Price: S${getsub(item)}
-                    </Typography>
-                  </Box>
-              </ListItem>
-            ))}
-
-            <Divider variant='middle' />
-
-            <ListItem >
-              <Box width='70%'>
-                <Typography variant="subtitle">
-                  Subtotal
-                </Typography>
-              </Box>
-              <Box width="30%" sx={{textAlign:'right'}}>
-                <Typography variant="subtitle" >
-                  S$ {subtotal.toFixed(2)}
-                </Typography>
-              </Box>
-            </ListItem>
-            <ListItem >
-              <Box width='70%'>
-                <Typography variant="subtitle">
-                  Delivery fee
-                </Typography>
-              </Box>
-              <Box width="30%" sx={{textAlign:'right'}}>
-                <Typography variant="subtitle">
-                  S$ {deliveryFee.toFixed(2)}
-                </Typography>
-              </Box>
-            </ListItem>
-            <ListItem >
-              <Box width='70%'>
-                <Typography variant="subtitle">
-                  GST (7%)
-                </Typography>
-              </Box>
-              <Box width="30%" sx={{textAlign:'right'}}>
-                <Typography variant="subtitle">
-                  S$ {gst.toFixed(2)}
-                </Typography>
-              </Box>
-            </ListItem>
-            <ListItem >
-              <Box width='70%'>
-                <Typography variant="subtitle" sx={{fontWeight:'800'}}>
-                  Grand total
-                </Typography>
-              </Box>
-              <Box width="30%" sx={{textAlign:'right'}}>
-                <Typography variant="subtitle" sx={{fontWeight:'800'}}>
-                  S$ {total.toFixed(2)}
-                </Typography>
-              </Box>
-            </ListItem>
-            <ListItem >
-              <Button sx={{width:'90%', margin:'10px auto'}} variant="outlined" color="inherit" component={ Link } to="/customer/checkout" onClick={()=>setCartOpen(false)}> go to checkout</Button>
-            </ListItem>
-          </List>
-        </Box>
-      </Drawer>
-      {/* END OF DRAWER */}
     </Box>
   )
 }

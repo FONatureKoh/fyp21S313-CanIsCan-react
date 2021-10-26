@@ -33,7 +33,7 @@ export default function BrowseRestaurant({restData}) {
               <Grid item xs={4} sm={4} md={4} lg={3} xl={3} key={restData.indexOf(rest)}>
               {/* Card generation for restaurant */}
               <Card variant="outlined" sx={{ maxWidth: 300, height:'300px', mb:'20px'}}>
-              <CardActionArea component={ Link } to={`/customer/browserestaurant/restaurantdetails/${rest.restaurant_ID}`}>
+              <CardActionArea component={ Link } to={`/customer/restaurantdetails/${rest.restaurant_ID}`}>
                 <CardMedia
                   component="img"
                   height="140"

@@ -54,7 +54,6 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
       },
     },
   };
-
     
   const handleChange = (event) => {
     const {

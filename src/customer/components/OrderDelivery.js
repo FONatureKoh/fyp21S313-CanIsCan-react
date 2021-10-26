@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid, CardActionArea, Button, IconButton, Tooltip } from '@mui/material'
+import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid, CardActionArea, Button, IconButton, Tooltip, Drawer, List,
+  ListItem, ButtonGroup } from '@mui/material'
 import TestImage from '../../assets/temp/eg-biz1.png'
 import { Rating } from '@mui/material'
 import test from '../../assets/icon-profile.png'
@@ -7,29 +8,31 @@ import { ButtonBase } from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ReviewsOutlinedIcon from '@mui/icons-material/ReviewsOutlined';
 import { Modal } from '@mui/material'
-import { format } from 'date-fns';
 import { Route, Switch } from 'react-router';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
-import TextField from '@mui/material/TextField';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { useRouteMatch } from 'react-router'
 import { retrieveAllRestaurantItems, getItemImage } from '../customer_controller'
 import Cart from './Cart'
+import CheckOut from './CheckOut';
+import { Link } from 'react-router-dom'
 
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
-
+const drawerWidth = 480;
 export default function OrderDelivery() {
   // Added MATCH - Thomas
-  const match = useRouteMatch('/customer/browserestaurant/orderdelivery/:id');
+  const match = useRouteMatch('/customer/orderdelivery/:id');
   const restID = match.params.id;
 
   const [menusState, setMenusState] = useState([])
   const [itemMenusState, setItemMenusState] = useState([])
+
   // Useful variables at the start
   var itemMenusArray = [];
   var itemsArray = [];
+  
+  //SELECTED ITEM
+  const [selItem, setSelItem] = useState([])
 
   // Async function to retrieve all restaurant items
   async function getItems(){
@@ -52,6 +55,91 @@ export default function OrderDelivery() {
       return error;
     }
   }
+
+  //CART CALCULATION
+  const [deliveryFee, setDeliveryFee] = useState(0);
+  const [gst, setGst] = useState(0);
+  const [subtotal, setSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
+
+  //CART OPEN
+  const [cartOpen, setCartOpen] = useState(false);
+
+  //HANDLE OPEN CART
+  const openCart = () => {
+    setCartOpen(true);
+  };
+
+  //HANDLE CLOSE CART
+  const closeCart = () => {
+    setCartOpen(false);
+  }
+
+  function addItemPopup(){
+    const newCart = [...realCart]
+    const newArray = {
+      itemID : selItem.itemID,
+      itemName : selItem.itemName,
+      itemPrice : selItem.itemPrice,
+      itemQty : 1
+    }
+    const newItem = newCart.find(newItem => newItem.itemID === newArray.itemID)
+    if (newItem === undefined)
+    {
+      setRealCart(oldArray => [...oldArray, newArray]);
+      console.log('meow')
+    }
+    else
+    {
+      newItem.itemQty += newArray.itemQty
+      setRealCart(newCart)
+    }
+    handleCloseItem()
+    openCart()
+  }
+
+  //HANDLE ADD
+  function addQty(id){
+    const newCart = [...realCart]
+    const newItem = newCart.find(newItem => newItem.itemID === id)
+    newItem.itemQty += 1
+    setRealCart(newCart)
+  }
+
+  function minusQty(id){
+    const newCart = [...realCart]
+    const newItem = newCart.find(newItem => newItem.itemID === id)
+    newItem.itemQty -= 1
+    setRealCart(newCart)
+  }
+
+  function deleteItem(id){
+    const newCart = realCart.filter(item => item.itemID !== id)
+    setRealCart(newCart)
+  }
+
+
+  //CART CALCULATIONS
+  //ITEM UNIT PRICE * QTY
+  function getsub(item){
+    const sub = item.itemQty*item.itemPrice;
+    // setSubtotal(subtotal + sub)
+    return sub.toFixed(2);
+  }
+
+  //USE EFFECT TO SET THE CART DETAILS
+  //WILL RUN WHEN STATE IS RERENDERED
+  useEffect(() => {
+    const subtotal2 = realCart.reduce((total, realCart) => total + (realCart.itemPrice * realCart.itemQty), 0)
+    setSubtotal(subtotal2)
+    setDeliveryFee(3.50)
+    const gst = (subtotal2 + deliveryFee) * 0.07
+    setGst(gst)
+    setTotal(gst + deliveryFee + subtotal)
+  })
+
+  //CART TESTING
+  const [realCart, setRealCart]= useState([])
 
   // Do we need useEffect for this? Not sure if I could just load the damn thing
   // into states. Had a lot of issues of the Array not filtering
@@ -87,8 +175,6 @@ export default function OrderDelivery() {
           itemMenusArray.push(item.ric_name);
         })
       
-       
-       
         // Trigger array filter async function
         removeusingSet(itemMenusArray)
           .then((response) => {
@@ -100,6 +186,18 @@ export default function OrderDelivery() {
       })
       .catch(error => console.log(error));
   }, []);
+
+  
+  //HANDLE ITEM INFO
+  function itemPopup(item){
+    setSelItem(item)
+    handleOpenItem()
+  }
+
+  //MODAL CONTROLS - DIRECTIONS / INFO
+  const [openItem, setOpenItem] = useState(false);
+  const handleOpenItem = () => setOpenItem(true);
+  const handleCloseItem = () => setOpenItem(false);
 
   //MODAL CONTROLS - DIRECTIONS / INFO
   const [openInfo, setOpenInfo] = useState(false);
@@ -126,6 +224,9 @@ export default function OrderDelivery() {
     return maplink;
   }
   return (
+    <Switch>
+      <Route exact path='/customer/orderdelivery/:id'>
+      <Cart openCart={openCart} cart={realCart}/>
       <Card variant="outlined" sx={{ borderRadius:'10px'}}>
         <CardMedia sx={{height:'300px' }}
           component="img"
@@ -183,7 +284,7 @@ export default function OrderDelivery() {
                         if (item2.itemMenu === item)
                         return <>
                           <Grid item xs={12} sm={12} md={6}>
-                          <ButtonBase sx={{display:'block', textAlign:'initial', width:'100%'}}>
+                          <ButtonBase onClick={()=>{itemPopup(item2)}} sx={{display:'block', textAlign:'initial', width:'100%'}}>
                           <Card sx={{ display: 'flex', width:'100%', height:'130px'}}>
                             <Box sx={{ display: 'flex', flexDirection: 'column', width:'80%'}}>
                             <CardContent sx={{ flex: '1 0 auto'}}>
@@ -217,6 +318,42 @@ export default function OrderDelivery() {
               }
 
             </Box>
+
+            {/* ITEM INFO MODAL */}
+            <Modal
+              open={openItem}
+              onClose={handleCloseItem}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Card variant="outlined" sx={{ position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width:"50%",
+                maxHeight:'70%',}}>
+                
+                <CardContent align>
+                  <Box textAlign="center">
+                    <Box>
+                      <img src={selItem.itemImage} alt="food" height='300px'/>
+                    </Box>
+                    <Typography sx={{mt:'20px'}} variant="h5">{selItem.itemName}</Typography>
+                    <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mt:'10px' }}>Description</Typography>
+                    <Typography variant="subtitle1">{selItem.itemDesc}</Typography>
+                    <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mt:'10px' }}>Price</Typography>
+                    <Typography variant="subtitle1">S$ {selItem.itemPrice}</Typography>
+                    <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mt:'10px' }}>Allergic Warning</Typography>
+                    <Typography variant="subtitle1">{selItem.itemAllergen}</Typography>
+                  </Box>
+
+                  <Box textAlign="center" marginTop="20px">
+                    <Button variant="outlined" onClick={()=> addItemPopup()}>Add to Cart</Button>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Modal>
+            {/* END OF ITEM INFO MODAL */}
 
             {/* INFO MODAL */}
             <Modal
@@ -303,115 +440,118 @@ export default function OrderDelivery() {
               </Card>
             </Modal>
             {/* END OF REVIEW MODAL */}
-
-            {/* RESERVATION MODAL */}
-            <Modal
-              open={openReserve}
-              onClose={handleCloseReserve}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
+            
+            {/* CART DRAWER */}
+            <Drawer
+              anchor="right"
+              open={cartOpen}
+              onClose={closeCart}
             >
-              <Card variant="outlined" sx={{ position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width:"50%",
-                maxHeight:'70%',
-                overflow:'auto'}}>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={TestImage}
-                />
-                <CardContent >
-                  <Box textAlign="center">
-                    <Typography variant="h5">Restaurant Name</Typography>
-                    <Typography variant="subtitle2">Select date / timeslot</Typography>
-                  </Box>
-                  <Box textAlign="center" sx={{mt:'20px', mb:'10px'}}>
-                  <Typography variant="h6">You have selected</Typography>
-                  <Typography variant="subtitle1">{format(value, 'dd MMMM yyyy')}</Typography>
-                  <Typography variant="subtitle1">TIME</Typography>
-                  </Box>
-                  
-                  <Divider variant="middle"/>
+              <Box sx={{width: drawerWidth}}>
+                <List>
+                  <ListItem >
+                    <Typography variant="h5" sx={{margin:'30px auto 0px'}}>
+                      Your cart
+                    </Typography>
+                  </ListItem>
+                  <ListItem >
+                    <Typography variant="subtitle2" sx={{margin:'0px auto'}}>
+                      Ordering from: placeholder
+                    </Typography>
+                  </ListItem>
+                  <Divider variant='middle' />
 
-                  <Grid container>
-                    <Grid item md={6} sm={12} xs={12} sx={{mt:'15px', minWidth:'300px'}}>
-                      <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <StaticDatePicker
-                          openTo="day"
-                          showToolbar={false}
-                          orientation="landscape"
-                          minDate={startDate}
-                          value={value}
-                          onChange={(newValue) => {
-                            setValue(newValue);
-                          }}
-                          renderInput={(params) => <TextField {...params} />}
-                        />
-                      </LocalizationProvider>
-                    </Grid>
-
-                    <Grid item md={6} sm={12} xs={12} sx={{mt:'15px'}}>
-                      <Box sx={{m:'20px auto', width:'100%'}}>
-                        Slots
-                        <Grid container>
-                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
-                            <Button color="inherit" disabled variant='contained' >13:30</Button>
-                          </Grid>
-                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
-                            <Button color="inherit" variant='contained' >14:30</Button>
-                          </Grid>
-                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
-                            <Button color="inherit" variant='contained' >15:30</Button>
-                          </Grid>
-                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
-                            <Button color="inherit" variant='contained' >16:30</Button>
-                          </Grid>
-                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
-                            <Button color="inherit" variant='contained' >17:30</Button>
-                          </Grid>
-                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
-                            <Button color="inherit" variant='contained' >18:30</Button>
-                          </Grid>
-                        </Grid>
+                  {realCart.map(item => (
+                    <ListItem key={item.id} sx={{margin:'20px auto'}}>
+                      <Box width='70%'>
+                        <Typography variant="h6">
+                          {item.itemName}
+                        </Typography>
+                        <Typography variant="subtitle">
+                          Unit Price: S${item.itemPrice.toFixed(2)}
+                        </Typography>
                       </Box>
-                    </Grid>
+                      <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
+                        <Typography variant="subtitle2">
+                            <ButtonGroup color="inherit" size="small">
+                              {item.itemQty === 1 ? <Button onClick={() => deleteItem(item.itemID)}><DeleteOutlineOutlinedIcon fontSize="small" variant="" /></Button> : <Button onClick={()=> minusQty(item.itemID)}>-</Button>}
+                              <Button >{item.itemQty}</Button>
+                              <Button onClick={()=>addQty(item.itemID)}>+</Button>
+                            </ButtonGroup>
+                          </Typography>
+                          <Typography variant="subtitle2">
+                            Price: S${getsub(item)}
+                          </Typography>
+                        </Box>
+                    </ListItem>
+                  ))}
 
-                  </Grid>
-                  <Box display="flex">
-                    <Box sx={{mt:'0px auto', width:'60%'}}>
-                    
+                  <Divider variant='middle' />
+
+                  <ListItem >
+                    <Box width='70%'>
+                      <Typography variant="subtitle">
+                        Subtotal
+                      </Typography>
                     </Box>
-                    
-                    <Divider variant="middle" />
-                    
-                    
-                  </Box>
-
-                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                    <Button
-                      color="inherit"
-                      sx={{ mr: 1 }}
-                      variant="outlined"
-                    >
-                      Cancel
-                    </Button>
-                    <Box sx={{ flex: '1 1 auto' }} />
-
-                    <Button color="inherit" variant="outlined">
-                      NEXT
-                    </Button>
-                  </Box>
-                  
-                </CardContent>
-              </Card>
-            </Modal>
-            {/* END OF RESERVATION MODAL */}
+                    <Box width="30%" sx={{textAlign:'right'}}>
+                      <Typography variant="subtitle" >
+                        S$ {subtotal.toFixed(2)}
+                      </Typography>
+                    </Box>
+                  </ListItem>
+                  <ListItem >
+                    <Box width='70%'>
+                      <Typography variant="subtitle">
+                        Delivery fee
+                      </Typography>
+                    </Box>
+                    <Box width="30%" sx={{textAlign:'right'}}>
+                      <Typography variant="subtitle">
+                        S$ {deliveryFee.toFixed(2)}
+                      </Typography>
+                    </Box>
+                  </ListItem>
+                  <ListItem >
+                    <Box width='70%'>
+                      <Typography variant="subtitle">
+                        GST (7%)
+                      </Typography>
+                    </Box>
+                    <Box width="30%" sx={{textAlign:'right'}}>
+                      <Typography variant="subtitle">
+                        S$ {gst.toFixed(2)}
+                      </Typography>
+                    </Box>
+                  </ListItem>
+                  <ListItem >
+                    <Box width='70%'>
+                      <Typography variant="subtitle" sx={{fontWeight:'800'}}>
+                        Grand total
+                      </Typography>
+                    </Box>
+                    <Box width="30%" sx={{textAlign:'right'}}>
+                      <Typography variant="subtitle" sx={{fontWeight:'800'}}>
+                        S$ {total.toFixed(2)}
+                      </Typography>
+                    </Box>
+                  </ListItem>
+                  <ListItem >
+                    <Button sx={{width:'90%', margin:'10px auto'}} variant="outlined" color="inherit" component={ Link } to="/customer/orderdelivery/checkout" onClick={()=>setCartOpen(false)}> go to checkout</Button>
+                  </ListItem>
+                </List>
+              </Box>
+            </Drawer>
+            {/* END OF DRAWER */}
 
           </Box>
         </CardContent>
       </Card>
+      </Route>
+      <Route path="/customer/orderdelivery/checkout">
+        <CheckOut realCart={realCart} deleteItem={deleteItem} minusQty={minusQty} addQty={addQty} getsub={getsub} subtotal={subtotal} deliveryFee={deliveryFee} gst={gst} total={total} />
+      </Route>
+    </Switch>
+      
   )
 }

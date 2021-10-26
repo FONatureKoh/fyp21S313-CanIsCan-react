@@ -21,7 +21,7 @@ const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
 
 export default function RetaurantDetails() {
   // Added MATCH - Thomas
-  const match = useRouteMatch('/customer/browserestaurant/restaurantdetails/:id');
+  const match = useRouteMatch('/customer/restaurantdetails/:id');
   const restID = match.params.id;
 
   const [menusState, setMenusState] = useState([])
@@ -154,7 +154,7 @@ export default function RetaurantDetails() {
               
               <Box width='45%' textAlign='right' >
                 <Box Box width='100%' >
-                    <Button variant="outlined" color="inherit" component={ Link } to={`/customer/browserestaurant/orderdelivery/${restID}`}>ORDER Delivery</Button>
+                    <Button variant="outlined" color="inherit" component={ Link } to={`/customer/orderdelivery/${restID}`}>ORDER Delivery</Button>
                     <Button variant="outlined" color="inherit"  sx={{marginLeft:'20px'}} onClick={handleOpenReserve}>Reserve Table</Button>
                 </Box>
                 <Box width='100%' alignSelf="flex-end" sx={{mt:'3px'}} >
