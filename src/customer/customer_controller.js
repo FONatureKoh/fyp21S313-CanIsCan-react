@@ -188,3 +188,82 @@ export async function getAllOrderItems(do_ID) {
     console.log(error);
   }
 }
+
+/*****************************************************************************************
+ * Submits customer's review to the servers                                              *
+******************************************************************************************/
+export async function submitRestaurantReview(restID, restName, restRating, reviewTitle, reviewDesc) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  const reviewJson = {
+    restID: restID,
+    restName: restName,
+    restRating: restRating,
+    reviewTitle: reviewTitle,
+    reviewDesc: reviewDesc
+  } 
+
+  try {
+    const response = await axios.post(`${config.apiDomain}/customer/submitreview`, reviewJson, axiosConfig);
+    
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
+
+/*****************************************************************************************
+ * Submits customer Orders                                                               *
+******************************************************************************************/
+export async function submitCustOrder(restInfo, realCart, deliveryAddress, deliveryFloorUnit, 
+  deliveryPostalCode, companyName, noteToDriver, cardName, cardNumber, expiry, cvc, 
+  subtotal, gst, deliveryFee, total) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  console.log(restInfo);
+
+
+  let formParams = new URLSearchParams();
+
+  // Order stuff
+  formParams.append('restID', restInfo.restaurant_ID);
+  formParams.append('restName', restInfo.restaurant_name);
+  formParams.append('orderDateTime', new Date());
+  formParams.append('address', deliveryAddress);
+  formParams.append('floorunit', deliveryFloorUnit);
+  formParams.append('postalCode', deliveryPostalCode);
+  formParams.append('companyName', companyName);
+  formParams.append('deliveryNote', noteToDriver);
+  formParams.append('totalCost', total);
+  formParams.append('orderItems', realCart);
+  
+  // Payment stuff
+  formParams.append('cardName', cardName);
+  formParams.append('cardNumber', cardNumber);
+  formParams.append('expiry', expiry);
+  formParams.append('cvc', cvc);
+
+  // const reviewJson = {
+  //   restID: restID,
+  //   restName: restName,
+  //   restRating: restRating,
+  //   reviewTitle: reviewTitle,
+  //   reviewDesc: reviewDesc
+  // } 
+
+  try {
+    const response = await axios.post(`${config.apiDomain}/customer/submitorder`, formParams, axiosConfig);
+    
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}

@@ -581,7 +581,7 @@ export default function OrderDelivery() {
       </Card>
       </Route>
       <Route path="/customer/orderdelivery/:id/checkout">
-        <CheckOut realCart={realCart} deleteItem={deleteItem} minusQty={minusQty} addQty={addQty} getsub={getsub} subtotal={subtotal} deliveryFee={deliveryFee} gst={gst} total={total} />
+        <CheckOut restInfo={restaurantInfo} realCart={realCart} deleteItem={deleteItem} minusQty={minusQty} addQty={addQty} getsub={getsub} subtotal={subtotal} deliveryFee={deliveryFee} gst={gst} total={total} />
       </Route>
     </Switch>
       
