@@ -24,10 +24,10 @@ export default function OrderDelivery() {
   const match = useRouteMatch('/customer/orderdelivery/:id');
   const restID = match.params.id;
 
-  // useful useStates
-  const [menusState, setMenusState] = useState([]);
-  const [itemMenusState, setItemMenusState] = useState([]);
+  const [menusState, setMenusState] = useState([])
+  const [itemMenusState, setItemMenusState] = useState([])
   const [restaurantInfo, setRestaurantInfo] = useState('');
+  const [rating, setRating] = useState(0)
 
   // Useful variables at the start
   var itemMenusArray = [];
@@ -205,15 +205,17 @@ export default function OrderDelivery() {
       })
       .catch(error => console.log(error));
 
-    // Get Restaurant Information
-    getRestInfo()
+      getRestInfo()
       .then((response) => {
         setRestaurantInfo(response);
+        if(response.rest_rating !== null)
+        {
+          setRating(response.rest_rating.toFixed(1))
+        }
 
         // Console log to see if the info has been set properly
         console.log(restaurantInfo);
       })
-
   }, []);
 
   
@@ -259,7 +261,7 @@ export default function OrderDelivery() {
       <Card variant="outlined" sx={{ borderRadius:'10px'}}>
         <CardMedia sx={{height:'300px' }}
           component="img"
-          image={TestImage}
+          image={restaurantInfo.rest_bannerURL}
         />
 
         <CardContent >
@@ -268,10 +270,11 @@ export default function OrderDelivery() {
             <Box display="flex" flexDirection="row">
               <Box width="55%">
                 <Typography variant="h4"  sx={{}}>
-                  Test
+                  {restaurantInfo.restaurant_name}
                 </Typography>
+                <Box>{restaurantInfo.rest_tag_1} . {restaurantInfo.rest_tag_2} . {restaurantInfo.rest_tag_3} </Box>
                 <Typography sx={{fontSize:'small', padding:'10px 0px'}}>
-                  <Rating name="read-only" value={4.2} readOnly size='small' precision={0.1}/> 4.2 / 5
+                {rating === 0 ? <Box>No ratings yet</Box> : <Box> <Rating name="read-only" value={rating} readOnly size='small' precision={0.1}/> {rating} / 5</Box>}
                 </Typography>
               </Box>
               
@@ -377,7 +380,7 @@ export default function OrderDelivery() {
                   </Box>
 
                   <Box textAlign="center" marginTop="20px">
-                    <Button variant="outlined" onClick={()=> addItemPopup()}>Add to Cart</Button>
+                    <Button variant="outlined" color="inherit"  onClick={()=> addItemPopup()}>Add to Cart</Button>
                   </Box>
                 </CardContent>
               </Card>
@@ -400,12 +403,12 @@ export default function OrderDelivery() {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={TestImage}
+                  image={restaurantInfo.rest_bannerURL}
                 />
                 <CardContent >
                   <Box textAlign="center">
-                    <Typography variant="h5">Restaurant Name</Typography>
-                    <Typography variant="subtitle2">Tags</Typography>
+                    <Typography variant="h5">{restaurantInfo.restaurant_name}</Typography>
+                    <Box>{restaurantInfo.rest_tag_1} . {restaurantInfo.rest_tag_2} . {restaurantInfo.rest_tag_3} </Box>
                   </Box>
                   <Box display="flex" flexDirection="row" sx={{mt:'20px'}}>
                     <Box width='50%' padding="10px 20px">
@@ -413,20 +416,20 @@ export default function OrderDelivery() {
                         Address
                       </Typography>
                       <Typography variant="subtitle2">
-                        930 Hougang Street 91
+                        {restaurantInfo.rest_address_info}
                       </Typography>
                       <Typography variant="subtitle2">
-                        S (530930)
+                        S ({restaurantInfo.rest_postal_code})
                       </Typography>
                       <Typography variant="h6" sx={{mt:'10px'}}>
                         Operating Hours
                       </Typography>
                       <Typography variant="subtitle2">
-                        Time to time
+                        {restaurantInfo.rest_op_hours}
                       </Typography>
                     </Box>
                     <Box alignContent="flex-end">
-                    <img width="300px" height="200px" src={getMap(530930)}/>
+                    <img width="300px" height="200px" src={getMap(restaurantInfo.rest_postal_code)}/>
                     </Box>
                   </Box>
                 </CardContent>
