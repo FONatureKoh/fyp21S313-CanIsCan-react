@@ -188,3 +188,30 @@ export async function getAllOrderItems(do_ID) {
     console.log(error);
   }
 }
+
+/*****************************************************************************************
+ * Submits customer's review to the servers                                              *
+******************************************************************************************/
+export async function submitRestaurantReview(restID, restName, restRating, reviewTitle, reviewDesc) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  const reviewJson = {
+    restID: restID,
+    restName: restName,
+    restRating: restRating,
+    reviewTitle: reviewTitle,
+    reviewDesc: reviewDesc
+  } 
+
+  try {
+    const response = await axios.post(`${config.apiDomain}/customer/submitreview`, reviewJson, axiosConfig);
+    
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}

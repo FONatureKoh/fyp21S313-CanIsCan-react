@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardContent, Box, Typography, Stepper, Step, StepLabel, Divider, Accordion, AccordionSummary, AccordionDetails, Grid, ListItem, 
   Button, Modal, CardMedia, Rating, TextField } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { getAllOrderItems, getAllOrders } from '../customer_controller';
+import { getAllOrderItems, getAllOrders, submitRestaurantReview } from '../customer_controller';
 
 const themes = {
   textHeader: {
@@ -25,6 +25,10 @@ const steps = [
 export default function DeliveryHistory() {
   // useStates for orders
   const [orderHistory, setOrderHistory] = useState([]);
+  const [reviewRestInfo, setReviewRestInfo] = useState({
+    restID: '',
+    restName: ''
+  });
 
   // Async functions for order retrieval
   async function getOrders() {
@@ -64,6 +68,7 @@ export default function DeliveryHistory() {
           
           tempJSON = {
             orderID: element.order_ID,
+            restID: element.o_rest_ID,
             restaurantName: element.o_rest_name,
             address: element.delivery_address + " S(" + element.delivery_postal_code + ")",
             price: element.total_cost,
@@ -90,10 +95,44 @@ export default function DeliveryHistory() {
   const [accOpen, setAccOpen] = useState(false);
   const [buttonTab, setButtonTab] = useState(1);
 
-  //MODAL CONTROLS - REVIEWS
+  // ======= MODAL CONTROLS - REVIEWS ==============================
+  //    Modal open / close state
   const [openReview, setOpenReview] = useState(false);
-  const handleOpenReview = () => setOpenReview(true);
+
+  //    Modal values
+  var reviewRating = 0;
+  var reviewTitle = "";
+  var reviewDesc = "";
+  // const [reviewRating, setReviewRating] = useState('');
+  // const [reviewTitle, setReviewTitle] = useState('');
+  // const [reviewDesc, setReviewDesc] = useState('');
+
+  //    Modal open and set info
+  const handleOpenReview = (restID, restName) => {
+    setReviewRestInfo({
+      restID: restID,
+      restName: restName
+    });
+    setOpenReview(true);
+  };
+
   const handleCloseReview = () => setOpenReview(false);
+
+  const submitReview = () => {
+    console.log(reviewRating, reviewTitle, reviewDesc);
+
+    // Close the review box
+    setOpenReview(false);
+
+    // Submit to the server, and then alert if successful
+    submitRestaurantReview(reviewRestInfo.restID, reviewRestInfo.restName,
+      reviewRating, reviewTitle, reviewDesc)
+      .then((response) => {
+        alert(response.api_msg);
+      });
+  };
+
+  // ================================================================
 
   console.log(orderHistory);
 
@@ -336,7 +375,7 @@ export default function DeliveryHistory() {
                           </AccordionDetails>
                         </Accordion>
                         <Box textAlign="center" sx={{mt:'30px'}}>
-                          <Button fullWidth variant="outlined" color="inherit" onClick={handleOpenReview} >LEAVE REVIEW</Button>
+                          <Button fullWidth variant="outlined" color="inherit" onClick={(e) => {handleOpenReview(order.restID, order.restaurantName)}} >LEAVE REVIEW</Button>
                         </Box>
                       </Box>
                     </CardContent>
@@ -371,16 +410,28 @@ export default function DeliveryHistory() {
               <Box textAlign="center" sx={{mb:'20px'}}>
                 <Typography variant="h6">Let us know your experience</Typography>
                 <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', }}>Your order from </Typography>
-                <Typography variant="subtitle1">Restaurant Name</Typography>
+                <Typography variant="subtitle1">{reviewRestInfo.restName}</Typography>
               </Box>
               
               <Divider variant="middle"/>
 
               <Box textAlign="center" width="60%" margin="10px auto" >
                 <Typography  variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', }}>How was the delivery?</Typography>
-                <Typography sx={{mb:'20px'}}><Rating size="large"/></Typography>
+                <Typography sx={{mb:'20px'}}>
+                  <Rating 
+                    size="large"
+                    onChange={(event) => {reviewRating = event.target.value}}  
+                  />
+                </Typography>
+
                 <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', }}>Information about the review</Typography>
-                <TextField  fullWidth id="filled-basic" label="Title (Optional)" variant="filled" sx={{mb:'20px'}}/>
+                <TextField  
+                  fullWidth id="filled-basic" 
+                  label="Title (Optional)" 
+                  variant="filled" 
+                  sx={{mb:'20px'}}
+                  onChange={(event) => {reviewTitle = event.target.value}}
+                />
                 <TextField
                   fullWidth
                   id="filled-textarea"
@@ -389,12 +440,13 @@ export default function DeliveryHistory() {
                   multiline
                   variant="filled"
                   rows="3"
+                  onChange={(event) => {reviewDesc = event.target.value}}
                 />
               </Box>
 
               <Box textAlign="center" width="60%" margin="10px auto" >
                 <Button variant="outlined" color="error" sx={{margin:'10px 10px'}} onClick={handleCloseReview}>Cancel</Button>
-                <Button variant="outlined" color="inherit" sx={{margin:'10px 10px'}}>Submit</Button>
+                <Button variant="outlined" color="inherit" sx={{margin:'10px 10px'}} onClick={submitReview}>Submit</Button>
               </Box>
             </CardContent>
           </Card>
