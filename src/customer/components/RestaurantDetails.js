@@ -14,7 +14,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { useRouteMatch } from 'react-router'
-import { retrieveAllRestaurantItems, getItemImage } from '../customer_controller'
+import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getBannerImage } from '../customer_controller'
 import { Link } from 'react-router-dom'
 
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
@@ -24,9 +24,13 @@ export default function RetaurantDetails() {
   const match = useRouteMatch('/customer/restaurantdetails/:id');
   const restID = match.params.id;
 
-  const [menusState, setMenusState] = useState([])
-  const [itemMenusState, setItemMenusState] = useState([])
-  // Useful variables at the start
+  // useStates for setting all the variables
+  const [menusState, setMenusState] = useState([]);
+  const [itemMenusState, setItemMenusState] = useState([]);
+  const [restaurantInfo, setRestaurantInfo] = useState('');
+
+  // Useful variables at the start NOTE: Arrays may be redundant, can see if want to
+  // remove in the future
   var itemMenusArray = [];
   var itemsArray = [];
 
@@ -52,13 +56,31 @@ export default function RetaurantDetails() {
     }
   }
 
+  // Async function to retrieve single restaurant info
+  async function getRestInfo() {
+    try {
+      var response = await retrieveSingleRestaurant(restID);
+
+      // Since response is the json object, we can use it to produce the blob
+      // image url here, and then add to the json
+      const imageURL = await getBannerImage(response.rest_banner_ID);
+
+      response["rest_bannerURL"] = imageURL;
+
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
   // Do we need useEffect for this? Not sure if I could just load the damn thing
   // into states. Had a lot of issues of the Array not filtering
   useEffect(() => {
-    // Async function trigger to parse data 
+    // Async function trigger to parse data and get the items and its picture
     getItems()
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         response.forEach(item => {
           // We got to transform the picture here already, so we call the async
           // controller here directly
@@ -85,28 +107,33 @@ export default function RetaurantDetails() {
             .catch(error => console.log(error));
           itemMenusArray.push(item.ric_name);
         })
-      
-       
-       
+
         // Trigger array filter async function
         removeusingSet(itemMenusArray)
           .then((response) => {
             itemMenusArray = response;
             setMenusState(itemMenusArray)
-            console.log(itemMenusArray);
+            // console.log(itemMenusArray);
           })
           .catch(error => console.log(error));
       })
       .catch(error => console.log(error));
+    // ===========================================================================
+    // Get Restaurant Information
+    getRestInfo()
+      .then((response) => {
+        console.log(response);
+        setRestaurantInfo(response);
+        console.log(restaurantInfo);
+      })
+    
   }, []);
 
-  // useEffect(()=>{
-  //   const testArray = await getItems();
-  // },[])
-  console.log(menusState)
-  console.log(itemMenusArray)
+  // Console logs that I commented out - Thomas
+  // console.log(menusState)
+  // console.log(itemMenusArray)
   
-  console.log(itemMenusState)
+  // console.log(itemMenusState)
 
   //MODAL CONTROLS - DIRECTIONS / INFO
   const [openInfo, setOpenInfo] = useState(false);

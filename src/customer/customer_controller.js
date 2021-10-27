@@ -5,6 +5,52 @@ import axios from 'axios';
 ******************************************************************************************/
 const config = require('../store/config.json');
 
+
+/*****************************************************************************************
+ * Retrieve single restaurant information                                                *
+******************************************************************************************/
+export async function retrieveSingleRestaurant(restID) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/customer/singleRestaurantInfo/${restID}`, axiosConfig);
+    
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
+
+/*****************************************************************************************
+ * Retrieve all the restaurants based on the user selected category                      *
+******************************************************************************************/
+export async function getBannerImage(restPngID) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    },
+    responseType: 'arraybuffer'
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/restaurant/restaurantBanner/${restPngID}`, axiosConfig);
+    let blob = new Blob(
+      [response.data],
+      { type: response.headers['content-type'] }
+    );
+    let image = URL.createObjectURL(blob);
+    return image;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
+
 /*****************************************************************************************
  * Retrieve all restaurants from the system                                              *
 ******************************************************************************************/
