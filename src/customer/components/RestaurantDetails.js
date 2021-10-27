@@ -28,6 +28,7 @@ export default function RetaurantDetails() {
   const [menusState, setMenusState] = useState([]);
   const [itemMenusState, setItemMenusState] = useState([]);
   const [restaurantInfo, setRestaurantInfo] = useState('');
+  const [rating, setRating] = useState(0)
 
   // Useful variables at the start NOTE: Arrays may be redundant, can see if want to
   // remove in the future
@@ -122,7 +123,11 @@ export default function RetaurantDetails() {
     getRestInfo()
       .then((response) => {
         setRestaurantInfo(response);
-
+        
+        if(response.rest_rating !== null)
+        {
+          setRating(response.rest_rating.toFixed(1))
+        }
         // Console log to see if the info has been set properly
         console.log(restaurantInfo);
       })
@@ -191,16 +196,17 @@ export default function RetaurantDetails() {
           <Box sx={{width: "80%", margin: '10px auto'}}> 
             {/* HEADER BOX - REST DETAILS HERE */}
             <Box display="flex" flexDirection="row">
-              <Box width="55%">
+              <Box width="65%">
                 <Typography variant="h4"  sx={{}}>
-                  {restaurantInfo.restaurant_name}
+                  {restaurantInfo.restaurant_name} 
                 </Typography>
-                <Typography sx={{fontSize:'small', padding:'10px 0px'}}>
-                  <Rating name="read-only" value={4.2} readOnly size='small' precision={0.1}/> 4.2 / 5
-                </Typography>
+                <Box>{restaurantInfo.rest_tag_1} . {restaurantInfo.rest_tag_2} . {restaurantInfo.rest_tag_3} </Box>
+                  <Typography sx={{fontSize:'small', padding:'10px 0px'}}>
+                     {rating === 0 ? <Box>No ratings yet</Box> : <Box> <Rating name="read-only" value={rating} readOnly size='small' precision={0.1}/> {rating} / 5</Box>}
+                  </Typography>
               </Box>
               
-              <Box width='45%' textAlign='right' >
+              <Box width='35%' textAlign='right' >
                 <Box Box width='100%' >
                     <Button variant="outlined" color="inherit" component={ Link } to={`/customer/orderdelivery/${restID}`}>ORDER Delivery</Button>
                     <Button variant="outlined" color="inherit"  sx={{marginLeft:'20px'}} onClick={handleOpenReserve}>Reserve Table</Button>
@@ -223,6 +229,40 @@ export default function RetaurantDetails() {
               </Box>
             </Box>
             <Divider/>
+
+            <Box sx={{width:'100%', textAlign:'center', mt:'20px', mb:'10px'}}> <Typography variant="h6">Restaurant Details</Typography></Box>
+            <Card variant="outlined" sx={{ 
+                width:"80%",
+                maxHeight:'70%',
+                margin:'0px auto',
+                mb:'30px'}}>
+                <CardContent >
+                  <Box display="flex" flexDirection="row" sx={{mt:'20px'}}>
+                    <Box width='50%' padding="10px 20px">
+                      <Typography variant="h6">
+                        Address
+                      </Typography>
+                      <Typography variant="subtitle2">
+                        {restaurantInfo.rest_address_info}
+                      </Typography>
+                      <Typography variant="subtitle2">
+                        S ({restaurantInfo.rest_postal_code})
+                      </Typography>
+                      <Typography variant="h6" sx={{mt:'10px'}}>
+                        Operating Hours
+                      </Typography>
+                      <Typography variant="subtitle2">
+                        {restaurantInfo.rest_op_hours}
+                      </Typography>
+                    </Box>
+                    <Box alignContent="flex-end">
+                    <img width="300px" height="200px" src={getMap(restaurantInfo.rest_postal_code)}/>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+
+              <Divider variant="middle" />
 
             
             {/* MENU BOX - CONTAINER FOR EACH MENU OFFERED BY THE REST */}
@@ -353,7 +393,7 @@ export default function RetaurantDetails() {
 
                   <Box display="flex" flexDirection="column" width="60%" height="100px" border="1px solid black" margin="10px auto" padding="20px">
                     <Typography variant="h6">Title</Typography>
-                    <Typography><Rating value={3} size="small"/></Typography>
+                    <Typography><Rating value={rating} size="small"/></Typography>
                     <Typography variant="subtitle2">Information about the review</Typography>
                     
                     <Typography variant="subtitle" fontSize="12px" alignSelf='flex-end'>Reviewed by: Kelvin K.</Typography>
