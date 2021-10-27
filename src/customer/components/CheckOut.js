@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, CardHeader, CardContent, Box } from '@mui/material'
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -15,7 +15,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Link } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
-import { useRouteMatch } from 'react-router';
+import { useRouteMatch, useHistory } from 'react-router';
 import { ListItem } from '@mui/material';
 import { ButtonGroup } from '@mui/material';
 import { List } from '@mui/material';
@@ -24,11 +24,17 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 
 const steps = ['Verify your orders', 'Confirm delivery address', 'Make payment'];
 export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub, subtotal, gst, deliveryFee, total}) {
+  // Testing page load
+  console.log("Checkout Page loaded!");
+
+  // For the steps through to confirm the delivery
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
+  // Route matters
   const match = useRouteMatch('/customer/orderdelivery/:id/checkout');
   const restID = match.params.id;
+  const history = useHistory();
 
   const themes = {
     textHeader: {
@@ -54,6 +60,26 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
     
   }
 
+  // useStates for the steps
+  //    Delivery Details
+  const [deliveryAddress, setDeliveryAddress] = useState('');
+  const [deliveryFloorUnit, setDeliveryFloorUnit] = useState('');
+  const [deliveryPostalCode, setDeliveryPostalCode] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [noteToDriver, setNoteToDriver] = useState('');
+
+  //    Payment Details
+  const [cardName, setCardName] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const [cvc, setCvc] = useState('');
+
+  // Async functions for checkout
+  async function submitOrder() {
+
+  }
+
+  // Handling steps below 
   const isStepOptional = (step) => {
     return step === 1;
   };
@@ -71,6 +97,14 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
+    
+    // Hi Kelvin! Not sure if this is the right way to do it, so I just put it in
+    // like this to test first! So that I have the functions all constructed and
+    // ready. Last step is 2 if I am not wrong? So at 2, it will confirm
+    console.log("Handling Next: " + activeStep);
+    if (activeStep == 2) {
+      console.log("Send Order");
+    }
   };
 
   const handleBack = () => {
@@ -79,6 +113,7 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
 
   const handleReset = () => {
     setActiveStep(0);
+    // history.push('/customer');
   };
 
   //return right side
@@ -142,6 +177,7 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
     </Box>
     )
   }
+
   return (
       <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
         <CardHeader title="Check Out" />
@@ -263,37 +299,57 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
               
               <Grid sx={12} sm={12} md={12}>
               <TextField sx={{width:'90%', margin:'15px auto'}} 
+                value={deliveryAddress}
                 id="address-street" 
                 label="Street" 
                 variant="filled" 
                 size="small" 
+                onChange={(event) => {setDeliveryAddress(event.target.value)}}
               />
               </Grid>
               <Grid sx={12} sm={12} md={6}>
               <TextField sx={{width:'80%', margin:'15px'}} 
+                value={deliveryFloorUnit}
                 id="address-unit" 
                 label="Floor / Unit number" 
                 variant="filled" 
                 size="small" 
+                onChange={(event) => {setDeliveryFloorUnit(event.target.value)}}
               />
               </Grid>
 
               <Grid sx={12} sm={12} md={6}>
               <TextField sx={{width:'80%', margin:'15px'}} 
-                id="address-company" 
-                label="Company (optional)" 
+                value={deliveryPostalCode} 
+                id="address-postal" 
+                label="Postal Code" 
                 variant="filled" 
                 size="small" 
+                onChange={(event) => {setDeliveryPostalCode(event.target.value)}}
               />
               </Grid>
+
               <Grid sx={12} sm={12} md={12}>
               <TextField sx={{width:'90%', margin:'15px auto'}} 
-                id="addressCompany" 
+                value={companyName} 
+                id="company-name" 
+                label="Company name (optional)" 
+                variant="filled" 
+                size="small" 
+                onChange={(event) => {setCompanyName(event.target.value)}}
+              />
+              </Grid>
+
+              <Grid sx={12} sm={12} md={12}>
+              <TextField sx={{width:'90%', margin:'15px auto'}} 
+                id="driver-note" 
+                value={noteToDriver}
                 label="Note to driver(optional)" 
                 variant="filled" 
                 size="small" 
                 multiline
                 rows={3}
+                onChange={(event) => {setNoteToDriver(event.target.value)}}
               />
               </Grid>
               </Grid>
@@ -337,37 +393,45 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
               
               <Grid sx={12} sm={12} md={12}>
               <TextField sx={{width:'90%', margin:'15px auto'}} 
-                id="cardName" 
+                id="cardholder-name" 
+                value={cardName} 
                 label="Name on card" 
                 variant="filled" 
                 size="small" 
+                onChange={(event) => {setCardName(event.target.value)}}
               />
               </Grid>
 
               <Grid sx={12} sm={12} md={12}>
               <TextField sx={{width:'90%', margin:'15px auto'}} 
-                id="address-company" 
+                id="card-number" 
+                value={cardNumber} 
                 label="Card Number" 
                 variant="filled" 
                 size="small" 
+                onChange={(event) => {setCardNumber(event.target.value)}}
               />
               </Grid>
 
               <Grid sx={12} sm={12} md={6}>
               <TextField sx={{width:'80%', margin:'15px'}} 
-                id="address-unit" 
-                label="Expiry" 
+                id="card-expiry" 
+                value={expiry} 
+                label="Expiry (MM/YY)" 
                 variant="filled" 
                 size="small" 
+                onChange={(event) => {setExpiry(event.target.value)}}
               />
               </Grid>
 
               <Grid sx={12} sm={12} md={6}>
               <TextField sx={{width:'80%', margin:'15px'}} 
-                id="address-company" 
+                id="card-CVC" 
+                value={cvc} 
                 label="CVC" 
                 variant="filled" 
                 size="small" 
+                onChange={(event) => {setCvc(event.target.value)}} 
               />
               </Grid>
               
