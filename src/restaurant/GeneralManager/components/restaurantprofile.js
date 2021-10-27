@@ -3,23 +3,51 @@ import { Grid, Button, Typography, Switch, Divider, CardContent, CardHeader, Car
 import bannerpic from '../../../assets/temp/eg-biz1.png'
 import { Route, Link, Switch as Switch2 } from 'react-router-dom'
 import EditInformation from './editinformation'
-import { restaurantProfile } from '../../restaurant_controller'
+import { restaurantProfile, retrieveBannerImage } from '../../restaurant_controller'
 
 export default function ViewInfo({isChecked, toggleChecked}) {
   // Declaring use State for Restaurant Profile
   const [restaurantInfo, setRestaurantInfo] = useState([]);
   const [restaurantTags, setRestaurantTags] = useState([]); // Lol. This solved it
+  const [restBannerImage, setRestBannerImage] = useState('');
+
+  // Async functions
+  async function getInfo() {
+    try {
+      const restProfile = await restaurantProfile();
+      return restProfile;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // Async function to get image
+  async function getImage(imageID) {
+    try {
+      const image = await retrieveBannerImage(imageID);
+      return image;
+    }
+    catch (error) {
+      return error;
+    }
+  }
 
   //Retrieval of Restaurant Information based on Token's username
   useEffect(() => {
-    async function getInfo() {
-      const restProfile = await restaurantProfile();
-      setRestaurantInfo(restProfile);
-      setRestaurantTags(restProfile.rest_tags);
-      
-      console.log(restProfile);
-    }
-    getInfo();
+    getInfo()
+      .then((response) => {
+        setRestaurantInfo(response);
+        setRestaurantTags(response.rest_tags);
+
+        // Gets the banner image
+        getImage(response.rest_banner_ID)
+          .then(response => {setRestBannerImage(response)})
+          .catch(error => console.log(error));
+        
+        // console.log(response);
+      })
+      .catch(error => console.log(error));
   },[])
     
   const boldtitle = {
@@ -38,7 +66,7 @@ export default function ViewInfo({isChecked, toggleChecked}) {
             <CardContent >
               <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
                 <Grid item xs={12} sx={{textAlign:'center'}}>
-                  <img src={bannerpic} width="60%" alt="banner"/>
+                  <img src={restBannerImage} width="60%" alt="banner"/>
                 </Grid>
 
               <Grid item xs={12} sx={{textAlign:'center', marginTop:'2%', marginBottom:'2%'}}>
@@ -62,6 +90,11 @@ export default function ViewInfo({isChecked, toggleChecked}) {
                 <Typography sx={boldtitle}>Restaurant Contact Number</Typography>
                 <Typography>
                   {restaurantInfo.rest_phone_no}
+                </Typography>
+
+                <Typography sx={boldtitle}>Restaurant Contact Number</Typography>
+                <Typography>
+                  {restaurantInfo.rest_email}
                 </Typography>
 
                 <Typography sx={boldtitle}>Restaurant Address</Typography>

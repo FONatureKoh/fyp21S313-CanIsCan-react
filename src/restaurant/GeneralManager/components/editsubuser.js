@@ -141,7 +141,7 @@ export default function EditSubUser({userData}) {
                     onChange={(e) => setRole(e.target.value)}
                   >
                     <MenuItem value={'Restaurant Deliveries Manager'}>Deliveries Manager</MenuItem>
-                    <MenuItem value={'Restaurant Reservation Manager'}>Reservations Manager</MenuItem>
+                    <MenuItem value={'Restaurant Reservations Manager'}>Reservations Manager</MenuItem>
                   </Select>
                 </FormControl>
 
