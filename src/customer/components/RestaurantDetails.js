@@ -122,17 +122,40 @@ export default function RetaurantDetails() {
     // Get Restaurant Information
     getRestInfo()
       .then((response) => {
-        console.log(response);
         setRestaurantInfo(response);
+
+        // Console log to see if the info has been set properly
         console.log(restaurantInfo);
       })
     
   }, []);
 
+  // NOTE: RestaurantInfo with the following data template
+  // {
+  //   "restaurant_ID": 1,
+  //   "restaurant_name": "Kelvin's Cat Cafe",
+  //   "rest_rgm_username": "elephant1995",
+  //   "rest_banner_ID": "1635177240610-c14c4986-0985-4816-8fe3-4d25c848abe7.png",
+  //   "rest_op_hours": "11:30 AM to 11:00 PM",
+  //   "rest_phone_no": "91234567",
+  //   "rest_address_info": "Blk 111 Ang Mo Kio #01-01",
+  //   "rest_postal_code": 656565,
+  //   "rest_tags": [
+  //     "Cafe",
+  //     "Fine Dining"
+  //   ],
+  //   "rest_rating": 5,
+  //   "rest_status": "closed",
+  //   "rest_opening_time": "11:30:00",
+  //   "rest_closing_time": "23:00:00",
+  //   "rest_tag_1": "Cafe",
+  //   "rest_tag_2": "Fine Dining",
+  //   "rest_tag_3": null
+  // }
+
   // Console logs that I commented out - Thomas
   // console.log(menusState)
   // console.log(itemMenusArray)
-  
   // console.log(itemMenusState)
 
   //MODAL CONTROLS - DIRECTIONS / INFO
@@ -163,7 +186,7 @@ export default function RetaurantDetails() {
       <Card variant="outlined" sx={{ borderRadius:'10px'}}>
         <CardMedia sx={{height:'300px' }}
           component="img"
-          image={TestImage}
+          image={restaurantInfo.rest_bannerURL}
         />
 
         <CardContent >
@@ -172,7 +195,7 @@ export default function RetaurantDetails() {
             <Box display="flex" flexDirection="row">
               <Box width="55%">
                 <Typography variant="h4"  sx={{}}>
-                  Test
+                  {restaurantInfo.restaurant_name}
                 </Typography>
                 <Typography sx={{fontSize:'small', padding:'10px 0px'}}>
                   <Rating name="read-only" value={4.2} readOnly size='small' precision={0.1}/> 4.2 / 5
@@ -272,11 +295,11 @@ export default function RetaurantDetails() {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={TestImage}
+                  image={restaurantInfo.rest_bannerURL}
                 />
                 <CardContent >
                   <Box textAlign="center">
-                    <Typography variant="h5">Restaurant Name</Typography>
+                    <Typography variant="h5">{restaurantInfo.restaurant_name}</Typography>
                     <Typography variant="subtitle2">Tags</Typography>
                   </Box>
                   <Box display="flex" flexDirection="row" sx={{mt:'20px'}}>
@@ -285,16 +308,16 @@ export default function RetaurantDetails() {
                         Address
                       </Typography>
                       <Typography variant="subtitle2">
-                        930 Hougang Street 91
+                        {restaurantInfo.rest_address_info}
                       </Typography>
                       <Typography variant="subtitle2">
-                        S (530930)
+                        S ({restaurantInfo.rest_postal_code})
                       </Typography>
                       <Typography variant="h6" sx={{mt:'10px'}}>
                         Operating Hours
                       </Typography>
                       <Typography variant="subtitle2">
-                        Time to time
+                        {restaurantInfo.rest_op_hours}
                       </Typography>
                     </Box>
                     <Box alignContent="flex-end">
@@ -322,11 +345,11 @@ export default function RetaurantDetails() {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={TestImage}
+                  image={restaurantInfo.rest_bannerURL}
                 />
                 <CardContent >
                   <Box textAlign="center">
-                    <Typography variant="h5">Restaurant Name</Typography>
+                    <Typography variant="h5">{restaurantInfo.restaurant_name}</Typography>
                     <Typography variant="subtitle2">Reviews</Typography>
                   </Box>
 
