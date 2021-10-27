@@ -421,7 +421,7 @@ export default function DeliveryHistory() {
 
               <Box textAlign="center" width="60%" margin="10px auto" >
                 <Button variant="outlined" color="error" sx={{margin:'10px 10px'}} onClick={handleCloseReview}>Cancel</Button>
-                <Button variant="outlined" color="inherit" sx={{margin:'10px 10px'}} onClick={submitReview}>Submit</Button>
+                <Button variant="outlined" color="inherit" sx={{margin:'10px 10px'}} >Submit</Button>
               </Box>
             </CardContent>
           </Card>
