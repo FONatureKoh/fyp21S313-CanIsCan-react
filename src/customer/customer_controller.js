@@ -215,3 +215,33 @@ export async function submitRestaurantReview(restID, restName, restRating, revie
     console.log(error);
   }
 }
+
+/*****************************************************************************************
+ * Submits customer Orders                                                               *
+******************************************************************************************/
+export async function submitCustOrder(items, address, floorUnit) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  let formParams = new URLSearchParams();
+  formParams.append('orderItems', items);
+
+  // const reviewJson = {
+  //   restID: restID,
+  //   restName: restName,
+  //   restRating: restRating,
+  //   reviewTitle: reviewTitle,
+  //   reviewDesc: reviewDesc
+  // } 
+
+  try {
+    const response = await axios.post(`${config.apiDomain}/customer/submitorder`, formParams, axiosConfig);
+    
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}

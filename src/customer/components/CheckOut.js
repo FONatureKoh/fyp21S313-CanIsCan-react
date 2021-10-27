@@ -22,8 +22,11 @@ import { List } from '@mui/material';
 import { Grid } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
+// Controller import
+import { submitCustOrder } from '../customer_controller';
+
 const steps = ['Verify your orders', 'Confirm delivery address', 'Make payment'];
-export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub, subtotal, gst, deliveryFee, total}) {
+export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQty, getsub, subtotal, gst, deliveryFee, total}) {
   // Testing page load
   console.log("Checkout Page loaded!");
 
@@ -76,7 +79,16 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
 
   // Async functions for checkout
   async function submitOrder() {
-
+    try {
+      const response = await submitCustOrder(restInfo, realCart, deliveryAddress, deliveryFloorUnit, 
+        deliveryPostalCode, companyName, noteToDriver, cardName, cardNumber, expiry, cvc, 
+        subtotal, gst, deliveryFee, total);
+      
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
   }
 
   // Handling steps below 
@@ -104,6 +116,10 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
     console.log("Handling Next: " + activeStep);
     if (activeStep == 2) {
       console.log("Send Order");
+      submitOrder()
+        .then((response) => {
+          alert(response);
+        })
     }
   };
 
