@@ -81,17 +81,33 @@ export default function DeliveryHistory() {
               tempJSON["items"] = response;
 
               orderDetailsArray.push(tempJSON);
+              setOrderHistory(oldArray => [...oldArray, tempJSON]);
             })
             .catch(error => console.log(error));
         });
 
-        setOrderHistory(orderDetailsArray);
+        // setOrderHistory(orderDetailsArray);
         
       
         console.log(orderDetailsArray);
         console.log(orderHistory);
       })
       .catch(error => console.log(error));
+
+    // asdinasd
+  //   setOrderHistory([{address: "68 Verde Avenue S(688336)",
+  //   orderID: "DO_0001_1635223106227",
+  //   items: [{
+  //     do_item_ID: 2,
+  //     do_item_name: "Elmo",
+  //     do_item_price: 323,
+  //     do_item_qty: 1,
+  //     do_order_ID: "DO_0001_1635230210254",
+  //     do_rest_item_ID: 19}],
+  //   price: 99.9,
+  //   restaurantName: "Kelvin's Cat Cafe",
+  //   status: "preparing"}]
+  //   )
   }, [])
 
 
@@ -135,7 +151,7 @@ export default function DeliveryHistory() {
         
         {
           buttonTab === 1 ? (
-          <>
+          <React.Fragment>
           {orderHistory.map((order)=>{
             if (order.status !== "fulfilled")
             {
@@ -238,7 +254,7 @@ export default function DeliveryHistory() {
               {/* END OF ACTIVE ORDER */}
             </>}
           })}
-            </>
+            </React.Fragment>
           ) : 
           (
             <>
@@ -350,7 +366,7 @@ export default function DeliveryHistory() {
             </>
           )
           
-        }
+        } 
 
         {/* REVIEW MODAL */}
         <Modal
