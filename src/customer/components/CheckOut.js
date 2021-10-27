@@ -13,7 +13,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { Link } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
+import { useRouteMatch } from 'react-router';
 import { ListItem } from '@mui/material';
 import { ButtonGroup } from '@mui/material';
 import { List } from '@mui/material';
@@ -25,46 +27,8 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
-  //START OF CHIP DROP DOWNLIST
-  const names = [
-    'Western',
-    'Chinese',
-    'Japanese',
-    'Italian',
-    'Korean',
-    'Vietnamese',
-    'Thai',
-    'Indian',
-    'Asian',
-    'Fast Food',
-    'Fine Dining'
-  ];
-
-  //This is the state that will contain all selected item in an array
-  const [tags, setTags] = React.useState([]);
-
-  //Drop down item settings
-  const ITEM_HEIGHT = 40;
-  const ITEM_PADDING_TOP = 5;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        display: Block,
-        maxHeight: ITEM_HEIGHT * 3.5 + ITEM_PADDING_TOP,
-      },
-    },
-  };
-    
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setTags(
-      // On autofill we get a the stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  }
-  //END OF CHIP DROP DOWNLIST
+  const match = useRouteMatch('/customer/orderdelivery/:id/checkout');
+  const restID = match.params.id;
 
   const themes = {
     textHeader: {
@@ -85,6 +49,11 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
     }
   };
   
+  function backToRest()
+  {
+    
+  }
+
   const isStepOptional = (step) => {
     return step === 1;
   };
@@ -231,18 +200,18 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
                 <ListItem key={item.id} sx={{margin:'20px auto'}}>
                   <Box width='70%'>
                     <Typography variant="h6">
-                      {item.item}
+                      {item.itemName}
                     </Typography>
                     <Typography variant="subtitle">
-                      Unit Price: S${item.price.toFixed(2)}
+                      Unit Price: S${item.itemPrice.toFixed(2)}
                     </Typography>
                   </Box>
                   <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
                     <Typography variant="subtitle2">
                         <ButtonGroup color="inherit" size="small">
-                          {item.qty === 1 ? <Button onClick={() => deleteItem(item.id)}><DeleteOutlineOutlinedIcon fontSize="small" variant="" /></Button> : <Button onClick={()=> minusQty(item.id)}>-</Button>}
-                          <Button >{item.qty}</Button>
-                          <Button onClick={()=>addQty(item.id)}>+</Button>
+                          {item.itemQty === 1 ? <Button onClick={() => deleteItem(item.itemID)}><DeleteOutlineOutlinedIcon fontSize="small" variant="" /></Button> : <Button onClick={()=> minusQty(item.itemID)}>-</Button>}
+                          <Button >{item.itemQty}</Button>
+                          <Button onClick={()=>addQty(item.itemID)}>+</Button>
                         </ButtonGroup>
                       </Typography>
                       <Typography variant="subtitle2">
@@ -264,6 +233,8 @@ export default function CheckOut({realCart, deleteItem, minusQty, addQty, getsub
             <Button
               color="inherit"
               onClick={handleBack}
+              component ={Link}
+              to={`/customer/orderdelivery/${restID}`}
               sx={{ mr: 1 }}
               variant="outlined"
             >

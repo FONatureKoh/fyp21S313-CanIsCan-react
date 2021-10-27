@@ -537,7 +537,7 @@ export default function OrderDelivery() {
                     </Box>
                   </ListItem>
                   <ListItem >
-                    <Button sx={{width:'90%', margin:'10px auto'}} variant="outlined" color="inherit" component={ Link } to="/customer/orderdelivery/checkout" onClick={()=>setCartOpen(false)}> go to checkout</Button>
+                    <Button sx={{width:'90%', margin:'10px auto'}} variant="outlined" color="inherit" component={ Link } to={`/customer/orderdelivery/${restID}/checkout`} onClick={()=>setCartOpen(false)}> go to checkout</Button>
                   </ListItem>
                 </List>
               </Box>
@@ -548,7 +548,7 @@ export default function OrderDelivery() {
         </CardContent>
       </Card>
       </Route>
-      <Route path="/customer/orderdelivery/checkout">
+      <Route path="/customer/orderdelivery/:id/checkout">
         <CheckOut realCart={realCart} deleteItem={deleteItem} minusQty={minusQty} addQty={addQty} getsub={getsub} subtotal={subtotal} deliveryFee={deliveryFee} gst={gst} total={total} />
       </Route>
     </Switch>
