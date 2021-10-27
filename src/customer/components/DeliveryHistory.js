@@ -86,10 +86,15 @@ export default function DeliveryHistory() {
         });
 
         setOrderHistory(orderDetailsArray);
+        
+      
+        console.log(orderDetailsArray);
         console.log(orderHistory);
       })
       .catch(error => console.log(error));
   }, [])
+
+
 
   // ACCORDION CONTROL
   const [accOpen, setAccOpen] = useState(false);
@@ -118,65 +123,13 @@ export default function DeliveryHistory() {
 
   const handleCloseReview = () => setOpenReview(false);
 
-  const submitReview = () => {
-    console.log(reviewRating, reviewTitle, reviewDesc);
-
-    // Close the review box
-    setOpenReview(false);
-
-    // Submit to the server, and then alert if successful
-    submitRestaurantReview(reviewRestInfo.restID, reviewRestInfo.restName,
-      reviewRating, reviewTitle, reviewDesc)
-      .then((response) => {
-        alert(response.api_msg);
-      });
-  };
-
-  // ================================================================
-
-  console.log(orderHistory);
-
-  //CART TESTING
-  const [realCart, setRealCart]= useState([
-    {
-      id: 1,
-      item: 'dog food',
-      price: 12.1,
-      qty: 3 
-    },
-    {
-      id: 2,
-      item: 'cat food',
-      price: 13,
-      qty: 2
-    },
-    {
-      id: 3,
-      item: 'giraffe food',
-      price: 23,
-      qty: 1
-    },
-    {
-      id: 4,
-      item: 'giraffe food',
-      price: 23,
-      qty: 1
-    },
-    {
-      id: 5,
-      item: 'giraffe food',
-      price: 23,
-      qty: 1
-    }
-  ])
-
-
+  console.log(orderHistory)
   return (
       <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
         <CardHeader title="Orders History" />
         <CardContent >
         <Box sx={{margin:'0px 10px 20px', textAlign:'right'}}>
-          <Button variant="outlined" color="inherit" sx={{marginRight:'20px'}} onClick={()=> setButtonTab(1)}>active order</Button>
+          <Button variant="outlined" color="inherit" sx={{marginRight:'20px'}} selected onClick={()=> setButtonTab(1)}>active order</Button>
           <Button variant="outlined" color="inherit" onClick={()=> setButtonTab(2)}>Past Orders</Button>
         </Box>
         
@@ -184,7 +137,8 @@ export default function DeliveryHistory() {
           buttonTab === 1 ? (
           <>
           {orderHistory.map((order)=>{
-            if (order.status === 'preparing')
+            if (order.status !== "fulfilled")
+            {
             return <>
               {/* ACTIVE ORDER DETAILS */}
               <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto'}}>
@@ -195,12 +149,12 @@ export default function DeliveryHistory() {
                       Your order from
                     </Typography>
                     <Typography variant="subtitle1" >
-                      Restaurant Name
+                      {order.restaurantName}
                     </Typography>
                     <Typography variant="subtitle2" sx={themes.textHeader}>
                       Order Status
                     </Typography>
-                    <Stepper activeStep={1} alternativeLabel sx={{mb:'40px', '&.MuiStepConnector-line':{bgcolor:"#444444"}}}>
+                    <Stepper activeStep={order.status === 'preparing' ?  1 :  3} alternativeLabel sx={{mb:'40px', '&.MuiStepConnector-line':{bgcolor:"#444444"}}}>
                       {steps.map((label) => (
                         <Step key={label}>
                           <StepLabel>{label}</StepLabel>
@@ -220,7 +174,7 @@ export default function DeliveryHistory() {
                             Order Number
                           </Typography>
                           <Typography variant="subtitle1" textAlign="left">
-                            123786
+                            {order.orderID}
                           </Typography>
                         </Grid>
                         <Grid item xs={8} md={8} sm={8}>
@@ -228,7 +182,7 @@ export default function DeliveryHistory() {
                             Address
                           </Typography>
                           <Typography variant="subtitle1" textAlign="left">
-                            930 Hougang Street 91 #12-117 
+                            {order.address}
                           </Typography>
                         </Grid>
                         <Grid item xs={4} md={4} sm={4}>
@@ -236,7 +190,7 @@ export default function DeliveryHistory() {
                             Total Price
                           </Typography>
                           <Typography variant="subtitle1" textAlign="left">
-                            S${}
+                            S$ {order.price.toFixed(2)}
                           </Typography>
                         </Grid>
                     </Grid>
@@ -256,36 +210,34 @@ export default function DeliveryHistory() {
                       </AccordionSummary>
                       {/* INNDER ACCORDION */}
                       <AccordionDetails>
-                        {realCart.map(item => (
-                          <ListItem key={item.id} sx={{margin:'20px auto'}}>
-                            <Box width='70%'>
-                              <Typography variant="h6">
-                                {item.item}
-                              </Typography>
-                              <Typography variant="subtitle">
-                                Unit Price: S${item.price.toFixed(2)}
-                              </Typography>
-                            </Box>
-                            <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
-                              <Typography variant="subtitle2">
-                                Quantity: {item.qty}
-                              </Typography>
-                                <Typography variant="subtitle2">
-                                  Price: S$ {(item.qty * item.price).toFixed(2)}
-                                </Typography>
-                              </Box>
-                          </ListItem>
-                        ))}
+                        {order.items.map(item => (
+                              <ListItem key={item.do_item_ID} sx={{margin:'20px auto'}}>
+                                <Box width='70%'>
+                                  <Typography variant="h6">
+                                    {item.do_item_name}
+                                  </Typography>
+                                  <Typography variant="subtitle">
+                                    Unit Price: S${item.do_item_price.toFixed(2)}
+                                  </Typography>
+                                </Box>
+                                <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
+                                  <Typography variant="subtitle2">
+                                    Quantity: {item.do_item_qty}
+                                  </Typography>
+                                    <Typography variant="subtitle2">
+                                      Price: S$ {(item.do_item_qty * item.do_item_price).toFixed(2)}
+                                    </Typography>
+                                  </Box>
+                              </ListItem>
+                          ))}
                       </AccordionDetails>
                     </Accordion>
                   </Box>
                 </CardContent>
               </Card>
               {/* END OF ACTIVE ORDER */}
-            </>
+            </>}
           })}
-
-
             </>
           ) : 
           (
@@ -293,7 +245,7 @@ export default function DeliveryHistory() {
             {/* START OF PAST ORDERS */}
             {
               orderHistory.map(order => {
-                if (order.status == "fulfilled") {
+                if (order.status === "fulfilled") {
                   return <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto 20px'}}>
                     <Box sx={{float:'right', margin:'5px 10px 0px 0px', position:'absolute', right:'11%'}}>
                       <Button variant='contained' color="inherit" >order again</Button>
