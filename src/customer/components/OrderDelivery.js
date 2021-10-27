@@ -12,7 +12,7 @@ import { Route, Switch } from 'react-router';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 import { useRouteMatch } from 'react-router'
-import { retrieveAllRestaurantItems, getItemImage } from '../customer_controller'
+import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getBannerImage } from '../customer_controller'
 import Cart from './Cart'
 import CheckOut from './CheckOut';
 import { Link } from 'react-router-dom'
@@ -24,8 +24,10 @@ export default function OrderDelivery() {
   const match = useRouteMatch('/customer/orderdelivery/:id');
   const restID = match.params.id;
 
-  const [menusState, setMenusState] = useState([])
-  const [itemMenusState, setItemMenusState] = useState([])
+  // useful useStates
+  const [menusState, setMenusState] = useState([]);
+  const [itemMenusState, setItemMenusState] = useState([]);
+  const [restaurantInfo, setRestaurantInfo] = useState('');
 
   // Useful variables at the start
   var itemMenusArray = [];
@@ -50,6 +52,23 @@ export default function OrderDelivery() {
     try {
       let outputArray = Array.from(new Set(arr));
       return outputArray;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // Async function to retrieve single restaurant info
+  async function getRestInfo() {
+    try {
+      var response = await retrieveSingleRestaurant(restID);
+
+      // Since response is the json object, we can use it to produce the blob
+      // image url here, and then add to the json
+      const imageURL = await getBannerImage(response.rest_banner_ID);
+
+      response["rest_bannerURL"] = imageURL;
+      return response;
     }
     catch (error) {
       return error;
@@ -185,6 +204,16 @@ export default function OrderDelivery() {
           .catch(error => console.log(error));
       })
       .catch(error => console.log(error));
+
+    // Get Restaurant Information
+    getRestInfo()
+      .then((response) => {
+        setRestaurantInfo(response);
+
+        // Console log to see if the info has been set properly
+        console.log(restaurantInfo);
+      })
+
   }, []);
 
   
@@ -549,7 +578,7 @@ export default function OrderDelivery() {
       </Card>
       </Route>
       <Route path="/customer/orderdelivery/:id/checkout">
-        <CheckOut realCart={realCart} deleteItem={deleteItem} minusQty={minusQty} addQty={addQty} getsub={getsub} subtotal={subtotal} deliveryFee={deliveryFee} gst={gst} total={total} />
+        <CheckOut restInfo={restaurantInfo} realCart={realCart} deleteItem={deleteItem} minusQty={minusQty} addQty={addQty} getsub={getsub} subtotal={subtotal} deliveryFee={deliveryFee} gst={gst} total={total} />
       </Route>
     </Switch>
       
