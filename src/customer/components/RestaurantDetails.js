@@ -66,7 +66,6 @@ export default function RetaurantDetails() {
       const imageURL = await getBannerImage(response.rest_banner_ID);
 
       response["rest_bannerURL"] = imageURL;
-
       return response;
     }
     catch (error) {
@@ -129,7 +128,6 @@ export default function RetaurantDetails() {
       })
     
   }, []);
-
   // NOTE: RestaurantInfo with the following data template
   // {
   //   "restaurant_ID": 1,
@@ -321,7 +319,7 @@ export default function RetaurantDetails() {
                       </Typography>
                     </Box>
                     <Box alignContent="flex-end">
-                    <img width="300px" height="200px" src={getMap(530930)}/>
+                    <img width="300px" height="200px" src={getMap(restaurantInfo.rest_postal_code)}/>
                     </Box>
                   </Box>
                 </CardContent>
