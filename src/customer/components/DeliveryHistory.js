@@ -92,7 +92,7 @@ export default function DeliveryHistory() {
         console.log(orderHistory);
       })
       .catch(error => console.log(error));
-
+  }, [])
   // asdinasd
   //   setOrderHistory([{address: "68 Verde Avenue S(688336)",
   //   orderID: "DO_0001_1635223106227",
@@ -107,7 +107,7 @@ export default function DeliveryHistory() {
   //   restaurantName: "Kelvin's Cat Cafe",
   //   status: "preparing"}]
   //   )
-  }, [])
+
 
   // ACCORDION CONTROL
   const [accOpen, setAccOpen] = useState(false);
