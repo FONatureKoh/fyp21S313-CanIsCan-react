@@ -16,9 +16,6 @@ const themes = {
 
 
 export default function ViewPending() {
-  // ACCORDION CONTROL
-  const [accOpen, setAccOpen] = useState(false);
-
   //CART TESTING
   const [realCart, setRealCart]= useState([
     {
@@ -127,6 +124,9 @@ export default function ViewPending() {
   }, [])
 
   console.log(pendingDO);
+
+  // ACCORDION CONTROL
+  const [accOpen, setAccOpen] = useState(false);
   
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
