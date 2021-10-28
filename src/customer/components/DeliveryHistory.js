@@ -83,6 +83,7 @@ export default function DeliveryHistory() {
               // NOTE: I moved the setOrderHistory insidse here to test. Apparently that works too!
               // but I left it as what you have here anws :D -Thomas
               setOrderHistory(oldArray => [...oldArray, tempJSON]);
+              // orderDetailsArray.push(tempJSON);
               // setOrderHistory(orderDetailsArray);
             })
             .catch(error => console.log(error));
@@ -92,7 +93,7 @@ export default function DeliveryHistory() {
         console.log(orderHistory);
       })
       .catch(error => console.log(error));
-
+  }, [])
   // asdinasd
   //   setOrderHistory([{address: "68 Verde Avenue S(688336)",
   //   orderID: "DO_0001_1635223106227",
@@ -107,7 +108,7 @@ export default function DeliveryHistory() {
   //   restaurantName: "Kelvin's Cat Cafe",
   //   status: "preparing"}]
   //   )
-  }, [])
+
 
   // ACCORDION CONTROL
   const [accOpen, setAccOpen] = useState(false);
