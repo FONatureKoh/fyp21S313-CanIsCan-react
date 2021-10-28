@@ -14,7 +14,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { useRouteMatch } from 'react-router'
-import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getBannerImage } from '../customer_controller'
+import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getBannerImage, getAvailableSlots } from '../customer_controller'
 import { Link } from 'react-router-dom'
 
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
@@ -177,14 +177,50 @@ export default function RetaurantDetails() {
   const handleCloseReserve = () => setOpenReserve(false);
 
   // CALENDAR TESTING
-  const [value, setValue] = React.useState(new Date());
+  // NOTE: I changed the values a bit. You had value last time, then i put to selectedDate
+  // I changed up wherever necessary already, hopefully its right! :D - Thomas
+  const [selectedDate, setSelectedDate] = React.useState(new Date()); 
+  const [availableSlots, setAvailableSlots] = useState([]);
   const startDate = new Date();
   startDate.setDate(startDate.getDate() + 1);
+
+  // RESERVATION THINGS - THOMAS
+  // 1. Async function to communicate with the backend server
+  async function getSlots(restID, selectedDate) {
+    try {
+      const timeSlots = await getAvailableSlots(restID, selectedDate);
+
+      return timeSlots;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // 2. Function to trigger to backend
+  // NOTE: The following triggers the getting of the available slots, which is how 
+  // we can use the array
+  function triggerGetSlots (restID, selectedDate) {
+    getSlots(restID, selectedDate)
+      .then((response) => {
+        setAvailableSlots(response);
+      })
+  }
+
+  // 3. useEffect to set the slots first on load
+  useEffect(() => {
+    triggerGetSlots (restID, selectedDate);
+  }, [])
+
+  // FOOTNOTE: If any of the numbers for the functions are missing (like there should be 1 to 4, 
+  // so if you see 1, 2, 4 there might be a missing function), lemme know! - Thomas :D
+  // ===========================================================================================
 
   function getMap(postal){
     const maplink = `http://maps.google.com/maps/api/staticmap?center=${postal}&zoom=17&size=400x300&maptype=roadmap&key=${apiKey}&region=SG&markers=color:red%7C${postal}&scale=2`;
     return maplink;
   }
+
   return (
       <Card variant="outlined" sx={{ borderRadius:'10px'}}>
         <CardMedia sx={{height:'300px' }}
@@ -429,7 +465,7 @@ export default function RetaurantDetails() {
                   </Box>
                   <Box textAlign="center" sx={{mt:'20px', mb:'10px'}}>
                   <Typography variant="h6">You have selected</Typography>
-                  <Typography variant="subtitle1">{format(value, 'dd MMMM yyyy')}</Typography>
+                  <Typography variant="subtitle1">{format(selectedDate, 'dd MMMM yyyy')}</Typography>
                   <Typography variant="subtitle1">TIME</Typography>
                   </Box>
                   
@@ -443,9 +479,10 @@ export default function RetaurantDetails() {
                           showToolbar={false}
                           orientation="landscape"
                           minDate={startDate}
-                          value={value}
-                          onChange={(newValue) => {
-                            setValue(newValue);
+                          value={selectedDate}
+                          onChange={(selectedNewDate) => {
+                            setSelectedDate(selectedNewDate);
+                            triggerGetSlots(restID, selectedNewDate);
                           }}
                           renderInput={(params) => <TextField {...params} />}
                         />

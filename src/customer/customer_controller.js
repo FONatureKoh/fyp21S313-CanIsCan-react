@@ -267,3 +267,24 @@ export async function submitCustOrder(restInfo, realCart, deliveryAddress, deliv
     console.log(error);
   }
 }
+
+/*****************************************************************************************
+ * Submits customer Orders                                                               *
+ ****************************************************************************************
+ * Gets the slots available based on the date and the restaurantID 
+ */
+export async function getAvailableSlots (restID, selectedDate) {
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/customer/availableslots/${restID}/${selectedDate}`, axiosConfig)
+
+    return response.data;
+  }
+  catch (error) {
+    console.log(error);
+  }
+
+}
