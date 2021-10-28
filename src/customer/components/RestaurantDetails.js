@@ -203,17 +203,31 @@ export default function RetaurantDetails() {
   function triggerGetSlots (restID, selectedDate) {
     getSlots(restID, selectedDate)
       .then((response) => {
+        console.log(response);
+        
+        // Trying to set the timeSlots here
         setAvailableSlots(response);
+
+        // Prints out the array to console
+        console.log(availableSlots);
       })
   }
 
   // 3. useEffect to set the slots first on load
-  useEffect(() => {
-    triggerGetSlots (restID, selectedDate);
-  }, [])
+  // useEffect(() => {
+  //   triggerGetSlots (restID, selectedDate);
+    
+  //   // Prints out the array to console
+  //   // console.log(availableSlots);
+  // }, [])
+  // availableSlots.map((slot) => console.log(slot));
 
   // FOOTNOTE: If any of the numbers for the functions are missing (like there should be 1 to 4, 
-  // so if you see 1, 2, 4 there might be a missing function), lemme know! - Thomas :D
+  // so if you see 1, 2, 4 there might be a missing function), lemme know! 
+  // MORE FOOTNOTE: Please take note that I'm just trying to return you the slots for now and
+  // trying to see if my concept works! I estimate about 3 to 4 hours to setup the tables backend
+  // and work out how to verify and return the dynamic data from the database! Will let you know
+  // how it goes! - Thomas :D (as of 28/10 10:32 AM)
   // ===========================================================================================
 
   function getMap(postal){
@@ -493,6 +507,24 @@ export default function RetaurantDetails() {
                       <Box sx={{m:'20px auto', width:'100%'}}>
                         Slots
                         <Grid container>
+                          {/* Was just using this to test to see if the useEffect (reference item 3 function above) 
+                          to trigger the slot getting on load is needed. Perhaps its not? This version currently
+                          no useEffect. Anws now must think of how to translate the info into values, like button
+                          click then set the selected slot or something? */}
+                          {
+                            availableSlots.map((slot) => {
+                              if (slot.available === true) {
+                                return <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
+                                  <Button color="inherit" variant='contained' >{slot.timeslot}</Button>
+                                </Grid>
+                              }
+                              else {
+                                return <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
+                                  <Button color="inherit" disabled variant='contained' >{slot.timeslot}</Button>
+                                </Grid>
+                              }
+                            })
+                          }
                           <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
                             <Button color="inherit" disabled variant='contained' >13:30</Button>
                           </Grid>
