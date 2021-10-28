@@ -94,7 +94,7 @@ export default function ViewOrderHistory() {
   
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
-    <CardHeader title="Pending Orders" />
+    <CardHeader title="Orders History" />
     <CardContent>
       <Box width="90%" sx={{margin:'0px auto', textAlign:"center"}}>
         {
