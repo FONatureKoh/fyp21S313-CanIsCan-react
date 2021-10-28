@@ -87,59 +87,59 @@ export default function Customer() {
       .catch(error => console.log(error));
   }, [])
 
-//CART TESTING
-const [realCart, setRealCart]= useState([
-  {
-    id: 1,
-    item: 'dog food',
-    price: 12.1,
-    qty: 3 
-  },
-  {
-    id: 2,
-    item: 'cat food',
-    price: 13,
-    qty: 2
-  },
-  {
-    id: 3,
-    item: 'giraffe food',
-    price: 23,
-    qty: 1
-  },
-  {
-    id: 4,
-    item: 'giraffe food',
-    price: 23,
-    qty: 1
-  },
-  {
-    id: 5,
-    item: 'giraffe food',
-    price: 23,
-    qty: 1
+  //CART TESTING
+  const [realCart, setRealCart]= useState([
+    {
+      id: 1,
+      item: 'dog food',
+      price: 12.1,
+      qty: 3 
+    },
+    {
+      id: 2,
+      item: 'cat food',
+      price: 13,
+      qty: 2
+    },
+    {
+      id: 3,
+      item: 'giraffe food',
+      price: 23,
+      qty: 1
+    },
+    {
+      id: 4,
+      item: 'giraffe food',
+      price: 23,
+      qty: 1
+    },
+    {
+      id: 5,
+      item: 'giraffe food',
+      price: 23,
+      qty: 1
+    }
+  ])
+
+  //HANDLE ADD
+  function addQty(id){
+    const newCart = [...realCart]
+    const newItem = newCart.find(newItem => newItem.id === id)
+    newItem.qty += 1
+    setRealCart(newCart)
   }
-])
 
-//HANDLE ADD
-function addQty(id){
-  const newCart = [...realCart]
-  const newItem = newCart.find(newItem => newItem.id === id)
-  newItem.qty += 1
-  setRealCart(newCart)
-}
+  function minusQty(id){
+    const newCart = [...realCart]
+    const newItem = newCart.find(newItem => newItem.id === id)
+    newItem.qty -= 1
+    setRealCart(newCart)
+  }
 
-function minusQty(id){
-  const newCart = [...realCart]
-  const newItem = newCart.find(newItem => newItem.id === id)
-  newItem.qty -= 1
-  setRealCart(newCart)
-}
-
-function deleteItem(id){
-  const newCart = realCart.filter(item => item.id !== id)
-  setRealCart(newCart)
-}
+  function deleteItem(id){
+    const newCart = realCart.filter(item => item.id !== id)
+    setRealCart(newCart)
+  }
 
 
   //CART CALCULATIONS
@@ -160,8 +160,6 @@ function deleteItem(id){
     setGst(gst)
     setTotal(gst + deliveryFee + subtotal)
   })
-
- 
 
   const toggleVisibility = () => {
     if (isVisible)

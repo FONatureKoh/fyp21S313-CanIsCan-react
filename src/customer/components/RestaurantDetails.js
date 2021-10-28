@@ -27,7 +27,7 @@ export default function RetaurantDetails() {
   // useStates for setting all the variables
   const [menusState, setMenusState] = useState([]);
   const [itemMenusState, setItemMenusState] = useState([]);
-  const [restaurantInfo, setRestaurantInfo] = useState('');
+  const [restaurantInfo, setRestaurantInfo] = useState([]);
   const [rating, setRating] = useState(0)
 
   // Useful variables at the start NOTE: Arrays may be redundant, can see if want to
@@ -470,11 +470,11 @@ export default function RetaurantDetails() {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={TestImage}
+                  image={restaurantInfo.rest_bannerURL}
                 />
                 <CardContent >
                   <Box textAlign="center">
-                    <Typography variant="h5">Restaurant Name</Typography>
+                    <Typography variant="h5">{restaurantInfo.restaurant_name}</Typography>
                     <Typography variant="subtitle2">Select date / timeslot</Typography>
                   </Box>
                   <Box textAlign="center" sx={{mt:'20px', mb:'10px'}}>
@@ -525,24 +525,6 @@ export default function RetaurantDetails() {
                               }
                             })
                           }
-                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
-                            <Button color="inherit" disabled variant='contained' >13:30</Button>
-                          </Grid>
-                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
-                            <Button color="inherit" variant='contained' >14:30</Button>
-                          </Grid>
-                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
-                            <Button color="inherit" variant='contained' >15:30</Button>
-                          </Grid>
-                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
-                            <Button color="inherit" variant='contained' >16:30</Button>
-                          </Grid>
-                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
-                            <Button color="inherit" variant='contained' >17:30</Button>
-                          </Grid>
-                          <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
-                            <Button color="inherit" variant='contained' >18:30</Button>
-                          </Grid>
                         </Grid>
                       </Box>
                     </Grid>
