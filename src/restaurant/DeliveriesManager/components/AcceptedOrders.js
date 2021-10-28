@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Card, CardHeader, CardContent, Box, Typography, Stepper, Step, StepLabel, Divider, Accordion, AccordionSummary, AccordionDetails, Grid, ListItem, Button } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { getPendingDeliveryOrders, getDOItems } from '../dm_controller';
+import { getOrders, getDOItems } from '../dm_controller';
 import DelAccordion from './DelAccordion';
 
 const themes = {
@@ -15,13 +15,13 @@ const themes = {
 
 export default function AcceptedOrders() {
   // useStates for the orders
-  const [pendingDO, setPendingDO] = useState([]);
+  const [acceptedDO, setAcceptedDO] = useState([]);
 
   // Async functions for retrieving all the pending orders
   // Async functions for order retrieval
   async function getPendingOrders() {
     try {
-      const response = await getPendingDeliveryOrders();
+      const response = await getOrders(2);
       return response;
     }
     catch (error) {
@@ -65,7 +65,7 @@ export default function AcceptedOrders() {
             }
 
             // // Console logging 
-            // console.log(pendingDO);
+            // console.log(acceptedDO);
             // console.log("orderDetailsArray: " + orderDetailsArray);
             getSelectedOrderItems(element.order_ID)
               .then((response) => {
@@ -75,9 +75,10 @@ export default function AcceptedOrders() {
                 // NOTE: This round by setting the state in here, seem to have worked.
                 // I tested blow, you can see that I tried a map. Looks okay. - Thomas (28/10 12:57pm)
                 orderDetailsArray.push(tempJSON);
-                setPendingDO(oldArray => [...oldArray, tempJSON]);
-                pendingDO.map(item => console.log(item));
-                // setPendingDO(oldArray => [...oldArray, tempJSON]);
+                setAcceptedDO(oldArray => [...oldArray, tempJSON]);
+                
+                // acceptedDO.map(item => console.log(item));
+                // setAcceptedDO(orderDetailsArray);
               })
               .catch(error => console.log(error));
           } // End of if condition
@@ -86,7 +87,7 @@ export default function AcceptedOrders() {
       .catch(error => console.log(error));
   }, [])
 
-  console.log(pendingDO);
+  console.log(acceptedDO);
 
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
@@ -94,7 +95,7 @@ export default function AcceptedOrders() {
       <CardContent>
         <Box width="90%" sx={{margin:'0px auto', textAlign:"center"}}>
           {
-            pendingDO.map(item=>{
+            acceptedDO.map(item=>{
               return <DelAccordion item={item}/>
             })
           }

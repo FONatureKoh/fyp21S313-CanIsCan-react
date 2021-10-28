@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DelAccordion from './DelAccordion';
 
 // DM_CONTROLLER IMPORT
-import { getDOItems, getPendingDeliveryOrders } from '../dm_controller';
+import { getDOItems, getOrders } from '../dm_controller';
 
 const themes = {
   textHeader: {
@@ -18,13 +18,13 @@ const themes = {
 
 export default function ViewOrderHistory() {
   // useStates for the orders
-  const [pendingDO, setPendingDO] = useState([]);
+  const [fulfilledDO, setFulfilledDO] = useState([]);
 
   // Async functions for retrieving all the pending orders
   // Async functions for order retrieval
   async function getPendingOrders() {
     try {
-      const response = await getPendingDeliveryOrders();
+      const response = await getOrders(3);
       return response;
     }
     catch (error) {
@@ -68,7 +68,7 @@ export default function ViewOrderHistory() {
             }
 
             // // Console logging 
-            // console.log(pendingDO);
+            // console.log(fulfilledDO);
             // console.log("orderDetailsArray: " + orderDetailsArray);
             getSelectedOrderItems(element.order_ID)
               .then((response) => {
@@ -78,9 +78,9 @@ export default function ViewOrderHistory() {
                 // NOTE: This round by setting the state in here, seem to have worked.
                 // I tested blow, you can see that I tried a map. Looks okay. - Thomas (28/10 12:57pm)
                 orderDetailsArray.push(tempJSON);
-                setPendingDO(oldArray => [...oldArray, tempJSON]);
-                pendingDO.map(item => console.log(item));
-                // setPendingDO(oldArray => [...oldArray, tempJSON]);
+                setFulfilledDO(oldArray => [...oldArray, tempJSON]);
+                fulfilledDO.map(item => console.log(item));
+                // setFulfilledDO(oldArray => [...oldArray, tempJSON]);
               })
               .catch(error => console.log(error));
           } // End of if condition
@@ -89,7 +89,7 @@ export default function ViewOrderHistory() {
       .catch(error => console.log(error));
   }, [])
 
-  console.log(pendingDO);
+  console.log(fulfilledDO);
 
   
   return (
@@ -98,7 +98,7 @@ export default function ViewOrderHistory() {
     <CardContent>
       <Box width="90%" sx={{margin:'0px auto', textAlign:"center"}}>
         {
-          pendingDO.map(item=>{
+          fulfilledDO.map(item=>{
             return <DelAccordion item={item}/>
           })
         }
