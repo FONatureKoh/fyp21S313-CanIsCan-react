@@ -62,8 +62,21 @@ export default function NavigationRM({isVisible, isSelected, setIsSelected}) {
             </ListItemIcon>
             <ListItemText primary="Accepted Reservations"/>
           </ListItemButton>
+
+          <Divider variant="middle" />
+
+          <ListItem>
+            <ListItemText primary="Slots Management" />
+          </ListItem>
+
+          <ListItemButton selected={isSelected === 3} component= { Link } to='/reservationsmanager/manageslots' onClick={() => setIsSelected(3)} >
+            <ListItemIcon>
+              <RestaurantMenuIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Manage Slots" />
+          </ListItemButton>
         </List>
-        <Divider/>
+        <Divider variant="middle"/>
         <Button variant="outlined" onClick={logout} color="inherit" sx={{margin:'30px auto', width:'90%'}} >Logout</Button>
       </Drawer>
     </Box>

@@ -8,6 +8,7 @@ import PendingReservations from './components/PendingReservations';
 import AcceptedReservations from './components/AcceptedReservations';
 import ViewProfile from '../../profile/viewprofile';
 import ResFirstLogin from './components/ResFirstLogin';
+import ManageSlots from './components/ManageSlots';
 
 export default function ReservationsManager() {
   
@@ -35,6 +36,7 @@ export default function ReservationsManager() {
         <Switch>
           <Route path='/reservationsmanager/viewpendingres'><PendingReservations/></Route>
           <Route path='/reservationsmanager/acceptedres'><AcceptedReservations/></Route>
+          <Route path='/reservationsmanager/manageslots'><ManageSlots/></Route>
           <Route path="/reservationsmanager/profile" component={ViewProfile}/>
           <Redirect from='/reservationsmanager' to='/reservationsmanager/viewpendingres'/>
         </Switch>
