@@ -83,6 +83,7 @@ export default function DeliveryHistory() {
               // NOTE: I moved the setOrderHistory insidse here to test. Apparently that works too!
               // but I left it as what you have here anws :D -Thomas
               setOrderHistory(oldArray => [...oldArray, tempJSON]);
+              // orderDetailsArray.push(tempJSON);
               // setOrderHistory(orderDetailsArray);
             })
             .catch(error => console.log(error));
