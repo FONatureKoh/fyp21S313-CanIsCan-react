@@ -228,11 +228,18 @@ export async function submitCustOrder(restInfo, realCart, deliveryAddress, deliv
   };
 
   console.log(restInfo);
+  console.log(realCart);
 
+  // Get some restaurant INFO
+  const restID = restInfo.restaurant_ID.toString();
+
+  // Create the Order ID here
+  const doID = `DO_${restID.padStart(4, '0')}_${Date.now()}`;
 
   let formParams = new URLSearchParams();
 
   // Order stuff
+  formParams.append('doID', doID)
   formParams.append('restID', restInfo.restaurant_ID);
   formParams.append('restName', restInfo.restaurant_name);
   formParams.append('orderDateTime', new Date());
