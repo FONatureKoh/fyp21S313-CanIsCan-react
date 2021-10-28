@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DelAccordion from './DelAccordion';
 
 // DM_CONTROLLER IMPORT
-import { getDOItems, getPendingDeliveryOrders } from '../dm_controller';
+import { getDOItems, getOrders } from '../dm_controller';
 
 const themes = {
   textHeader: {
@@ -24,7 +24,7 @@ export default function ViewPending() {
   // Async functions for order retrieval
   async function getPendingOrders() {
     try {
-      const response = await getPendingDeliveryOrders();
+      const response = await getOrders(1);
       return response;
     }
     catch (error) {
