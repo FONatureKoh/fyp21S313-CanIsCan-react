@@ -8,6 +8,7 @@ import ViewProfile from '../../profile/viewprofile';
 import AcceptedOrders from './components/AcceptedOrders';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import DelFirstLogin from './components/DelFirstLogin';
+import ViewOrderHistory from './components/ViewOrderHistory';
 
 /***********************************************************************
  * Orders Table data
@@ -51,6 +52,7 @@ export default function DeliveriesManager() {
         <Switch>
           <Route path='/deliveriesmanager/viewpending'><ViewPending/></Route>
           <Route path='/deliveriesmanager/acceptedorders'><AcceptedOrders/></Route>
+          <Route path='/deliveriesmanager/viewhistory'><ViewOrderHistory/></Route>
           <Route path="/deliveriesmanager/profile" component={ViewProfile}/>
           <Redirect from='/deliveriesmanager' to='/deliveriesmanager/viewpending'/>
         </Switch>

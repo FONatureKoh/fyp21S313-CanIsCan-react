@@ -166,11 +166,11 @@ export default function DeliveryHistory() {
           buttonTab === 1 ? (
           <React.Fragment>
           {orderHistory.map((order)=>{
-            if (order.status !== "fulfilled")
+            if (order.status !== "Fulfilled")
             {
             return <>
               {/* ACTIVE ORDER DETAILS */}
-              <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto'}}>
+              <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto 20px'}}>
                 <CardHeader title="Active Order" sx={{textAlign:"center"}}/>
                 <CardContent >
                   <Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}> 
@@ -183,7 +183,7 @@ export default function DeliveryHistory() {
                     <Typography variant="subtitle2" sx={themes.textHeader}>
                       Order Status
                     </Typography>
-                    <Stepper activeStep={order.status === 'preparing' ?  1 :  3} alternativeLabel sx={{mb:'40px', '&.MuiStepConnector-line':{bgcolor:"#444444"}}}>
+                    <Stepper activeStep={order.status === 'Preparing' ?  1 : order.status === 'Accepted' ? 0 : order.status === 'Delivering' ? 3 : -1} alternativeLabel sx={{mb:'40px', '&.MuiStepConnector-line':{bgcolor:"#444444"}}}>
                       {steps.map((label) => (
                         <Step key={label}>
                           <StepLabel>{label}</StepLabel>
@@ -274,7 +274,7 @@ export default function DeliveryHistory() {
             {/* START OF PAST ORDERS */}
             {
               orderHistory.map(order => {
-                if (order.status === "fulfilled") {
+                if (order.status === "Fulfilled") {
                   return <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto 20px'}}>
                     <Box sx={{float:'right', margin:'5px 10px 0px 0px', position:'absolute', right:'11%'}}>
                       <Button variant='contained' color="inherit" >order again</Button>

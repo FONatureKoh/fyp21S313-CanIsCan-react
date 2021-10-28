@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardContent, Box, Typography, Stepper, Step, StepLabel, Divider, Accordion, AccordionSummary, AccordionDetails, Grid, ListItem, Button } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { getPendingDeliveryOrders, getDOItems } from '../dm_controller';
 import DelAccordion from './DelAccordion';
+
+// DM_CONTROLLER IMPORT
+import { getDOItems, getPendingDeliveryOrders } from '../dm_controller';
 
 const themes = {
   textHeader: {
@@ -13,7 +15,8 @@ const themes = {
   }
 };
 
-export default function AcceptedOrders() {
+
+export default function ViewOrderHistory() {
   // useStates for the orders
   const [pendingDO, setPendingDO] = useState([]);
 
@@ -88,18 +91,19 @@ export default function AcceptedOrders() {
 
   console.log(pendingDO);
 
+  
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
     <CardHeader title="Pending Orders" />
-      <CardContent>
-        <Box width="90%" sx={{margin:'0px auto', textAlign:"center"}}>
-          {
-            pendingDO.map(item=>{
-              return <DelAccordion item={item}/>
-            })
-          }
-        </Box>
-      </CardContent>
+    <CardContent>
+      <Box width="90%" sx={{margin:'0px auto', textAlign:"center"}}>
+        {
+          pendingDO.map(item=>{
+            return <DelAccordion item={item}/>
+          })
+        }
+      </Box>
+    </CardContent>
   </Card>
-  )
+)
 }

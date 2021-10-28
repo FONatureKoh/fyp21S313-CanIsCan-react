@@ -64,6 +64,13 @@ export default function NavigationDM({isVisible, isSelected, setIsSelected}) {
             </ListItemIcon>
             <ListItemText primary="Accepted Orders"/>
           </ListItemButton>
+
+          <ListItemButton selected={isSelected === 3} component={ Link } to="/deliveriesmanager/viewhistory" onClick={() => setIsSelected(3)} >
+            <ListItemIcon>
+              <Info/>
+            </ListItemIcon>
+            <ListItemText primary="Orders History"/>
+          </ListItemButton>
       </List>
         <Divider/>
         <Button variant="outlined" color="inherit" onClick={logout} sx={{margin:'30px auto', width:'90%'}} >Logout</Button>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardContent, Box, Typography, Stepper, Step, StepLabel, Divider, Accordion, AccordionSummary, AccordionDetails, Grid, ListItem, Button } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DelAccordion from './DelAccordion';
 
 // DM_CONTROLLER IMPORT
 import { getDOItems, getPendingDeliveryOrders } from '../dm_controller';
@@ -16,40 +17,6 @@ const themes = {
 
 
 export default function ViewPending() {
-  //CART TESTING
-  const [realCart, setRealCart]= useState([
-    {
-      id: 1,
-      item: 'dog food',
-      price: 12.1,
-      qty: 3 
-    },
-    {
-      id: 2,
-      item: 'cat food',
-      price: 13,
-      qty: 2
-    },
-    {
-      id: 3,
-      item: 'giraffe food',
-      price: 23,
-      qty: 1
-    },
-    {
-      id: 4,
-      item: 'giraffe food',
-      price: 23,
-      qty: 1
-    },
-    {
-      id: 5,
-      item: 'giraffe food',
-      price: 23,
-      qty: 1
-    }
-  ])
-
   // useStates for the orders
   const [pendingDO, setPendingDO] = useState([]);
 
@@ -111,8 +78,7 @@ export default function ViewPending() {
                 // NOTE: This round by setting the state in here, seem to have worked.
                 // I tested blow, you can see that I tried a map. Looks okay. - Thomas (28/10 12:57pm)
                 orderDetailsArray.push(tempJSON);
-                setPendingDO(orderDetailsArray);
-
+                setPendingDO(oldArray => [...oldArray, tempJSON]);
                 pendingDO.map(item => console.log(item));
                 // setPendingDO(oldArray => [...oldArray, tempJSON]);
               })
@@ -125,120 +91,18 @@ export default function ViewPending() {
 
   console.log(pendingDO);
 
-  // ACCORDION CONTROL
-  const [accOpen, setAccOpen] = useState(false);
   
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
     <CardHeader title="Pending Orders" />
     <CardContent>
-      <>
-      <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto'}}>
-        <CardContent >
-          <Box width="100%" sx={{margin:'0px auto', textAlign:"center"}}>
-            <Accordion sx={{border:'1px solid #eeeeee', mt:'20px'}} expanded={accOpen} >
-              {/* HEADER OF ACCORDION */}
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="item-details"
-                id="item-details"
-                sx={{borderBottom:'0.5px solid #eeeeee'}}
-                onClick={()=>{setAccOpen(!accOpen)}}
-              >
-                {
-                  // Was using this to test. Looks like the pendingDO is set properly
-                  pendingDO.map((item) => {
-                    return <Typography sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                      {item.orderID}
-                    </Typography>
-                  })
-                }
-                <Typography sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                  Order #00001
-                </Typography>
-              </AccordionSummary>
-              {/* INNDER ACCORDION */}
-              <AccordionDetails>
-                {realCart.map(item => (
-                  <ListItem key={item.id} sx={{margin:'20px auto'}}>
-                    <Box width='70%'>
-                      <Typography variant="h6">
-                        {item.item}
-                      </Typography>
-                      <Typography variant="subtitle">
-                        Unit Price: S${item.price.toFixed(2)}
-                      </Typography>
-                    </Box>
-                    <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
-                      <Typography variant="subtitle2">
-                        Quantity: {item.qty}
-                      </Typography>
-                        <Typography variant="subtitle2">
-                          Price: S$ {(item.qty * item.price).toFixed(2)}
-                          
-                        </Typography>
-                      </Box>
-                  </ListItem>
-                ))}
-                <Box m={1} pt={1}>
-                <Button variant="outlined" id="1" color="inherit" fullWidth>Accept
-                </Button>
-                </Box>
-                <Box m={1} pt={1}>
-                <Button variant="outlined" id="1" color="error" fullWidth>Decline
-                </Button>
-                </Box>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion sx={{border:'1px solid #eeeeee', mt:'20px'}} expanded={accOpen} >
-              {/* HEADER OF ACCORDION */}
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="item-details"
-                id="item-details"
-                sx={{borderBottom:'0.5px solid #eeeeee'}}
-                onClick={()=>{setAccOpen(!accOpen)}}
-              >
-                <Typography sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                  Order #11111
-                </Typography>
-              </AccordionSummary>
-              {/* INNDER ACCORDION */}
-              <AccordionDetails>
-                {realCart.map(item => (
-                  <ListItem key={item.id} sx={{margin:'20px auto'}}>
-                    <Box width='70%'>
-                      <Typography variant="h6">
-                        {item.item}
-                      </Typography>
-                      <Typography variant="subtitle">
-                        Unit Price: S${item.price.toFixed(2)}
-                      </Typography>
-                    </Box>
-                    <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
-                      <Typography variant="subtitle2">
-                        Quantity: {item.qty}
-                      </Typography>
-                        <Typography variant="subtitle2">
-                          Price: S$ {(item.qty * item.price).toFixed(2)}
-                        </Typography>
-                      </Box>
-                  </ListItem>
-                ))}
-                <Box m={1} pt={1}>
-                <Button variant="outlined" id="2" color="inherit" fullWidth>Accept
-                </Button>
-                </Box>
-                <Box m={1} pt={1}>
-                <Button variant="outlined" id="2" color="error" fullWidth>Decline
-                </Button>
-                </Box>
-              </AccordionDetails>
-            </Accordion>
-          </Box>
-        </CardContent>
-      </Card>
-        </>
+      <Box width="90%" sx={{margin:'0px auto', textAlign:"center"}}>
+        {
+          pendingDO.map(item=>{
+            return <DelAccordion item={item}/>
+          })
+        }
+      </Box>
     </CardContent>
   </Card>
 )
