@@ -80,21 +80,20 @@ export default function DeliveryHistory() {
             .then((response) => {
               tempJSON["items"] = response;
 
-              orderDetailsArray.push(tempJSON);
+              // NOTE: I moved the setOrderHistory insidse here to test. Apparently that works too!
+              // but I left it as what you have here anws :D -Thomas
               setOrderHistory(oldArray => [...oldArray, tempJSON]);
+              // setOrderHistory(orderDetailsArray);
             })
             .catch(error => console.log(error));
-        });
-
-        // setOrderHistory(orderDetailsArray);
-        
+        });        
       
         console.log(orderDetailsArray);
         console.log(orderHistory);
       })
       .catch(error => console.log(error));
 
-    // asdinasd
+  // asdinasd
   //   setOrderHistory([{address: "68 Verde Avenue S(688336)",
   //   orderID: "DO_0001_1635223106227",
   //   items: [{
@@ -109,8 +108,6 @@ export default function DeliveryHistory() {
   //   status: "preparing"}]
   //   )
   }, [])
-
-
 
   // ACCORDION CONTROL
   const [accOpen, setAccOpen] = useState(false);
@@ -138,6 +135,21 @@ export default function DeliveryHistory() {
   };
 
   const handleCloseReview = () => setOpenReview(false);
+
+  const submitReview = () => {
+    // console.log(reviewRating, reviewTitle, reviewDesc);
+    
+    // Submit to the server, and then alert if successful
+    submitRestaurantReview(reviewRestInfo.restID, reviewRestInfo.restName,
+      reviewRating, reviewTitle, reviewDesc)
+      .then((response) => {
+        alert(response.api_msg);
+
+        // Close the review box
+        setOpenReview(false);
+      });
+  };
+  // ================================================================
 
   console.log(orderHistory)
   return (
@@ -421,7 +433,7 @@ export default function DeliveryHistory() {
 
               <Box textAlign="center" width="60%" margin="10px auto" >
                 <Button variant="outlined" color="error" sx={{margin:'10px 10px'}} onClick={handleCloseReview}>Cancel</Button>
-                <Button variant="outlined" color="inherit" sx={{margin:'10px 10px'}} >Submit</Button>
+                <Button variant="outlined" color="inherit" sx={{margin:'10px 10px'}} onClick={submitReview} >Submit</Button>
               </Box>
             </CardContent>
           </Card>
