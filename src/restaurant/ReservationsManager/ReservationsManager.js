@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 import NavigationRM from '../../components/top-nav/NavigationRM'
 import Topbar from '../../components/top-nav/topbar';
+import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
 import { Switch, Route, Redirect }from 'react-router-dom';
 import PendingReservations from './components/PendingReservations';
 import AcceptedReservations from './components/AcceptedReservations';
 import ViewProfile from '../../profile/viewprofile';
+import ResFirstLogin from './components/ResFirstLogin';
 
 export default function ReservationsManager() {
   
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
+  const [firstLog, setFirstLog] = useState(false);
 
   const toggleVisibility = () => {
     if (isVisible)
@@ -36,6 +39,24 @@ export default function ReservationsManager() {
           <Redirect from='/reservationsmanager' to='/reservationsmanager/viewpendingres'/>
         </Switch>
       </Box>
+
+      <Modal
+        open={firstLog}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{bgcolor:'white',position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width:"50%",
+          padding: '2%',
+          maxHeight:'70%',
+          overflow: 'auto',
+          borderRadius:'5px'}}>
+           <ResFirstLogin setFirstLog={setFirstLog}/>
+         </Box>
+      </Modal>
       
     </Box>
   )

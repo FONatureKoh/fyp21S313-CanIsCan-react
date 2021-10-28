@@ -38,24 +38,33 @@ export default function NavigationDM({isVisible, isSelected, setIsSelected}) {
       >
         <Divider />
         <List>
-            <ListItem>
-              <ListItemText primary="Delivery Management" />
-            </ListItem>
+          <ListItem sx={{bgcolor:"#eeeeee", color:'black', width:'85%', alignSelf:'center', margin:'5px auto', borderRadius:'10px'}}>
+            <ListItemText>
+              <Typography sx={{textDecoration:'underline'}}variant="body2">Restaurant Name:</Typography>
+              <Typography >placeholder</Typography>
+              <Typography sx={{textDecoration:'underline'}} variant="body2">Role:</Typography>
+              <Typography>Deliveries Manager</Typography>
+            </ListItemText>
+          </ListItem>
 
-            <ListItemButton selected={isSelected === 1} component={ Link } to="/deliveriesmanager/viewpending" onClick={() => setIsSelected(1)} >
-              <ListItemIcon>
-                <RestaurantMenuIcon/>
-              </ListItemIcon>
-              <ListItemText primary="Pending Orders" />
-            </ListItemButton>
+          <ListItem>
+            <ListItemText primary="Delivery Management" />
+          </ListItem>
 
-            <ListItemButton selected={isSelected === 2} component={ Link } to="/deliveriesmanager/acceptedorders" onClick={() => setIsSelected(2)} >
-              <ListItemIcon>
-                <Info/>
-              </ListItemIcon>
-              <ListItemText primary="Accepted Orders"/>
-            </ListItemButton>
-        </List>
+          <ListItemButton selected={isSelected === 1} component={ Link } to="/deliveriesmanager/viewpending" onClick={() => setIsSelected(1)} >
+            <ListItemIcon>
+              <RestaurantMenuIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Pending Orders" />
+          </ListItemButton>
+
+          <ListItemButton selected={isSelected === 2} component={ Link } to="/deliveriesmanager/acceptedorders" onClick={() => setIsSelected(2)} >
+            <ListItemIcon>
+              <Info/>
+            </ListItemIcon>
+            <ListItemText primary="Accepted Orders"/>
+          </ListItemButton>
+      </List>
         <Divider/>
         <Button variant="outlined" color="inherit" onClick={logout} sx={{margin:'30px auto', width:'90%'}} >Logout</Button>
       </Drawer>

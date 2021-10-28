@@ -15,7 +15,7 @@ export default function ProfileIcon() {
 
   const testContext = useContext(UserContext);
 
-  console.log(testContext)
+  console.log("123" +testContext.userFullName[0])
 
   const history = useHistory();
   const [openDialog, setOpenDialog] = React.useState(false);

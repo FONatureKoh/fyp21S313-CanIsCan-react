@@ -33,7 +33,7 @@ export default ({ children }) => {
         setUserType(response.user_type);
         setUserFullName(response.first_name + " " + response.last_name);
 
-        console.log(response);
+        console.log("meow" +response);
       })
       .catch(error => {
         console.log(error);
