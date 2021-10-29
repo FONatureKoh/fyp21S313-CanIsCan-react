@@ -16,7 +16,7 @@ export function retrieveUserProfile() {
     headers: {'Authorisation': window.sessionStorage.accessToken}
   };
 
-  console.log(axiosConfig);
+  // console.log(axiosConfig);
 
   return axios.get(`${config.apiDomain}/users/profilemanagement`, axiosConfig)
     .then(res => {

@@ -44,7 +44,7 @@ export default function Login() {
         return userProfile;
       }
       else {
-        return userInfo.api_msg
+        return userInfo.api_msg;
       }
     }
     catch (error) {
@@ -56,12 +56,15 @@ export default function Login() {
   function clickLogin() {
     loginControl()
       .then((response) => {
-        console.log(response);
-        // Set a full name to the userContext
-        userContext.userFullName[1](response.first_name + " " + response.last_name);
+        // Declare the default userType
+        var userType = "";
 
-        // Get the userType
-        const userType = response.userType;
+        // If there's a proper response, then proceed
+        if (response != null) {
+          // Set a full name to the userContext
+          userContext.userFullName[1](response.first_name + " " + response.last_name);
+          userType = response.userType;
+        }          
 
         switch (userType) {
           case "Restaurant General Manager":
