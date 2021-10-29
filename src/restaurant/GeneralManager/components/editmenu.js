@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import ViewMenuList from '../../../components/rest-view-menu/ViewMenuList';
-import { Button, CardContent, CardHeader, TextField, Typography } from '@mui/material'
+import { Button, CardContent, CardHeader, Grid, TextField, Typography } from '@mui/material'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Card } from '@mui/material';
 import { Link } from "react-router-dom";
@@ -155,16 +155,30 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
                 <Tab icon={<AddIcon value="add" fontSize="small"/>}label="ADD MENU" onClick={handleOpen}/>
               </TabList>
             </Box>
+
             <Box>
-              <Typography sx={{textAlign: 'left', display:'inline-block', pt:'20px'}}>
-                <FiberManualRecordIcon color="success" sx={{ fontSize: 12, alignSelf:'flex-start'}} /> Menu Items Currently Active
-              </Typography>
+              <Grid container direction="row" alignItems="baseline" spacing={5}>
+                <Grid item xs md={7}>
+                  <Typography sx={{textAlign: 'left', display:'inline-block', pt:'20px'}}>
+                    <FiberManualRecordIcon color="success" sx={{ fontSize: 12, alignSelf:'flex-start'}} /> Menu Items Currently Active
+                  </Typography>
+                </Grid>
+
+                <Grid item xs md={3}>
+                  <Button variant="outlined" color="inherit">Edit Category Name</Button>
+                </Grid>
+                <Grid item xs md={2}>
+                <Button variant="outlined" color="error">Delete Category</Button>
+                </Grid>
+              </Grid>
             </Box>
+            
             <Box sx={{margin:'10px auto', width:'100%'}}>
             {
               categories.map((ric_name, index) => {
-                // console.log(ric_name);
-                return <TabPanel id={index} value={index.toString()}> <ViewMenuList menuData={menuData2} menuList={ric_name} /></TabPanel>
+                return <>
+                  <TabPanel id={index} value={index.toString()}> <ViewMenuList menuData={menuData2} menuList={ric_name} /></TabPanel>
+                </>
               })
             }
             </Box>
