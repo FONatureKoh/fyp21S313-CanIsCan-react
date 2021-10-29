@@ -75,7 +75,7 @@ export default function Login() {
             path = "/deliveriesmanager";
             history.push(path);
             break;
-          case "Restaurant Reservation Manager":
+          case "Restaurant Reservations Manager":
             path = "/reservationsmanager";
             history.push(path);
             break;
