@@ -1,26 +1,16 @@
 import React, { useState } from 'react'
-import { Card, CardHeader, CardContent, Box } from '@mui/material'
+import { } from '@mui/material'
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Divider } from '@mui/material';
-import { TextField } from '@mui/material';
-import { Block } from '@mui/icons-material';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { Link } from 'react-router-dom';
-import Chip from '@mui/material/Chip';
 import { useRouteMatch, useHistory } from 'react-router';
 import { ListItem } from '@mui/material';
-import { ButtonGroup } from '@mui/material';
-import { List } from '@mui/material';
-import { Grid } from '@mui/material';
+import { List, Grid, ButtonGroup, Divider, TextField, Card, CardHeader, CardContent, Box } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import StripeCheckout from 'react-stripe-checkout';
 
 // Controller import
 import { submitCustOrder } from '../customer_controller';
@@ -132,6 +122,11 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
     // history.push('/customer');
   };
 
+  // Handling Payments
+  function handleToken(token, addresses) {
+    console.log({ token, addresses });
+  }
+  
   //return right side
   function rightSide(){
     return (
@@ -400,57 +395,19 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
           <Box display="flex" flexDirection="row">
             <Box sx={themes.boxStyle}>
               <Typography sx={themes.textHeader}>
-                Payment details
+                Payment secured by Stripe
               </Typography>
 
               <Divider variant="middle"/>
               
               <Grid container>
-              
-              <Grid sx={12} sm={12} md={12}>
-              <TextField sx={{width:'90%', margin:'15px auto'}} 
-                id="cardholder-name" 
-                value={cardName} 
-                label="Name on card" 
-                variant="filled" 
-                size="small" 
-                onChange={(event) => {setCardName(event.target.value)}}
-              />
-              </Grid>
-
-              <Grid sx={12} sm={12} md={12}>
-              <TextField sx={{width:'90%', margin:'15px auto'}} 
-                id="card-number" 
-                value={cardNumber} 
-                label="Card Number" 
-                variant="filled" 
-                size="small" 
-                onChange={(event) => {setCardNumber(event.target.value)}}
-              />
-              </Grid>
-
-              <Grid sx={12} sm={12} md={6}>
-              <TextField sx={{width:'80%', margin:'15px'}} 
-                id="card-expiry" 
-                value={expiry} 
-                label="Expiry (MM/YY)" 
-                variant="filled" 
-                size="small" 
-                onChange={(event) => {setExpiry(event.target.value)}}
-              />
-              </Grid>
-
-              <Grid sx={12} sm={12} md={6}>
-              <TextField sx={{width:'80%', margin:'15px'}} 
-                id="card-CVC" 
-                value={cvc} 
-                label="CVC" 
-                variant="filled" 
-                size="small" 
-                onChange={(event) => {setCvc(event.target.value)}} 
-              />
-              </Grid>
-              
+                <Grid sx={12} sm={12} md={12}>
+                  <StripeCheckout 
+                    stripeKey="pk_test_51Jpp1SJIAR4w3qKIP8z8sp1QLA73bua7FJq7Oelz0Ibb37ILFqWOo9xAXbXFM7sl1U2nfq2Hu5QKjR2gmHDJ0lcf00Ev8Q67Ku"
+                    token={handleToken} >
+                    <Button variant="outlined">Laugh to the Bank</Button>
+                  </StripeCheckout>
+                </Grid>
               </Grid>
               
             </Box>
