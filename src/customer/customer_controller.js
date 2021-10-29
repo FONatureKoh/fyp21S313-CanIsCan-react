@@ -249,7 +249,13 @@ export async function submitCustOrder(restInfo, realCart, deliveryAddress, deliv
   formParams.append('companyName', companyName);
   formParams.append('deliveryNote', noteToDriver);
   formParams.append('totalCost', total);
-  formParams.append('orderItems', realCart);
+  // formParams.append('orderItems', JSON.stringify(realCart[0]));
+
+  // For order items (realcart) we will need to stringify each item so that it can be sent through
+  // the form
+  for (var x in realCart) {
+    formParams.append("orderItems", JSON.stringify(realCart[x]));
+  }
   
   // Payment stuff
   formParams.append('cardName', cardName);
