@@ -30,7 +30,7 @@ export default ({ children }) => {
       .then((response) => {
         // Set all the useful stuff into the 3 states
         setUserName(response.username);
-        setUserType(response.user_type);
+        setUserType(response.userType);
         setUserFullName(response.first_name + " " + response.last_name);
 
         console.log("meow" +response);
