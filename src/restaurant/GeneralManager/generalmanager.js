@@ -9,7 +9,7 @@ import ViewInfo from './components/restaurantprofile';
 import AddSubUser from './components/addsubuser';
 import Stats from './components/statistics';
 import ViewProfile from '../../profile/viewprofile';
-import { restaurantProfile, retrieveCatItems, retrieveRestaurantStatus } from '../restaurant_controller';
+import { restaurantProfile, retrieveRestaurantStatus } from '../restaurant_controller';
 import { Modal } from '@mui/material';
 import FirstLogin from './components/firstlogin';
 
@@ -73,7 +73,7 @@ export default function GeneralManager() {
         setRestaurantName(response);
       })
       .catch(error => console.log(error));
-  });
+  }, []);
 
   // useEffect to get Restaurant's Items Data
   // NOTE: edited to retrieve restaurant items using the username in
