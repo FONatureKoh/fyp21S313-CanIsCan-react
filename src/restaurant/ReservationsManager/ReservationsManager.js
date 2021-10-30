@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import NavigationRM from '../../components/top-nav/NavigationRM'
 import Topbar from '../../components/top-nav/topbar';
 import { Modal } from '@mui/material';
@@ -9,12 +9,14 @@ import AcceptedReservations from './components/AcceptedReservations';
 import ViewProfile from '../../profile/viewprofile';
 import ResFirstLogin from './components/ResFirstLogin';
 import ManageSlots from './components/ManageSlots';
+import { getAccStatus, getRestName } from '../restaurant_controller';
 
 export default function ReservationsManager() {
-  
+  // Essential useStates for the page
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
-  const [firstLog, setFirstLog] = useState(false);
+  const [firstLog, setFirstLog] = useState('');
+  const [restaurantName, setRestaurantName] = useState('');
 
   const toggleVisibility = () => {
     if (isVisible)
@@ -27,10 +29,57 @@ export default function ReservationsManager() {
     }
   }
 
+  // ASYNC FUNCTION
+  // Async function to get User account Status
+  async function getStatus() {
+    try {
+      const { account_status } = await getAccStatus();
+      if (account_status === "first") {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // Async function to get restaurant's name
+  async function getRestaurantName() {
+    try {
+      const { restaurant_name } = await getRestName();
+      
+      return restaurant_name;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+  
+  // useEffect for when the page first loads
+  useEffect(() =>{
+    getStatus()
+      .then((response) => {
+        console.log(response);
+        setFirstLog(response);
+      })
+      .catch(error => console.log(error));
+    
+    // Get restaurant Name
+    getRestaurantName()
+      .then((response) => {
+        console.log(response);
+        setRestaurantName(response);
+      })
+      .catch(error => console.log(error));
+  }, []);
+
   return (
     <Box sx={{ padding:'1% 2%', bgcolor:'#f5f5f5', display:'block'}}>
       <Topbar toggleVisibility={toggleVisibility}/>
-      <NavigationRM isVisible={isVisible} isSelected={isSelected} setIsSelected={setIsSelected} />
+      <NavigationRM restName={restaurantName} isVisible={isVisible} isSelected={isSelected} setIsSelected={setIsSelected} />
 
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import NavigationDM from '../../components/top-nav/NavigationDM'
 import Topbar from '../../components/top-nav/topbar';
 import { Box } from '@mui/system';
@@ -9,29 +9,18 @@ import AcceptedOrders from './components/AcceptedOrders';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import DelFirstLogin from './components/DelFirstLogin';
 import ViewOrderHistory from './components/ViewOrderHistory';
+import { getAccStatus, getRestName } from '../restaurant_controller';
 
 /***********************************************************************
- * Orders Table data
- * fieldnames: 	order_ID, o_cust_ID,	o_rest_ID,	order_datetime,
- * order_type, order_status, total_cost, payment_status
- * NOTE: order_type will contain delivery / preorder,
- * order_status will contain pending, accepted, preparing, delivering, 
- * delivered, payment_status (not relevant here?) will be true, false.
- ***********************************************************************
- * order_item Table data
- * fieldnames: 	order_item_ID, oi_order_ID, oi_menu_item_ID, 
- * oi_item_name,	special_order
- * NOTE: special_order will contain the customer's special request, like
- * for example, no garlic, not spicy, so on...
- ***********************************************************************
-*/
-
+ * 
+ ***********************************************************************/
 export default function DeliveriesManager() {
-  
+  // Essential useStates for the page
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
-  const [firstLog, setFirstLog] = useState(false);
-
+  const [firstLog, setFirstLog] = useState('');
+  const [restaurantName, setRestaurantName] = useState('');
+  
   const toggleVisibility = () => {
     if (isVisible)
     {
@@ -42,11 +31,58 @@ export default function DeliveriesManager() {
       setIsVisible(true)
     }
   }
+  
+  // ASYNC FUNCTION
+  // Async function to get User account Status
+  async function getStatus() {
+    try {
+      const { account_status } = await getAccStatus();
+      if (account_status === "first") {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // Async function to get restaurant's name
+  async function getRestaurantName() {
+    try {
+      const { restaurant_name } = await getRestName();
+      
+      return restaurant_name;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+  
+  // useEffect for when the page first loads
+  useEffect(() =>{
+    getStatus()
+      .then((response) => {
+        console.log(response);
+        setFirstLog(response);
+      })
+      .catch(error => console.log(error));
+    
+    // Get restaurant Name
+    getRestaurantName()
+      .then((response) => {
+        console.log(response);
+        setRestaurantName(response);
+      })
+      .catch(error => console.log(error));
+  }, []);
 
   return (
     <Box sx={{ padding:'1% 2%', bgcolor:'#f5f5f5', display:'block'}}>
       <Topbar toggleVisibility={toggleVisibility}/>
-      <NavigationDM isVisible={isVisible} isSelected={isSelected} setIsSelected={setIsSelected} />
+      <NavigationDM restName={restaurantName} isVisible={isVisible} isSelected={isSelected} setIsSelected={setIsSelected} />
 
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>

@@ -1,5 +1,4 @@
-import React, {useState} from 'react'
-
+import React, { useState, useEffect } from 'react'
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -8,34 +7,25 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Divider } from '@mui/material';
 import { TextField } from '@mui/material';
+import { postChangePW, postPersonalProfile, retrieveUserProfile } from '../../restaurant_controller';
 
-
+// Steps for the first login
 const steps = ['Update your profile', 'Change your password'];
+
+// Async function to return the user's profile
+async function getProfile() {
+  try {
+    const response = await retrieveUserProfile();
+
+    return response;
+  }
+  catch (err) {
+    console.log(err);
+  }
+}
+
 export default function ResFirstLogin({setFirstLog}) {
-
-  const [activeStep, setActiveStep] = useState(0);
-  const [skipped, setSkipped] = useState(new Set());
-
-  // STATES TO DRAW INFORMATION TO USE FOR SUBMISSION
-  const [profileImage, setProfileImage] = useState();
-  const [fName, setFName] = useState('');
-  const [lName, setLName] = useState('');
-  const [personalPhone, setPersonalPhone] = useState('');
-  const [personalEmail, setPersonalEmail] = useState('');
-  const [personalAdd, setPersonalAdd] = useState('');
-  const [personalPostal, setPersonalPostal] = useState('');
-
-  // Password matters
-  const [oldPW, setOldPW] = useState('');
-  const [newPW, setNewPW] = useState('');
-  const [confirmNewPW, setConfirmNewPW] = useState('');
-
-  // Preview Images
-  const [profilePreview, setProfilePreview] = useState();
-  const [bannerPreview, setBannerPreview] = useState();
-
-
-
+  // Page Theme constants
   const themes = {
     textHeader: {
       fontSize:'1 0px', 
@@ -55,6 +45,35 @@ export default function ResFirstLogin({setFirstLog}) {
       borderRadius:'5px'
     }
   };
+
+  // Steps states
+  const [activeStep, setActiveStep] = useState(0);
+  const [skipped, setSkipped] = useState(new Set());
+
+  // STATES TO DRAW INFORMATION TO USE FOR SUBMISSION
+  const [profileImage, setProfileImage] = useState();
+  const [fName, setFName] = useState('');
+  const [lName, setLName] = useState('');
+  const [personalPhone, setPersonalPhone] = useState('');
+  const [personalEmail, setPersonalEmail] = useState('');
+  const [personalAdd, setPersonalAdd] = useState('');
+  const [personalPostal, setPersonalPostal] = useState('');
+
+  // Password matters
+  const [oldPW, setOldPW] = useState('');
+  const [newPW, setNewPW] = useState('');
+  const [confirmNewPW, setConfirmNewPW] = useState('');
+
+  // useEffect to load whatever that can be loaded from the database
+  useEffect(() => {
+    getProfile()
+      .then((response) => {
+        setFName(response.first_name);
+        setLName(response.last_name);
+        setPersonalPhone(response.phone_no);
+        setPersonalEmail(response.email);
+      })
+  }, []);
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -79,6 +98,74 @@ export default function ResFirstLogin({setFirstLog}) {
   const handleReset = () => {
     setFirstLog(false);
   };
+
+  // Async function to save personal details
+  async function postPersonal(){
+    try {
+      const response = await postPersonalProfile(profileImage, fName, lName, personalPhone,
+        personalEmail, personalAdd, personalPostal);
+      return response.api_msg;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // Async function to change password 
+  async function postPassword(){
+    try {
+      const response = await postChangePW(oldPW, newPW);
+      return response.api_msg;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // HANDLE FINAL SUBMIT 
+  // NOTE: This is where we submit the data to the database
+  const handleFinish = () => {
+    if (newPW !== confirmNewPW) {
+      alert("Please type the same password in the new password and confirm password fields");
+
+      return;
+    }
+    else {
+      // Post the personal profile
+      postPersonal()
+        .then((response) => {
+          console.log(response);
+        })
+        .catch(error => console.log(error));
+
+      // Post RGM password update 
+      postPassword()
+        .then((response) => {
+          console.log(response);
+        })
+        .catch(error => console.log(error));
+
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
+  }
+
+  // Preview Images
+  const [profilePreview, setProfilePreview] = useState();
+
+  // A useEffect to handle the profile image preview
+  useEffect(() => {
+    if(profileImage){
+      const reader = new FileReader();
+      reader.onload = () => {
+        setProfilePreview(reader.result);
+        // console.log("1" + profilePreview)
+      }
+      reader.readAsDataURL(profileImage);
+    }
+    else {
+      setProfilePreview(null);
+    }
+  }, [profileImage, profilePreview])
 
   return (
     <Box sx={{ width: '80%', margin:'30px auto'}}>
@@ -144,7 +231,7 @@ export default function ResFirstLogin({setFirstLog}) {
                 <Typography sx={{textAlign:'center', fontSize:'15px', mt:'20px', fontWeight:'bold'}}>Profile Photo</Typography>
                 <Box sx={{position:'relative', top:'100px'}}>
                   <img 
-                  // src={profilePreview} 
+                  src={profilePreview} 
                   height="200px" width="300px" alt="additem" />
                   <Box sx={{position:'relative', top:'10px'}}>
                     <label htmlFor="profileImage">
@@ -153,11 +240,11 @@ export default function ResFirstLogin({setFirstLog}) {
                       type="file"
                       id="profileImage"
                       accept=".png"
-                      // onChange={event => {
-                      //   const imageFile = event.target.files[0];
-                      //   setProfileImage(imageFile);
-                      //   console.log("meow")
-                      // }} 
+                      onChange={event => {
+                        const imageFile = event.target.files[0];
+                        setProfileImage(imageFile);
+                        console.log("meow")
+                      }} 
                       />
                     <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
                     </label>
@@ -170,6 +257,7 @@ export default function ResFirstLogin({setFirstLog}) {
               <Box sx={{width:'60%'}}>
                 <TextField sx={{width:'40%', margin:'15px 2.5%'}} 
                   id="fname-field" 
+                  value={fName}
                   label="First Name:" 
                   variant="filled" 
                   size="small"
@@ -177,6 +265,7 @@ export default function ResFirstLogin({setFirstLog}) {
                 />
                 <TextField sx={{width:'40%', margin:'15px 2.5%'}} 
                   id="lname-field" 
+                  value={lName}
                   label="Last Name:" 
                   variant="filled" 
                   size="small" 
@@ -185,6 +274,7 @@ export default function ResFirstLogin({setFirstLog}) {
 
                 <TextField sx={{width:'85%', margin:'15px auto'}} 
                   id="phone-field" 
+                  value={personalPhone}
                   label="Phone Number (Required*):" 
                   variant="filled" 
                   size="small" 
@@ -193,6 +283,7 @@ export default function ResFirstLogin({setFirstLog}) {
 
                 <TextField sx={{width:'85%', margin:'15px auto'}} 
                   id="email-field" 
+                  value={personalEmail}
                   label="Email (Required*):" 
                   variant="filled" 
                   size="small" 
@@ -201,6 +292,7 @@ export default function ResFirstLogin({setFirstLog}) {
 
                 <TextField sx={{width:'85%', margin:'15px auto'}} 
                   id="address-field" 
+                  value={personalAdd}
                   label="Address (Required*):"  
                   multiline rows={2} 
                   variant="filled" 
@@ -209,9 +301,11 @@ export default function ResFirstLogin({setFirstLog}) {
 
                 <TextField sx={{width:'85%', margin:'15px auto'}} 
                   id="postal-code-field" 
+                  value={personalPostal}
                   label="Postal Code (Required*):"  
                   variant="filled" 
-                  size="small"
+                  size="small" 
+                  onChange={(e)=> setPersonalPostal(e.target.value)}
                 />
               </Box>
             </Box>
@@ -223,9 +317,7 @@ export default function ResFirstLogin({setFirstLog}) {
               disabled={activeStep === 0}
               onClick={handleBack}
               sx={{ mr: 1 }}
-              variant="outlined"
-              onChange={(e)=> setPersonalPostal(e.target.value)}
-            >
+              variant="outlined">
               Back
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
@@ -291,7 +383,7 @@ export default function ResFirstLogin({setFirstLog}) {
             <Box sx={{ flex: '1 1 auto' }} />
 
             <Button 
-            //onClick={handleFinish} 
+            onClick={handleFinish} 
             variant="outlined">
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>

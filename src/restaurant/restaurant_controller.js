@@ -343,6 +343,71 @@ export async function retrieveRestaurantStatus() {
 };
 
 /*****************************************************************************************
+ * For DM / RM to get App user acount status
+ * ***************************************************************************************
+ * - This gets the DM's account status
+ * ***************************************************************************************/
+export async function getAccStatus() {
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  }
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/users/accountstatus`, axiosConfig);
+
+    return response.data;
+  }
+  catch (err) {
+    return err;
+  }
+}
+
+/*****************************************************************************************
+ * For DM / RM to get its restaurant name
+ * ***************************************************************************************
+ * - This gets the DM's restaurant name
+ * ***************************************************************************************/
+export async function getRestName() {
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  }
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/users/restaurantname`, axiosConfig);
+
+    return response.data;
+  }
+  catch (err) {
+    return err;
+  }
+}
+
+/*****************************************************************************************
+ * For DM / RM to get their profile
+ * ***************************************************************************************
+ * - profile retrieval
+ * ***************************************************************************************/
+export async function retrieveUserProfile() {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  // console.log(axiosConfig);
+
+  try {
+    const res = await axios.get(`${config.apiDomain}/users/profilemanagement`, axiosConfig);
+    // In here we can choose what we want to do with the response of the request
+    // console.log(res)
+    console.log(res.data);
+    return res.data;
+  } 
+  catch (err) {
+    return err;
+  }
+};
+
+/*****************************************************************************************
  * First Login set user profile                                                          *
  * ***************************************************************************************
  * - send data to the user/profilemanagement route
