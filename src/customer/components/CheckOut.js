@@ -122,11 +122,20 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
     // history.push('/customer');
   };
 
-  // Handling Payments
+  /***********************************************************************************************
+   * Handling the payment
+   * *********************************************************************************************
+  */
+  // Payment states
+  const [testState, setTestState] = useState('');
+
   function handleToken(token, addresses) {
     console.log({ token, addresses });
+    setTestState("Something");
   }
   
+  // =============================================================================================
+
   //return right side
   function rightSide(){
     return (
