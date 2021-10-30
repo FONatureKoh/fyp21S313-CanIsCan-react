@@ -8,8 +8,7 @@ import { Link, useHistory } from "react-router-dom";
 
 const drawerWidth = 240;
 
-
-export default function NavigationRM({isVisible, isSelected, setIsSelected}) {
+export default function NavigationRM({restName, isVisible, isSelected, setIsSelected}) {
   const history = useHistory();
 
   function logout(){
@@ -39,7 +38,7 @@ export default function NavigationRM({isVisible, isSelected, setIsSelected}) {
           <ListItem sx={{bgcolor:"#eeeeee", color:'black', width:'85%', alignSelf:'center', margin:'5px auto', borderRadius:'10px'}}>
             <ListItemText>
               <Typography sx={{textDecoration:'underline'}}variant="body2">Restaurant Name:</Typography>
-              <Typography >placeholder</Typography>
+              <Typography>{restName}</Typography>
               <Typography sx={{textDecoration:'underline'}} variant="body2">Role:</Typography>
               <Typography>Reservations Manager</Typography>
             </ListItemText>
