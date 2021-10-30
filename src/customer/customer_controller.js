@@ -217,11 +217,36 @@ export async function submitRestaurantReview(restID, restName, restRating, revie
 }
 
 /*****************************************************************************************
+ * Customer checkout to trigger payment                                                  *
+******************************************************************************************/
+export async function customerCheckout(token, doID, totalCost) {
+  // Axios request config to be declared first
+  console.log("CustomerCheckout triggered")
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  // Parameters to send
+  const paymentJSON = {
+    token, doID, totalCost
+  }
+
+  try {
+    const response = await axios.post(`${config.apiDomain}/customer/checkout`, paymentJSON, axiosConfig);
+
+    return response.data;
+  }
+  catch(error) {
+    return error;
+  }
+}
+
+
+/*****************************************************************************************
  * Submits customer Orders                                                               *
 ******************************************************************************************/
 export async function submitCustOrder(restInfo, realCart, deliveryAddress, deliveryFloorUnit, 
-  deliveryPostalCode, companyName, noteToDriver, cardName, cardNumber, expiry, cvc, 
-  subtotal, gst, deliveryFee, total) {
+  deliveryPostalCode, companyName, noteToDriver, subtotal, gst, deliveryFee, total) {
   // Axios request config to be declared first
   const axiosConfig = {
     headers: {'Authorisation': window.sessionStorage.accessToken}
@@ -258,10 +283,10 @@ export async function submitCustOrder(restInfo, realCart, deliveryAddress, deliv
   }
   
   // Payment stuff
-  formParams.append('cardName', cardName);
-  formParams.append('cardNumber', cardNumber);
-  formParams.append('expiry', expiry);
-  formParams.append('cvc', cvc);
+  // formParams.append('cardName', cardName);
+  // formParams.append('cardNumber', cardNumber);
+  // formParams.append('expiry', expiry);
+  // formParams.append('cvc', cvc);
 
   // const reviewJson = {
   //   restID: restID,
