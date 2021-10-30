@@ -15,7 +15,9 @@ import StripeCheckout from 'react-stripe-checkout';
 // Controller import
 import { submitCustOrder } from '../customer_controller';
 
+// Steps
 const steps = ['Verify your orders', 'Confirm delivery address', 'Make payment'];
+
 export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQty, getsub, subtotal, gst, deliveryFee, total}) {
   // Testing page load
   console.log("Checkout Page loaded!");
@@ -129,10 +131,15 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
   // Payment states
   const [testState, setTestState] = useState('');
 
-  function handleToken(token, addresses) {
+  async function handleToken(token, addresses) {
     console.log({ token, addresses });
     setTestState("Something");
   }
+
+  const testFunction = () => {
+    console.log("something happened for the button")
+    // history.push('/customer');
+  };
   
   // =============================================================================================
 
@@ -394,7 +401,7 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
             <Box sx={{ flex: '1 1 auto' }} />
 
             <Button onClick={handleNext} variant="outlined">
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              {activeStep === steps.length - 1 ? 'Pay and Confirm Order' : 'Next'}
             </Button>
           </Box>
         </React.Fragment>
@@ -412,9 +419,12 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
               <Grid container>
                 <Grid sx={12} sm={12} md={12}>
                   <StripeCheckout 
+                    name="Make your Payment"
                     stripeKey="pk_test_51Jpp1SJIAR4w3qKIP8z8sp1QLA73bua7FJq7Oelz0Ibb37ILFqWOo9xAXbXFM7sl1U2nfq2Hu5QKjR2gmHDJ0lcf00Ev8Q67Ku"
-                    token={handleToken} >
-                    <Button variant="outlined">Laugh to the Bank</Button>
+                    token={handleToken} 
+                    billingAddress 
+                    amount={total * 100} >
+                    <Button onClick={testFunction} variant="outlined">Laugh to the Bank</Button>
                   </StripeCheckout>
                 </Grid>
               </Grid>
@@ -438,7 +448,7 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
             <Box sx={{ flex: '1 1 auto' }} />
 
             <Button onClick={handleNext} variant="outlined">
-              {activeStep === steps.length - 1 ? 'Confirm Order' : 'Next'}
+              {activeStep === steps.length - 1 ? 'Pay and Confirm Order' : 'Next'}
             </Button>
           </Box>
         </React.Fragment>
