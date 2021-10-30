@@ -14,6 +14,7 @@ export default function ChangePassword({userProfile}) {
   
   //USE ROUTE MATCH TO GET USER ROLE
   const match = useRouteMatch('/:userrole/profile/changepassword');
+  const userrole = match.params.userrole;
 
   // Getting some values into the use states
   const [open, setOpen] = useState(false);
@@ -22,17 +23,13 @@ export default function ChangePassword({userProfile}) {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const cancelBtn = () => {
-    if(newPassword === '' && confirmPassword === ''){
-      history.push(`/${match.params.userrole}/profile`);
+    if(newPassword === '' && confirmPassword === '' && oldPassword === ''){
+      history.push(`/${userrole}/profile`);
     }
     else{
-      cancelBtn1();
+      setOpen(true);
     }
   }
-
-  const cancelBtn1 = () => {
-    setOpen(true);
-  };
 
   // handleNo and handleYes are functions for the open dialog when a changepw
   // event is triggered
@@ -41,7 +38,7 @@ export default function ChangePassword({userProfile}) {
   };
 
   const handleYes = () => {
-    history.push('/generalmanager/profile');
+    history.push(`/${userrole}/profile`);
   };
 
   // Main function for handling the password change. For more security, we avoid
@@ -55,44 +52,22 @@ export default function ChangePassword({userProfile}) {
     if (verifyOldPassword["api_msg"] === "password match") {
       // 2. Ensure that the two new password fields are identical
       if (newPassword === confirmPassword && newPassword !== '') {
+        // 3. if all the checks are good, send the request over with the old and new
+        // password for final verification, before entering into the database
         const changePwResponse = await changePwController(oldPassword, newPassword);
 
-        // changePWResponse json response example:
-        // {  
-        //    api_msg: 'Password has been updated!', 
-        //    userType: 'Restaurant General Manager'
-        // }
-        console.log(changePwResponse);
+        const { api_msg } = changePwResponse;
 
-        // Change password should be succesful at this point. We could send back just
-        // the userType and feed it into a redirect function? anyway changePwReponse
-        // will contain the userType so that we don't need to go and draw out the userType again
+        alert(api_msg + " Redirecting you to your personal profile page.");
+        history.push(`/${userrole}/profile`);
       }
       else {
         alert('New Password entries do not match or found to be blank. Please try again.');
       }
-      // 3. if all the checks are good, send the request over with the old and new
-      // password for final verification, before entering into the database
     }
     else {
       alert('Your old password entry is invalid!');
     }
-    
-
-    
-    // if(oldPassword == personalinfo.password && newPassword == confirmPassword)
-    // {
-    //   console.log(newPassword);
-    //   console.log('Change password is successful');
-    // }
-    // else if(oldPassword == personalinfo.password && newPassword != confirmPassword)
-    // {
-    //   alert('The new passwords does not match!');
-    // }
-    // else if(oldPassword != personalinfo.password)
-    // {
-    //   alert('Your old password entry is invalid!');
-    // }
   }
 
   return (

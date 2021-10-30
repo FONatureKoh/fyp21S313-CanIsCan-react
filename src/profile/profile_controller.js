@@ -36,7 +36,7 @@ export function retrieveUserProfile() {
  * - This takes in the old password, new password and sends it to the backend api 
  * for updating.
  * ***************************************************************************************/
-export function changePwController(oldPassword, newPassword) {
+export async function changePwController(oldPassword, newPassword) {
   // Test consoles
   console.log("changePwController");
   // Axios request config to be declared first
@@ -49,16 +49,15 @@ export function changePwController(oldPassword, newPassword) {
     newPassword: newPassword
    };
 
-  return axios.put(`${config.apiDomain}/users/userpassword`, changeJSON, axiosConfig)
-    .then(res => {
-      // In here we can choose what we want to do with the response of the request
-      // console.log(res)
-      console.log(res.data);
-      return res.data;
-    })
-    .catch(err => {
-      console.log(err)
-    });
+  try {
+    const res = await axios.put(`${config.apiDomain}/users/userpassword`, changeJSON, axiosConfig);
+    // In here we can choose what we want to do with the response of the request
+    // console.log(res.data);
+    return res.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
 };
 
 /*****************************************************************************************
