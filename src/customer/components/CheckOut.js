@@ -13,10 +13,10 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import StripeCheckout from 'react-stripe-checkout';
 
 // Controller import
-import { submitCustOrder } from '../customer_controller';
+import { customerCheckout, submitCustOrder } from '../customer_controller';
 
-// Steps
-const steps = ['Verify your orders', 'Confirm delivery address', 'Make payment'];
+// Steps for the ordering
+const steps = ['Verify your orders', 'Confirm delivery address and Make payment'];
 
 export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQty, getsub, subtotal, gst, deliveryFee, total}) {
   // Testing page load
@@ -73,8 +73,7 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
   async function submitOrder() {
     try {
       const response = await submitCustOrder(restInfo, realCart, deliveryAddress, deliveryFloorUnit, 
-        deliveryPostalCode, companyName, noteToDriver, cardName, cardNumber, expiry, cvc, 
-        subtotal, gst, deliveryFee, total);
+        deliveryPostalCode, companyName, noteToDriver, subtotal, gst, deliveryFee, total);
       
       return response;
     }
@@ -131,12 +130,36 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
   // Payment states
   const [testState, setTestState] = useState('');
 
-  async function handleToken(token, addresses) {
+  async function handleTokenAndOrder(token, addresses) {
+    // Testing the stripe
     console.log({ token, addresses });
+    // 1. We need to get a payment response from our stripe account and verify this with 
+    // our own api server
+    // Get some restaurant INFO
+    const restID = restInfo.restaurant_ID.toString();
+
+    // Create the Order ID here
+    const doID = `DO_${restID.padStart(4, '0')}_${Date.now()}`;
+
+    const response = await customerCheckout(token, doID, total);
+    const { paymentStatus, errorMsg } = response;
+    
+    console.log(paymentStatus);
+
+    // 2. If payment is a success, then send the order to the server proper
+    if (paymentStatus === "success") {
+      submitOrder()
+        .then((response) => {
+          alert(response);
+        })
+    }
+    else {
+      alert("There's an error with your payment: " + errorMsg);
+    }
     setTestState("Something");
   }
 
-  const testFunction = () => {
+  async function testFunction() {
     console.log("something happened for the button")
     // history.push('/customer');
   };
@@ -312,7 +335,7 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
         </React.Fragment>
       ) 
       // SECOND STEP //
-      : activeStep === 1 ? (
+      : (
         <React.Fragment>
           <Box display="flex" flexDirection="row">
             <Box sx={themes.boxStyle}>
@@ -400,56 +423,19 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
 
-            <Button onClick={handleNext} variant="outlined">
-              {activeStep === steps.length - 1 ? 'Pay and Confirm Order' : 'Next'}
-            </Button>
-          </Box>
-        </React.Fragment>
-      )
-      : (
-        <React.Fragment>
-          <Box display="flex" flexDirection="row">
-            <Box sx={themes.boxStyle}>
-              <Typography sx={themes.textHeader}>
-                Payment secured by Stripe
-              </Typography>
+            {/* Stripe configuration and button */}
+            <StripeCheckout 
+              name="Make your Payment"
+              stripeKey="pk_test_51Jpp1SJIAR4w3qKIP8z8sp1QLA73bua7FJq7Oelz0Ibb37ILFqWOo9xAXbXFM7sl1U2nfq2Hu5QKjR2gmHDJ0lcf00Ev8Q67Ku"
+              token={handleTokenAndOrder} 
+              billingAddress 
+              amount={total * 100} >
 
-              <Divider variant="middle"/>
+              <Button variant="outlined">
+                {activeStep === steps.length - 1 ? 'Pay and Confirm Order' : 'Next'}
+              </Button>
               
-              <Grid container>
-                <Grid sx={12} sm={12} md={12}>
-                  <StripeCheckout 
-                    name="Make your Payment"
-                    stripeKey="pk_test_51Jpp1SJIAR4w3qKIP8z8sp1QLA73bua7FJq7Oelz0Ibb37ILFqWOo9xAXbXFM7sl1U2nfq2Hu5QKjR2gmHDJ0lcf00Ev8Q67Ku"
-                    token={handleToken} 
-                    billingAddress 
-                    amount={total * 100} >
-                    <Button onClick={testFunction} variant="outlined">Laugh to the Bank</Button>
-                  </StripeCheckout>
-                </Grid>
-              </Grid>
-              
-            </Box>
-
-            <Divider orientation="vertical" variant="middle" flexItem />
-
-            {rightSide()}
-          </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-              variant="outlined"
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-
-            <Button onClick={handleNext} variant="outlined">
-              {activeStep === steps.length - 1 ? 'Pay and Confirm Order' : 'Next'}
-            </Button>
+            </StripeCheckout>
           </Box>
         </React.Fragment>
       )}
