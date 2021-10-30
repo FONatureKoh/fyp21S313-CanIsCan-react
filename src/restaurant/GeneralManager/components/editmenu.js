@@ -156,28 +156,31 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
               </TabList>
             </Box>
 
-            <Box>
-              <Grid container direction="row" alignItems="baseline" spacing={5}>
-                <Grid item xs md={7}>
-                  <Typography sx={{textAlign: 'left', display:'inline-block', pt:'20px'}}>
-                    <FiberManualRecordIcon color="success" sx={{ fontSize: 12, alignSelf:'flex-start'}} /> Menu Items Currently Active
-                  </Typography>
-                </Grid>
-
-                <Grid item xs md={3}>
-                  <Button variant="outlined" color="inherit">Edit Category Name</Button>
-                </Grid>
-                <Grid item xs md={2}>
-                <Button variant="outlined" color="error">Delete Category</Button>
-                </Grid>
-              </Grid>
-            </Box>
+            
             
             <Box sx={{margin:'10px auto', width:'100%'}}>
             {
               categories.map((ric_name, index) => {
                 return <>
-                  <TabPanel id={index} value={index.toString()}> <ViewMenuList menuData={menuData2} menuList={ric_name} /></TabPanel>
+                  <TabPanel id={index} value={index.toString()}> 
+                  <Box>
+                    <Grid container direction="row" alignItems="baseline" spacing={3}>
+                      <Grid item xs md={5}>
+                        <Typography sx={{textAlign: 'left', display:'inline-block'}}>
+                          <FiberManualRecordIcon color="success" sx={{ fontSize: 10, alignSelf:'flex-start'}} /> Menu Items Currently Active
+                        </Typography>
+                      </Grid>
+
+                      <Grid item xs md={4}>
+                        <Button variant="outlined" color="inherit">Edit Category Name</Button>
+                      </Grid>
+                      <Grid item xs md={3}>
+                      <Button variant="outlined" color="error">Delete Category</Button>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                  <ViewMenuList menuData={menuData2} menuList={ric_name} />
+                  </TabPanel>
                 </>
               })
             }
