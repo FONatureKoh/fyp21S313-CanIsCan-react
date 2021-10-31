@@ -257,6 +257,9 @@ export async function submitCustOrder(doID, restInfo, realCart, deliveryAddress,
 
   let formParams = new URLSearchParams();
 
+  // Construct Restaurant's Address
+  const restAddress = restInfo.rest_address_info + ", Singapore " + restInfo.rest_postal_code;
+
   // Order stuff
   formParams.append('doID', doID)
   formParams.append('restID', restInfo.restaurant_ID);
@@ -269,6 +272,7 @@ export async function submitCustOrder(doID, restInfo, realCart, deliveryAddress,
   formParams.append('companyName', companyName);
   formParams.append('deliveryNote', noteToDriver);
   formParams.append('totalCost', total);
+  formParams.append('restAddress', restAddress);
   // formParams.append('orderItems', JSON.stringify(realCart[0]));
 
   // For order items (realcart) we will need to stringify each item so that it can be sent through
@@ -298,6 +302,26 @@ export async function submitCustOrder(doID, restInfo, realCart, deliveryAddress,
   } 
   catch (error) {
     console.log(error);
+  }
+}
+
+/*****************************************************************************************
+ * Verify the customer's delivery address                                                *
+ *****************************************************************************************
+ * Gets the slots available based on the date and the restaurantID 
+ */
+export async function verifyAdd (custAddress) {
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/customer/verifyCustAddress/${custAddress}`, axiosConfig);
+
+    return response;
+  }
+  catch (err) {
+    return err;
   }
 }
 

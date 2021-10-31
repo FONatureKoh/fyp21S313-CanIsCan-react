@@ -8,15 +8,16 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useRouteMatch, useHistory } from 'react-router';
 import { ListItem } from '@mui/material';
+import { spacing } from '@mui/system';
 import { List, Grid, ButtonGroup, Divider, TextField, Card, CardHeader, CardContent, Box } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import StripeCheckout from 'react-stripe-checkout';
 
 // Controller import
-import { customerCheckout, submitCustOrder } from '../customer_controller';
+import { customerCheckout, submitCustOrder, verifyAdd } from '../customer_controller';
 
 // Steps for the ordering
-const steps = ['Verify your orders', 'Confirm delivery address and Make payment'];
+const steps = ['Verify your orders', 'Enter Delivery Addres', 'Confirm Order details and Make Payment'];
 
 export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQty, getsub, subtotal, gst, deliveryFee, total}) {
   // Testing page load
@@ -49,42 +50,39 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
       borderRadius:'5px'
     }
   };
-  
-  function backToRest() {
-    
-  }
+
+  const boldtitle = {
+    fontSize:'1 0px', 
+    fontWeight:'bold', 
+    marginTop:'20px',
+    marginBottom:'5px'
+  };
 
   // useStates for the steps
-  //    Delivery Details
+  // Delivery Details
   const [deliveryAddress, setDeliveryAddress] = useState('');
   const [deliveryFloorUnit, setDeliveryFloorUnit] = useState('');
   const [deliveryPostalCode, setDeliveryPostalCode] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [noteToDriver, setNoteToDriver] = useState('');
 
-  //    Payment Details
-  const [cardName, setCardName] = useState('');
-  const [cardNumber, setCardNumber] = useState('');
-  const [expiry, setExpiry] = useState('');
-  const [cvc, setCvc] = useState('');
-
-  // Async functions for checkout
-  async function submitOrder(doID) {
+  // Async functions for steps
+  async function verifyAddress() {
     try {
-      const response = await submitCustOrder(doID, restInfo, realCart, deliveryAddress, deliveryFloorUnit, 
-        deliveryPostalCode, companyName, noteToDriver, subtotal, gst, deliveryFee, total);
-      
+      const custAdd = "Singapore " + deliveryPostalCode;
+
+      const response = await verifyAdd(custAdd);
       return response;
     }
-    catch (error) {
-      return error;
+    catch (err) {
+      return err;
     }
   }
 
   // Handling steps below 
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
+  // const isStepOptional = (step) => {
+  //   return step === 1;
+  // };
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -97,8 +95,24 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
       newSkipped.delete(activeStep);
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    if (activeStep === 1) {
+      verifyAddress()
+        .then((response) => {
+          console.log(response);
+          if (response.data.status == "OK") {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+            setSkipped(newSkipped);
+          }
+          else {
+            // Please do something about this alert
+            alert("There's something wrong with your address, please verify your address!");
+          }
+        });    
+    }
+    else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setSkipped(newSkipped);
+    };
   };
 
   const handleBack = () => {
@@ -114,8 +128,24 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
    * Handling the payment
    * *********************************************************************************************
   */
-  // Payment states
-  const [testState, setTestState] = useState('');
+  // Payment Details
+  // const [cardName, setCardName] = useState('');
+  // const [cardNumber, setCardNumber] = useState('');
+  // const [expiry, setExpiry] = useState('');
+  // const [cvc, setCvc] = useState('');
+
+  // Async functions for checkout
+  async function submitOrder(doID) {
+    try {
+      const response = await submitCustOrder(doID, restInfo, realCart, deliveryAddress, deliveryFloorUnit, 
+        deliveryPostalCode, companyName, noteToDriver, subtotal, gst, deliveryFee, total);
+      
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
+  }
 
   async function handleTokenAndOrder(token) {
     // Testing the stripe
@@ -146,14 +176,7 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
     else {
       alert("There's an error with your payment: " + errorMsg);
     }
-    setTestState("Something");
-  }
-
-  async function testFunction() {
-    console.log("something happened for the button")
-    // history.push('/customer');
-  };
-  
+  }  
   // =============================================================================================
 
   //return right side
@@ -325,7 +348,7 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
         </React.Fragment>
       ) 
       // SECOND STEP //
-      : (
+      : activeStep === 1 ? (
         <React.Fragment>
           <Box display="flex" flexDirection="row">
             <Box sx={themes.boxStyle}>
@@ -394,6 +417,77 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
               </Grid>
               </Grid>
               
+            </Box>
+        
+            <Divider orientation="vertical" variant="middle" flexItem />
+            {/* RIGHT SIDE */}
+            {rightSide()}
+            
+          </Box>
+          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+            <Button
+              color="inherit"
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              sx={{ mr: 1 }}
+              variant="outlined"
+            >
+              Back
+            </Button>
+            <Box sx={{ flex: '1 1 auto' }} />
+
+            {/* Stripe configuration and button */}
+            <Button onClick={handleNext} variant="outlined">
+              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+            </Button>
+          </Box>
+        </React.Fragment>
+      )
+      // FINAL STEP
+      : (
+        <React.Fragment>
+          <Box display="flex" flexDirection="row">
+            <Box sx={themes.boxStyle}>
+              <Typography sx={themes.textHeader}>
+                Confirm delivery address
+              </Typography>
+
+              <Divider variant="middle" />
+              <Grid container textAlign="left" sx={{px:2}}>
+                <Grid sx={12} sm={12} md={12}>
+                  <Typography textAlign="left" sx={boldtitle}>Address</Typography>
+                  <Typography>
+                    {deliveryAddress}
+                  </Typography>
+                </Grid>
+                <Grid sx={12} sm={12} md={6}>
+                  <Typography sx={boldtitle}>Floor / Unit number</Typography>
+                  <Typography>
+                    {deliveryFloorUnit}
+                  </Typography>
+                </Grid>
+
+                <Grid sx={12} sm={12} md={6}>
+                  <Typography sx={boldtitle}>Postal Code</Typography>
+                  <Typography>
+                    {deliveryPostalCode}
+                  </Typography>
+                </Grid>
+
+                <Grid sx={12} sm={12} md={12}>
+                  <Typography sx={boldtitle}>Company Name</Typography>
+                  <Typography>
+                    {companyName === '' ? 'NIL' : companyName}
+                  </Typography>
+                </Grid>
+
+                <Grid sx={12} sm={12} md={12}>
+                  <Typography sx={boldtitle}>Delivery Note</Typography>
+                  <Typography>
+                    {noteToDriver === '' ? 'NIL' : noteToDriver}
+                  </Typography>
+                </Grid>
+              </Grid>
             </Box>
         
             <Divider orientation="vertical" variant="middle" flexItem />
