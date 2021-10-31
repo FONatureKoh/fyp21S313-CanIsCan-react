@@ -50,8 +50,7 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
     }
   };
   
-  function backToRest()
-  {
+  function backToRest() {
     
   }
 
@@ -70,9 +69,9 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
   const [cvc, setCvc] = useState('');
 
   // Async functions for checkout
-  async function submitOrder() {
+  async function submitOrder(doID) {
     try {
-      const response = await submitCustOrder(restInfo, realCart, deliveryAddress, deliveryFloorUnit, 
+      const response = await submitCustOrder(doID, restInfo, realCart, deliveryAddress, deliveryFloorUnit, 
         deliveryPostalCode, companyName, noteToDriver, subtotal, gst, deliveryFee, total);
       
       return response;
@@ -100,18 +99,6 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
-    
-    // Hi Kelvin! Not sure if this is the right way to do it, so I just put it in
-    // like this to test first! So that I have the functions all constructed and
-    // ready. Last step is 2 if I am not wrong? So at 2, it will confirm
-    console.log("Handling Next: " + activeStep);
-    if (activeStep == 2) {
-      console.log("Send Order");
-      submitOrder()
-        .then((response) => {
-          alert(response);
-        })
-    }
   };
 
   const handleBack = () => {
@@ -120,7 +107,7 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
 
   const handleReset = () => {
     setActiveStep(0);
-    // history.push('/customer');
+    history.push('/customer');
   };
 
   /***********************************************************************************************
@@ -130,9 +117,9 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
   // Payment states
   const [testState, setTestState] = useState('');
 
-  async function handleTokenAndOrder(token, addresses) {
+  async function handleTokenAndOrder(token) {
     // Testing the stripe
-    console.log({ token, addresses });
+    console.log({ token });
     // 1. We need to get a payment response from our stripe account and verify this with 
     // our own api server
     // Get some restaurant INFO
@@ -148,10 +135,13 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
 
     // 2. If payment is a success, then send the order to the server proper
     if (paymentStatus === "success") {
-      submitOrder()
+      submitOrder(doID)
         .then((response) => {
+          // Do something about this alert please
           alert(response);
-        })
+
+          handleNext();
+        });
     }
     else {
       alert("There's an error with your payment: " + errorMsg);

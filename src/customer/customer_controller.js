@@ -245,7 +245,7 @@ export async function customerCheckout(token, doID, totalCost) {
 /*****************************************************************************************
  * Submits customer Orders                                                               *
 ******************************************************************************************/
-export async function submitCustOrder(restInfo, realCart, deliveryAddress, deliveryFloorUnit, 
+export async function submitCustOrder(doID, restInfo, realCart, deliveryAddress, deliveryFloorUnit, 
   deliveryPostalCode, companyName, noteToDriver, subtotal, gst, deliveryFee, total) {
   // Axios request config to be declared first
   const axiosConfig = {
@@ -255,18 +255,13 @@ export async function submitCustOrder(restInfo, realCart, deliveryAddress, deliv
   console.log(restInfo);
   console.log(realCart);
 
-  // Get some restaurant INFO
-  const restID = restInfo.restaurant_ID.toString();
-
-  // Create the Order ID here
-  const doID = `DO_${restID.padStart(4, '0')}_${Date.now()}`;
-
   let formParams = new URLSearchParams();
 
   // Order stuff
   formParams.append('doID', doID)
   formParams.append('restID', restInfo.restaurant_ID);
   formParams.append('restName', restInfo.restaurant_name);
+  formParams.append('restEmail', restInfo.rest_email);
   formParams.append('orderDateTime', new Date());
   formParams.append('address', deliveryAddress);
   formParams.append('floorunit', deliveryFloorUnit);
