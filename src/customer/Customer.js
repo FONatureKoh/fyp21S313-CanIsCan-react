@@ -30,7 +30,7 @@ export default function Customer() {
   const [restaurantsArray, setRestaurantsArray] = useState([]);
   const [tagsArray, setTagsArray] = useState([]);
   
-  const [firstLog, setFirstLog] = useState(true);
+  const [firstLog, setFirstLog] = useState(false);
 
   //CART CALCULATION
   const [deliveryFee, setDeliveryFee] = useState(0);
@@ -77,80 +77,6 @@ export default function Customer() {
       })
       .catch(error => console.log(error));
   }, [])
-
-  //CART TESTING
-  const [realCart, setRealCart]= useState([
-    {
-      id: 1,
-      item: 'dog food',
-      price: 12.1,
-      qty: 3 
-    },
-    {
-      id: 2,
-      item: 'cat food',
-      price: 13,
-      qty: 2
-    },
-    {
-      id: 3,
-      item: 'giraffe food',
-      price: 23,
-      qty: 1
-    },
-    {
-      id: 4,
-      item: 'giraffe food',
-      price: 23,
-      qty: 1
-    },
-    {
-      id: 5,
-      item: 'giraffe food',
-      price: 23,
-      qty: 1
-    }
-  ])
-
-  //HANDLE ADD
-  function addQty(id){
-    const newCart = [...realCart]
-    const newItem = newCart.find(newItem => newItem.id === id)
-    newItem.qty += 1
-    setRealCart(newCart)
-  }
-
-  function minusQty(id){
-    const newCart = [...realCart]
-    const newItem = newCart.find(newItem => newItem.id === id)
-    newItem.qty -= 1
-    setRealCart(newCart)
-  }
-
-  function deleteItem(id){
-    const newCart = realCart.filter(item => item.id !== id)
-    setRealCart(newCart)
-  }
-
-
-  //CART CALCULATIONS
-  //ITEM UNIT PRICE * QTY
-  function getsub(item){
-    const sub = item.qty*item.price;
-    // setSubtotal(subtotal + sub)
-    return sub.toFixed(2);
-  }
-
-  //USE EFFECT TO SET THE CART DETAILS
-  //WILL RUN WHEN STATE IS RERENDERED
-  useEffect(() => {
-    const subtotal2 = realCart.reduce((total, realCart) => total + (realCart.price * realCart.qty), 0)
-    setSubtotal(subtotal2)
-    setDeliveryFee(3.50)
-    const gst = (subtotal2 + deliveryFee) * 0.07
-    setGst(gst)
-    setTotal(gst + deliveryFee + subtotal)
-  })
 
   const toggleVisibility = () => {
     if (isVisible)
