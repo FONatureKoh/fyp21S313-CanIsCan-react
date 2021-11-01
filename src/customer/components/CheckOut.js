@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { } from '@mui/material'
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -7,7 +6,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useRouteMatch, useHistory } from 'react-router';
-import { ListItem } from '@mui/material';
+import { ListItem, Backdrop, CircularProgress } from '@mui/material';
 import { spacing } from '@mui/system';
 import { List, Grid, ButtonGroup, Divider, TextField, Card, CardHeader, CardContent, Box } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -125,6 +124,22 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
   };
 
   /***********************************************************************************************
+   * Settings for Backdrop
+   * *********************************************************************************************
+   */
+  // Backdrop useStates 
+  const [backdropState, setBackDropState] = useState(false);
+
+  // Backdrop functions
+  const handleBackdropClose = () => {
+    setBackDropState(false);
+  };
+
+  const handleBackdropOpen = () => {
+    setBackDropState(true);
+  };
+
+  /***********************************************************************************************
    * Handling the payment
    * *********************************************************************************************
   */
@@ -149,7 +164,9 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
 
   async function handleTokenAndOrder(token) {
     // Testing the stripe
-    console.log({ token });
+    // console.log({ token });
+    // Open the backdrop
+    // handleBackdropOpen();
     // 1. We need to get a payment response from our stripe account and verify this with 
     // our own api server
     // Get some restaurant INFO
@@ -167,9 +184,10 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
     if (paymentStatus === "success") {
       submitOrder(doID)
         .then((response) => {
-          // Do something about this alert please
-          alert(response);
+          // Close backdrop
+          handleBackdropClose();
 
+          // Go to next step
           handleNext();
         });
     }
@@ -178,6 +196,7 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
     }
   }  
   // =============================================================================================
+
 
   //return right side
   function rightSide(){
@@ -241,7 +260,13 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
     )
   }
 
-  return (
+  return <>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={backdropState}
+      >
+      <CircularProgress color="inherit" />
+      </Backdrop>
       <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
         <CardHeader title="Check Out" />
         <CardContent >
@@ -515,7 +540,7 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
               billingAddress 
               amount={total * 100} >
 
-              <Button variant="outlined">
+              <Button onClick={handleBackdropOpen} variant="outlined">
                 {activeStep === steps.length - 1 ? 'Pay and Confirm Order' : 'Next'}
               </Button>
               
@@ -526,5 +551,5 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
     </Box>
         </CardContent>
       </Card>
-  )
+  </>
 }
