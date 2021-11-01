@@ -38,19 +38,6 @@ export default function Customer() {
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
 
-  //CART OPEN
-  const [cartOpen, setCartOpen] = useState(false);
-
-  //HANDLE OPEN CART
-  const openCart = () => {
-    setCartOpen(true);
-  };
-
-  //HANDLE CLOSE CART
-  const closeCart = () => {
-    setCartOpen(false);
-  }
-
   // Async functions for customers
   // For Categories
   async function getAllRestaurantTags() {
