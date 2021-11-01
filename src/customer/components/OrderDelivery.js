@@ -366,21 +366,23 @@ export default function OrderDelivery() {
                 maxHeight:'70%',}}>
                 
                 <CardContent align>
-                  <Box textAlign="center">
-                    <Box>
+                  <Box display="flex" flexDirection="row">
+                    <Box width="60%" textAlign="center">
                       <img src={selItem.itemImage} alt="food" height='300px'/>
                     </Box>
-                    <Typography sx={{mt:'20px'}} variant="h5">{selItem.itemName}</Typography>
-                    <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mt:'10px' }}>Description</Typography>
-                    <Typography variant="subtitle1">{selItem.itemDesc}</Typography>
-                    <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mt:'10px' }}>Price</Typography>
-                    <Typography variant="subtitle1">S$ {selItem.itemPrice}</Typography>
-                    <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mt:'10px' }}>Allergic Warning</Typography>
-                    <Typography variant="subtitle1">{selItem.itemAllergen}</Typography>
+                    <Box width="40%">
+                      <Typography sx={{mt:'20px'}} variant="h5">{selItem.itemName}</Typography>
+                      <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mt:'10px' }}>Description</Typography>
+                      <Typography variant="subtitle1">{selItem.itemDesc}</Typography>
+                      <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mt:'10px' }}>Price</Typography>
+                      <Typography variant="subtitle1">S$ {selItem.itemPrice}</Typography>
+                      <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mt:'10px' }}>Allergic Warning</Typography>
+                      <Typography variant="subtitle1">{selItem.itemAllergen}</Typography>
+                    </Box>
                   </Box>
 
                   <Box textAlign="center" marginTop="20px">
-                    <Button variant="outlined" color="inherit"  onClick={()=> addItemPopup()}>Add to Cart</Button>
+                    <Button fullWidth variant="outlined" color="inherit"  onClick={()=> addItemPopup()}>Add to Cart</Button>
                   </Box>
                 </CardContent>
               </Card>
