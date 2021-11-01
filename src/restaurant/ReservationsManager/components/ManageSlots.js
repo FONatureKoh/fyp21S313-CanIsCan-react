@@ -97,8 +97,6 @@ export default function ManageSlots() {
       else {
         alert("You have chosen a later start time then the end time, please try again!")
       }
-
-      
     }
     catch (err) {
       console.log (err);
