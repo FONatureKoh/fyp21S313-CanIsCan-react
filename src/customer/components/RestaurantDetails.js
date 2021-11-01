@@ -16,6 +16,7 @@ import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { useRouteMatch } from 'react-router'
 import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getBannerImage, getAvailableSlots } from '../customer_controller'
 import { Link } from 'react-router-dom'
+import Checkbox from '@mui/material/Checkbox';
 
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
 
@@ -28,7 +29,12 @@ export default function RetaurantDetails() {
   const [menusState, setMenusState] = useState([]);
   const [itemMenusState, setItemMenusState] = useState([]);
   const [restaurantInfo, setRestaurantInfo] = useState([]);
-  const [rating, setRating] = useState(0)
+  const [rating, setRating] = useState(0);
+  
+  //useStates for all reservation use
+  const [preorder, setPreoder] = useState(false);
+  const [timeSlot, setTimeSlot] = useState('');
+  const [resStep, setResStep] = useState(1);
 
   // Useful variables at the start NOTE: Arrays may be redundant, can see if want to
   // remove in the future
@@ -480,11 +486,12 @@ export default function RetaurantDetails() {
                   <Box textAlign="center" sx={{mt:'20px', mb:'10px'}}>
                   <Typography variant="h6">You have selected</Typography>
                   <Typography variant="subtitle1">{format(selectedDate, 'dd MMMM yyyy')}</Typography>
-                  <Typography variant="subtitle1">TIME</Typography>
+                  <Typography variant="subtitle1">{timeSlot}</Typography>
                   </Box>
                   
                   <Divider variant="middle"/>
-
+                  {
+                  resStep === 1 ? (<>
                   <Grid container>
                     <Grid item md={6} sm={12} xs={12} sx={{mt:'15px', minWidth:'300px'}}>
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -515,7 +522,7 @@ export default function RetaurantDetails() {
                             availableSlots.map((slot) => {
                               if (slot.available === true) {
                                 return <Grid item md={3} sm={4} xs={6} sx={{mt:'15px'}}>
-                                  <Button color="inherit" variant='contained' >{slot.timeslot}</Button>
+                                  <Button color="inherit" variant='contained' onClick={()=>setTimeSlot(slot.timeslot)} >{slot.timeslot}</Button>
                                 </Grid>
                               }
                               else {
@@ -530,30 +537,28 @@ export default function RetaurantDetails() {
                     </Grid>
 
                   </Grid>
-                  <Box display="flex">
-                    <Box sx={{mt:'0px auto', width:'60%'}}>
+
+                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2}}>
+                    <Button color="inherit" sx={{ mr: 1 }} variant="outlined">Cancel</Button>
+                    <Box sx={{ flex: '1 1 auto' }} />
+                    <Button color="inherit" variant="outlined" onClick={()=>setResStep(resStep + 1)}> NEXT</Button>
+                  </Box>
+                  </>) : (<>
+                  <Box textAlign="center" sx={{mt:'20px', mb:'10px'}}>
+                    <Typography>Would you like to pre-order meal?</Typography>
                     
-                    </Box>
-                    
-                    <Divider variant="middle" />
-                    
-                    
+                    <Checkbox inputProps={{ 'aria-label': 'controlled' }} checked={preorder} onChange={(e) => setPreoder(e.target.checked)} color="default" />
                   </Box>
 
                   <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2}}>
-                    <Button
-                      color="inherit"
-                      sx={{ mr: 1 }}
-                      variant="outlined"
-                    >
-                      Cancel
-                    </Button>
+                    <Button color="inherit" sx={{ mr: 1 }} variant="outlined" onClick={()=> setResStep(resStep - 1)}>Back</Button>
                     <Box sx={{ flex: '1 1 auto' }} />
-
-                    <Button color="inherit" variant="outlined">
-                      NEXT
-                    </Button>
+                    <Button color="inherit" variant="outlined" onClick={()=>setResStep(resStep + 1)}> Finish</Button>
                   </Box>
+                  </>)
+
+                  }
+                  
                   
                 </CardContent>
               </Card>
