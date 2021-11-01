@@ -540,7 +540,7 @@ export default function RetaurantDetails() {
                     
                   </Box>
 
-                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2}}>
                     <Button
                       color="inherit"
                       sx={{ mr: 1 }}

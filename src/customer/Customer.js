@@ -19,6 +19,8 @@ import DeliveryHistory from './components/DeliveryHistory';
 import ReservationHistory from './components/ReservationHistory';
 import { retrieveAllRestaurants, retrieveRestaurantTags } from './customer_controller';
 import OrderDelivery from './components/OrderDelivery';
+import { Modal } from '@mui/material';
+import CustFirstLogin from './components/CustFirstLogin';
 
 
 export default function Customer() {
@@ -27,6 +29,8 @@ export default function Customer() {
   const [isSelected, setIsSelected] = useState(1);
   const [restaurantsArray, setRestaurantsArray] = useState([]);
   const [tagsArray, setTagsArray] = useState([]);
+  
+  const [firstLog, setFirstLog] = useState(true);
 
   //CART CALCULATION
   const [deliveryFee, setDeliveryFee] = useState(0);
@@ -194,6 +198,24 @@ export default function Customer() {
         </Switch>
         {/* <Cart openCart={openCart} cart={realCart}/> */}
       </Box>
+
+      <Modal
+        open={firstLog}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{bgcolor:'white',position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width:"50%",
+          padding: '2%',
+          maxHeight:'70%',
+          overflow: 'auto',
+          borderRadius:'5px'}}>
+           <CustFirstLogin setFirstLog={setFirstLog}/>
+         </Box>
+      </Modal>
     </Box>
   )
 }
