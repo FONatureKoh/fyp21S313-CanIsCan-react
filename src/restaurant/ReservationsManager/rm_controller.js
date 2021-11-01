@@ -115,7 +115,7 @@ export async function getResSettings() {
  * ***************************************************************************************
  * - This retrieves all the items from the delivery order
  * ***************************************************************************************/
-export async function saveResSettings(settingsID, startTime, endTime, reservationIntervals, noOfTables) {
+export async function saveResSettings(settingsID, restID, startTime, endTime, reservationIntervals, noOfTables) {
   // Axios request config to be declared first
   const axiosConfig = {
     headers: {'Authorisation': window.sessionStorage.accessToken}

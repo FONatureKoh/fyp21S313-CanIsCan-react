@@ -5,10 +5,14 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { getResSettings, saveResSettings } from '../rm_controller';
 import { set } from 'date-fns';
+import { useHistory } from 'react-router';
 
 export default function ManageSlots() {
+  // Declaring history
+  const history = useHistory();
+
   // useful useStates
-  const [settingsID, setSettingsID] = useState(0);
+  const [resSettings, setResSettings] = useState({});
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
   const [noOfTables, setNoOfTables] = useState(1);
@@ -46,13 +50,11 @@ export default function ManageSlots() {
   useEffect(() => {
     getReservationSettings()
       .then((response) => {
-        const resSettings = response;
-
-        setSettingsID(resSettings.rrs_ID);
-        setStartTime(timeToDate(resSettings.reservation_starttime));
-        setEndTime(timeToDate(resSettings.reservation_endtime));
-        setReservationsIntervals(resSettings.reservation_interval);
-        setNoOfTables(resSettings.max_tables);
+        setResSettings(response)
+        setStartTime(timeToDate(response.reservation_starttime));
+        setEndTime(timeToDate(response.reservation_endtime));
+        setReservationsIntervals(response.reservation_interval);
+        setNoOfTables(response.max_tables);
       })
       .catch(err => {
         console.log(err);
@@ -63,7 +65,40 @@ export default function ManageSlots() {
   // Function to save settings
   async function saveSettings() {
     try {
-      const response = await saveResSettings(settingsID, startTime, endTime, reservationIntervals, noOfTables);
+      // We do the verification here first, since it is rather simple to validate the timestring
+      // First we convert the times to string
+      const convertedStartTime = startTime.toLocaleTimeString('en-GB');
+      const convertedEndTime = endTime.toLocaleTimeString('en-GB');
+
+      // Then we get the restaurant's opening closing hours
+      const openingTime = resSettings.rest_opening_time;
+      const closingTime = resSettings.rest_closing_time;
+
+      console.log(openingTime, closingTime);
+      // We first validate that the start time is earlier than the end time
+      if (convertedStartTime < convertedEndTime) {
+        if (convertedStartTime < openingTime || convertedEndTime > closingTime) {
+          var alertMsg = "Your chosen start or end time is invalid, please note your opening and closing hours.\n\n"
+          alertMsg += `Opening Hours: ${openingTime}\n`;
+          alertMsg += `Closing Hours: ${closingTime}`;
+
+          alert(alertMsg);
+        }
+        else {
+          const response = await saveResSettings(resSettings.rrs_ID, resSettings.rrs_rest_ID, 
+            startTime, endTime, reservationIntervals, noOfTables);
+
+          if (response.api_msg == "success") {
+            alert("You have successfully set your restaurant's reservations settings. Redirecting you to pending reservations.");
+            history.push('/reservationsmanager');
+          }
+        }
+      }
+      else {
+        alert("You have chosen a later start time then the end time, please try again!")
+      }
+
+      
     }
     catch (err) {
       console.log (err);
