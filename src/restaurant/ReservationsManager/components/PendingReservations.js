@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card, CardHeader, CardContent, Box } from '@mui/material'
 import { getReservations } from '../rm_controller';
-import { response } from 'express';
 import ResAccordion from './ResAccordion';
 
 export default function PendingReservations() {

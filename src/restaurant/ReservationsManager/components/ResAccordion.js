@@ -1,35 +1,40 @@
 import React, { useState } from 'react'
 import { Box, Typography, Divider, Accordion, AccordionSummary, AccordionDetails, Grid, ListItem, Button } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-// import { updateDOStatus } from '../dm_controller';
+import { updatePOStatus, updateReservationStatus } from '../rm_controller';
 
 export default function ResAccordion({reservation}) {
-  
   // ACCORDION CONTROL
   const [accOpen, setAccOpen] = useState(false);
   const [innerAccOpen, setInnerAccOpen] = useState(false);
 
+  // Pre-order State
+  const [preOrderStatus, setPreOrderStatus] = useState(reservation.po_status);
+
   // Button functions
-  // const setCancelled = () => {
-  //   updateDOStatus(reservation.orderID, "Cancelled")
-  //     .then((response) => {
-  //       alert(response.api_msg);
-  //     })
-  // }
+  const setAbsent = () => {
+    updateReservationStatus(reservation.cust_RID, "Cancelled")
+      .then((response) => {
+        alert(response.api_msg);
+      })
+  }
 
-  // const setPreparing = () => {
-  //   updateDOStatus(reservation.orderID, "Preparing")
-  //     .then((response) => {
-  //       alert(response.api_msg);
-  //     })
-  // }
+  const setArrived = () => {
+    updateReservationStatus(reservation.cust_RID, "Arrived")
+      .then((response) => {
+        alert(response.api_msg);
+      })
+  }
 
-  // const setDelivering = () => {
-  //   updateDOStatus(reservation.orderID, "Delivering")
-  //     .then((response) => {
-  //       alert(response.api_msg);
-  //     })
-  // }
+  const setSendToKitchen = () => {
+    updatePOStatus(reservation.po_ID, "Preparing")
+      .then((response) => {
+        alert(response.api_msg);
+        if (response.updateStatus == "success") {
+          setPreOrderStatus("Preparing")
+        }
+      })
+  }
 
   return (
     <Accordion sx={{border:'1px solid #eeeeee', mt:'20px'}} expanded={accOpen} >
@@ -53,12 +58,20 @@ export default function ResAccordion({reservation}) {
         </Typography>
         <Divider variant="middle"/>
         <Grid container sx={{mt:'10px'}}>
-          <Grid item xs={8} md={8} sm={8}>
+          <Grid item xs={4} md={4} sm={4}>
             <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
               Reserved by
             </Typography>
             <Typography variant="subtitle1" textAlign="left">
               {reservation.cust_name}
+            </Typography>
+          </Grid>
+          <Grid item xs={4} md={4} sm={4}>
+            <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+              Expected Cost
+            </Typography>
+            <Typography variant="subtitle1" textAlign="left">
+              S$ {reservation.po_total_cost.toFixed(2)}
             </Typography>
           </Grid>
           <Grid item xs={4} md={4} sm={4}>
@@ -74,15 +87,15 @@ export default function ResAccordion({reservation}) {
               Reservation Timeslot
             </Typography>
             <Typography variant="subtitle1" textAlign="left">
-              {reservation.date}
+              {reservation.date}{" @ "}{reservation.timeslot}
             </Typography>
           </Grid>
           <Grid item xs={4} md={4} sm={4}>
             <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-              Total Price
+              Total Pax
             </Typography>
             <Typography variant="subtitle1" textAlign="left">
-              S$ {reservation.timeslot}
+              {reservation.pax} pax
             </Typography>
           </Grid>
         </Grid>
@@ -102,7 +115,8 @@ export default function ResAccordion({reservation}) {
           </AccordionSummary>
           {/* INNDER ACCORDION */}
           <AccordionDetails>
-            {reservation.po_items !== "none" ? (reservation.po_items.map(item => (
+            {reservation.po_items !== "none" ? (
+              reservation.po_items.map(item => (
               <><ListItem key={reservation.po_ID} sx={{margin:'20px auto'}}>
                 <Box width='70%'>
                   <Typography variant="h6">
@@ -120,23 +134,28 @@ export default function ResAccordion({reservation}) {
                       Price: S$ {(item.itemQty * item.itemPrice).toFixed(2)}
                     </Typography>
                   </Box>
-              </ListItem></>))) : (<></>)}
+              </ListItem></>))
+            ) : (<></>)}
           </AccordionDetails>
         </Accordion>
 
-        {reservation.po_status === 'Pending' ? (
+        {reservation.reservation_status === 'Pending' ? (
         <>
           <Box m={1} pt={5}>
-            < Button variant="outlined" id="1" color="inherit" fullWidth>Accept </Button>
+            <Button onClick={setArrived} variant="outlined" id="1" color="inherit" fullWidth>Customer has arrived </Button>
           </Box>
           <Box m={1} pt={1}>
-            <Button variant="outlined" id="1" color="error" fullWidth>Decline </Button>
+            <Button onClick={setAbsent} variant="outlined" id="1" color="error" fullWidth>Absent or No Show </Button>
           </Box>
-        </>) : reservation.po_status === 'Preparing' ? (
+        </>) : reservation.reservation_status === 'Arrived' ? (
         <>
-          <Box m={1} pt={5}>
-            < Button variant="outlined" id="1" color="inherit" fullWidth>Out for delivery </Button>
-          </Box>
+          {preOrderStatus === 'Pending' ? (
+            <>
+              <Box m={1} pt={5}>
+                <Button onClick={setSendToKitchen} variant="outlined" id="1" color="inherit" fullWidth>Send Order to Kitchen </Button>
+              </Box>
+            </>):(<></>)}
+          
         </>) : (<></>)}
 
         </Box>

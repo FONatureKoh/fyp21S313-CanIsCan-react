@@ -24,7 +24,7 @@ export async function getReservations(getMode) {
       break;
     
     case 2:
-      requestPath = "otherreservations";
+      requestPath = "ongoingreservations";
       break;
     
   }
@@ -32,6 +32,52 @@ export async function getReservations(getMode) {
   try {
     // This should get an Array of objects
     const response = await axios.get(`${config.apiDomain}/restaurant/${requestPath}`, axiosConfig);
+  
+    return response.data;
+  }
+  catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+/*****************************************************************************************
+ * For DM to update order status                                                         *
+ * ***************************************************************************************
+ * - This retrieves all the items from the delivery order
+ * ***************************************************************************************/
+export async function updateReservationStatus(reservationID, reservationStatus) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    // This should get an Array of objects
+    const response = await axios.get(`${config.apiDomain}/restaurant/updatereservationstatus/${reservationID}/${reservationStatus}`, axiosConfig);
+  
+    return response.data;
+  }
+  catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+/*****************************************************************************************
+ * For DM to update order status                                                         *
+ * ***************************************************************************************
+ * - This retrieves all the items from the delivery order
+ * ***************************************************************************************/
+export async function updatePOStatus(po_ID, poStatus) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    // This should get an Array of objects
+    const response = await axios.get(`${config.apiDomain}/restaurant/updatepostatus/${po_ID}/${poStatus}`, axiosConfig);
   
     return response.data;
   }
