@@ -65,7 +65,7 @@ export async function updateReservationStatus(reservationID, reservationStatus) 
 };
 
 /*****************************************************************************************
- * For DM to update order status                                                         *
+ * For RM to update reservation status 
  * ***************************************************************************************
  * - This retrieves all the items from the delivery order
  * ***************************************************************************************/
@@ -78,6 +78,60 @@ export async function updatePOStatus(po_ID, poStatus) {
   try {
     // This should get an Array of objects
     const response = await axios.get(`${config.apiDomain}/restaurant/updatepostatus/${po_ID}/${poStatus}`, axiosConfig);
+  
+    return response.data;
+  }
+  catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+/*****************************************************************************************
+ * get Reservations settings
+ * ***************************************************************************************
+ * - This retrieves all the items from the delivery order
+ * ***************************************************************************************/
+export async function getResSettings() {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    // This should get an Array of objects
+    const response = await axios.get(`${config.apiDomain}/restaurant/reservationSettings`, axiosConfig);
+  
+    return response.data;
+  }
+  catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+/*****************************************************************************************
+ * RM Save Reservations settings
+ * ***************************************************************************************
+ * - This retrieves all the items from the delivery order
+ * ***************************************************************************************/
+export async function saveResSettings(settingsID, startTime, endTime, reservationIntervals, noOfTables) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  // TempJSON 
+  const tempJSON = {
+    settingsID, 
+    startTime: startTime.toLocaleTimeString('en-GB'), 
+    endTime: endTime.toLocaleTimeString('en-GB'),
+    reservationIntervals, noOfTables
+  }
+
+  try {
+    // This should get an Array of objects
+    const response = await axios.put(`${config.apiDomain}/restaurant/reservationSettings`, tempJSON, axiosConfig);
   
     return response.data;
   }
