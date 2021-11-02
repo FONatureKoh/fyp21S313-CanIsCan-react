@@ -518,7 +518,7 @@ export default function OrderDelivery() {
                   </ListItem>
                   <ListItem >
                     <Typography variant="subtitle2" sx={{margin:'0px auto'}}>
-                      Ordering from: placeholder
+                      Ordering from: {restaurantInfo.restaurant_name}
                     </Typography>
                   </ListItem>
                   <Divider variant='middle' />
