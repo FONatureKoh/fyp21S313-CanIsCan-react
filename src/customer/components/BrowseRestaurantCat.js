@@ -120,15 +120,17 @@ export default function BrowseRestaurantCat({restData, catData}) {
                   image={TestImage}
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h6" component="div" noWrap>
-                   {rest.restaurant_name}
-                  </Typography>
-                  <Rating name="read-only" value={rest.rest_rating} readOnly size='small' precision={0.1}/> {rest.rest_rating}
-                  <Typography variant="body2" color="text.secondary">
-                    {rest.rest_tags.map(tag => (
-                      <Chip label={tag} />
-                    ))}
-                  </Typography>
+                  <Box height="200px">
+                    <Typography gutterBottom variant="h6" component="div" noWrap>
+                    {rest.restaurant_name}
+                    </Typography>
+                    <Rating name="read-only" value={rest.rest_rating} readOnly size='small' precision={0.1}/> {rest.rest_rating}
+                    <Typography variant="body2" color="text.secondary">
+                      {rest.rest_tags.map(tag => (
+                        <Chip label={tag} sx={{margin:'3px'}}/>
+                      ))}
+                    </Typography>
+                  </Box>
                 </CardContent>
                 {/* <CardActionArea className="123" sx={{padding:'10px'}}>
                   <Box sx={{width:'100%'}}>

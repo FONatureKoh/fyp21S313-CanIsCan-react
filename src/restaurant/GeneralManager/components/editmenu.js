@@ -170,12 +170,14 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
                           <FiberManualRecordIcon color="success" sx={{ fontSize: 10, alignSelf:'flex-start'}} /> Menu Items Currently Active
                         </Typography>
                       </Grid>
+                      <Grid item xs md={3}>
+                      </Grid>
 
                       <Grid item xs md={4}>
-                        <Button variant="outlined" color="inherit">Edit Category Name</Button>
-                      </Grid>
-                      <Grid item xs md={3}>
-                      <Button variant="outlined" color="error">Delete Category</Button>
+                        <Box display="flex" >
+                        <Button variant="outlined" color="inherit" sx={{marginRight:'3px'}}>Edit Category Name</Button>
+                        <Button variant="outlined" color="error" >Delete Category</Button>
+                        </Box>
                       </Grid>
                     </Grid>
                   </Box>

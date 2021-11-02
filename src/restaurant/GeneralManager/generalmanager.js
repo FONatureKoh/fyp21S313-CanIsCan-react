@@ -12,6 +12,7 @@ import ViewProfile from '../../profile/viewprofile';
 import { restaurantProfile, retrieveRestaurantStatus, setRestStatus } from '../restaurant_controller';
 import { Modal } from '@mui/material';
 import FirstLogin from './components/firstlogin';
+import StatisticsReservations from './components/statisticsReservations';
 
 /*********************************************************
  * Menu Function to retrieve items based on RestaurantID *
@@ -173,7 +174,7 @@ export default function GeneralManager() {
           <Route path="/generalmanager/manageuser"> <ManageUser/></Route>
           <Route path="/generalmanager/restaurantinformation"> <ViewInfo isChecked={isChecked} toggleChecked={toggleChecked}/> </Route>
           <Route path="/generalmanager/addsub-user" component= {AddSubUser}/>
-          <Route path="/generalmanager/statistics" component= {Stats}/>
+          <Route path="/generalmanager/statistics" ><Stats/> <StatisticsReservations/></Route>
           <Route path="/generalmanager/profile" component={ViewProfile}/>
           <Redirect from='/generalmanager' to='/generalmanager/editmenu'/>
         </Switch>

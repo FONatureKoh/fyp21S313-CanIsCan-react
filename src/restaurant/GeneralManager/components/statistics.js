@@ -1,8 +1,11 @@
 import React from 'react'
 import { Grid } from '@mui/material'
 import Chart from "react-google-charts";
+import { Card, CardHeader, CardContent } from '@mui/material';
+import { Box } from '@mui/system';
+import CircularProgress from '@mui/material/CircularProgress';
 
-export default function ViewInfo({isChecked, toggleChecked}) {       
+export default function ViewInfo() {       
 
   const chartData = [
     ['Day', 'Deliveries'],
@@ -27,67 +30,49 @@ export default function ViewInfo({isChecked, toggleChecked}) {
     ]
 
   return (
-    <Grid container sx={{margin:'auto', width: '80%'}} >
-       <Grid item xs={6} sx={{marginTop:'2%', marginBottom:'2%'}}>
-        <Chart
-          width={'600px'}
-          height={'300px'}
-          chartType="AreaChart"
-          loader={<div>Loading Chart</div>}
-          data={chartData}
-          options={{
-          title: 'Orders Delivered',
-          hAxis: { title: 'Day', minValue: 0 },
-          vAxis: { title: 'Orders of the Day' },
-          chartArea: { width: '50%', height: '70%' },
-          }}
-          />
-      </Grid>
-      <Grid item xs={6} sx={{marginTop:'2%', marginBottom:'2%'}}>
-        <Chart
-        width={'600px'}
-        height={'300px'}
-        chartType="ColumnChart"
-        loader={<div>Loading Chart</div>}
-        data={chartData2}
-        options={{
-        title: 'Table Reservations',
-        hAxis: { title: 'Day', minValue: 0},
-        vAxis: { title: 'Reservations of the Day'},
-        chartArea: { width: '55%', height: '70%' },
-        }}
-        />
-      </Grid>
-      <Grid item xs={6} sx={{marginTop:'2%', marginBottom:'2%'}}>
-        <Chart
-          width={'600px'}
-          height={'300px'}
-          chartType="BarChart"
-          loader={<div>Loading Chart</div>}
-          data={chartData}
-          options={{
-          title: 'Orders Delivered',
-          hAxis: { title: 'Day', minValue: 0 },
-          vAxis: { title: 'Orders of the Day' },
-          chartArea: { width: '50%', height: '70%' },
-          }}
-          />
-      </Grid>
-      <Grid item xs={6} sx={{marginTop:'2%', marginBottom:'2%'}}>
-        <Chart
-        width={'600px'}
-        height={'300px'}
-        chartType="LineChart"
-        loader={<div>Loading Chart</div>}
-        data={chartData2}
-        options={{
-        title: 'Table Reservations',
-        hAxis: { title: 'Day', minValue: 0},
-        vAxis: { title: 'Reservations of the Day'},
-        chartArea: { width: '55%', height: '70%' },
-        }}
-        />
-      </Grid>
-  </Grid>
+    <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
+      <CardHeader title="Restaurant Statistics - Delivery" />
+      <CardContent >
+        <Box sx={{margin:'20px auto', width: '80%'}} >
+        <Grid container 
+          spacing={{ xs: 2, sm: 10 }} 
+          columns={{ xs: 4, sm: 10, md: 10}}
+        >
+          <Grid item item xs={4} sm={10} md={10} lg={5} xl={5} sx={{marginTop:'2%', marginBottom:'2%'}}>
+            <Chart
+              width={'600px'}
+              height={'300px'}
+              chartType="AreaChart"
+              loader={<div>Loading Chart</div>}
+              data={chartData}
+              options={{
+              title: 'Orders Delivered',
+              hAxis: { title: 'Day', minValue: 0 },
+              vAxis: { title: 'Orders of the Day' },
+              chartArea: { width: '50%', height: '70%' },
+              }}
+              />
+          </Grid> 
+          <Grid item item xs={4} sm={10} md={10} lg={5} xl={5} sx={{marginTop:'2%', marginBottom:'2%'}}>
+            <Chart
+              width={'600px'}
+              height={'300px'}
+              chartType="BarChart"
+              loader={<div>Loading Chart</div>}
+              data={chartData}
+              options={{
+              title: 'Orders Delivered',
+              hAxis: { title: 'Day', minValue: 0 },
+              vAxis: { title: 'Orders of the Day' },
+              chartArea: { width: '50%', height: '70%' },
+              }}
+              />
+          </Grid>
+        </Grid>
+        </Box>  
+      </CardContent>
+    </Card>
+
+    
   )
 }
