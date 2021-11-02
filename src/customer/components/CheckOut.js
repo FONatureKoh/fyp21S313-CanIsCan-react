@@ -104,7 +104,7 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
           }
           else {
             // Please do something about this alert
-            alert("There's something wrong with your address, please verify your address!");
+            alert("You've entered an invalid Singapore address! We don't know where to send your order. Please try again!");
           }
         });    
     }
