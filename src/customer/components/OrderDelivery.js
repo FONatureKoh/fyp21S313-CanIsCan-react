@@ -3,16 +3,14 @@ import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Gri
   ListItem, ButtonGroup } from '@mui/material'
 import TestImage from '../../assets/temp/eg-biz1.png'
 import { Rating } from '@mui/material'
-import test from '../../assets/icon-profile.png'
 import { ButtonBase } from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ReviewsOutlinedIcon from '@mui/icons-material/ReviewsOutlined';
 import { Modal } from '@mui/material'
 import { Route, Switch } from 'react-router';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-
 import { useRouteMatch } from 'react-router'
-import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getBannerImage } from '../customer_controller'
+import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getBannerImage, getRestReviews } from '../customer_controller'
 import Cart from './Cart'
 import CheckOut from './CheckOut';
 import { Link } from 'react-router-dom'
@@ -27,6 +25,7 @@ export default function OrderDelivery() {
   const [menusState, setMenusState] = useState([])
   const [itemMenusState, setItemMenusState] = useState([])
   const [restaurantInfo, setRestaurantInfo] = useState('');
+  const [restReivews, setRestReviews] = useState([]);
   const [rating, setRating] = useState(0)
 
   // Useful variables at the start
@@ -68,6 +67,19 @@ export default function OrderDelivery() {
       const imageURL = await getBannerImage(response.rest_banner_ID);
 
       response["rest_bannerURL"] = imageURL;
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // Async function to retrieve single restaurant info
+  async function getReviews() {
+    try {
+      const response = await getRestReviews(restID);
+
+      // Since response is an array of JSON objects just return it
       return response;
     }
     catch (error) {
@@ -237,7 +249,21 @@ export default function OrderDelivery() {
 
   //MODAL CONTROLS - REVIEWS
   const [openReview, setOpenReview] = useState(false);
-  const handleOpenReview = () => setOpenReview(true);
+
+  const handleOpenReview = () => {
+    getReviews()
+      .then((response) => {
+        console.log(response);
+
+        setRestReviews(response);
+        
+        console.log(restReivews);
+      })
+      .then(() => {
+        setOpenReview(true);
+      });     
+  };
+
   const handleCloseReview = () => setOpenReview(false);
 
   //MODAL CONTROLS - REVIEWS
@@ -455,21 +481,24 @@ export default function OrderDelivery() {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={TestImage}
+                  image={restaurantInfo.rest_bannerURL}
                 />
                 <CardContent >
                   <Box textAlign="center">
-                    <Typography variant="h5">Restaurant Name</Typography>
+                    <Typography variant="h5">{restaurantInfo.restaurant_name}</Typography>
                     <Typography variant="subtitle2">Reviews</Typography>
                   </Box>
 
-                  <Box display="flex" flexDirection="column" width="60%" height="100px" border="1px solid black" margin="10px auto" padding="20px">
-                    <Typography variant="h6">Title</Typography>
-                    <Typography><Rating value={3} size="small"/></Typography>
-                    <Typography variant="subtitle2">Information about the review</Typography>
-                    
-                    <Typography variant="subtitle" fontSize="12px" alignSelf='flex-end'>Reviewed by: Kelvin K.</Typography>
-                  </Box>
+                  {restReivews.map((review) => { return <>
+                    <Box display="flex" flexDirection="column" width="60%" height="100px" border="1px solid black" margin="10px auto" padding="20px">
+                      <Typography variant="h6">{review.title === "NIL" ? "No title :(" : review.title}</Typography>
+                      <Typography><Rating value={review.rating} size="small"/></Typography>
+                      <Typography variant="subtitle2">{review.desc === "NIL" ? "No review text :(" : review.desc}</Typography>
+                      
+                      <Typography variant="subtitle" fontSize="12px" alignSelf='flex-end'>Reviewed by: {review.custName}</Typography>
+                    </Box>
+                    </>
+                  })}
                 </CardContent>
               </Card>
             </Modal>

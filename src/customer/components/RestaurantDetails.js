@@ -1,26 +1,24 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid, CardActionArea, Button, IconButton, Tooltip } from '@mui/material'
-import TestImage from '../../assets/temp/eg-biz1.png'
 import { Rating } from '@mui/material'
-import test from '../../assets/icon-profile.png'
 import { ButtonBase } from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ReviewsOutlinedIcon from '@mui/icons-material/ReviewsOutlined';
 import { Modal } from '@mui/material'
 import { format } from 'date-fns';
-
 import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { useRouteMatch } from 'react-router'
-import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getBannerImage, getAvailableSlots } from '../customer_controller'
+import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getBannerImage, getAvailableSlots, getRestReviews } from '../customer_controller'
 import { Link } from 'react-router-dom'
 import Checkbox from '@mui/material/Checkbox';
 
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
 
 export default function RetaurantDetails() {
+  console.log("restaurant details reloaded");
   // Added MATCH - Thomas
   const match = useRouteMatch('/customer/restaurantdetails/:id');
   const restID = match.params.id;
@@ -29,6 +27,8 @@ export default function RetaurantDetails() {
   const [menusState, setMenusState] = useState([]);
   const [itemMenusState, setItemMenusState] = useState([]);
   const [restaurantInfo, setRestaurantInfo] = useState([]);
+  const [restReivews, setRestReviews] = useState([]);
+  console.log(restReivews);
   const [rating, setRating] = useState(0);
   
   //useStates for all reservation use
@@ -73,6 +73,19 @@ export default function RetaurantDetails() {
       const imageURL = await getBannerImage(response.rest_banner_ID);
 
       response["rest_bannerURL"] = imageURL;
+      return response;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // Async function to retrieve single restaurant info
+  async function getReviews() {
+    try {
+      const response = await getRestReviews(restID);
+
+      // Since response is an array of JSON objects just return it
       return response;
     }
     catch (error) {
@@ -136,8 +149,8 @@ export default function RetaurantDetails() {
         }
         // Console log to see if the info has been set properly
         console.log(restaurantInfo);
-      })
-    
+      });
+    // ===========================================================================
   }, []);
   // NOTE: RestaurantInfo with the following data template
   // {
@@ -174,7 +187,21 @@ export default function RetaurantDetails() {
 
   //MODAL CONTROLS - REVIEWS
   const [openReview, setOpenReview] = useState(false);
-  const handleOpenReview = () => setOpenReview(true);
+
+  const handleOpenReview = () => {
+    getReviews()
+      .then((response) => {
+        console.log(response);
+
+        setRestReviews(response);
+        
+        console.log(restReivews);
+      })
+      .then(() => {
+        setOpenReview(true);
+      });     
+  };
+
   const handleCloseReview = () => setOpenReview(false);
 
   //MODAL CONTROLS - REVIEWS
@@ -431,6 +458,7 @@ export default function RetaurantDetails() {
               aria-describedby="modal-modal-description"
             >
               <Card variant="outlined" sx={{ position: 'absolute',
+                overflow: "auto",
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
@@ -447,13 +475,17 @@ export default function RetaurantDetails() {
                     <Typography variant="subtitle2">Reviews</Typography>
                   </Box>
 
-                  <Box display="flex" flexDirection="column" width="60%" height="100px" border="1px solid black" margin="10px auto" padding="20px">
-                    <Typography variant="h6">Title</Typography>
-                    <Typography><Rating value={rating} size="small"/></Typography>
-                    <Typography variant="subtitle2">Information about the review</Typography>
-                    
-                    <Typography variant="subtitle" fontSize="12px" alignSelf='flex-end'>Reviewed by: Kelvin K.</Typography>
-                  </Box>
+                  {restReivews.map((review) => { return <>
+                    <Box display="flex" flexDirection="column" width="60%" height="100px" border="1px solid black" margin="10px auto" padding="20px">
+                      <Typography variant="h6">{review.title === "NIL" ? "No title :(" : review.title}</Typography>
+                      <Typography><Rating value={review.rating} size="small"/></Typography>
+                      <Typography variant="subtitle2">{review.desc === "NIL" ? "No review text :(" : review.desc}</Typography>
+                      
+                      <Typography variant="subtitle" fontSize="12px" alignSelf='flex-end'>Reviewed by: {review.custName}</Typography>
+                    </Box>
+                    </>
+                  })}
+
                 </CardContent>
               </Card>
             </Modal>

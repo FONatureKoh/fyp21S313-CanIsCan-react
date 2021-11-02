@@ -217,6 +217,26 @@ export async function submitRestaurantReview(restID, restName, restRating, revie
 }
 
 /*****************************************************************************************
+ * Retrieve restaurant reviews
+******************************************************************************************/
+export async function getRestReviews(restID) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/customer/restaurantreivew/${restID}`, axiosConfig);
+    
+    console.log (response);
+    return response.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
+}
+
+/*****************************************************************************************
  * Customer checkout to trigger payment                                                  *
 ******************************************************************************************/
 export async function customerCheckout(token, doID, totalCost) {
