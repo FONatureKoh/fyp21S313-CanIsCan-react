@@ -22,6 +22,7 @@ import Cart from './Cart'
 import CheckOut from './CheckOut';
 import { Link } from 'react-router-dom'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 const steps = ['Select timeslot', 'Pre-order food', 'Review your reservation'];
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
@@ -45,6 +46,7 @@ export default function Reservation() {
   //useStates for all reservation use
   const [preorder, setPreoder] = useState(false);
   const [timeSlot, setTimeSlot] = useState('');
+  const [pax, setPax] = useState(1);
 
   // Useful variables at the start
   var itemMenusArray = [];
@@ -439,28 +441,52 @@ export default function Reservation() {
               <React.Fragment>
                 <Box sx={themes.boxStyle2}>
                 <Typography sx={themes.textHeader}>
-                  You are all set up!
+                  Reservation Confirmed!
                 </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', pt: 2 }}>
-                  <Button variant="outlined" color="inherit" fontSize="large" sx={{margin:'10px auto'}}>Start using Food on Click now!</Button>
+                  <Button variant="outlined" color="inherit" fontSize="large" sx={{margin:'10px auto'}}>View reservations</Button>
                 </Box>
               </React.Fragment>
             ) : activeStep === 0 ? (
               <>
               <Typography textAlign="center" variant="h6">Select date and timeslot</Typography>
               <Box textAlign="center" display="flex" flexDirection="row" sx={{mt:'10px', mb:'10px'}}>
-                <Box textAlign="center" sx={{width:'50%'}}>
+                <Box textAlign="center" sx={{width:'40%'}}>
                   <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'10px' }}>Date</Typography>
                   <Typography variant="subtitle1">{format(selectedDate, 'dd MMMM yyyy')}</Typography>
                 </Box>
-                <Box textAlign="center" sx={{width:'50%'}}>
+                <Box textAlign="center" sx={{width:'40%'}}>
                   <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'10px' }}>Timeslot</Typography>
                   <Typography variant="subtitle1">{timeSlot}</Typography>
                 </Box>
+                <Box textAlign="center" sx={{width:'40%'}}>
+                  
+                  <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'10px' }}>Number of pax</Typography>
+                  <Typography variant="subtitle1">
+                  <FormControl sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel id="pax-label">Pax</InputLabel>
+                    <Select
+                      labelId="pax-label"
+                      id="pax-select"
+                      value={pax}
+                      label="Pax"
+                      size="small"
+                      onChange={(e)=>setPax(e.target.value)}
+                    >
+                      <MenuItem value={1}>1</MenuItem>
+                      <MenuItem value={2}>2</MenuItem>
+                      <MenuItem value={3}>3</MenuItem>
+                      <MenuItem value={4}>4</MenuItem>
+                      <MenuItem value={5}>5</MenuItem>
+                      <MenuItem value={6}>6</MenuItem>
+                    </Select>
+                  </FormControl>
+                  </Typography>
+                </Box>
               </Box>
               <Grid container>
-              <Grid item md={6} sm={12} xs={12} sx={{mt:'15px', minWidth:'300px'}}>
+              <Grid item md={6} sm={12} xs={12} sx={{ width:'30px'}}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <StaticDatePicker
                     openTo="day"
@@ -597,13 +623,17 @@ export default function Reservation() {
             <>
               <Typography textAlign="center" variant="h6">Review your reservation</Typography>
               <Box textAlign="center" display="flex" flexDirection="row" sx={{mt:'10px', mb:'10px'}}>
-                <Box textAlign="center" sx={{width:'50%'}}>
+                <Box textAlign="center" sx={{width:'40%'}}>
                   <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'10px' }}>Date</Typography>
                   <Typography variant="subtitle1">{format(selectedDate, 'dd MMMM yyyy')}</Typography>
                 </Box>
-                <Box textAlign="center" sx={{width:'50%'}}>
+                <Box textAlign="center" sx={{width:'40%'}}>
                   <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'10px' }}>Timeslot</Typography>
                   <Typography variant="subtitle1">{timeSlot}</Typography>
+                </Box>
+                <Box textAlign="center" sx={{width:'40%'}}>
+                  <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'10px' }}>Number of pax</Typography>
+                  <Typography variant="subtitle1">{pax}</Typography>
                 </Box>
               </Box>   
               {!preorder && <Box sx={{textAlign:'center', mt:'40px'}}><Typography>No item has been pre-ordered</Typography></Box>}

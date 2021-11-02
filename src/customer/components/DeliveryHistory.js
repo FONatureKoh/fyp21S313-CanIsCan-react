@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardContent, Box, Typography, Stepper, Step, StepLabel, Divider, Accordion, AccordionSummary, AccordionDetails, Grid, ListItem, 
   Button, Modal, CardMedia, Rating, TextField } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Link } from 'react-router-dom';
 import { getAllOrderItems, getAllOrders, submitRestaurantReview } from '../customer_controller';
 
 const themes = {
@@ -277,7 +278,7 @@ export default function DeliveryHistory() {
                 if (order.status === "Fulfilled") {
                   return <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto 20px'}}>
                     <Box sx={{float:'right', margin:'5px 10px 0px 0px', position:'absolute', right:'11%'}}>
-                      <Button variant='contained' color="inherit" >order again</Button>
+                      <Button variant='contained' color="inherit" component={Link} to={`/customer/restaurantdetails/${order.restID}`}>order again</Button>
                     </Box>
                     <CardContent >
                       <Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}>

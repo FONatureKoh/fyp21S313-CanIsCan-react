@@ -5,6 +5,7 @@ import TestImage from '../../assets/temp/eg-biz1.png'
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Divider } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const themes = {
   textHeader: {
@@ -207,7 +208,10 @@ export default function ReservationHistory() {
               {/* START OF PAST RESERVATIONS */}
               <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto 20px'}}>
                 <Box sx={{float:'right', margin:'5px 10px 0px 0px', position:'absolute', right:'11%'}}>
-                  <Button variant='contained' color="inherit" >reserve again</Button>
+                  <Button variant='contained' color="inherit" 
+                  // component={Link} to={`/customer/restaurantdetails/${order.restID}`}
+                  >
+                    reserve again</Button>
                 </Box>
                 <CardContent>
                   <Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}>
