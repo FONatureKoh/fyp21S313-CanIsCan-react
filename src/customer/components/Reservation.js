@@ -370,7 +370,7 @@ export default function Reservation() {
   return (
     <Switch>
       <Route exact path='/customer/makereservation/:id'>
-      <Cart openCart={openCart} cart={realCart}/>
+      {activeStep === 1 && <Cart openCart={openCart} cart={realCart}/>}
       <Card variant="outlined" sx={{ borderRadius:'10px'}}>
         <CardMedia sx={{height:'300px' }}
           component="img"
