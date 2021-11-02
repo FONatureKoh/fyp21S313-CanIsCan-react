@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import NavigationAdmin from '../components/top-nav/NavigationAdmin';
 import Topbar from '../components/top-nav/topbar';
 import { Box } from '@mui/system';
-import { Switch, Route, Redirect }from 'react-router-dom';
+import { Switch, Route, Redirect, useHistory }from 'react-router-dom';
 import ApproveRest from './components/ApproveRest';
 import ExistingCust from './components/ExistingCust';
 import ExistingRest from './components/ExistingRest';
 import Tags from './components/Tags';
 import ViewProfile from '../profile/viewprofile';
+import { UserContext } from '../store/user_context';
 
 export default function Admin() {
+  // CHECKING OF USER TYPE 
+  const history = useHistory();
+  const testContext = useContext(UserContext);
+  console.log(testContext.usertype[0])
+  if(testContext.usertype[0] !== "Administrator")
+  {
+    history.push("/unauthorised");
+  }
+  // END OF CHECKING
+
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
 

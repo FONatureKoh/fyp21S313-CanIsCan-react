@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Topbar from '../components/top-nav/topbar'
 import NavigationCustomer from '../components/top-nav/NavigationCustomer'
 import { Box } from '@mui/system';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import BrowseRestaurant from './components/BrowseRestaurant';
 import BrowseRestaurantCat from './components/BrowseRestaurantCat';
 import RetaurantDetails from './components/RestaurantDetails';
@@ -22,9 +22,21 @@ import OrderDelivery from './components/OrderDelivery';
 import { Modal } from '@mui/material';
 import CustFirstLogin from './components/CustFirstLogin';
 import Reservation from './components/Reservation';
+import { UserContext } from '../store/user_context';
 
 
 export default function Customer() {
+
+  // CHECKING OF USER TYPE 
+  const history = useHistory();
+  const testContext = useContext(UserContext);
+  console.log(testContext.usertype[0])
+  if(testContext.usertype[0] !== "Customer")
+  {
+    history.push("/unauthorised");
+  }
+  // END OF CHECKING
+
   // Other useStates
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);

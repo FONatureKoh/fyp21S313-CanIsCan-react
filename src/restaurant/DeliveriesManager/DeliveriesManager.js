@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import NavigationDM from '../../components/top-nav/NavigationDM'
 import Topbar from '../../components/top-nav/topbar';
 import { Box } from '@mui/system';
@@ -6,15 +6,27 @@ import { Modal } from '@mui/material';
 import ViewPending from './components/ViewPending';
 import ViewProfile from '../../profile/viewprofile';
 import AcceptedOrders from './components/AcceptedOrders';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import DelFirstLogin from './components/DelFirstLogin';
 import ViewOrderHistory from './components/ViewOrderHistory';
 import { getAccStatus, getRestName } from '../restaurant_controller';
+import { UserContext } from '../../store/user_context';
 
 /***********************************************************************
  * 
  ***********************************************************************/
 export default function DeliveriesManager() {
+
+  // CHECKING OF USER TYPE 
+  const history = useHistory();
+  const testContext = useContext(UserContext);
+  console.log(testContext.usertype[0])
+  if(testContext.usertype[0] !== "Deliveries Manager")
+  {
+    history.push("/unauthorised");
+  }
+  // END OF CHECKING
+
   // Essential useStates for the page
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);

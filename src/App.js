@@ -7,6 +7,8 @@ import ReservationsManager from './restaurant/ReservationsManager/ReservationsMa
 import Admin from './admin/Admin';
 import Customer from './customer/Customer';
 import { Route, Switch } from 'react-router-dom';
+import Unauthorised from './components/Unauthorised';
+import ErorrPage from './components/ErrorPage';
 
 // useContext export. Function exported as default, so we provided the name here, as
 // UserProvider, based on the UserContext.Provider 
@@ -24,6 +26,8 @@ function App() {
         <Route path="/reservationsmanager" component= {ReservationsManager} />
         <Route path="/customer" component={Customer} />
         <Route path="/admin" component={Admin} />
+        <Route path="/unauthorised" component= {Unauthorised} />
+        <Route path="/error" component= {ErorrPage} />
       </UserProvider>
     </Switch>
   );

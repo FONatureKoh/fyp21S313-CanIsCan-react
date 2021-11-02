@@ -1,17 +1,29 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import NavigationRM from '../../components/top-nav/NavigationRM'
 import Topbar from '../../components/top-nav/topbar';
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
-import { Switch, Route, Redirect }from 'react-router-dom';
+import { Switch, Route, Redirect, useHistory }from 'react-router-dom';
 import PendingReservations from './components/PendingReservations';
 import AcceptedReservations from './components/AcceptedReservations';
 import ViewProfile from '../../profile/viewprofile';
 import ResFirstLogin from './components/ResFirstLogin';
 import ManageSlots from './components/ManageSlots';
 import { getAccStatus, getRestName } from '../restaurant_controller';
+import { UserContext } from '../../store/user_context';
 
 export default function ReservationsManager() {
+
+  // CHECKING OF USER TYPE 
+  const history = useHistory();
+  const testContext = useContext(UserContext);
+  console.log(testContext.usertype[0])
+  if(testContext.usertype[0] !== "Reservations Manager")
+  {
+    history.push("/unauthorised");
+  }
+  // END OF CHECKING
+
   // Essential useStates for the page
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);

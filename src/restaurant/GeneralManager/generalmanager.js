@@ -1,8 +1,8 @@
-import React, {useEffect, useState}from 'react'
+import React, {useEffect, useState, useContext}from 'react'
 import NavigationRGM from '../../components/top-nav/NavigationRGM'
 import Topbar from '../../components/top-nav/topbar';
 import { Box } from '@mui/system';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import Editmenu from './components/editmenu';
 import ManageUser from './components/manageuser';
 import ViewInfo from './components/restaurantprofile';
@@ -12,6 +12,7 @@ import ViewProfile from '../../profile/viewprofile';
 import { restaurantProfile, retrieveRestaurantStatus, setRestStatus } from '../restaurant_controller';
 import { Modal } from '@mui/material';
 import FirstLogin from './components/firstlogin';
+import { UserContext } from '../../store/user_context' ;
 import StatisticsReservations from './components/statisticsReservations';
 
 /*********************************************************
@@ -25,6 +26,17 @@ import StatisticsReservations from './components/statisticsReservations';
  * ***************************************************** */
 
 export default function GeneralManager() {
+  
+  // CHECKING OF USER TYPE 
+  const history = useHistory();
+  const testContext = useContext(UserContext);
+  console.log(testContext.usertype[0])
+  if(testContext.usertype[0] !== "Restaurant General Manager")
+  {
+    history.push("/unauthorised");
+  }
+  // END OF CHECKING
+
   // Setting some general states
   // const [menuData, setMenuData] = useState([]);
   const [isVisible, setIsVisible] = useState(true); 
@@ -33,6 +45,8 @@ export default function GeneralManager() {
   const [firstLog, setFirstLog] = useState(false);
   const [restaurantName, setRestaurantName] = useState('');
 
+
+  
   // Async function to get status of restaurant
   async function getStatus() {
     try {
@@ -153,7 +167,7 @@ export default function GeneralManager() {
       setIsVisible(true)
     }
   }
-
+  
   return (
     <Box sx={{ padding:'1% 2%', bgcolor:'#f5f5f5', display:'block'}}>
       
