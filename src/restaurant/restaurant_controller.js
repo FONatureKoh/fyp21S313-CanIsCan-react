@@ -343,6 +343,32 @@ export async function retrieveRestaurantStatus() {
 };
 
 /*****************************************************************************************
+ * Set Restaurant Status                                                          
+ * ***************************************************************************************
+ * - Set restaurant's status
+ * ***************************************************************************************/
+export async function setRestStatus(restStatus) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  const tempJSON = {
+    restStatus
+  }
+
+  try {
+    const response = await axios.put(`${config.apiDomain}/restaurant/restaurantStatus`, tempJSON, axiosConfig);
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+};
+
+/*****************************************************************************************
  * For DM / RM to get App user acount status
  * ***************************************************************************************
  * - This gets the DM's account status

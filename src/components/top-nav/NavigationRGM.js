@@ -99,14 +99,15 @@ export default function NavigationRGM({restaurantName, isVisible, isSelected, se
               <ListItemText primary="Dashboard"/>
             </ListItem>
             
-            <ListItemButton  component={Link} to='/generalmanager/statistics' selected={isSelected === 4} onClick={() => setIsSelected(4)}>
+            <ListItemButton component={Link} to='/generalmanager/statistics' selected={isSelected === 4} onClick={() => setIsSelected(4)}>
               <ListItemIcon>
                 <AssessmentIcon/>
               </ListItemIcon>
               <ListItemText primary="View Statistics" />
             </ListItemButton>
+
+            <Divider variant="middle"/>
         </List>
-        <Divider variant="middle"/>
         <Button variant="outlined" color="inherit" onClick={handleOpenDialog} sx={{margin:'30px auto', width:'90%'}} >Logout</Button>
       </Drawer>
 

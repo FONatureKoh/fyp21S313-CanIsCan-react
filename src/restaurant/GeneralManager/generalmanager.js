@@ -9,7 +9,7 @@ import ViewInfo from './components/restaurantprofile';
 import AddSubUser from './components/addsubuser';
 import Stats from './components/statistics';
 import ViewProfile from '../../profile/viewprofile';
-import { restaurantProfile, retrieveRestaurantStatus } from '../restaurant_controller';
+import { restaurantProfile, retrieveRestaurantStatus, setRestStatus } from '../restaurant_controller';
 import { Modal } from '@mui/material';
 import FirstLogin from './components/firstlogin';
 
@@ -36,10 +36,17 @@ export default function GeneralManager() {
   async function getStatus() {
     try {
       const restaurantStatus = await retrieveRestaurantStatus();
+
+      // If this is the first time the restaurant RGM has logged in, then we will prompt a first login
       if (restaurantStatus === "first") {
         return true;
       }
       else {
+        // If the restaurant's status is open, then we set it in, else its
+        // false by default
+        if (restaurantStatus === "open") {
+          setIsChecked(true);
+        }
         return false;
       }
     }
@@ -50,12 +57,27 @@ export default function GeneralManager() {
 
   // Async function to get the restaurant Info
   async function getRestaurantName() {
-    try{
+    try {
       const response = await restaurantProfile();
       return response.restaurant_name;
     }
     catch (error) {
       return error;
+    }
+  }
+
+  // Async function to set the status of the restaurant
+  async function setRestaurantStatus(restStatus) {
+    try {
+      // This communicates with the controller
+      const response = await setRestStatus(restStatus);
+
+      return response.api_msg;
+    }
+    catch (err) {
+      // Consider proper error handling if need be.
+      console.log(err);
+      return "fail";
     }
   }
 
@@ -88,23 +110,45 @@ export default function GeneralManager() {
   // },[])
   
   const toggleChecked = () => {
-    if (isChecked)
-    {
-      setIsChecked(false)
+    if (isChecked) {
+      // Closing the restaurant
+      setRestaurantStatus("closed")
+        .then((response) => {
+          const msg = response;
+
+          // Alert user accordingly
+          if (msg === "success") {
+            alert("Your restaurant is now closed!");
+          }
+          else {
+            alert("There's a problem, please contact an administrator.");
+          }
+        })
+      setIsChecked(false);
     }
-    else
-    {
+    else {
+      setRestaurantStatus("open")
+        .then((response) => {
+          const msg = response;
+
+          // Alert user accordingly
+          if (msg === "success") {
+            alert("Your restaurant is now OPEN!");
+          }
+          else {
+            alert("There's a problem, please contact an administrator.");
+          }
+        })
+
       setIsChecked(true)
     }
   }
 
   const toggleVisibility = () => {
-    if (isVisible)
-    {
+    if (isVisible) {
       setIsVisible(false)
     }
-    else
-    {
+    else {
       setIsVisible(true)
     }
   }
