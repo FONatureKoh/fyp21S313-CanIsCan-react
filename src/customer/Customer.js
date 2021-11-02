@@ -21,6 +21,7 @@ import { retrieveAllRestaurants, retrieveRestaurantTags } from './customer_contr
 import OrderDelivery from './components/OrderDelivery';
 import { Modal } from '@mui/material';
 import CustFirstLogin from './components/CustFirstLogin';
+import Reservation from './components/Reservation';
 
 
 export default function Customer() {
@@ -99,8 +100,7 @@ export default function Customer() {
           <Route exact path='/customer/browserestaurant'><BrowseRestaurant restData={restaurantsArray}/> <BrowseRestaurantCat restData={restaurantsArray} catData={tagsArray}/></Route>
           <Route path='/customer/restaurantdetails'><RetaurantDetails/> </Route>
           <Route path='/customer/orderdelivery'><OrderDelivery/> </Route>
-
-
+          <Route path='/customer/makereservation'><Reservation/> </Route>
           <Route path='/customer/profile'><ViewProfile/> </Route>
           <Route path='/customer/deliveryhistory'><DeliveryHistory/> </Route>
           <Route path='/customer/reservationhistory'><ReservationHistory/> </Route>

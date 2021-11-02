@@ -292,7 +292,9 @@ export default function RetaurantDetails() {
               <Box width='35%' textAlign='right' >
                 <Box Box width='100%' >
                     <Button variant="outlined" color="inherit" component={ Link } to={`/customer/orderdelivery/${restID}`}>ORDER Delivery</Button>
-                    <Button variant="outlined" color="inherit"  sx={{marginLeft:'20px'}} onClick={handleOpenReserve}>Reserve Table</Button>
+                    <Button variant="outlined" color="inherit" component={ Link } to={`/customer/makereservation/${restID}`} sx={{marginLeft:'20px'}} 
+                    // onClick={handleOpenReserve}
+                    >Reserve Table</Button>
                 </Box>
                 <Box width='100%' alignSelf="flex-end" sx={{mt:'3px'}} >
                   <Typography>
@@ -590,7 +592,6 @@ export default function RetaurantDetails() {
                   </>)
 
                   }
-                  
                   
                 </CardContent>
               </Card>

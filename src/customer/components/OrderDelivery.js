@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid, CardActionArea, Button, IconButton, Tooltip, Drawer, List,
   ListItem, ButtonGroup } from '@mui/material'
-import TestImage from '../../assets/temp/eg-biz1.png'
 import { Rating } from '@mui/material'
 import { ButtonBase } from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';

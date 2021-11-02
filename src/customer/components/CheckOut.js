@@ -332,16 +332,16 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
                   </Box>
                   <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
                     <Typography variant="subtitle2">
-                        <ButtonGroup color="inherit" size="small">
-                          {item.itemQty === 1 ? <Button onClick={() => deleteItem(item.itemID)}><DeleteOutlineOutlinedIcon fontSize="small" variant="" /></Button> : <Button onClick={()=> minusQty(item.itemID)}>-</Button>}
-                          <Button >{item.itemQty}</Button>
-                          <Button onClick={()=>addQty(item.itemID)}>+</Button>
-                        </ButtonGroup>
-                      </Typography>
-                      <Typography variant="subtitle2">
-                        Price: S${getsub(item)}
-                      </Typography>
-                    </Box>
+                      <ButtonGroup color="inherit" size="small">
+                        {item.itemQty === 1 ? <Button onClick={() => deleteItem(item.itemID)}><DeleteOutlineOutlinedIcon fontSize="small" variant="" /></Button> : <Button onClick={()=> minusQty(item.itemID)}>-</Button>}
+                        <Button >{item.itemQty}</Button>
+                        <Button onClick={()=>addQty(item.itemID)}>+</Button>
+                      </ButtonGroup>
+                    </Typography>
+                    <Typography variant="subtitle2">
+                      Price: S${getsub(item)}
+                    </Typography>
+                  </Box>
                 </ListItem>
               ))}
             </Box>
@@ -366,7 +366,7 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
 
-            <Button onClick={handleNext} variant="outlined">
+            <Button onClick={handleNext} variant="outlined" color="inherit">
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>
           </Box>
