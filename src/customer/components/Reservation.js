@@ -178,6 +178,12 @@ export default function Reservation() {
     setCartOpen(true);
   };
 
+  //HANDLE CART CHECKOUT
+  const finishCart = () => {
+    setCartOpen(false);
+    setActiveStep(activeStep + 1)
+  };
+
   //HANDLE CLOSE CART
   const closeCart = () => {
     setCartOpen(false);
@@ -210,7 +216,7 @@ export default function Reservation() {
   function handleNext1(){
     if(timeSlot === '')
     {
-      alert("meow")
+      alert("Please select an timeslot.")
     }
     else
     {
@@ -837,7 +843,7 @@ export default function Reservation() {
                   </ListItem>
                   <ListItem >
                     <Typography variant="subtitle2" sx={{margin:'0px auto'}}>
-                      Ordering from: {restaurantInfo.restaurant_name}
+                      Pre-ordering from: {restaurantInfo.restaurant_name}
                     </Typography>
                   </ListItem>
                   <Divider variant='middle' />
@@ -870,18 +876,25 @@ export default function Reservation() {
                   <Divider variant='middle' />
 
                   <ListItem >
-                    <Box width='70%'>
+                    <Box width='70%' sx={{fontWeight:'800'}}>
                       <Typography variant="subtitle">
                         Subtotal
                       </Typography>
                     </Box>
-                    <Box width="30%" sx={{textAlign:'right'}}>
+                    <Box width="30%" sx={{textAlign:'right',fontWeight:'800'}}>
                       <Typography variant="subtitle" >
                         S$ {subtotal.toFixed(2)}
                       </Typography>
                     </Box>
                   </ListItem>
                   <ListItem >
+                    <Box sx={{width:'70%', margin:'20px auto'}}  textAlign="center">
+                      <Typography variant="subtitle">
+                        Total is subject to change during actual restaurant visit
+                      </Typography>
+                    </Box>
+                  </ListItem>
+                  {/* <ListItem >
                     <Box width='70%'>
                       <Typography variant="subtitle">
                         Delivery fee
@@ -916,9 +929,9 @@ export default function Reservation() {
                         S$ {total.toFixed(2)}
                       </Typography>
                     </Box>
-                  </ListItem>
+                  </ListItem> */}
                   <ListItem >
-                    <Button sx={{width:'90%', margin:'10px auto'}} variant="outlined" color="inherit" component={ Link } to={`/customer/orderdelivery/${restID}/checkout`} onClick={()=>setCartOpen(false)}> go to checkout</Button>
+                    <Button sx={{width:'90%', margin:'10px auto'}} variant="outlined" color="inherit" onClick={finishCart}> go to checkout</Button>
                   </ListItem>
                 </List>
               </Box>
