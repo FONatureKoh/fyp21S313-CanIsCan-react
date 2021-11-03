@@ -70,7 +70,13 @@ export default function ApproveRest() {
         <CardHeader title="Pending Restaurant Registration" />
         <CardContent >
           <Box sx={{width:'90%', margin: '0px auto'}}> 
-            {
+          {/* CHECK FOR NO RESTAURANT */}
+          {restDetails.length === 0 ? (<>
+            <Box width="80%" sx={{margin:'20px auto', textAlign:'center'}}>
+              <Typography variant="h6">No pending restaurants registration</Typography>
+            </Box>
+            </>) : (<>
+              {
               restDetails.map(item =>{
                 return(
                   <Accordion 
@@ -119,7 +125,7 @@ export default function ApproveRest() {
                 )
               })
             }
-            
+            </>)}
           </Box>
         </CardContent>
       </Card>

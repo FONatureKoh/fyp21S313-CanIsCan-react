@@ -3,9 +3,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { Box, Button, ListItemButton, Drawer, List, Divider, ListItem } from '@mui/material';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
-import Info from '@mui/icons-material/Info';
 import { Link, useHistory } from "react-router-dom";
 import { Dialog, DialogActions, DialogTitle } from '@mui/material';
+import HistoryIcon from '@mui/icons-material/History';
 
 const drawerWidth = 240;
 
@@ -57,22 +57,23 @@ export default function NavigationCustomer({isVisible, isSelected, setIsSelected
               <ListItemText primary="Browse Restaurants" />
             </ListItemButton>
 
+           
+            <Divider variant="middle"/>
+
+            <ListItem>
+              <ListItemText primary="Past Transactions" />
+            </ListItem>
+
             <ListItemButton selected={isSelected === 2} component={ Link } to="/customer/deliveryhistory" onClick={() => setIsSelected(2)}  >
               <ListItemIcon>
-                <Info/>
+                <HistoryIcon/>
               </ListItemIcon>
               <ListItemText primary="Order History"/>
             </ListItemButton>
 
-            <Divider variant="middle"/>
-
-            <ListItem>
-              <ListItemText primary="Reservations" />
-            </ListItem>
-
             <ListItemButton selected={isSelected === 4} component={ Link } to="/customer/reservationhistory" onClick={() => setIsSelected(4)} >
               <ListItemIcon>
-                <Info/>
+                <HistoryIcon/>
               </ListItemIcon>
               <ListItemText primary="Reservation History"/>
             </ListItemButton>

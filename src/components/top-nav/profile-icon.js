@@ -77,7 +77,6 @@ export default function ProfileIcon() {
 
           <MenuItem onClick={handleProfile}> <PersonIcon color="action" fontSize="small" sx={{mr: 1}}/> Edit Profile</MenuItem>
           <MenuItem onClick={handleChangePass}> <LockIcon color="action" fontSize="small" sx={{mr: 1}}/>Change Password</MenuItem>
-          <MenuItem onClick={handleClose}> <Settings color="action" fontSize="small" sx={{mr: 1}}/> Settings</MenuItem>
           <Divider />
 
           <MenuItem onClick={handleOpenDialog}>

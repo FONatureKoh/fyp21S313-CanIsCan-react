@@ -6,6 +6,9 @@ import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import Info from '@mui/icons-material/Info';
 import { Link, useHistory } from "react-router-dom";
 import { Dialog, DialogActions, DialogTitle } from '@mui/material';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import ViewDayIcon from '@mui/icons-material/ViewDay';
 
 const drawerWidth = 240;
 
@@ -60,14 +63,14 @@ export default function NavigationRM({restName, isVisible, isSelected, setIsSele
 
           <ListItemButton selected={isSelected === 1} component= { Link } to='/reservationsmanager/viewpendingres' onClick={() => setIsSelected(1)} >
             <ListItemIcon>
-              <RestaurantMenuIcon/>
+              <PendingActionsIcon/>
             </ListItemIcon>
             <ListItemText primary="Pending Reservations" />
           </ListItemButton>
 
           <ListItemButton selected={isSelected === 2} component= { Link } to='/reservationsmanager/acceptedres' onClick={() => setIsSelected(2)} >
             <ListItemIcon>
-              <Info/>
+              <DoneAllIcon/>
             </ListItemIcon>
             <ListItemText primary="Accepted Reservations"/>
           </ListItemButton>
@@ -80,7 +83,7 @@ export default function NavigationRM({restName, isVisible, isSelected, setIsSele
 
           <ListItemButton selected={isSelected === 3} component= { Link } to='/reservationsmanager/manageslots' onClick={() => setIsSelected(3)} >
             <ListItemIcon>
-              <RestaurantMenuIcon/>
+              <ViewDayIcon/>
             </ListItemIcon>
             <ListItemText primary="Manage Slots" />
           </ListItemButton>

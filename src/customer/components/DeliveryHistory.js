@@ -166,7 +166,12 @@ export default function DeliveryHistory() {
         {
           buttonTab === 1 ? (
           <React.Fragment>
-          {orderHistory.map((order)=>{
+          {orderHistory.length === 0 ? (<>
+            <Box width="80%" sx={{margin:'20px auto', textAlign:'center'}}>
+              <Typography variant="h6">No active deliveries</Typography>
+            </Box>
+            </>) : (<>
+              {orderHistory.map((order)=>{
             if (order.status !== "Fulfilled")
             {
             return <>
@@ -268,10 +273,17 @@ export default function DeliveryHistory() {
               {/* END OF ACTIVE ORDER */}
             </>}
           })}
+            </>)}
+          
             </React.Fragment>
           ) : 
           (
             <>
+            {orderHistory.length === 0 ? (<>
+            <Box width="80%" sx={{margin:'20px auto', textAlign:'center'}}>
+              <Typography variant="h6">No past deliveries</Typography>
+            </Box>
+            </>) : (<>
             {/* START OF PAST ORDERS */}
             {
               orderHistory.map(order => {
@@ -377,6 +389,8 @@ export default function DeliveryHistory() {
               <Button fullWidth variant="outlined" color="inherit" >Load More</Button>
             </Box>
             {/* END OF PAST ORDERS */}
+            </>)}
+            
             </>
           )
           

@@ -91,41 +91,6 @@ export default function ReservationHistory() {
     return maplink;
   }
 
-  //CART TESTING
-  const [realCart, setRealCart]= useState([
-    {
-      id: 1,
-      item: 'dog food',
-      price: 12.1,
-      qty: 3 
-    },
-    {
-      id: 2,
-      item: 'cat food',
-      price: 13,
-      qty: 2
-    },
-    {
-      id: 3,
-      item: 'giraffe food',
-      price: 23,
-      qty: 1
-    },
-    {
-      id: 4,
-      item: 'giraffe food',
-      price: 23,
-      qty: 1
-    },
-    {
-      id: 5,
-      item: 'giraffe food',
-      price: 23,
-      qty: 1
-    }
-  ])
-
-
   return (
       <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
         <CardHeader title={`Reservations History - ${buttonTab === 1 ? "Upcoming" : "Past"}`}/>
@@ -137,7 +102,12 @@ export default function ReservationHistory() {
 
           {
             buttonTab === 1 ? (
-              <>              
+              <>
+              {upcomingReservations.length === 0 ? (<>
+                <Box width="80%" sx={{margin:'20px auto', textAlign:'center'}}>
+                  <Typography variant="h6">No upcoming reservations! Make one now!</Typography>
+                </Box>
+                </>) : (<>
                 {/* UPCOMING RESERVATION */}
                 {upcomingReservations.map((item)=>{
                   return (<>
@@ -234,10 +204,17 @@ export default function ReservationHistory() {
                     {/* END OF UPCOMING RESERVATION */}
                   </>
                 )})}
+                </>)}             
+                
               </>
             ) : (
-              <>              
-              {/* UPCOMING RESERVATION */}
+              <> 
+              {pastReservations.length === 0 ? (<>
+                <Box width="80%" sx={{margin:'20px auto', textAlign:'center'}}>
+                  <Typography variant="h6">No past reservations</Typography>
+                </Box>
+                </>) : (<>
+                              {/* UPCOMING RESERVATION */}
               {pastReservations.map((item)=>{
                 return (<>
                   <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto 20px'}}>
@@ -328,6 +305,7 @@ export default function ReservationHistory() {
                   {/* END OF UPCOMING RESERVATION */}
                 </>
               )})}
+                </>)}             
             </>
             )
           }
