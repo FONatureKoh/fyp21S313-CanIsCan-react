@@ -39,7 +39,7 @@ export default function ViewProfile() {
 
   // User Profile retrieval
   useEffect(() => {
-    console.log("Use effect triggered!")
+    console.log("Use effect triggered!");
 
     // Get userInfo
     getUserInfo()

@@ -9,7 +9,7 @@ import RetaurantDetails from './components/RestaurantDetails';
 import ViewProfile from '../profile/viewprofile';
 import DeliveryHistory from './components/DeliveryHistory';
 import ReservationHistory from './components/ReservationHistory';
-import { retrieveAllRestaurants, retrieveRestaurantTags } from './customer_controller';
+import { getAccStatus, retrieveAllRestaurants, retrieveRestaurantTags } from './customer_controller';
 import OrderDelivery from './components/OrderDelivery';
 import { Modal } from '@mui/material';
 import CustFirstLogin from './components/CustFirstLogin';
@@ -46,13 +46,11 @@ export default function Customer() {
   const history = useHistory();
   // END OF CHECKING
 
-
   // Other useStates
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
   const [restaurantsArray, setRestaurantsArray] = useState([]);
   const [tagsArray, setTagsArray] = useState([]);
-  
   const [firstLog, setFirstLog] = useState(false);
 
   // Async functions for customers
@@ -78,8 +76,32 @@ export default function Customer() {
     }
   }
 
+  // Async for account status
+  async function checkFirstLog() {
+    try {
+      const response = await getAccStatus();
+
+      if (response.account_status === "first") {
+        setFirstLog(true);
+
+        return "First Login for user";
+      }
+    }
+    catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
+
   // useEffect to load the restaurants once on mount
   useEffect(() => {
+    // Trigger the account status check
+    checkFirstLog()
+      .then((response) => {
+        console.log(response);
+      });
+    
+    // Loads all available restaurant tags
     getAllRestaurantTags()
       .then((response) => {
         console.log(response);
@@ -87,12 +109,16 @@ export default function Customer() {
       })
       .catch(error => console.log(error));
 
+    // Gets all the restaurants that are open for business
     getAllRestaurants()
       .then((response) => {
         console.log(response);
         setRestaurantsArray(response);
       })
       .catch(error => console.log(error));
+    
+    // Gets the account's status to trigger first login for customer
+
   }, [])
 
   const toggleVisibility = () => {
