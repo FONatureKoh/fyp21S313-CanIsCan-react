@@ -71,7 +71,7 @@ export default function ResAccordion({reservation}) {
               Expected Cost
             </Typography>
             <Typography variant="subtitle1" textAlign="left">
-              S$ {reservation.po_total_cost.toFixed(2)}
+              {reservation.po_total_cost}
             </Typography>
           </Grid>
           <Grid item xs={4} md={4} sm={4}>
@@ -123,7 +123,7 @@ export default function ResAccordion({reservation}) {
                     {item.itemName}
                   </Typography>
                   <Typography variant="subtitle">
-                    Unit Price: S${item.itemPrice.toFixed(2)}
+                    Unit Price: S${item.itemPrice}
                   </Typography>
                 </Box>
                 <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
