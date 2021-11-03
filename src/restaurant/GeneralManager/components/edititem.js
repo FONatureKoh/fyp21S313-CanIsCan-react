@@ -97,7 +97,7 @@ export default function EditItem({menuData}) {
   });
 
   return (
-    <Card>
+    <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
     <CardHeader title="Edit Item" />
     <CardContent>
     <Grid container alignItems="center" justifyContent="center" sx={{margin:'auto', textAlign:'left', width: '80%'}} >
