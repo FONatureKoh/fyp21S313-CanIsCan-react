@@ -5,11 +5,21 @@ import { Box, Button, ListItemButton, Drawer, List, Divider, ListItem, Typograph
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import Info from '@mui/icons-material/Info';
 import { Link, useHistory } from "react-router-dom";
+import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 
 const drawerWidth = 240;
 
 export default function NavigationRM({restName, isVisible, isSelected, setIsSelected}) {
   const history = useHistory();
+  const [openDialog, setOpenDialog] = React.useState(false);
+
+  const handleOpenDialog= () => {
+      setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+      setOpenDialog(false);
+  };
 
   function logout(){
       let path = '/';
@@ -76,8 +86,25 @@ export default function NavigationRM({restName, isVisible, isSelected, setIsSele
           </ListItemButton>
         </List>
         <Divider variant="middle"/>
-        <Button variant="outlined" onClick={logout} color="inherit" sx={{margin:'30px auto', width:'90%'}} >Logout</Button>
+        <Button variant="outlined" color="inherit" onClick={handleOpenDialog} sx={{margin:'30px auto', width:'90%'}} >Logout</Button>
       </Drawer>
+      
+      <Dialog
+            open={openDialog}
+            onClose={handleCloseDialog}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+        <DialogTitle id="alert-dialog-title">
+          {"Confirm logout?"}
+        </DialogTitle>
+        <DialogActions>
+          <Button variant="outlined" color="inherit" onClick={logout}>Logout</Button>
+          <Button onClick={handleCloseDialog} variant="outlined" color="error">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
