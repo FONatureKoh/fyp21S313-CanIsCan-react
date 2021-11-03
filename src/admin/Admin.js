@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import NavigationAdmin from '../components/top-nav/NavigationAdmin';
 import Topbar from '../components/top-nav/topbar';
 import { Box } from '@mui/system';
@@ -9,16 +9,40 @@ import ExistingRest from './components/ExistingRest';
 import Tags from './components/Tags';
 import ViewProfile from '../profile/viewprofile';
 import { UserContext } from '../store/user_context';
+import { getUserType } from '../store/general_controller';
+// import { getUserType } from './admin_controller';
 
 export default function Admin() {
   // CHECKING OF USER TYPE 
+  useEffect(() => {
+    // ASYNC FUNCTION TO RETRIEVE THE USER TYPE THROUGH THE TOKEN
+    async function retrieverUserType() {
+      try {
+        const response = await getUserType();
+
+        const userType = response.user_type;
+        return userType;
+      }
+      catch (err) {
+        return "Invalid User"
+      }
+    }
+
+    // TRIGGER THE ASYNC FUNCTION AND PUSH IF ITS A BAD RESPONSE
+    retrieverUserType()
+      .then((response) => {
+        console.log(response);
+
+        if(response !== "System Administrator") {
+          history.push("/unauthorised");
+        }
+      })
+  }, []);
+
   const history = useHistory();
   const testContext = useContext(UserContext);
   console.log(testContext.usertype[0])
-  if(testContext.usertype[0] !== "System Administrator")
-  {
-    history.push("/unauthorised");
-  }
+  
   // END OF CHECKING
 
   const [isVisible, setIsVisible] = useState(true); 
