@@ -30,11 +30,15 @@ export default function GeneralManager() {
   // CHECKING OF USER TYPE 
   const history = useHistory();
   const testContext = useContext(UserContext);
-  console.log(testContext.usertype[0])
-  if(testContext.usertype[0] !== "Restaurant General Manager")
-  {
-    history.push("/unauthorised");
-  }
+  console.log(testContext)
+
+  useEffect(()=>{
+    if(testContext.usertype[0] && testContext.usertype[0] !== "Restaurant General Manager")
+    {
+      history.push("/unauthorised");
+    }
+  },[])
+  
   // END OF CHECKING
 
   // Setting some general states
@@ -195,7 +199,7 @@ export default function GeneralManager() {
       </Box>
 
       <Modal
-        open={1}
+        open={firstLog}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >

@@ -13,16 +13,20 @@ import { getAccStatus, getRestName } from '../restaurant_controller';
 import { UserContext } from '../../store/user_context';
 
 export default function ReservationsManager() {
-
   // CHECKING OF USER TYPE 
   const history = useHistory();
   const testContext = useContext(UserContext);
-  console.log(testContext.usertype[0])
-  if(testContext.usertype[0] !== "Singapore Reservations Manager")
-  {
-    history.push("/unauthorised");
-  }
+  console.log(testContext)
+
+  useEffect(()=>{
+    if(testContext.usertype[0] !== "Restaurant Reservations Manager")
+    {
+      history.push("/unauthorised");
+    }
+  },[])
+  
   // END OF CHECKING
+
 
   // Essential useStates for the page
   const [isVisible, setIsVisible] = useState(true); 

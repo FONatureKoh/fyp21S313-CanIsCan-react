@@ -16,15 +16,17 @@ import { UserContext } from '../../store/user_context';
  * 
  ***********************************************************************/
 export default function DeliveriesManager() {
-
   // CHECKING OF USER TYPE 
   const history = useHistory();
   const testContext = useContext(UserContext);
-  console.log(testContext.usertype[0])
-  if(testContext.usertype[0] !== "Restaurant Deliveries Manager")
-  {
-    history.push("/unauthorised");
-  }
+  console.log(testContext)
+
+  useEffect(()=>{
+    if(testContext.usertype[0] && testContext.usertype[0] !== "Restaurant Deliveries Manager")
+    {
+      history.push("/unauthorised");
+    }
+  },[])
   // END OF CHECKING
 
   // Essential useStates for the page

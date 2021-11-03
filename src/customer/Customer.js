@@ -26,16 +26,19 @@ import { UserContext } from '../store/user_context';
 
 
 export default function Customer() {
-
   // CHECKING OF USER TYPE 
   const history = useHistory();
   const testContext = useContext(UserContext);
-  console.log(testContext.usertype[0])
-  if(testContext.usertype[0] !== "Customer")
-  {
-    history.push("/unauthorised");
-  }
+  console.log(testContext)
+
+  useEffect(()=>{
+    if(testContext.usertype[0] !== '' && testContext.usertype[0] !== "Customer")
+    {
+      history.push("/unauthorised");
+    }
+  },[])
   // END OF CHECKING
+
 
   // Other useStates
   const [isVisible, setIsVisible] = useState(true); 
