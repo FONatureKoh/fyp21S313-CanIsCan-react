@@ -21,7 +21,7 @@ export default function DeliveriesManager() {
   const history = useHistory();
   const testContext = useContext(UserContext);
   console.log(testContext.usertype[0])
-  if(testContext.usertype[0] !== "Deliveries Manager")
+  if(testContext.usertype[0] !== "Restaurant Deliveries Manager")
   {
     history.push("/unauthorised");
   }

@@ -18,7 +18,7 @@ export default function ReservationsManager() {
   const history = useHistory();
   const testContext = useContext(UserContext);
   console.log(testContext.usertype[0])
-  if(testContext.usertype[0] !== "Reservations Manager")
+  if(testContext.usertype[0] !== "Singapore Reservations Manager")
   {
     history.push("/unauthorised");
   }

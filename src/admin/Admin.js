@@ -15,7 +15,7 @@ export default function Admin() {
   const history = useHistory();
   const testContext = useContext(UserContext);
   console.log(testContext.usertype[0])
-  if(testContext.usertype[0] !== "Administrator")
+  if(testContext.usertype[0] !== "System Administrator")
   {
     history.push("/unauthorised");
   }
