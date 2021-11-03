@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Card, CardHeader, CardContent, Box, Typography, Stepper, Step, StepLabel, Divider, Accordion, AccordionSummary, AccordionDetails, Grid, ListItem, Button } from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Card, CardHeader, CardContent, Box, Typography } from '@mui/material'
 import { getOrders, getDOItems } from '../dm_controller';
 import DelAccordion from './DelAccordion';
 
@@ -94,11 +93,17 @@ export default function AcceptedOrders() {
     <CardHeader title="Pending Orders" />
       <CardContent>
         <Box width="90%" sx={{margin:'0px auto', textAlign:"center"}}>
-          {
-            acceptedDO.map(item=>{
-              return <DelAccordion item={item}/>
-            })
-          }
+          {acceptedDO.length === 0 ? (<>
+            <Box width="80%" sx={{margin:'20px auto', textAlign:'center'}}>
+              <Typography variant="h6">No pending orders</Typography>
+            </Box>
+            </>) : (<>
+            {
+              acceptedDO.map(item=>{
+                return <DelAccordion item={item}/>
+              })
+            }
+        </>)}
         </Box>
       </CardContent>
   </Card>

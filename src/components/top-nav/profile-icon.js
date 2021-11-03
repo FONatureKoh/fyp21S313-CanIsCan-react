@@ -1,11 +1,9 @@
 import React, { useContext } from 'react'
-import Settings from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
-import { Divider, Button, Container, Menu, MenuItem, IconButton, Avatar, Typography } from '@mui/material';
+import { Divider, Button, Container, Menu, MenuItem, IconButton, Avatar, Typography, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import profilepic from '../../assets/temp/johnsmith.png'
 import { useHistory } from 'react-router-dom';
-import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { UserContext } from '../../store/user_context' ;
 import { useRouteMatch } from 'react-router';

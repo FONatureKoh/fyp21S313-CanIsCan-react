@@ -1,13 +1,10 @@
 import React from 'react';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import { Box, Button, ListItemButton, Drawer, List, Divider, ListItem } from '@mui/material';
+import { Box, Button, ListItemButton, Drawer, List, Divider, ListItem, ListItemIcon, ListItemText, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { Link, useHistory } from "react-router-dom";
 import TagIcon from '@mui/icons-material/Tag';
 import SearchIcon from '@mui/icons-material/Search';
 import FoodBankIcon from '@mui/icons-material/FoodBank';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
-import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 
 const drawerWidth = 240;
 

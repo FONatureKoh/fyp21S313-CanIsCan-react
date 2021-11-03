@@ -1,11 +1,9 @@
 import React from 'react';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import { Typography, Box, Button, ListItemButton, Drawer, List, Divider, ListItem } from '@mui/material';
-import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
-import Info from '@mui/icons-material/Info';
+import { Typography, Box, Button, ListItemButton, Drawer, List, Divider, ListItem, ListItemIcon, ListItemText, Dialog, DialogActions, DialogTitle } from '@mui/material';
+import HistoryIcon from '@mui/icons-material/History';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import { Link, useHistory } from "react-router-dom";
-import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -60,21 +58,21 @@ export default function NavigationDM({restName, isVisible, isSelected, setIsSele
 
           <ListItemButton selected={isSelected === 1} component={ Link } to="/deliveriesmanager/viewpending" onClick={() => setIsSelected(1)} >
             <ListItemIcon>
-              <RestaurantMenuIcon/>
+              <PendingActionsIcon/>
             </ListItemIcon>
             <ListItemText primary="Pending Orders" />
           </ListItemButton>
 
           <ListItemButton selected={isSelected === 2} component={ Link } to="/deliveriesmanager/acceptedorders" onClick={() => setIsSelected(2)} >
             <ListItemIcon>
-              <Info/>
+              <DoneAllIcon/>
             </ListItemIcon>
             <ListItemText primary="Accepted Orders"/>
           </ListItemButton>
 
           <ListItemButton selected={isSelected === 3} component={ Link } to="/deliveriesmanager/viewhistory" onClick={() => setIsSelected(3)} >
             <ListItemIcon>
-              <Info/>
+              <HistoryIcon/>
             </ListItemIcon>
             <ListItemText primary="Orders History"/>
           </ListItemButton>

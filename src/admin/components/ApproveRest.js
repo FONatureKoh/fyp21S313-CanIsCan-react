@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, CardHeader, CardContent, Box, Typography, Button } from '@mui/material'
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
+import { Card, CardHeader, CardContent, Box, Typography, Button, Accordion, AccordionSummary, AccordionDetails } from '@mui/material'
 import { approveRestaurant, retrievePending } from '../admin_controller';
 
 export default function ApproveRest() {

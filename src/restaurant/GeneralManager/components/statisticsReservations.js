@@ -1,8 +1,6 @@
 import React from 'react'
-import { Grid } from '@mui/material'
 import Chart from "react-google-charts";
-import { Card, CardHeader, CardContent } from '@mui/material';
-import { Box } from '@mui/system';
+import { Card, CardHeader, CardContent, Grid, Box } from '@mui/material';
 
 export default function StatisticsReservations() {       
 

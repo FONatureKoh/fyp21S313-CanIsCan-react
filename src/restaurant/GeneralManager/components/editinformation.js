@@ -1,16 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dialog, DialogActions, 
-DialogContent, DialogContentText, DialogTitle, Stack, Box } from '@mui/material'
+DialogContent, DialogContentText, DialogTitle, Stack, Box, OutlinedInput, InputLabel, MenuItem, FormControl, Select, Chip } from '@mui/material'
 import bannerpic from '../../../assets/temp/eg-biz1.png'
 import { useHistory } from 'react-router-dom'
 import { styled } from '@mui/material/styles';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
-import { useTheme } from '@mui/material/styles';
 import { Block } from '@mui/icons-material';
 import { restaurantProfile, retrieveRestaurantTags } from '../../restaurant_controller'
 

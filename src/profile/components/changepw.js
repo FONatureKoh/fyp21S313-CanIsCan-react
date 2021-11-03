@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { TextField, Grid, Button, Typography, CardContent, CardHeader, 
+import { TextField, Grid, Button, CardContent, CardHeader, 
 Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import { useHistory } from 'react-router-dom'
 import { changePwController, verifyPwController } from '../profile_controller';

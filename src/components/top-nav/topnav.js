@@ -1,17 +1,12 @@
-import logo from '../../assets/logo.svg';
 import React from 'react';
-import profile from '../../assets/icon-profile.png';
+import logo from '../../assets/logo.svg';
 import profilepic from '../../assets/temp/johnsmith.png'
 import './topnav.css';
 import { useHistory } from 'react-router-dom';
-import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
 import Settings from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
-import { Divider, Button } from '@mui/material';
+import { Divider, Button, IconButton, MenuItem, Menu, Avatar } from '@mui/material';
 
 // the icon-profile should not appear if viewing/editing profile
 // will look into adding the general manager top right icons

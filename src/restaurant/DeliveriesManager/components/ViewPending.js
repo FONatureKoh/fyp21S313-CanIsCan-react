@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, CardHeader, CardContent, Box, Typography, Stepper, Step, StepLabel, Divider, Accordion, AccordionSummary, AccordionDetails, Grid, ListItem, Button } from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Card, CardHeader, CardContent, Box, Typography } from '@mui/material'
 import DelAccordion from './DelAccordion';
 
 // DM_CONTROLLER IMPORT
@@ -97,11 +96,18 @@ export default function ViewPending() {
     <CardHeader title="Pending Orders" />
     <CardContent>
       <Box width="90%" sx={{margin:'0px auto', textAlign:"center"}}>
-        {
-          pendingDO.map(item=>{
-            return <DelAccordion item={item}/>
-          })
-        }
+        {pendingDO.length === 0 ? (<>
+            <Box width="80%" sx={{margin:'20px auto', textAlign:'center'}}>
+              <Typography variant="h6">No pending orders</Typography>
+            </Box>
+            </>) : (<>
+            {
+              pendingDO.map(item=>{
+                return <DelAccordion item={item}/>
+              })
+            }
+        </>)}
+        
       </Box>
     </CardContent>
   </Card>

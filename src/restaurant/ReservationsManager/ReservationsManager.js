@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import NavigationRM from '../../components/top-nav/NavigationRM'
 import Topbar from '../../components/top-nav/topbar';
-import { Modal } from '@mui/material';
-import { Box } from '@mui/system';
+import { Modal, Box } from '@mui/material';
 import { Switch, Route, Redirect, useHistory }from 'react-router-dom';
 import PendingReservations from './components/PendingReservations';
 import AcceptedReservations from './components/AcceptedReservations';

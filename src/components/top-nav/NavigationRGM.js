@@ -1,13 +1,10 @@
 import React from 'react';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import { Switch, Typography, Box, Button, ListItemButton, Drawer, List, Divider, ListItem } from '@mui/material';
+import { Switch, Typography, Box, Button, ListItemButton, Drawer, List, Divider, ListItem, Dialog, DialogActions, DialogTitle, ListItemIcon, ListItemText } from '@mui/material';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import Info from '@mui/icons-material/Info';
 import { Link, useHistory } from "react-router-dom";
-import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 
 const drawerWidth = 240;
 

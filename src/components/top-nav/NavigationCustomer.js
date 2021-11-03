@@ -1,14 +1,12 @@
 import React from 'react';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import { Box, Button, ListItemButton, Drawer, List, Divider, ListItem } from '@mui/material';
+import { Box, Button, ListItemButton, Drawer, List, Divider, ListItem, ListItemIcon, ListItemText, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
-import { Link, useHistory } from "react-router-dom";
-import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 import HistoryIcon from '@mui/icons-material/History';
+import { Link, useHistory } from "react-router-dom";
 
+
+//CART VARIABLE
 const drawerWidth = 240;
-
 
 export default function NavigationCustomer({isVisible, isSelected, setIsSelected}) {
   const history = useHistory();

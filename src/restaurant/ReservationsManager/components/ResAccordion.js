@@ -11,6 +11,7 @@ export default function ResAccordion({reservation}) {
   // Pre-order State
   const [preOrderStatus, setPreOrderStatus] = useState(reservation.po_status);
 
+  console.log(reservation)
   // Button functions
   const setAbsent = () => {
     updateReservationStatus(reservation.cust_RID, "Cancelled")
@@ -100,44 +101,51 @@ export default function ResAccordion({reservation}) {
           </Grid>
         </Grid>
 
-        <Accordion sx={{border:'1px solid #eeeeee', mt:'20px'}} expanded={innerAccOpen} >
-          {/* HEADER OF ACCORDION */}
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="reservation-details"
-            id="reservation-details"
-            sx={{borderBottom:'0.5px solid #eeeeee'}}
-            onClick={()=>{setInnerAccOpen(!innerAccOpen)}}
-          >
-            <Typography sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-              Pre-order Details
-            </Typography>
-          </AccordionSummary>
-          {/* INNDER ACCORDION */}
-          <AccordionDetails>
-            {reservation.po_items !== "none" ? (
-              reservation.po_items.map(item => (
-              <><ListItem key={reservation.po_ID} sx={{margin:'20px auto'}}>
-                <Box width='70%'>
-                  <Typography variant="h6">
-                    {item.itemName}
+        {reservation.po_items === "none" ? (<>
+            <Box width="80%" sx={{margin:'20px auto', textAlign:'center'}}>
+              <Typography variant="h6">No pre-ordered items</Typography>
+            </Box>
+            </>) : (<>
+              <Accordion sx={{border:'1px solid #eeeeee', mt:'20px'}} expanded={innerAccOpen} >
+                {/* HEADER OF ACCORDION */}
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="reservation-details"
+                  id="reservation-details"
+                  sx={{borderBottom:'0.5px solid #eeeeee'}}
+                  onClick={()=>{setInnerAccOpen(!innerAccOpen)}}
+                >
+                  <Typography sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                    Pre-order Details
                   </Typography>
-                  <Typography variant="subtitle">
-                    Unit Price: S${item.itemPrice}
-                  </Typography>
-                </Box>
-                <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
-                  <Typography variant="subtitle2">
-                    Quantity: {item.itemQty}
-                  </Typography>
-                    <Typography variant="subtitle2">
-                      Price: S$ {(item.itemQty * item.itemPrice).toFixed(2)}
-                    </Typography>
-                  </Box>
-              </ListItem></>))
-            ) : (<></>)}
+                </AccordionSummary>
+                {/* INNDER ACCORDION */}
+                <AccordionDetails>
+                  {reservation.po_items !== "none" ? (
+                    reservation.po_items.map(item => (
+                    <><ListItem key={reservation.po_ID} sx={{margin:'20px auto'}}>
+                      <Box width='70%'>
+                        <Typography variant="h6">
+                          {item.itemName}
+                        </Typography>
+                        <Typography variant="subtitle">
+                          Unit Price: S${item.itemPrice}
+                        </Typography>
+                      </Box>
+                      <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
+                        <Typography variant="subtitle2">
+                          Quantity: {item.itemQty}
+                        </Typography>
+                          <Typography variant="subtitle2">
+                            Price: S$ {(item.itemQty * item.itemPrice).toFixed(2)}
+                          </Typography>
+                        </Box>
+                    </ListItem></>))
+                  ) : (<></>)}
           </AccordionDetails>
         </Accordion>
+            </>)}
+        
 
         {reservation.reservation_status === 'Pending' ? (
         <>

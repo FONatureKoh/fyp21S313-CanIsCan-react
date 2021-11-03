@@ -1,24 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import ViewMenuList from '../../../components/rest-view-menu/ViewMenuList';
-import { Button, CardContent, CardHeader, Grid, TextField, Typography } from '@mui/material'
+import { Button, CardContent, CardHeader, Grid, TextField, Typography, Card, Box, Tab, Dialog,
+  DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { Card } from '@mui/material';
-import { Link } from "react-router-dom";
-import { Box } from '@mui/system';
-import { Route, Switch } from 'react-router';
+import { Route, Switch, Link } from "react-router-dom";
 import EditItem from './edititem';
 import AddItem from './additem';
 import { UserContext } from '../../../store/user_context';
-import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
 import AddIcon from '@mui/icons-material/Add';
-import TabPanel from '@mui/lab/TabPanel';
-import { Dialog } from '@mui/material';
-import { DialogTitle } from '@mui/material';
-import { DialogContent } from '@mui/material';
-import { DialogContentText } from '@mui/material';
-import { DialogActions } from '@mui/material';
+import { TabPanel, TabList, TabContext } from '@mui/lab';
 import { addRestaurantCategory, retrieveAllItems, retrieveCatItems, retrieveCats } from '../../restaurant_controller';
 
 export default function Editmenu({menuData, itemSelected, setItemSelected}) {

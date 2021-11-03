@@ -3,7 +3,6 @@ import './login.css';
 import React, { useContext, useState } from 'react';
 import { useHistory} from 'react-router-dom';
 import { loginAuth } from './login_controller';
-import { Alert } from '@mui/material';
 import { UserContext } from '../store/user_context';
 import { retrieveUserProfile } from '../profile/profile_controller';
 

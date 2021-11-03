@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Card, CardHeader, CardContent, Box, TextField, Typography, Button, Grid, Divider } from '@mui/material'
+import { Card, CardHeader, CardContent, Box, TextField, Typography, Button, Grid } from '@mui/material'
 import { TimePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { getResSettings, saveResSettings } from '../rm_controller';
-import { set } from 'date-fns';
 import { useHistory } from 'react-router';
 
 export default function ManageSlots() {

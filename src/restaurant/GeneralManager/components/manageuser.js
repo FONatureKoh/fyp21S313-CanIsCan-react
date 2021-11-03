@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Card, CardHeader, Box } from '@mui/material'
-import { CardContent } from '@mui/material'
+import { Button, Card, CardHeader, Box, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
-import { Link } from 'react-router-dom'
-import { Route, Switch } from 'react-router';
+import { Route, Switch, Link } from 'react-router-dom'
 import AddSubUser from './addsubuser';
 import EditSubUser from './editsubuser';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { allSubUsers } from '../../restaurant_controller';
 
 export default function ManageUser() {

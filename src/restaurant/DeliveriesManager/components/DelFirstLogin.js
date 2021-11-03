@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { Divider } from '@mui/material';
-import { TextField } from '@mui/material';
+import { Divider, TextField, Typography, Button, StepLabel, Step, Stepper, Box } from '@mui/material';
 import { postChangePW, postPersonalProfile, retrieveUserProfile } from '../../restaurant_controller';
 
 // Steps with regards to the firstlogin

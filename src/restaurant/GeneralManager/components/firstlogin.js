@@ -1,19 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { Divider, Stack } from '@mui/material';
-import { TextField } from '@mui/material';
+import { Stepper, Box, Step, StepLabel, Button, Typography,  Divider, Stack, TextField, InputLabel, MenuItem, FormControl, Select, Chip, OutlinedInput } from '@mui/material';
 import { Block } from '@mui/icons-material';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
 import { styled } from '@mui/styles';
 import { postChangePW, postPersonalProfile, postRestaurantProfile, retrieveRestaurantTags } from '../../restaurant_controller';
 import DefaultProfile from '../../../assets/default-profile.png'

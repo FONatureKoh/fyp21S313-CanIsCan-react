@@ -1,11 +1,6 @@
 import React from 'react';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import { Box, Button, ListItemButton, Drawer, List, Divider, ListItem, Typography } from '@mui/material';
-import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
-import Info from '@mui/icons-material/Info';
+import { Box, Button, ListItemButton, Drawer, List, Divider, ListItem, Typography, ListItemIcon, ListItemText, Dialog, DialogActions, DialogTitle  } from '@mui/material';
 import { Link, useHistory } from "react-router-dom";
-import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import ViewDayIcon from '@mui/icons-material/ViewDay';

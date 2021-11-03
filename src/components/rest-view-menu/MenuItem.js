@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import { Box } from '@mui/system';
-import { Button } from '@mui/material';
+import { Button, Typography, Box, Grid, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { Link, useHistory } from 'react-router-dom';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { getImage } from './items_controller';
 import { deleteRestaurantItem } from '../../restaurant/restaurant_controller';
 

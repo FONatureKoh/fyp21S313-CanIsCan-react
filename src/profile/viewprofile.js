@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Button, Typography, CardContent, CardHeader, Card } from '@mui/material'
-import john from '../assets/temp/johnsmith.png'
 import { Route, Switch, Link } from 'react-router-dom';
 import EditProfile from './components/editprofile';
 import ChangePassword from './components/changepw';

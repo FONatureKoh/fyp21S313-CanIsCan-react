@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Button, Typography, Switch, Divider, CardContent, CardHeader, Card, Chip } from '@mui/material'
-import bannerpic from '../../../assets/temp/eg-biz1.png'
 import { Route, Link, Switch as Switch2 } from 'react-router-dom'
 import EditInformation from './editinformation'
 import { restaurantProfile, retrieveBannerImage } from '../../restaurant_controller'

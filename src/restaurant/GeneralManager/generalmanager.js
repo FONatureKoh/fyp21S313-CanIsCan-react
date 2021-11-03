@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useContext}from 'react'
 import NavigationRGM from '../../components/top-nav/NavigationRGM'
 import Topbar from '../../components/top-nav/topbar';
-import { Box } from '@mui/system';
+import { Box, Modal } from '@mui/material';
 import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import Editmenu from './components/editmenu';
 import ManageUser from './components/manageuser';
@@ -10,7 +10,6 @@ import AddSubUser from './components/addsubuser';
 import Stats from './components/statistics';
 import ViewProfile from '../../profile/viewprofile';
 import { restaurantProfile, retrieveRestaurantStatus, setRestStatus } from '../restaurant_controller';
-import { Modal } from '@mui/material';
 import FirstLogin from './components/firstlogin';
 import { UserContext } from '../../store/user_context' ;
 import StatisticsReservations from './components/statisticsReservations';

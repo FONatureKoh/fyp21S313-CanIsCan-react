@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import NavigationDM from '../../components/top-nav/NavigationDM'
 import Topbar from '../../components/top-nav/topbar';
-import { Box } from '@mui/system';
-import { Modal } from '@mui/material';
+import { Modal, Box } from '@mui/material';
 import ViewPending from './components/ViewPending';
 import ViewProfile from '../../profile/viewprofile';
 import AcceptedOrders from './components/AcceptedOrders';
@@ -44,7 +43,6 @@ export default function DeliveriesManager() {
   }, []);
 
   const history = useHistory();
-  const testContext = useContext(UserContext);
   
   // END OF CHECKING
   // Essential useStates for the page

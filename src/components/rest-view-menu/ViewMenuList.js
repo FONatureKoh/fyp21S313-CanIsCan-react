@@ -1,8 +1,5 @@
 import React from 'react'
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
+import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MenuItem from './MenuItem';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
