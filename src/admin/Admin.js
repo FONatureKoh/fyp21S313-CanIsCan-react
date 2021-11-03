@@ -41,7 +41,6 @@ export default function Admin() {
 
   const history = useHistory();
   const testContext = useContext(UserContext);
-  console.log(testContext.usertype[0])
   
   // END OF CHECKING
 

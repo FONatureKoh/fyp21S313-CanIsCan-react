@@ -23,20 +23,38 @@ import { Modal } from '@mui/material';
 import CustFirstLogin from './components/CustFirstLogin';
 import Reservation from './components/Reservation';
 import { UserContext } from '../store/user_context';
-
+import { getUserType } from '../store/general_controller';
 
 export default function Customer() {
   // CHECKING OF USER TYPE 
+  useEffect(() => {
+    // ASYNC FUNCTION TO RETRIEVE THE USER TYPE THROUGH THE TOKEN
+    async function retrieverUserType() {
+      try {
+        const response = await getUserType();
+
+        const userType = response.user_type;
+        return userType;
+      }
+      catch (err) {
+        return "Invalid User"
+      }
+    }
+
+    // TRIGGER THE ASYNC FUNCTION AND PUSH IF ITS A BAD RESPONSE
+    retrieverUserType()
+      .then((response) => {
+        console.log(response);
+
+        if(response !== "Customer") {
+          history.push("/unauthorised");
+        }
+      })
+  }, []);
+
   const history = useHistory();
   const testContext = useContext(UserContext);
-  console.log(testContext)
-
-  useEffect(()=>{
-    if(testContext.usertype[0] !== '' && testContext.usertype[0] !== "Customer")
-    {
-      history.push("/unauthorised");
-    }
-  },[])
+  
   // END OF CHECKING
 
 

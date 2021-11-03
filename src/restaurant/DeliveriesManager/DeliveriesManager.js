@@ -11,24 +11,42 @@ import DelFirstLogin from './components/DelFirstLogin';
 import ViewOrderHistory from './components/ViewOrderHistory';
 import { getAccStatus, getRestName } from '../restaurant_controller';
 import { UserContext } from '../../store/user_context';
+import { getUserType } from '../../store/general_controller';
 
 /***********************************************************************
  * 
  ***********************************************************************/
 export default function DeliveriesManager() {
   // CHECKING OF USER TYPE 
+  useEffect(() => {
+    // ASYNC FUNCTION TO RETRIEVE THE USER TYPE THROUGH THE TOKEN
+    async function retrieverUserType() {
+      try {
+        const response = await getUserType();
+
+        const userType = response.user_type;
+        return userType;
+      }
+      catch (err) {
+        return "Invalid User"
+      }
+    }
+
+    // TRIGGER THE ASYNC FUNCTION AND PUSH IF ITS A BAD RESPONSE
+    retrieverUserType()
+      .then((response) => {
+        console.log(response);
+
+        if(response !== "Restaurant Deliveries Manager") {
+          history.push("/unauthorised");
+        }
+      })
+  }, []);
+
   const history = useHistory();
   const testContext = useContext(UserContext);
-  console.log(testContext)
-
-  useEffect(()=>{
-    if(testContext.usertype[0] && testContext.usertype[0] !== "Restaurant Deliveries Manager")
-    {
-      history.push("/unauthorised");
-    }
-  },[])
+  
   // END OF CHECKING
-
   // Essential useStates for the page
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
