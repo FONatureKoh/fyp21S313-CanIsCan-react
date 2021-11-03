@@ -242,7 +242,7 @@ export default function FirstLogin({setFirstLog}) {
   }
 
   return (
-    <Box sx={{ width: '80%', margin:'30px auto'}}>
+    <Box sx={{ width: '95%', margin:'30px auto'}}>
       <Stepper activeStep={activeStep} alternativeLabel >
         {steps.map((label, index) => {
           const stepProps = {};
@@ -290,9 +290,9 @@ export default function FirstLogin({setFirstLog}) {
               
               <Box sx={{width:'40%'}}>
                 <Typography sx={{textAlign:'center', fontSize:'15px', mt:'20px', fontWeight:'bold'}}>Profile Photo</Typography>
-                <Box sx={{position:'relative', top:'100px'}}>
-                  <img src={profilePreview} height="200px" width="300px" alt="additem" />
-                  <Box sx={{position:'relative', top:'10px'}}>
+                <Box sx={{position:'relative', top:'10px', textAlign:'center', alignContent: "center"}}>
+                  <img width="80%" src={profilePreview} alt="additem" />
+                  <Box sx={{position:'relative', top:'10px', textAlign:'center', alignContent: "center"}}>
                     <label htmlFor="profileImage">
                     <input 
                       hidden 
@@ -304,7 +304,7 @@ export default function FirstLogin({setFirstLog}) {
                         setProfileImage(imageFile);
                         console.log("meow")
                       }} />
-                    <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
+                    <Typography sx={{textAlign:'center', fontSize:'16px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
                     </label>
                   </Box>
                 </Box>
@@ -389,29 +389,32 @@ export default function FirstLogin({setFirstLog}) {
               Update your restaurant information
             </Typography>
             <Divider variant="middle" />
-            <Box sx={{height:'180px'}}>
-            <Typography sx={{textAlign:'center', fontSize:'15px', mt:'5px', fontWeight:'bold'}}>Banner Photo</Typography>
-              <img src={bannerPreview} height="200px" width="300px" alt="banner" />
-
-              <Box sx={{position:'relative', top:'10px'}}>
-                <label htmlFor="bannerImage">
-                <input
-                  hidden 
-                  type="file" 
-                  id="bannerImage" 
-                  accept=".png" 
-                  onChange={event => {
-                    const imageFile = event.target.files[0];
-                    console.log(imageFile);
-                    setBannerImage(imageFile);
-                  }} 
-                  />
-                <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
-                </label>
+            <Box sx={{height:'300px'}}>
+              <Typography sx={{textAlign:'center', fontSize:'15px', mt:'5px', fontWeight:'bold'}}>Banner Photo</Typography>
+                <Box sx={{position:'relative', top:'10px', textAlign:'center', alignContent: "center"}}>
+                  <img height="220px" src={bannerPreview} alt="banner" />
+                    <Box sx={{position:'relative', top:'10px'}}>
+                      <label htmlFor="bannerImage">
+                      <input
+                        hidden 
+                        type="file" 
+                        id="bannerImage" 
+                        accept=".png" 
+                        onChange={event => {
+                          const imageFile = event.target.files[0];
+                          console.log(imageFile);
+                          setBannerImage(imageFile);
+                        }} 
+                        />
+                        <Typography sx={{textAlign:'center', fontSize:'16px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
+                      </label>
+                    </Box>
                 </Box>
             </Box>
 
-            <Divider variant="middle" />
+            <Box sx={{height:'auto'}}>
+              <Divider variant="middle" />
+            </Box>
 
             <TextField sx={{width:'85%', margin:'30px auto 15px'}}
               id="rest-address" 
