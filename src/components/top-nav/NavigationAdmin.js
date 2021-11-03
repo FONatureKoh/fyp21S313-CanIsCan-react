@@ -1,11 +1,7 @@
 import React from 'react';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { Switch, Typography, Box, Button, ListItemButton, Drawer, List, Divider, ListItem } from '@mui/material';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
-import AssessmentIcon from '@mui/icons-material/Assessment';
-import Info from '@mui/icons-material/Info';
+import { Box, Button, ListItemButton, Drawer, List, Divider, ListItem } from '@mui/material';
 import { Link, useHistory } from "react-router-dom";
 import TagIcon from '@mui/icons-material/Tag';
 import SearchIcon from '@mui/icons-material/Search';

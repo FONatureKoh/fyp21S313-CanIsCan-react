@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardContent, Box, Typography, Stepper, Step, StepLabel, Divider, Accordion, AccordionSummary, AccordionDetails, Grid, ListItem, 
-  Button, Modal, CardMedia, Rating, TextField } from '@mui/material'
+  Button, Modal, Rating, TextField } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Link } from 'react-router-dom';
 import { getAllOrderItems, getAllOrders, submitRestaurantReview } from '../customer_controller';
@@ -267,6 +267,12 @@ export default function DeliveryHistory() {
               </Card>
               {/* END OF ACTIVE ORDER */}
             </>}
+            else {
+              return(<Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}> 
+              <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                No orders yet
+              </Typography></Box>
+              )}
           })}
             </React.Fragment>
           ) : 
@@ -370,6 +376,12 @@ export default function DeliveryHistory() {
                     </CardContent>
                   </Card>
                 }
+                else {
+                  return(<Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}> 
+                  <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                    No orders yet
+                  </Typography></Box>
+                  )}
               })
             }
             

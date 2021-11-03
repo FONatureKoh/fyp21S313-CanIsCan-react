@@ -8,7 +8,6 @@ import Chip from '@mui/material/Chip';
 import { Link } from 'react-router-dom';
 
 export default function BrowseRestaurant({restData}) {
-  const [btnVisible, setBtnVisible] = useState(true);
   const menuCount = restData.length;
   const [shownNum, setShownNum] = useState(5);
 

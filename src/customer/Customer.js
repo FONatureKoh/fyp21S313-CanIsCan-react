@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import Topbar from '../components/top-nav/topbar'
 import NavigationCustomer from '../components/top-nav/NavigationCustomer'
 import { Box } from '@mui/system';
@@ -6,14 +6,6 @@ import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import BrowseRestaurant from './components/BrowseRestaurant';
 import BrowseRestaurantCat from './components/BrowseRestaurantCat';
 import RetaurantDetails from './components/RestaurantDetails';
-import Cart from './components/Cart';
-import { Button, Drawer, Typography } from '@mui/material';
-import { List, ListItem } from '@mui/material';
-import { Divider } from '@mui/material';
-import { ButtonGroup } from '@mui/material';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import CheckOut from './components/CheckOut';
-import { Link } from 'react-router-dom';
 import ViewProfile from '../profile/viewprofile';
 import DeliveryHistory from './components/DeliveryHistory';
 import ReservationHistory from './components/ReservationHistory';
@@ -22,7 +14,6 @@ import OrderDelivery from './components/OrderDelivery';
 import { Modal } from '@mui/material';
 import CustFirstLogin from './components/CustFirstLogin';
 import Reservation from './components/Reservation';
-import { UserContext } from '../store/user_context';
 import { getUserType } from '../store/general_controller';
 
 export default function Customer() {
@@ -53,8 +44,6 @@ export default function Customer() {
   }, []);
 
   const history = useHistory();
-  const testContext = useContext(UserContext);
-  
   // END OF CHECKING
 
 
@@ -65,12 +54,6 @@ export default function Customer() {
   const [tagsArray, setTagsArray] = useState([]);
   
   const [firstLog, setFirstLog] = useState(false);
-
-  //CART CALCULATION
-  const [deliveryFee, setDeliveryFee] = useState(0);
-  const [gst, setGst] = useState(0);
-  const [subtotal, setSubtotal] = useState(0);
-  const [total, setTotal] = useState(0);
 
   // Async functions for customers
   // For Categories

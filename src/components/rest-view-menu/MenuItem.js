@@ -76,7 +76,7 @@ export default function MenuItem({item, menuData}) {
       <Grid container spacing={2} padding={5}>
         <Grid item xs={6}>
           <Box height="100%" sx={{textAlign:'center', alignContent: "center" }}>
-            <img width="80%" src={itemImage} alt='Image Error'/>
+            <img width="80%" src={itemImage} alt='Error'/>
           </Box>
         </Grid>
         <Grid item xs={6}>

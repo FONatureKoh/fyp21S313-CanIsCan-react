@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavigationAdmin from '../components/top-nav/NavigationAdmin';
 import Topbar from '../components/top-nav/topbar';
 import { Box } from '@mui/system';
@@ -8,7 +8,6 @@ import ExistingCust from './components/ExistingCust';
 import ExistingRest from './components/ExistingRest';
 import Tags from './components/Tags';
 import ViewProfile from '../profile/viewprofile';
-import { UserContext } from '../store/user_context';
 import { getUserType } from '../store/general_controller';
 // import { getUserType } from './admin_controller';
 
@@ -40,7 +39,6 @@ export default function Admin() {
   }, []);
 
   const history = useHistory();
-  const testContext = useContext(UserContext);
   
   // END OF CHECKING
 

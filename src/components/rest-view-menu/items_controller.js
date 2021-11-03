@@ -1,5 +1,4 @@
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
 
 /*****************************************************************************************
  * Some application settings to be used throughout the controller

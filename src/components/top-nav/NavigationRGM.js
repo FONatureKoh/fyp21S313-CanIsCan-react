@@ -121,7 +121,7 @@ export default function NavigationRGM({restaurantName, isVisible, isSelected, se
           {"Confirm logout?"}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={handleCloseDialog} variant="outlined" color="inherit" onClick={logout}>Logout</Button>
+          <Button variant="outlined" color="inherit" onClick={logout}>Logout</Button>
           <Button onClick={handleCloseDialog} variant="outlined" color="error">
             Cancel
           </Button>

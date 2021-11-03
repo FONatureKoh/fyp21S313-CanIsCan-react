@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid, CardActionArea, Button, IconButton, Tooltip, Drawer, List,
+import { Card, CardContent, Box, CardMedia, Typography, Divider, Grid, Button, IconButton, Tooltip, Drawer, List,
   ListItem, ButtonGroup } from '@mui/material'
 import { Rating } from '@mui/material'
 import { ButtonBase } from '@mui/material'
@@ -265,13 +265,9 @@ export default function OrderDelivery() {
 
   const handleCloseReview = () => setOpenReview(false);
 
-  //MODAL CONTROLS - REVIEWS
-  const [openReserve, setOpenReserve] = useState(false);
-  const handleOpenReserve= () => setOpenReserve(true);
-  const handleCloseReserve = () => setOpenReserve(false);
 
   // CALENDAR TESTING
-  const [value, setValue] = React.useState(new Date());
+  // const [value, setValue] = React.useState(new Date());
   const startDate = new Date();
   startDate.setDate(startDate.getDate() + 1);
 

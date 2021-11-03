@@ -15,8 +15,6 @@ const style = {
   height:'65px'
 };
 
-const items = []
-
 export default function Cart({openCart, cart}) {
   return (
     <Box >

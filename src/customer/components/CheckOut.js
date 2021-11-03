@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useRouteMatch, useHistory } from 'react-router';
 import { ListItem, Backdrop, CircularProgress } from '@mui/material';
-import { spacing } from '@mui/system';
 import { List, Grid, ButtonGroup, Divider, TextField, Card, CardHeader, CardContent, Box } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import StripeCheckout from 'react-stripe-checkout';
@@ -98,7 +97,7 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
       verifyAddress()
         .then((response) => {
           console.log(response);
-          if (response.data.status == "OK") {
+          if (response.data.status === "OK") {
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
             setSkipped(newSkipped);
           }

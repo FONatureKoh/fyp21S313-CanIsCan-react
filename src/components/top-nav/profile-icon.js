@@ -7,7 +7,6 @@ import profilepic from '../../assets/temp/johnsmith.png'
 import { useHistory } from 'react-router-dom';
 import { Dialog, DialogActions, DialogTitle } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { Link } from 'react-router-dom';
 import { UserContext } from '../../store/user_context' ;
 import { useRouteMatch } from 'react-router';
 
@@ -96,7 +95,7 @@ export default function ProfileIcon() {
           {"Confirm logout?"}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={handleCloseDialog} variant="outlined" color="inherit" onClick={logout}>Logout</Button>
+          <Button variant="outlined" color="inherit" onClick={logout}>Logout</Button>
           <Button onClick={handleCloseDialog} variant="outlined" color="error">
             Cancel
           </Button>

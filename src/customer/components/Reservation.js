@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid, Accordion, AccordionSummary, AccordionDetails, CardActionArea, Button, IconButton, Tooltip, Drawer, List,
+import { Card, CardContent, Box, CardMedia, Typography, Divider, Grid, Accordion, AccordionSummary, AccordionDetails, Button, IconButton, Tooltip, Drawer, List,
   ListItem, ButtonGroup, Checkbox } from '@mui/material'
 import { Rating } from '@mui/material'
 import { ButtonBase } from '@mui/material'
@@ -19,7 +19,6 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import { useRouteMatch } from 'react-router'
 import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getAvailableSlots, getBannerImage, getRestReviews, submitCustReservation } from '../customer_controller'
 import Cart from './Cart'
-import CheckOut from './CheckOut';
 import { Link } from 'react-router-dom'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
@@ -383,11 +382,6 @@ export default function Reservation() {
   };
 
   const handleCloseReview = () => setOpenReview(false);
-
-  //MODAL CONTROLS - REVIEWS
-  const [openReserve, setOpenReserve] = useState(false);
-  const handleOpenReserve= () => setOpenReserve(true);
-  const handleCloseReserve = () => setOpenReserve(false);
 
   // CALENDAR TESTING
   // const [value, setValue] = React.useState(new Date());
@@ -810,7 +804,7 @@ export default function Reservation() {
                       </Typography>
                     </Box>
                     <Box alignContent="flex-end">
-                    <img width="300px" height="200px" src={getMap(restaurantInfo.rest_postal_code)}/>
+                    <img width="300px" height="200px" alt="googlemap" src={getMap(restaurantInfo.rest_postal_code)}/>
                     </Box>
                   </Box>
                 </CardContent>

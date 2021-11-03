@@ -1,7 +1,6 @@
 import React from 'react'
 import { Box } from '@mui/system'
 import { Button, Typography } from '@mui/material'
-import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 
 export default function ErorrPage() {

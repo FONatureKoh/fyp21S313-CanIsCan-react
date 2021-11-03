@@ -36,7 +36,7 @@ export default function ApproveRest() {
   // Approve button
   function approveAccount(restaurant_ID) {
     approveFunction(restaurant_ID).then((response) => {
-      if (response == "Successful!") {
+      if (response === "Successful!") {
         console.log("Approve function triggered");
 
         // Refresh the restaurant details state
