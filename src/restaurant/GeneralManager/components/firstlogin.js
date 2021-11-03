@@ -5,7 +5,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Divider } from '@mui/material';
+import { Divider, Stack } from '@mui/material';
 import { TextField } from '@mui/material';
 import { Block } from '@mui/icons-material';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -16,6 +16,12 @@ import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/styles';
 import { postChangePW, postPersonalProfile, postRestaurantProfile, retrieveRestaurantTags } from '../../restaurant_controller';
+import DefaultProfile from '../../../assets/default-profile.png'
+import DefaultShopfront from '../../../assets/default-shopfront.png'
+// New Imports for the time picker
+import { TimePicker } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 const steps = ['Update your personal profile', 'Update your restaurant profile', 'Change your password'];
 
@@ -54,6 +60,8 @@ export default function FirstLogin({setFirstLog}) {
   const [restAdd, setRestAdd] = useState('');
   const [restPostal, setRestPostal] = useState('');
   const [tags, setTags] = useState([]);
+  const [openTime, setOpenTime] = useState();
+  const [closeTime, setCloseTime] = useState();
 
   // Password matters
   const [oldPW, setOldPW] = useState('');
@@ -84,7 +92,7 @@ export default function FirstLogin({setFirstLog}) {
       reader.readAsDataURL(profileImage);
     }
     else {
-      setProfilePreview(null);
+      setProfilePreview(DefaultProfile);
     }
   }, [profileImage])
 
@@ -99,7 +107,7 @@ export default function FirstLogin({setFirstLog}) {
       reader.readAsDataURL(bannerImage);
     }
     else {
-      setBannerPreview(null);
+      setBannerPreview(DefaultShopfront);
     }
   }, [bannerImage])
 
@@ -416,14 +424,40 @@ export default function FirstLogin({setFirstLog}) {
               <Divider variant="middle" />
             </Box>
 
-            <TextField sx={{width:'85%', margin:'30px auto 15px'}}
+            <TextField sx={{width:'85%', margin:'30px auto 10px'}}
               id="rest-address" 
               label="Restaurant Address (Required*):"  
-              multiline rows={4} 
+              multiline rows={3} 
               variant="filled" 
               onChange={(e)=> setRestAdd(e.target.value)}
             />
-
+            <Box sx={{width:'85%', margin:'0px auto 15px'}}>
+            <Typography  sx={{textAlign:'left', margin:'15px auto'}}>Operating Hours</Typography>
+            <Stack direction="row" spacing={2} sx={{margin:'15px auto'}}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <TimePicker
+                  label="Opening Time" 
+                  value={openTime} 
+                  onChange={(openingTimeValue) => {
+                    setOpenTime(openingTimeValue);
+                  }} 
+                  renderInput={(params) => 
+                    <TextField {...params} />
+                  }
+                />
+                <TimePicker
+                  label="Closing Time" 
+                  value={closeTime} 
+                  onChange={(closingTimeValue) => {
+                    setCloseTime(closingTimeValue);
+                  }} 
+                  renderInput={(params) => 
+                    <TextField {...params} />
+                  }
+                />
+              </LocalizationProvider>
+            </Stack>
+            </Box>
             <TextField sx={{width:'85%', marginBottom:'10px auto'}}
               id="rest-postal" 
               label="Restaurant Postal Code (Required*):"  

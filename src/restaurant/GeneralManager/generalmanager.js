@@ -195,7 +195,7 @@ export default function GeneralManager() {
       </Box>
 
       <Modal
-        open={firstLog}
+        open={1}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
