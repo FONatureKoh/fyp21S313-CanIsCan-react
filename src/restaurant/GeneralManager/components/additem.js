@@ -77,49 +77,37 @@ export default function AddItem() {
   });
 
   return (
-    <div>
     <Card>
     <CardHeader title="Add Item" />
     <CardContent >
-    <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
+    <Grid container alignItems="center" justifyContent="center" sx={{margin:'auto', textAlign:'left', width: '80%'}} >
       <Grid item xs={6}>
-        <Box width="100%"
-        height="80%">
-          <img src={preview} height="200px" width="100%" alt="additem"/>
-        </Box>
-        <Box>
-        <label htmlFor="imageFile">
-          <Input 
-            type="file"
-            id="imageFile"
-            accept=".png"
-            onChange={event => {
-              const imageFile = event.target.files[0];
-              setImageFile(imageFile);
-            }} />
-          <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
-        </label>
+        <Box height="100%" sx={{textAlign:'center', alignContent: "center" }}>
+          <img src={preview} width="80%" alt='additem'/>
+          <label htmlFor="imageFile">
+            <Input 
+              type="file"
+              id="imageFile"
+              accept=".png"
+              onChange={event => {
+                const imageFile = event.target.files[0];
+                setImageFile(imageFile);
+              }} />
+            <Typography sx={{textAlign:'center', fontSize:'16px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
+          </label>
         </Box>
       </Grid>
       
-      <Grid item xs={1}>
-      </Grid>
-
-      <Grid item xs={5}>
-        <Typography textAlign="center" paddingTop="20%">
-          Availability 
+      <Grid item xs={6} sx={{textAlign:'center'}}>
+        <Typography textAlign="center">
+          Item Availability 
           <Switch defaultChecked onChange={event => {
               setItemAvailability(event.target.checked);
               console.log(itemAvailability);
             }
           } size="large" />  
-        </Typography>  
-      </Grid>
+        </Typography> 
 
-      <Grid item xs={3}>
-      </Grid>
-      
-      <Grid item xs={6} sx={{textAlign:'center'}}>
         <TextField 
           sx={{width:'100%', margin:'15px'}} 
           id="filled-basic" 
@@ -175,16 +163,16 @@ export default function AddItem() {
             }
           </Select>
         </FormControl>
-
-        <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={addItem} component={Link} to={"/generalmanager"}>Add Item</Button>
-        <Button variant="contained" color="inherit" sx={{width:'45%', float:'right'}} component={Link} to="/generalmanager">Cancel</Button>
       </Grid>
 
-      <Grid item xs={3}>
+      <Grid item xs={6}>
+        <Box sx={{textAlign:'center', alignContent: "center" }}>
+        <Button variant="contained" color="inherit" sx={{width:'48%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={addItem} component={Link} to={"/generalmanager"}>Add Item</Button>
+        <Button variant="contained" color="inherit" sx={{width:'48%', float:'right'}} component={Link} to="/generalmanager">Cancel</Button>
+        </Box>
       </Grid>
     </Grid>
     </CardContent>
     </Card>
-  </div>
   )
 }
