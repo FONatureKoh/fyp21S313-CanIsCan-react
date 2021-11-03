@@ -17,7 +17,7 @@ import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { Route, Switch } from 'react-router';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useRouteMatch } from 'react-router'
-import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getAvailableSlots, getBannerImage, getRestReviews } from '../customer_controller'
+import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getAvailableSlots, getBannerImage, getRestReviews, submitCustReservation } from '../customer_controller'
 import Cart from './Cart'
 import CheckOut from './CheckOut';
 import { Link } from 'react-router-dom'
@@ -32,7 +32,27 @@ export default function Reservation() {
   const match = useRouteMatch('/customer/makereservation/:id');
   const restID = match.params.id;
 
-  
+  // CONSTANT THEMES
+  const themes = {
+    textHeader: {
+      fontSize:'1 0px', 
+      fontWeight:'bold', 
+      margin: '10px'
+    },
+    boxStyle:{
+      margin: '50px auto 0px',
+      width: '100%',
+      textAlign:'center',
+      borderRadius:'5px'
+    },
+    boxStyle2:{
+      margin: '50px auto',
+      width: '80%',
+      textAlign:'center',
+      borderRadius:'5px'
+    }
+  };
+
   const [innerAccOpen, setInnerAccOpen] = useState(false);
   // Essential states for the react component
   const [activeStep, setActiveStep] = useState(0);
@@ -55,25 +75,13 @@ export default function Reservation() {
   //SELECTED ITEM
   const [selItem, setSelItem] = useState([])
 
-  const themes = {
-    textHeader: {
-      fontSize:'1 0px', 
-      fontWeight:'bold', 
-      margin: '10px'
-    },
-    boxStyle:{
-      margin: '50px auto 0px',
-      width: '100%',
-      textAlign:'center',
-      borderRadius:'5px'
-    },
-    boxStyle2:{
-      margin: '50px auto',
-      width: '80%',
-      textAlign:'center',
-      borderRadius:'5px'
-    }
-  };
+  // CALENDAR TESTING
+  // NOTE: I changed the values a bit. You had value last time, then i put to selectedDate
+  // I changed up wherever necessary already, hopefully its right! :D - Thomas
+  const [selectedDate, setSelectedDate] = React.useState(new Date()); 
+  const [availableSlots, setAvailableSlots] = useState([]);
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() + 1);
 
   // Async function to retrieve all restaurant items
   async function getItems(){
@@ -107,6 +115,7 @@ export default function Reservation() {
       const imageURL = await getBannerImage(response.rest_banner_ID);
 
       response["rest_bannerURL"] = imageURL;
+      console.log(response);
       return response;
     }
     catch (error) {
@@ -126,14 +135,6 @@ export default function Reservation() {
       return error;
     }
   }
-
-  // CALENDAR TESTING
-  // NOTE: I changed the values a bit. You had value last time, then i put to selectedDate
-  // I changed up wherever necessary already, hopefully its right! :D - Thomas
-  const [selectedDate, setSelectedDate] = React.useState(new Date()); 
-  const [availableSlots, setAvailableSlots] = useState([]);
-  const startDate2 = new Date();
-  startDate2.setDate(startDate2.getDate() + 1);
 
   // RESERVATION THINGS - THOMAS
   // 1. Async function to communicate with the backend server
@@ -163,6 +164,7 @@ export default function Reservation() {
         console.log(availableSlots);
       })
   }
+
 
   //CART CALCULATION
   const [deliveryFee, setDeliveryFee] = useState(0);
@@ -244,7 +246,6 @@ export default function Reservation() {
     setRealCart(newCart)
   }
 
-
   //CART CALCULATIONS
   //ITEM UNIT PRICE * QTY
   function getsub(item){
@@ -265,7 +266,30 @@ export default function Reservation() {
   })
 
   //CART
-  const [realCart, setRealCart]= useState([])
+  const [realCart, setRealCart]= useState([]);
+
+  // ASYNC FUNCTION TO SUBMIT RESERVATION
+  async function submitReservation() {
+    // 1. Generate a CR order ID
+    const crID = `CR_${restID.padStart(4, '0')}_${Date.now()}`;
+
+    // 2. Then we get some important variables
+    const restEmail = restaurantInfo.rest_email;
+    const restName = restaurantInfo.restaurant_name;
+    const restAdd = restaurantInfo.rest_address_info;
+    const restPostal = restaurantInfo.rest_postal_code;
+
+    // 3. We now try to make the reservation to the system
+    try {
+      const response = await submitCustReservation(crID, restaurantInfo, pax, selectedDate, timeSlot, 
+        preorder, realCart, subtotal);
+
+      console.log(response);
+    }
+    catch (err) {
+      // console.log(err);
+    }
+  }
 
   // Do we need useEffect for this? Not sure if I could just load the damn thing
   // into states. Had a lot of issues of the Array not filtering
@@ -283,7 +307,6 @@ export default function Reservation() {
             .then((response) => {
               // Temp imageURL
               tempItemImageURL = response;
-              console.log(tempItemImageURL);
 
               const tempJson = {
                 itemID: item.ri_item_ID,
@@ -313,16 +336,16 @@ export default function Reservation() {
       .catch(error => console.log(error));
 
       getRestInfo()
-      .then((response) => {
-        setRestaurantInfo(response);
-        if(response.rest_rating !== null)
-        {
-          setRating(response.rest_rating.toFixed(1))
-        }
+        .then((response) => {
+          setRestaurantInfo(response);
+          if(response.rest_rating !== null)
+          {
+            setRating(response.rest_rating.toFixed(1))
+          }
 
-        // Console log to see if the info has been set properly
-        console.log(restaurantInfo);
-      })
+          // Console log to see if the info has been set properly
+          console.log(response);
+        })
   }, []);
 
   
@@ -367,14 +390,17 @@ export default function Reservation() {
   const handleCloseReserve = () => setOpenReserve(false);
 
   // CALENDAR TESTING
-  const [value, setValue] = React.useState(new Date());
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() + 1);
+  // const [value, setValue] = React.useState(new Date());
+  // const startDate = new Date();
+  // startDate.setDate(startDate.getDate() + 1);
 
+  // GETTING THE STATIC MAP
   function getMap(postal){
     const maplink = `http://maps.google.com/maps/api/staticmap?center=${postal}&zoom=17&size=400x300&maptype=roadmap&key=${apiKey}&region=SG&markers=color:red%7C${postal}&scale=2`;
     return maplink;
   }
+
+  // LOADING PAGE
   return (
     <Switch>
       <Route exact path='/customer/makereservation/:id'>
@@ -695,7 +721,10 @@ export default function Reservation() {
               </Button>
               <Box sx={{ flex: '1 1 auto' }} />
 
-              <Button variant="outlined" color="inherit" onClick={()=> setActiveStep(activeStep + 1)}>
+              <Button variant="outlined" color="inherit" onClick={() => {
+                setActiveStep(activeStep + 1);
+                submitReservation();
+              }}>
                 Confirm Reservation
               </Button>
               </Box>

@@ -5,7 +5,6 @@ import axios from 'axios';
 ******************************************************************************************/
 const config = require('../store/config.json');
 
-
 /*****************************************************************************************
  * Retrieve single restaurant information                                                *
 ******************************************************************************************/
@@ -317,6 +316,56 @@ export async function submitCustOrder(doID, restInfo, realCart, deliveryAddress,
 
   try {
     const response = await axios.post(`${config.apiDomain}/customer/submitorder`, formParams, axiosConfig);
+    
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
+
+/*****************************************************************************************
+ * Submits customer Orders                                                               *
+******************************************************************************************/
+export async function submitCustReservation(reservationID, restInfo, pax, date, timeslot, 
+  preOrderStatus, preOrderItems, preOrderTotal) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  let formParams = new URLSearchParams();
+
+  // Construct Restaurant's Address
+  const restAddress = restInfo.rest_address_info + ", Singapore " + restInfo.rest_postal_code;
+
+  // Reservation Stuff stuff
+  formParams.append('reservationID', reservationID)
+  formParams.append('restID', restInfo.restaurant_ID);
+  formParams.append('restName', restInfo.restaurant_name);
+  formParams.append('restEmail', restInfo.rest_email);
+  formParams.append('restAddressPostal', restAddress);
+  formParams.append('pax', pax);
+  formParams.append('reservationDate', date);
+  formParams.append('reservationTime', timeslot);
+
+  if (preOrderStatus === true) {
+    formParams.append('preOrderStatus', preOrderStatus);
+    formParams.append('preOrderTotal', preOrderTotal);
+
+    for (let item of preOrderItems) {
+      formParams.append('preOrderItems', JSON.stringify(item));
+    }
+  }
+  else {
+    formParams.append('preOrderStatus', preOrderStatus);
+    formParams.append('preOrderTotal', 0);
+    formParams.append('preOrderItems', {});
+  }
+
+
+  try {
+    const response = await axios.post(`${config.apiDomain}/customer/customerReservation`, formParams, axiosConfig);
     
     return response.data;
   } 
