@@ -189,6 +189,43 @@ export async function getAllOrderItems(do_ID) {
 }
 
 /*****************************************************************************************
+ * GET ALL PAST RESERVATIONS
+******************************************************************************************/
+export async function getPastReservations() {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/customer/pastreservation`, axiosConfig);
+    
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
+
+/*****************************************************************************************
+ * GET ALL PAST RESERVATIONS
+******************************************************************************************/
+export async function getUpcomingReservations() {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/customer/ongoingreservations`, axiosConfig);
+    
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
+/*****************************************************************************************
  * Submits customer's review to the servers                                              *
 ******************************************************************************************/
 export async function submitRestaurantReview(restID, restName, restRating, reviewTitle, reviewDesc) {
