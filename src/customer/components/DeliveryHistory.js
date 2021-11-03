@@ -156,7 +156,7 @@ export default function DeliveryHistory() {
   console.log(orderHistory)
   return (
       <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
-        <CardHeader title="Orders History" />
+        <CardHeader title={`Orders History - ${buttonTab === 1 ? "Active" : "Past"}`}/>
         <CardContent >
         <Box sx={{margin:'0px 10px 20px', textAlign:'right'}}>
           <Button variant="outlined" color="inherit" sx={{marginRight:'20px'}} selected onClick={()=> setButtonTab(1)}>active order</Button>
@@ -267,12 +267,6 @@ export default function DeliveryHistory() {
               </Card>
               {/* END OF ACTIVE ORDER */}
             </>}
-            else {
-              return(<Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}> 
-              <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                No orders yet
-              </Typography></Box>
-              )}
           })}
             </React.Fragment>
           ) : 
@@ -376,12 +370,6 @@ export default function DeliveryHistory() {
                     </CardContent>
                   </Card>
                 }
-                else {
-                  return(<Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}> 
-                  <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                    No orders yet
-                  </Typography></Box>
-                  )}
               })
             }
             

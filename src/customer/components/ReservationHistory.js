@@ -3,10 +3,9 @@ import { Card, CardHeader, CardContent, Box, Button, Typography, Grid, Modal, Ca
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import TestImage from '../../assets/temp/eg-biz1.png'
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Divider } from '@mui/material';
-import { Link } from 'react-router-dom';
 import { getPastReservations, getUpcomingReservations } from '../customer_controller';
+import ResAcc from './ResAcc';
 
 const themes = {
   textHeader: {
@@ -83,8 +82,8 @@ export default function ReservationHistory() {
   //     }
   //   ]
   // }
-  console.log(pastReservations);
-  console.log(upcomingReservations);
+  console.log("past", pastReservations);
+  console.log("up", upcomingReservations);
 
   //GET STATIC MAP
   function getMap(postal){
@@ -129,7 +128,7 @@ export default function ReservationHistory() {
 
   return (
       <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
-        <CardHeader title="Reservation History" />
+        <CardHeader title={`Reservations History - ${buttonTab === 1 ? "Upcoming" : "Past"}`}/>
         <CardContent >
           <Box sx={{margin:'0px 10px 20px', textAlign:'right'}}>
             <Button variant="outlined" color="inherit" sx={{marginRight:'20px'}} onClick={()=> setButtonTab(1)}>upcoming reservation</Button>
@@ -138,293 +137,198 @@ export default function ReservationHistory() {
 
           {
             buttonTab === 1 ? (
-              <>
-              {/* UPCOMING RESERVATION */}
-              <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto'}}>
-                <CardHeader title="Upcoming Reservation" sx={{textAlign:"center"}}/>
-                <CardContent >
-                <Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}> 
-                  <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                    Reservation at
-                  </Typography>
-                  <Typography variant="subtitle1" >
-                    Restaurant Name
-                  </Typography>
-                  <Typography variant="subtitle1" >
-                    <Tooltip title="Restaurant Information">
-                      <IconButton aria-label="info" onClick={handleOpenInfo}>
-                        <InfoOutlinedIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Send Calendar Invite">
-                      <IconButton aria-label="calendar">
-                        <InsertInvitationIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </Typography>
+              <>              
+                {/* UPCOMING RESERVATION */}
+                {upcomingReservations.map((item)=>{
+                  return (<>
+                    <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto 20px'}}>
+                      <CardHeader title="Upcoming Reservation" sx={{textAlign:"center"}}/>
+                      <CardContent >
+                      <Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}> 
+                        <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                          Reservation at
+                        </Typography>
+                        <Typography variant="subtitle1" >
+                          {item.cr_restName}
+                        </Typography>
+                        <Typography variant="subtitle1" >
+                          <Tooltip title="Restaurant Information">
+                            <IconButton aria-label="info" onClick={handleOpenInfo}>
+                              <InfoOutlinedIcon />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="Send Calendar Invite">
+                            <IconButton aria-label="calendar">
+                              <InsertInvitationIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </Typography>
 
-                  <Divider variant="middle" />
+                        <Divider variant="middle" />
 
-                  <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'30px' }}>
-                    Reservation Details
-                  </Typography>
-                  <Grid container>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
-                        Reservation Number
-                      </Typography>
-                      <Typography variant="subtitle1" >
-                        12343
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
-                        No. of Pax
-                      </Typography>
-                      <Typography variant="subtitle1" >
-                        2
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
-                        Reservation Date
-                      </Typography>
-                      <Typography variant="subtitle1" >
-                        Date placeholder
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
-                        Reservation Time
-                      </Typography>
-                      <Typography variant="subtitle1" >
-                        Time slot placeholder
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                  <Accordion sx={{border:'1px solid #eeeeee', mt:'20px'}} expanded={accOpen} >
-                    {/* HEADER OF ACCORDION */}
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="item-details"
-                      id="item-details"
-                      sx={{borderBottom:'0.5px solid #eeeeee'}}
-                      onClick={()=>{setAccOpen(!accOpen)}}
-                    >
-                      <Typography sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                        Preordered item details
-                      </Typography>
-                    </AccordionSummary>
-                    {/* INNDER ACCORDION */}
-                    <AccordionDetails>
-                      {realCart.map(item => (
-                        <ListItem key={item.id} sx={{margin:'20px auto'}}>
-                          <Box width='70%'>
-                            <Typography variant="h6">
-                              {item.item}
+                        <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'30px' }}>
+                          Reservation Details
+                        </Typography>
+                        <Grid container>
+                          <Grid item xs={12} sm={12} md={6}>
+                            <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                              Reservation Status
                             </Typography>
-                            <Typography variant="subtitle">
-                              Unit Price: S${item.price.toFixed(2)}
+                            <Typography variant="subtitle1" >
+                              {item.status}
                             </Typography>
-                          </Box>
-                          <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
-                            <Typography variant="subtitle2">
-                              Quantity: {item.qty}
+                          </Grid>
+                          <Grid item xs={12} sm={12} md={6}>
+                            <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                              Reservation Number
                             </Typography>
-                              <Typography variant="subtitle2">
-                                Price: S$ {(item.qty * item.price).toFixed(2)}
-                              </Typography>
-                            </Box>
-                        </ListItem>
-                      ))}
-                    </AccordionDetails>
-                  </Accordion>
+                            <Typography variant="subtitle1" >
+                              {item.crID}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12} sm={12} md={4}>
+                            <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                              Reservation Date
+                            </Typography>
+                            <Typography variant="subtitle1" >
+                              {item.date}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12} sm={12} md={4}>
+                            <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                              Reservation Time
+                            </Typography>
+                            <Typography variant="subtitle1" >
+                              {item.timeslot}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12} sm={12} md={4}>
+                            <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                              No. of Pax
+                            </Typography>
+                            <Typography variant="subtitle1" >
+                              {item.pax}
+                            </Typography>
+                          </Grid>
+                        </Grid>
 
-
-                  {/* CONTAINER FOR BUTTONS */}
-                  <Grid container sx={{mt:'50px'}}>
-                    <Grid item xs={12} sm={12} md={3}>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={3}>
-                      <Button color="inherit" variant="outlined">
-                        Edit Reservation
-                      </Button>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={3}>
-                      <Button color="error" variant="outlined">
-                        Cancel Reservation
-                      </Button>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={3}>
-                    </Grid>
-                  </Grid>
-                </Box>
-                </CardContent>
-              </Card>
-              {/* END OF UPCOMING RESERVATION */}
+                        <Box sx={{mt:'30px'}}>
+                          {item.preOrderItems === "None" ? (<><Typography>No item has been pre-ordered</Typography></>) : <><ResAcc itemDetails={item.preOrderItems}/></>}
+                        </Box>
+                        {/* CONTAINER FOR BUTTONS */}
+                        <Grid container sx={{mt:'50px'}}>
+                          {/* <Grid item xs={12} sm={12} md={3}>
+                            <Button color="inherit" variant="outlined">
+                              Edit Reservation
+                            </Button>
+                          </Grid> */}
+                          <Grid item xs={12} sm={12} md={12}>
+                            <Button fullWidth color="error" variant="outlined">
+                              Cancel Reservation
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      </Box>
+                      </CardContent>
+                    </Card>
+                    {/* END OF UPCOMING RESERVATION */}
+                  </>
+                )})}
               </>
             ) : (
-              <>
-              {/* START OF PAST RESERVATIONS */}
-              <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto 20px'}}>
-                <Box sx={{float:'right', margin:'5px 10px 0px 0px', position:'absolute', right:'11%'}}>
-                  <Button variant='contained' color="inherit" 
-                  // component={Link} to={`/customer/restaurantdetails/${order.restID}`}
-                  >
-                    reserve again</Button>
-                </Box>
-                <CardContent>
-                  <Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}>
-                  <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mb:'10px' }}>
-                    Reservation number - 123552
-                  </Typography>
-                  
-                  <Divider variant="middle" />
-                  <Typography variant="subtitle1" sx={themes.textHeader}>
-                    Reservation Details
-                  </Typography>
+              <>              
+              {/* UPCOMING RESERVATION */}
+              {pastReservations.map((item)=>{
+                return (<>
+                  <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto 20px'}}>
+                    <CardHeader title="Past Reservation" sx={{textAlign:"center"}}/>
+                    <CardContent >
+                    <Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}> 
+                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                        Reservation at
+                      </Typography>
+                      <Typography variant="subtitle1" >
+                        {item.cr_restName}
+                      </Typography>
+                      <Typography variant="subtitle1" >
+                        <Tooltip title="Restaurant Information">
+                          <IconButton aria-label="info" onClick={handleOpenInfo}>
+                            <InfoOutlinedIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Typography>
 
-                  <Grid container>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
-                        Fulfiled by
-                      </Typography>
-                      <Typography variant="subtitle1" >
-                        Restaurant Name
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
-                        No. of Pax
-                      </Typography>
-                      <Typography variant="subtitle1" >
-                        2
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
-                        Reservation Date
-                      </Typography>
-                      <Typography variant="subtitle1" >
-                        Date placeholder
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
-                        Reservation Time
-                      </Typography>
-                      <Typography variant="subtitle1" >
-                        Time slot placeholder
-                      </Typography>
-                    </Grid>
-                  </Grid>
+                      <Divider variant="middle" />
 
-                  <Accordion sx={{border:'1px solid #eeeeee', mt:'20px'}} expanded={accOpen} >
-                    {/* HEADER OF ACCORDION */}
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="item-details"
-                      id="item-details"
-                      sx={{borderBottom:'0.5px solid #eeeeee'}}
-                      onClick={()=>{setAccOpen(!accOpen)}}
-                    >
-                      <Typography sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                        Preordered item details
+                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'30px' }}>
+                        Reservation Details
                       </Typography>
-                    </AccordionSummary>
-                    {/* INNDER ACCORDION */}
-                    <AccordionDetails>
-                      {realCart.map(item => (
-                        <ListItem key={item.id} sx={{margin:'20px auto'}}>
-                          <Box width='70%'>
-                            <Typography variant="h6">
-                              {item.item}
-                            </Typography>
-                            <Typography variant="subtitle">
-                              Unit Price: S${item.price.toFixed(2)}
-                            </Typography>
-                          </Box>
-                          <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
-                            <Typography variant="subtitle2">
-                              Quantity: {item.qty}
-                            </Typography>
-                              <Typography variant="subtitle2">
-                                Price: S$ {(item.qty * item.price).toFixed(2)}
-                              </Typography>
-                            </Box>
-                        </ListItem>
-                      ))}
-                    </AccordionDetails>
-                  </Accordion>
-                  <Box textAlign="center" sx={{mt:'30px'}}>
-                    <Button fullWidth variant="outlined" color="inherit" >LEAVE REVIEW</Button>
-                  </Box>
-                  </Box>
-                </CardContent>
-              </Card>
-              {/* END OF PAST RESERVATIONS */}
+                      <Grid container>
+                        <Grid item xs={12} sm={12} md={6}>
+                          <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                            Reservation Status
+                          </Typography>
+                          <Typography variant="subtitle1" >
+                            {item.status}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={6}>
+                          <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                            Reservation Number
+                          </Typography>
+                          <Typography variant="subtitle1" >
+                            {item.crID}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={4}>
+                          <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                            Reservation Date
+                          </Typography>
+                          <Typography variant="subtitle1" >
+                            {item.date}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={4}>
+                          <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                            Reservation Time
+                          </Typography>
+                          <Typography variant="subtitle1" >
+                            {item.timeslot}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={4}>
+                          <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
+                            No. of Pax
+                          </Typography>
+                          <Typography variant="subtitle1" >
+                            {item.pax}
+                          </Typography>
+                        </Grid>
+                      </Grid>
 
-              {/* START OF PAST RESERVATIONS 2*/}
-              <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto'}}>
-                <Box sx={{float:'right', margin:'5px 10px 0px 0px', position:'absolute', right:'11%'}}>
-                  <Button variant='contained' color="inherit" >reserve again</Button>
-                </Box>
-                <CardContent>
-                  <Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}>
-                  <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', mb:'10px' }}>
-                    Reservation number - 123552
-                  </Typography>
-                  
-                  <Divider variant="middle" />
-                  <Typography variant="subtitle1" sx={themes.textHeader}>
-                    Reservation Details
-                  </Typography>
-
-                  <Grid container>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
-                        Fulfiled by
-                      </Typography>
-                      <Typography variant="subtitle1" >
-                        Restaurant Name
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
-                        No. of Pax
-                      </Typography>
-                      <Typography variant="subtitle1" >
-                        2
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
-                        Reservation Date
-                      </Typography>
-                      <Typography variant="subtitle1" >
-                        Date placeholder
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', mt:'20px' }}>
-                        Reservation Time
-                      </Typography>
-                      <Typography variant="subtitle1" >
-                        Time slot placeholder
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                  <Box sx={{mt:'30px'}}>
-                    No items were preordered.
-                  </Box>
-                  <Box textAlign="center" sx={{mt:'30px'}}>
-                    <Button fullWidth variant="outlined" color="inherit" >LEAVE REVIEW</Button>
-                  </Box>
-                  </Box>
-                </CardContent>
-              </Card>
-              {/* END OF PAST RESERVATIONS */}
-              </>
+                      <Box sx={{mt:'30px'}}>
+                        {item.preOrderItems === "None" ? (<><Typography>No item has been pre-ordered</Typography></>) : <><ResAcc itemDetails={item.preOrderItems}/></>}
+                      </Box>
+                      {/* CONTAINER FOR BUTTONS */}
+                      <Grid container sx={{mt:'50px'}}>
+                        {/* <Grid item xs={12} sm={12} md={3}>
+                          <Button color="inherit" variant="outlined">
+                            Edit Reservation
+                          </Button>
+                        </Grid> */}
+                        <Grid item xs={12} sm={12} md={12}>
+                          <Button fullWidth color="inherit" variant="outlined">
+                            Leave review
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </Box>
+                    </CardContent>
+                  </Card>
+                  {/* END OF UPCOMING RESERVATION */}
+                </>
+              )})}
+            </>
             )
           }
 
