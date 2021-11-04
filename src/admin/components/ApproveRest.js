@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, CardHeader, CardContent, Box, Typography, Button, Accordion, AccordionSummary, AccordionDetails } from '@mui/material'
+import { Card, CardHeader, CardContent, Box, Typography, Button, Accordion, AccordionSummary, AccordionDetails, Backdrop, CircularProgress } from '@mui/material'
 import { approveRestaurant, retrievePending } from '../admin_controller';
 
 export default function ApproveRest() {
@@ -30,8 +30,26 @@ export default function ApproveRest() {
     });
   },[])
 
+  /***********************************************************************************************
+   * Settings for Backdrop
+   * *********************************************************************************************
+   */
+  // Backdrop useStates 
+  const [backdropState, setBackDropState] = useState(false);
+
+  // Backdrop functions
+  const handleBackdropClose = () => {
+    setBackDropState(false);
+  };
+
+  const handleBackdropOpen = () => {
+    setBackDropState(true);
+  };
+
   // Approve button
   function approveAccount(restaurant_ID) {
+    handleBackdropOpen();
+
     approveFunction(restaurant_ID).then((response) => {
       if (response === "Successful!") {
         console.log("Approve function triggered");
@@ -44,6 +62,7 @@ export default function ApproveRest() {
         
         // Close the Accordion
         setExpanded(false);
+        handleBackdropClose();
       }
     })
   };
@@ -62,7 +81,10 @@ export default function ApproveRest() {
 
   // NOTE: At the Accordion open bracket, I thought to set the panel name dynamically through
   // using panel and the ID. Since ID is unique, it seem to have worked.
-  return (
+  return <>
+    <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={backdropState}>
+      <CircularProgress color="inherit" />
+    </Backdrop>
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
         <CardHeader title="Pending Restaurant Registration" />
         <CardContent >
@@ -126,5 +148,5 @@ export default function ApproveRest() {
           </Box>
         </CardContent>
       </Card>
-  )
+  </>
 }

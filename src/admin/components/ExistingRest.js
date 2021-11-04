@@ -15,7 +15,10 @@ export default function ExistingRest({existingList}) {
       mt: '5px'
     }
   };
-  return (
+
+  // LOAD EXISTING RESTAURANTS AND THEIR DATA
+  
+  return <>
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
       <CardHeader title="Existing Restaurants" />
       <CardContent >
@@ -79,5 +82,5 @@ export default function ExistingRest({existingList}) {
         </Box>
       </CardContent>
   </Card>
-  )
+  </>
 }
