@@ -8,7 +8,7 @@ const config = require('../store/config.json');
 /*****************************************************************************************
  * Retrieve all pending restaurant accounts                                              *
 ******************************************************************************************/
-export async function retrievePending (username, restaurat_name, email, phone) {
+export async function retrievePending () {
   // Config the access token
   const axiosConfig = {
     headers: {
@@ -18,6 +18,46 @@ export async function retrievePending (username, restaurat_name, email, phone) {
 
   try {
     const res = await axios.get(`${config.apiDomain}/admin/pending`, axiosConfig);
+    return res.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
+}
+
+/*****************************************************************************************
+ * Retrieve all pending restaurant accounts                                              *
+******************************************************************************************/
+export async function existingRestaurants () {
+  // Config the access token
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  try {
+    const res = await axios.get(`${config.apiDomain}/admin/activerestaurants`, axiosConfig);
+    return res.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
+}
+
+/*****************************************************************************************
+ * Retrieve all pending restaurant accounts                                              *
+******************************************************************************************/
+export async function activeCustomers () {
+  // Config the access token
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  try {
+    const res = await axios.get(`${config.apiDomain}/admin/activecustomers`, axiosConfig);
     return res.data;
   } 
   catch (err) {

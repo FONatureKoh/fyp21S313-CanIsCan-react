@@ -168,8 +168,8 @@ export default function Admin() {
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>
           <Route path='/admin/approverestaurant'><ApproveRest /></Route>
-          <Route path='/admin/existingrest'><ExistingRest existingList={existing}/></Route> 
-          <Route path='/admin/search'><ExistingCust existingList={existing2}/></Route> 
+          <Route path='/admin/existingrest'><ExistingRest /></Route> 
+          <Route path='/admin/search'><ExistingCust /></Route> 
           <Route path='/admin/tags'><Tags /></Route> 
           <Route path='/admin/profile' component={ViewProfile} />
           <Redirect from='/admin' to='/admin/approverestaurant'/>
