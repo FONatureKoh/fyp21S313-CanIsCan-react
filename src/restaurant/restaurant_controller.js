@@ -233,6 +233,50 @@ export async function addRestaurantCategory(categoryName) {
 }
 
 /*****************************************************************************************
+ * Restaurant Adding a new category for items                                            *
+ * ***************************************************************************************
+ * - Adding a new category based on the user input   
+ * ***************************************************************************************/
+export async function updateCategory(categoryName) {
+  // Config for Axios to send authorisation in header
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  try {
+    const res = await axios.post(`${config.apiDomain}/restaurant/createNewCategory`, {ric_name: categoryName}, axiosConfig);
+    return res.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
+}
+
+/*****************************************************************************************
+ * Restaurant Adding a new category for items                                            *
+ * ***************************************************************************************
+ * - Adding a new category based on the user input   
+ * ***************************************************************************************/
+export async function deleteCategory(categoryName) {
+  // Config for Axios to send authorisation in header
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  try {
+    const res = await axios.post(`${config.apiDomain}/restaurant/createNewCategory`, {ric_name: categoryName}, axiosConfig);
+    return res.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
+}
+
+/*****************************************************************************************
  * All Categories retrieval based on restaurant ID function                              *
  * ***************************************************************************************
  * - Retrieves all the restaurant's categories    

@@ -58,7 +58,16 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
       return error;
     }
   }
+  
+  // Async function to edit categories
+  // async function editCategory() {
+  //   try {
+  //     const response = await updateCategory();
 
+  //   }
+    
+  // }
+  
   useEffect(() => {
     // function to get all the restaurant's items
     getAllItems()
@@ -95,6 +104,31 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
   const handleOpen = () => {
     setOpen(true);
   };
+
+  // Handles when we add new category
+  function addMenu(){
+    // Add new Category
+    addNewCategory()
+      .then((response) => {
+        // Trigger the categories reload
+        getCategories()
+          .then((response) => {
+            // Build the ric_name into an array
+            var ric_name_array = [];
+
+            response.forEach(element => {
+              ric_name_array.push(element.ric_name);
+            });
+
+            setCategories(ric_name_array);
+            
+            // Set dialog to close
+            setOpen(false);
+          })
+          .catch(error => console.log(error));
+      })
+      .catch(error => console.log(error));
+  }
 
   // Handles when we add new category
   function addMenu(){
