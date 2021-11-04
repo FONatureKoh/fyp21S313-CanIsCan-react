@@ -7,6 +7,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Divider } from '@mui/material';
 import { TextField } from '@mui/material';
+import { setProfileFirst } from '../customer_controller';
+
+import DefaultProfile from '../../assets/default-profile.png'
 
 const steps = ['Update your profile'];
 
@@ -45,6 +48,21 @@ export default function CustFirstLogin({setFirstLog}) {
   const [personalAdd, setPersonalAdd] = useState('');
   const [personalPostal, setPersonalPostal] = useState('');
 
+  // ASYNC FUNCTIONS
+  // This one to post the user data to the server
+  async function postFirstLogin(){
+    console.log(profileImage);
+    try {
+      const response = await setProfileFirst(profileImage, fName, lName, personalPhone,
+        personalEmail, personalAdd, personalPostal);
+      return response.api_msg;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // STEPS HANDLING
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
@@ -56,8 +74,51 @@ export default function CustFirstLogin({setFirstLog}) {
       newSkipped.delete(activeStep);
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    // The fininsh step number will be 0
+    if (activeStep === 0) {
+      var validationErr = 0;
+      // Ensure that the first name / last name isn't blank
+      if (fName === '' || lName === '') {
+        alert ("First name / last name cannot be blank!");
+        validationErr++;
+      }
+
+      // Ensure that phone number isn't blank
+      if (personalPhone === '') {
+        alert ("Phone number cannot be blank!");
+        validationErr++;
+      }
+
+      // ensure that email isn't blank
+      if (personalEmail === '') {
+        alert("Email cannot be blank!");
+        validationErr++;
+      }
+
+      // ensure that address isn't blank
+      if (personalAdd === '' || personalPostal === '') {
+        alert("Address and Postal code cannot be blank!");
+        validationErr++;
+      }
+
+      // If all above ok, then proceed
+      if (validationErr === 0) {
+        postFirstLogin()
+          .then((response) => {
+            alert(response);
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+            setSkipped(newSkipped);
+          })
+          .catch((err) => {
+            console.log(err);
+            alert(err);
+          });
+      }      
+    }
+    else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setSkipped(newSkipped);
+    }
   };
 
   const handleBack = () => {
@@ -82,12 +143,12 @@ export default function CustFirstLogin({setFirstLog}) {
       reader.readAsDataURL(profileImage);
     }
     else {
-      setProfilePreview(null);
+      setProfilePreview(DefaultProfile);
     }
   }, [profileImage])
 
   return (
-    <Box sx={{ width: '80%', margin:'30px auto'}}>
+    <Box sx={{ width: '95%', margin:'30px auto'}}>
       <Stepper activeStep={activeStep} alternativeLabel >
         {steps.map((label, index) => {
           const stepProps = {};
@@ -107,7 +168,6 @@ export default function CustFirstLogin({setFirstLog}) {
           );
         })}
       </Stepper>
-
 
       {activeStep === steps.length ? (
         <React.Fragment>
@@ -148,9 +208,9 @@ export default function CustFirstLogin({setFirstLog}) {
               
               <Box sx={{width:'40%'}}>
                 <Typography sx={{textAlign:'center', fontSize:'15px', mt:'20px', fontWeight:'bold'}}>Profile Photo</Typography>
-                <Box sx={{position:'relative', top:'100px'}}>
-                  <img src={profilePreview} height="200px" width="300px" alt="additem" />
-                  <Box sx={{position:'relative', top:'10px'}}>
+                <Box sx={{position:'relative', top:'10px', textAlign:'center', alignContent: "center"}}>
+                  <img width="80%" src={profilePreview} alt="profile-preview" />
+                  <Box sx={{position:'relative', top:'10px', textAlign:'center', alignContent: "center"}}>
                     <label htmlFor="profileImage">
                     <input 
                       hidden 
@@ -161,9 +221,8 @@ export default function CustFirstLogin({setFirstLog}) {
                         const imageFile = event.target.files[0];
                         setProfileImage(imageFile);
                         console.log("meow");
-                      }} 
-                      />
-                    <Typography sx={{textAlign:'center', fontSize:'10px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
+                      }} />
+                    <Typography sx={{textAlign:'center', fontSize:'16px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
                     </label>
                   </Box>
                 </Box>
