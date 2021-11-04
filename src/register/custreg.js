@@ -32,9 +32,12 @@ export default function CustRegister() {
     else {
       sendCustRegister(user, pass, mail)
         .then(api_msg => {
-          if (api_msg == "Successful") {
+          if (api_msg == "success") {
             alert("Your account is successfully registered!");
             back();
+          }
+          else {
+            alert(api_msg);
           }
         })
         .catch (error => {
