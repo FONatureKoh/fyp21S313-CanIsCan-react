@@ -38,7 +38,7 @@ export default function ExistingCustomer() {
 
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
-      <CardHeader title="Existing Restaurants" />
+      <CardHeader title="Existing Customers" />
       <CardContent >
         <Box sx={{width:'90%', margin: '0px auto'}} > 
           {/* SEARCH BAR */}

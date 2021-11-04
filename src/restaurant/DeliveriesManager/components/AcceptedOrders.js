@@ -90,12 +90,12 @@ export default function AcceptedOrders() {
 
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
-    <CardHeader title="Pending Orders" />
+    <CardHeader title="Ongoing Orders" />
       <CardContent>
         <Box width="90%" sx={{margin:'0px auto', textAlign:"center"}}>
           {acceptedDO.length === 0 ? (<>
             <Box width="80%" sx={{margin:'20px auto', textAlign:'center'}}>
-              <Typography variant="h6">No pending orders</Typography>
+              <Typography variant="h6">No ongoing orders</Typography>
             </Box>
             </>) : (<>
             {

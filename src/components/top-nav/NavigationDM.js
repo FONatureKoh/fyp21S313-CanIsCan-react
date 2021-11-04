@@ -67,7 +67,7 @@ export default function NavigationDM({restName, isVisible, isSelected, setIsSele
             <ListItemIcon>
               <DoneAllIcon/>
             </ListItemIcon>
-            <ListItemText primary="Accepted Orders"/>
+            <ListItemText primary="Ongoing Orders"/>
           </ListItemButton>
 
           <ListItemButton selected={isSelected === 3} component={ Link } to="/deliveriesmanager/viewhistory" onClick={() => setIsSelected(3)} >

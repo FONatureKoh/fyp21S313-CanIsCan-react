@@ -86,7 +86,7 @@ export default function ApproveRest() {
       <CircularProgress color="inherit" />
     </Backdrop>
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
-        <CardHeader title="Pending Restaurant Registration" />
+      <CardHeader title="Restaurants pending approval" />
         <CardContent >
           <Box sx={{width:'90%', margin: '0px auto'}}> 
           {/* CHECK FOR NO RESTAURANT */}

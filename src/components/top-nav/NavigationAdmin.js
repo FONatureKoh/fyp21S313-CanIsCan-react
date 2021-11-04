@@ -70,7 +70,7 @@ export default function NavigationAdmin({isVisible, isSelected, setIsSelected}) 
               <ListItemIcon>
                 <SearchIcon/>
               </ListItemIcon>
-              <ListItemText primary="Search Account"/>
+              <ListItemText primary="Existing Customers"/>
             </ListItemButton>
             <Divider variant="middle"/>
             <ListItem>
