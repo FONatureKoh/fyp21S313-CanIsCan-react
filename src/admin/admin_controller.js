@@ -112,7 +112,7 @@ export async function postNewTag(tag) {
 /*****************************************************************************************
  * Retrieve all pending restaurant accounts                                              *
 ******************************************************************************************/
-export async function approveRestaurant (restaurant_ID) {
+export async function approveRestaurant(restaurant_ID) {
   // Config the access token
   const axiosConfig = {
     headers: {
@@ -120,11 +120,15 @@ export async function approveRestaurant (restaurant_ID) {
     }
   };
 
+  const tempJSON = {
+    restID: restaurant_ID
+  }
+
   try {
-    const res = await axios.post(`${config.apiDomain}/admin/approve/${restaurant_ID}`, axiosConfig);
+    const res = await axios.post(`${config.apiDomain}/admin/approve`, tempJSON, axiosConfig);
     return res.data;
   } 
   catch (err) {
-    console.log(err);
+    return err;
   }
 }

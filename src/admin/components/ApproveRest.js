@@ -50,21 +50,27 @@ export default function ApproveRest() {
   function approveAccount(restaurant_ID) {
     handleBackdropOpen();
 
-    approveFunction(restaurant_ID).then((response) => {
-      if (response === "Successful!") {
-        console.log("Approve function triggered");
+    approveRestaurant(restaurant_ID)
+      .then((response) => {
+        // console.log(response);
+        if (response.api_msg === "Successful!") {
+          console.log("Approve function triggered");
 
-        // Refresh the restaurant details state
-        getRestDetails().then((response) => {
-          console.log(response);
-          setRestDetails(response);
-        });
-        
-        // Close the Accordion
-        setExpanded(false);
-        handleBackdropClose();
-      }
-    })
+          // Refresh the restaurant details state
+          getRestDetails().then((response) => {
+            console.log(response);
+            setRestDetails(response);
+          });
+          
+          // Close the Accordion
+          setExpanded(false);
+          handleBackdropClose();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+
   };
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -86,7 +92,7 @@ export default function ApproveRest() {
       <CircularProgress color="inherit" />
     </Backdrop>
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
-      <CardHeader title="Restaurants pending approval" />
+      <CardHeader title="Restaurants pending" />
         <CardContent >
           <Box sx={{width:'90%', margin: '0px auto'}}> 
           {/* CHECK FOR NO RESTAURANT */}
