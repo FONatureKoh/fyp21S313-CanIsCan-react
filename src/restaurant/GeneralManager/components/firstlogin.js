@@ -47,8 +47,8 @@ export default function FirstLogin({setFirstLog}) {
   const [restAdd, setRestAdd] = useState('');
   const [restPostal, setRestPostal] = useState('');
   const [tags, setTags] = useState([]);
-  const [openTime, setOpenTime] = useState();
-  const [closeTime, setCloseTime] = useState();
+  const [openTime, setOpenTime] = useState(new Date());
+  const [closeTime, setCloseTime] = useState(new Date());
 
   // Password matters
   const [oldPW, setOldPW] = useState('');
@@ -63,6 +63,20 @@ export default function FirstLogin({setFirstLog}) {
         setRestaurantTags(response);
       });
   });
+
+  // Creating a time to Date object
+  function timeToDate (inputTime) {
+    let tempTime = inputTime.split(":");
+    let dt = new Date();
+
+    // Create the date object accurately to the current date as well
+    dt.setDate(dt.getDate());
+    dt.setHours(tempTime[0]);
+    dt.setMinutes(tempTime[1]);
+    dt.setSeconds(tempTime[2]);
+    
+    return dt;
+  }
 
   // Preview Images
   const [profilePreview, setProfilePreview] = useState();
@@ -115,7 +129,7 @@ export default function FirstLogin({setFirstLog}) {
 
   async function postRestaurant(){
     try {
-      const response = await postRestaurantProfile(bannerImage, restAdd, restPostal, tags);
+      const response = await postRestaurantProfile(bannerImage, restAdd, restPostal, tags, openTime, closeTime);
       return response.api_msg;
     }
     catch (error) {

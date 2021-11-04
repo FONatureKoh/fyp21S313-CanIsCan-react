@@ -516,7 +516,7 @@ export async function postPersonalProfile (profileImage, fname, lname, phoneNo, 
  * ***************************************************************************************
  * - send data to the restaurant/restaurantProfile POST route
  * ***************************************************************************************/
-export async function postRestaurantProfile (bannerImage, address, postalCode, tags) {
+export async function postRestaurantProfile (bannerImage, address, postalCode, tags, openTime, closeTime) {
 
   // Axios request config to be declared first
   const axiosConfig = {
@@ -525,12 +525,16 @@ export async function postRestaurantProfile (bannerImage, address, postalCode, t
     }
   };
 
+  // console.log(openTime);
+  // console.log(closeTime);
   // Construct the form
   const postForm = new FormData();
   postForm.append("bannerImage", bannerImage);
   postForm.append("address", address);
   postForm.append("postalCode", postalCode);
   postForm.append("tags", tags);
+  postForm.append("openingTime", openTime.toLocaleTimeString('en-GB'));
+  postForm.append("closingTime", closeTime.toLocaleTimeString('en-GB'));
 
   try {
     const response = await axios.post(`${config.apiDomain}/restaurant/restaurantProfile`, postForm, axiosConfig);
