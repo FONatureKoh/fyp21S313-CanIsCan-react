@@ -32,20 +32,21 @@ export default function RestRegister() {
     const phone_no = restaurant_phone_no.current.value;
     const mail = email.current.value;
 
-    if (rest_name === "" || user === "" || phone_no === "" || mail === "")
-    {
+    if (rest_name === "" || user === "" || phone_no === "" || mail === "") {
       alert("Please fill in the fields!");
     }
-    else
-    {
+    else {
       sendRestRegister(user, rest_name, mail, phone_no)
         .then(response => {
           if (response == "Successful") {
             var alertMsg = "Your restaurant register is successful! Please wait a few days for approval! ";
-            alertMsg += "You will receive an email with your default password and the username you registered with for login!";
+            alertMsg += "You will receive an email with a default password and the username you registered with for login!";
 
             alert(alertMsg);
             back();
+          }
+          else {
+            alert(response);
           }
         })
         .catch(error => {

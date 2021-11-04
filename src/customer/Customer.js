@@ -122,12 +122,10 @@ export default function Customer() {
   }, [])
 
   const toggleVisibility = () => {
-    if (isVisible)
-    {
+    if (isVisible) {
       setIsVisible(false)
     }
-    else
-    {
+    else {
       setIsVisible(true)
     }
   }
