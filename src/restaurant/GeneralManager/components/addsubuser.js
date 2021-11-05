@@ -28,7 +28,7 @@ export default function AddSubUser() {
       .then((response) => {
         if (response.api_msg === "success") {
           alert(`Successful creation of subuser ${username}`);
-          history.push('/generalmanager/manageuser')
+          history.push('/generalmanager/manageuser');
         }
         else {
           alert(`Something went wrong. Please double check!`);
