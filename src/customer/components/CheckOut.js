@@ -183,6 +183,9 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
     if (paymentStatus === "success") {
       submitOrder(doID)
         .then((response) => {
+          // Comment out before submission
+          alert(response.api_msg);
+
           // Close backdrop
           handleBackdropClose();
 
