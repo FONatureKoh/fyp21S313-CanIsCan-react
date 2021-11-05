@@ -5,10 +5,13 @@ import { Route, Switch, Link } from 'react-router-dom'
 import AddSubUser from './addsubuser';
 import EditSubUser from './editsubuser';
 import { allSubUsers } from '../../restaurant_controller';
+import { deleteSubuser } from '../rgm_controller';
 
 export default function ManageUser() {
   // Usestate for page controls
   const [userIDSelected, setUserIDSelected] = useState('');    
+  const [selectedName ,setSelectedName] = useState('');
+  const [usernameSelected, setUsernameSelected] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
   const [subUsersArray, setSubUsersArray] = useState([]);
 
@@ -33,9 +36,20 @@ export default function ManageUser() {
   // Essential page functions
   // This following function is for deleting the user
   const handleOpenDialog= () => {
-    console.log(userIDSelected);
-    
     setOpenDialog(true);
+  };
+
+  const handleConfirmDialog = () => {
+    deleteSubuser(userIDSelected, usernameSelected)
+      .then((response) => {
+        if (response.api_msg === "success") {
+          alert(`Subuser with username ${usernameSelected} and full name ${selectedName} has been deleted!`);
+        }
+        else {
+          alert(`Something went wrong.`);
+        }
+      })
+    setOpenDialog(false);
   };
 
   const handleCloseDialog = () => {
@@ -44,6 +58,7 @@ export default function ManageUser() {
 
   // Deployed the useEffect to get the restaurant subuser stuff
   useEffect(() => {
+    // console.log("UseEffect Triggered");
     getSubUsers()
       .then((response) => {
         // We now construct only what we need from the data retrieved
@@ -52,6 +67,7 @@ export default function ManageUser() {
         response.forEach(subuser => {
           var temp_json = {
             id: subuser.subuser_ID,
+            username: subuser.subuser_username,
             name: subuser.first_name + " " + subuser.last_name,
             type: subuser.subuser_type
           };
@@ -62,11 +78,12 @@ export default function ManageUser() {
         setSubUsersArray(subuser_array);
       })
       .catch(error => console.log(error));
-  },[]);
+  },[openDialog]);
 
   const columns = [
     { field: 'id', headerName: 'User ID', width: 100 },
     { field: 'name', headerName: 'Name', width: 300 },
+    { field: 'username', hide: true },
     { field: 'type', headerName: 'Account Type', width: 300 },
     {
       field: "  ",
@@ -95,7 +112,9 @@ export default function ManageUser() {
             color="error"
             fullWidth
             onClick={() => {
-              setUserIDSelected(cellValues.name);
+              setSelectedName(cellValues.row.name);
+              setUserIDSelected(cellValues.row.id);
+              setUsernameSelected(cellValues.row.username);
               handleOpenDialog();
             }}
           >
@@ -148,11 +167,11 @@ export default function ManageUser() {
                 </DialogTitle>
                 <DialogContent>
                   <DialogContentText>
-                    Confirm delete '{userIDSelected}'?
+                    Confirm delete '{selectedName}'?
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleCloseDialog} variant="outlined" color="inherit">Confirm</Button>
+                  <Button onClick={handleConfirmDialog} variant="outlined" color="inherit">Confirm</Button>
                   <Button onClick={handleCloseDialog} variant="outlined" color="error">
                     Cancel
                   </Button>
