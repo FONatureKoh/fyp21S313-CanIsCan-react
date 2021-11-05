@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import NavigationDM from '../../components/top-nav/NavigationDM'
 import Topbar from '../../components/top-nav/topbar';
 import { Modal, Box } from '@mui/material';
@@ -9,7 +9,6 @@ import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import DelFirstLogin from './components/DelFirstLogin';
 import ViewOrderHistory from './components/ViewOrderHistory';
 import { getAccStatus, getRestName } from '../restaurant_controller';
-import { UserContext } from '../../store/user_context';
 import { getUserType } from '../../store/general_controller';
 
 /***********************************************************************
@@ -17,6 +16,8 @@ import { getUserType } from '../../store/general_controller';
  ***********************************************************************/
 export default function DeliveriesManager() {
   // CHECKING OF USER TYPE 
+  const history = useHistory(); // To push path if needed
+  
   useEffect(() => {
     // ASYNC FUNCTION TO RETRIEVE THE USER TYPE THROUGH THE TOKEN
     async function retrieverUserType() {
@@ -40,9 +41,8 @@ export default function DeliveriesManager() {
           history.push("/unauthorised");
         }
       })
-  }, []);
+  }, [history]);
 
-  const history = useHistory();
   
   // END OF CHECKING
   // Essential useStates for the page

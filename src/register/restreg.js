@@ -38,7 +38,7 @@ export default function RestRegister() {
     else {
       sendRestRegister(user, rest_name, mail, phone_no)
         .then(response => {
-          if (response == "Successful") {
+          if (response === "success") {
             var alertMsg = "Your restaurant register is successful! Please wait a few days for approval! ";
             alertMsg += "You will receive an email with a default password and the username you registered with for login!";
 

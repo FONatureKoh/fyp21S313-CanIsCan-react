@@ -26,7 +26,9 @@ export async function getReservations(getMode) {
     case 2:
       requestPath = "ongoingreservations";
       break;
-    
+
+    default:
+      break;    
   }
 
   try {

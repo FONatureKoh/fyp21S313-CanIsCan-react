@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import NavigationRM from '../../components/top-nav/NavigationRM'
 import Topbar from '../../components/top-nav/topbar';
 import { Modal, Box } from '@mui/material';
@@ -9,11 +9,12 @@ import ViewProfile from '../../profile/viewprofile';
 import ResFirstLogin from './components/ResFirstLogin';
 import ManageSlots from './components/ManageSlots';
 import { getAccStatus, getRestName } from '../restaurant_controller';
-import { UserContext } from '../../store/user_context';
 import { getUserType } from '../../store/general_controller';
 
 export default function ReservationsManager() {
   // CHECKING OF USER TYPE 
+  const history = useHistory(); // To push path if required
+
   useEffect(() => {
     // ASYNC FUNCTION TO RETRIEVE THE USER TYPE THROUGH THE TOKEN
     async function retrieverUserType() {
@@ -37,11 +38,7 @@ export default function ReservationsManager() {
           history.push("/unauthorised");
         }
       })
-  }, []);
-
-  const history = useHistory();
-  const testContext = useContext(UserContext);
-  
+  }, [history]);  
   // END OF CHECKING
 
 

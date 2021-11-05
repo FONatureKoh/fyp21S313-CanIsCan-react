@@ -11,7 +11,6 @@ import Stats from './components/statistics';
 import ViewProfile from '../../profile/viewprofile';
 import { restaurantProfile, retrieveRestaurantStatus, setRestStatus } from '../restaurant_controller';
 import FirstLogin from './components/firstlogin';
-import { UserContext } from '../../store/user_context' ;
 import StatisticsReservations from './components/statisticsReservations';
 import { getUserType } from '../../store/general_controller';
 
@@ -27,6 +26,8 @@ import { getUserType } from '../../store/general_controller';
 
 export default function GeneralManager() {
   // CHECKING OF USER TYPE 
+  const history = useHistory();
+
   useEffect(() => {
     // ASYNC FUNCTION TO RETRIEVE THE USER TYPE THROUGH THE TOKEN
     async function retrieverUserType() {
@@ -50,11 +51,7 @@ export default function GeneralManager() {
           history.push("/unauthorised");
         }
       })
-  }, []);
-
-  const history = useHistory();
-  const testContext = useContext(UserContext);
-  
+  }, [history]);
   // END OF CHECKING
 
   // Setting some general states

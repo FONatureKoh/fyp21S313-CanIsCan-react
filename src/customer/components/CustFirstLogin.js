@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -8,12 +8,15 @@ import Typography from '@mui/material/Typography';
 import { Divider } from '@mui/material';
 import { TextField } from '@mui/material';
 import { setProfileFirst } from '../customer_controller';
+import { UserContext } from '../../store/user_context' ;
 
 import DefaultProfile from '../../assets/default-profile.png'
 
 const steps = ['Update your profile'];
 
 export default function CustFirstLogin({setFirstLog}) {
+  // useContext
+  const userContext = useContext(UserContext);
   // Constant Theme
   const themes = {
     textHeader: {
@@ -51,7 +54,6 @@ export default function CustFirstLogin({setFirstLog}) {
   // ASYNC FUNCTIONS
   // This one to post the user data to the server
   async function postFirstLogin(){
-    console.log(profileImage);
     try {
       const response = await setProfileFirst(profileImage, fName, lName, personalPhone,
         personalEmail, personalAdd, personalPostal);
@@ -105,9 +107,16 @@ export default function CustFirstLogin({setFirstLog}) {
       if (validationErr === 0) {
         postFirstLogin()
           .then((response) => {
-            alert(response);
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
-            setSkipped(newSkipped);
+            // Check the response state
+            if (response === "success") {
+              // alert(response);
+              setActiveStep((prevActiveStep) => prevActiveStep + 1);
+              setSkipped(newSkipped);
+              userContext.userFullName[1](fName + " " + lName);
+            }
+            else {
+              alert("Something went wrong, please double check your details");
+            }            
           })
           .catch((err) => {
             console.log(err);
@@ -145,7 +154,7 @@ export default function CustFirstLogin({setFirstLog}) {
     else {
       setProfilePreview(DefaultProfile);
     }
-  }, [profileImage])
+  }, [profileImage, profilePreview])
 
   return (
     <Box sx={{ width: '95%', margin:'30px auto'}}>

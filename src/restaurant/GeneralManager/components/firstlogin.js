@@ -110,7 +110,7 @@ export default function FirstLogin({setFirstLog}) {
     else {
       setBannerPreview(DefaultShopfront);
     }
-  }, [bannerImage])
+  }, [bannerImage, profilePreview, bannerPreview])
 
   // Some useful async functions that goes with the component to make things easier
   

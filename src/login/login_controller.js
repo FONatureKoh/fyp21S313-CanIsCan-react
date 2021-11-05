@@ -1,6 +1,4 @@
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
-import UserContext from '../store/user_context';
 
 /*****************************************************************************************
  * Some application settings to be used throughout the controller

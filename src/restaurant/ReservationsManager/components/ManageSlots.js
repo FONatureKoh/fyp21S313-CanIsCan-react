@@ -87,7 +87,7 @@ export default function ManageSlots() {
           const response = await saveResSettings(resSettings.rrs_ID, resSettings.rrs_rest_ID, 
             startTime, endTime, reservationIntervals, noOfTables);
 
-          if (response.api_msg == "success") {
+          if (response.api_msg === "success") {
             alert("You have successfully set your restaurant's reservations settings. Redirecting you to pending reservations.");
             history.push('/reservationsmanager');
           }

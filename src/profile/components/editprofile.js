@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dialog, 
-DialogActions, DialogContent, DialogContentText, DialogTitle, Input } from '@mui/material';
-import john from '../../assets/temp/johnsmith.png'
+DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useHistory } from 'react-router-dom'
-import { editPersonalProfile, getImage, retrieveUserProfile } from '../profile_controller';
+import { editPersonalProfile, getImage } from '../profile_controller';
 import { useRouteMatch } from 'react-router';
 import { styled } from '@mui/styles';
 
@@ -75,7 +74,7 @@ export default function EditProfile({userProfile}) {
     else{
       setPreview(null);
     }
-  }, [imageFile])
+  }, [imageFile, preview])
 
   const history = useHistory();
   const [open, setOpen] = useState(false);

@@ -30,6 +30,9 @@ export async function getOrders(getMode) {
     case 3:
       requestPath = "fulfilledorders";
       break;
+    
+    default:
+      break;
   }
 
   try {

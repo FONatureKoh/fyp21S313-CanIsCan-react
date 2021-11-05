@@ -31,7 +31,7 @@ export default function ResAccordion({reservation}) {
     updatePOStatus(reservation.po_ID, "Preparing")
       .then((response) => {
         alert(response.api_msg);
-        if (response.updateStatus == "success") {
+        if (response.updateStatus === "success") {
           setPreOrderStatus("Preparing")
         }
       })

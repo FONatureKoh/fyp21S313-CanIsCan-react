@@ -94,8 +94,10 @@ export default function ManageUser() {
             variant="outlined"
             color="error"
             fullWidth
-            onClick={setUserIDSelected(cellValues.name)}
-            onClick={handleOpenDialog}
+            onClick={() => {
+              setUserIDSelected(cellValues.name);
+              handleOpenDialog();
+            }}
           >
             Remove
           </Button>

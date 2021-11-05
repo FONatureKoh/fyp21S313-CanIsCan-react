@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, CardHeader, CardContent, Box, Button, Typography, Grid, Modal, CardMedia, IconButton, Tooltip, Accordion, AccordionSummary, AccordionDetails, ListItem } from '@mui/material'
+import { Card, CardHeader, CardContent, Box, Button, Typography, Grid, Modal, CardMedia, IconButton, Tooltip} from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import TestImage from '../../assets/temp/eg-biz1.png'
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';

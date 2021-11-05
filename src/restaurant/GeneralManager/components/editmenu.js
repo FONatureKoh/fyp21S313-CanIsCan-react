@@ -9,7 +9,7 @@ import AddItem from './additem';
 import { UserContext } from '../../../store/user_context';
 import AddIcon from '@mui/icons-material/Add';
 import { TabPanel, TabList, TabContext } from '@mui/lab';
-import { addRestaurantCategory, retrieveAllItems, retrieveCatItems, retrieveCats } from '../../restaurant_controller';
+import { addRestaurantCategory, retrieveAllItems, retrieveCats } from '../../restaurant_controller';
 
 export default function Editmenu({menuData, itemSelected, setItemSelected}) {
   console.log("editmenu triggered");
@@ -19,7 +19,6 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
   
   // All useful states
   const [open, setOpen] = useState(false);
-  const testContext = useContext(UserContext);
   //const menuList = getMenu(menuData)
   const [newMenu, setNewMenu] = useState('');
   const [value, setValue] = useState('0');
@@ -104,31 +103,6 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
   const handleOpen = () => {
     setOpen(true);
   };
-
-  // Handles when we add new category
-  function addMenu(){
-    // Add new Category
-    addNewCategory()
-      .then((response) => {
-        // Trigger the categories reload
-        getCategories()
-          .then((response) => {
-            // Build the ric_name into an array
-            var ric_name_array = [];
-
-            response.forEach(element => {
-              ric_name_array.push(element.ric_name);
-            });
-
-            setCategories(ric_name_array);
-            
-            // Set dialog to close
-            setOpen(false);
-          })
-          .catch(error => console.log(error));
-      })
-      .catch(error => console.log(error));
-  }
 
   // Handles when we add new category
   function addMenu(){

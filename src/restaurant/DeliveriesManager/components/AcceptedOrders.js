@@ -3,14 +3,14 @@ import { Card, CardHeader, CardContent, Box, Typography } from '@mui/material'
 import { getOrders, getDOItems } from '../dm_controller';
 import DelAccordion from './DelAccordion';
 
-const themes = {
-  textHeader: {
-    fontSize:'1 0px', 
-    fontWeight:'bold', 
-    mt: '20px',
-    mb: '10px'
-  }
-};
+// const themes = {
+//   textHeader: {
+//     fontSize:'1 0px', 
+//     fontWeight:'bold', 
+//     mt: '20px',
+//     mb: '10px'
+//   }
+// };
 
 export default function AcceptedOrders() {
   // useStates for the orders
@@ -50,7 +50,7 @@ export default function AcceptedOrders() {
 
         response.forEach(element => {
           // So if the order isn't fulfilled, then construct
-          if(element.order_status != "fulfilled") {
+          if(element.order_status !== "fulfilled") {
             // Declare a temp json
             var tempJSON = {};
             

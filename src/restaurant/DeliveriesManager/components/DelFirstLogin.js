@@ -120,7 +120,7 @@ export default function DelFirstLogin({setFirstLog}) {
   // HANDLE FINAL SUBMIT 
   // NOTE: This is where we submit the data to the database
   const handleFinish = () => {
-    if (newPW != confirmNewPW) {
+    if (newPW !== confirmNewPW) {
       alert("Please type the same password in the new password and confirm password fields");
 
       return;
@@ -159,7 +159,7 @@ export default function DelFirstLogin({setFirstLog}) {
     else {
       setProfilePreview(null);
     }
-  }, [profileImage])
+  }, [profileImage, profilePreview])
 
   return (
     <Box sx={{ width: '80%', margin:'30px auto'}}>
