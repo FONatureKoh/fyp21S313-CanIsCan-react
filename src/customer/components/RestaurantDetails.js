@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Card, CardHeader, CardContent, Box, CardMedia, Typography, Divider, Grid, CardActionArea, Button, IconButton, Tooltip } from '@mui/material'
-import { Rating } from '@mui/material'
-import { ButtonBase } from '@mui/material'
+import { Card, CardContent, Box, CardMedia, Typography, Divider, Grid, Button, IconButton, Tooltip } from '@mui/material'
+import { ButtonBase, Modal, Rating } from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ReviewsOutlinedIcon from '@mui/icons-material/ReviewsOutlined';
-import { Modal } from '@mui/material'
 import { format } from 'date-fns';
 import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { useRouteMatch } from 'react-router'
-import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getBannerImage, getAvailableSlots, getRestReviews } from '../customer_controller'
 import { Link } from 'react-router-dom'
 import Checkbox from '@mui/material/Checkbox';
+
+import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getBannerImage, getAvailableSlots, getRestReviews } from '../customer_controller'
 
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
 
