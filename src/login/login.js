@@ -62,6 +62,7 @@ export default function Login() {
         if (response != null) {
           // Set a full name to the userContext
           userContext.userFullName[1](response.first_name + " " + response.last_name);
+          userContext.profileImage[1](response.profile_image_base64);
           userType = response.userType;
         }          
 
