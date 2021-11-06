@@ -4,16 +4,16 @@ import { Card, CardHeader, CardContent, Grid, Box } from '@mui/material';
 
 export default function StatisticsReservations() {       
 
-  const chartData = [
-    ['Day', 'Deliveries'],
-    ['Mon', 300],
-    ['Tues', 150],
-    ['Wed', 70],
-    ['Thurs', 340],
-    ['Fri', 500],
-    ['Sat', 420],
-    ['Sun', 132]
-    ]
+  // const chartData = [
+  //   ['Day', 'Deliveries'],
+  //   ['Mon', 300],
+  //   ['Tues', 150],
+  //   ['Wed', 70],
+  //   ['Thurs', 340],
+  //   ['Fri', 500],
+  //   ['Sat', 420],
+  //   ['Sun', 132]
+  //   ]
 
   const chartData2 = [
     ['Day', 'Reservations'],
@@ -26,7 +26,7 @@ export default function StatisticsReservations() {
     ['Sun', 15]
     ]
 
-  return (
+  return <>
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', mt:'20px'}}>
       <CardHeader title="Restaurant Statistics - Reservations" />
       <CardContent >
@@ -35,22 +35,22 @@ export default function StatisticsReservations() {
           spacing={{ xs: 2, sm: 10 }} 
           columns={{ xs: 4, sm: 10, md: 10}}
         >
-          <Grid item item xs={4} sm={10} md={10} lg={5} xl={5} sx={{marginTop:'2%', marginBottom:'2%'}}>
+          <Grid item xs={4} sm={10} md={10} lg={5} xl={5} sx={{marginTop:'2%', marginBottom:'2%'}}>
             <Chart
-            width={'600px'}
-            height={'300px'}
-            chartType="ColumnChart"
-            loader={<div>Loading Chart</div>}
-            data={chartData2}
-            options={{
-            title: 'Table Reservations',
-            hAxis: { title: 'Day', minValue: 0},
-            vAxis: { title: 'Reservations of the Day'},
-            chartArea: { width: '55%', height: '70%' },
+              width={'600px'}
+              height={'300px'}
+              chartType="ColumnChart"
+              loader={<div>Loading Chart</div>}
+              data={chartData2}
+              options={{
+              title: 'Table Reservations',
+              hAxis: { title: 'Day', minValue: 0},
+              vAxis: { title: 'Reservations of the Day'},
+              chartArea: { width: '55%', height: '70%' },
             }}
             />
           </Grid>
-          <Grid item item xs={4} sm={10} md={10} lg={5} xl={5} sx={{marginTop:'2%', marginBottom:'2%'}}>
+          <Grid item xs={4} sm={10} md={10} lg={5} xl={5} sx={{marginTop:'2%', marginBottom:'2%'}}>
             <Chart
             width={'600px'}
             height={'300px'}
@@ -69,5 +69,5 @@ export default function StatisticsReservations() {
         </Box>  
       </CardContent>
     </Card>
-  )
+  </>
 }

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import logo from '../../assets/logo.svg'
 import { Toolbar, Typography, IconButton, Box, AppBar } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -7,8 +7,7 @@ import ProfileIcon from './profile-icon';
 
 export default function Topbar({toggleVisibility}) {
   
-  return (
-    <>
+  return <>
       <AppBar position="fixed" sx={{bgcolor: '#474747', height:'75px', pt:'8px'}}>
         <Toolbar>
           <IconButton
@@ -33,6 +32,4 @@ export default function Topbar({toggleVisibility}) {
         </Toolbar>
       </AppBar>
     </>
-    
-  )
 }

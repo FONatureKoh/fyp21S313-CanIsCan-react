@@ -1,7 +1,7 @@
 import React from 'react'
 import Chart from "react-google-charts";
 import { Card, CardHeader, CardContent, Grid, Box } from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress';
+// import CircularProgress from '@mui/material/CircularProgress';
 
 export default function ViewInfo() {       
 
@@ -16,16 +16,16 @@ export default function ViewInfo() {
     ['Sun', 132]
     ]
 
-  const chartData2 = [
-    ['Day', 'Reservations'],
-    ['Mon', 10],
-    ['Tues', 5],
-    ['Wed', 7],
-    ['Thurs', 4],
-    ['Fri', 9],
-    ['Sat', 13],
-    ['Sun', 15]
-    ]
+  // const chartData2 = [
+  //   ['Day', 'Reservations'],
+  //   ['Mon', 10],
+  //   ['Tues', 5],
+  //   ['Wed', 7],
+  //   ['Thurs', 4],
+  //   ['Fri', 9],
+  //   ['Sat', 13],
+  //   ['Sun', 15]
+  //   ]
 
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
@@ -36,7 +36,7 @@ export default function ViewInfo() {
           spacing={{ xs: 2, sm: 10 }} 
           columns={{ xs: 4, sm: 10, md: 10}}
         >
-          <Grid item item xs={4} sm={10} md={10} lg={5} xl={5} sx={{marginTop:'2%', marginBottom:'2%'}}>
+          <Grid item xs={4} sm={10} md={10} lg={5} xl={5} sx={{marginTop:'2%', marginBottom:'2%'}}>
             <Chart
               width={'600px'}
               height={'300px'}
@@ -51,7 +51,7 @@ export default function ViewInfo() {
               }}
               />
           </Grid> 
-          <Grid item item xs={4} sm={10} md={10} lg={5} xl={5} sx={{marginTop:'2%', marginBottom:'2%'}}>
+          <Grid item xs={4} sm={10} md={10} lg={5} xl={5} sx={{marginTop:'2%', marginBottom:'2%'}}>
             <Chart
               width={'600px'}
               height={'300px'}

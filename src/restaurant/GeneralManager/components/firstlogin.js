@@ -65,18 +65,18 @@ export default function FirstLogin({setFirstLog}) {
   });
 
   // Creating a time to Date object
-  function timeToDate (inputTime) {
-    let tempTime = inputTime.split(":");
-    let dt = new Date();
+  // function timeToDate (inputTime) {
+  //   let tempTime = inputTime.split(":");
+  //   let dt = new Date();
 
-    // Create the date object accurately to the current date as well
-    dt.setDate(dt.getDate());
-    dt.setHours(tempTime[0]);
-    dt.setMinutes(tempTime[1]);
-    dt.setSeconds(tempTime[2]);
+  //   // Create the date object accurately to the current date as well
+  //   dt.setDate(dt.getDate());
+  //   dt.setHours(tempTime[0]);
+  //   dt.setMinutes(tempTime[1]);
+  //   dt.setSeconds(tempTime[2]);
     
-    return dt;
-  }
+  //   return dt;
+  // }
 
   // Preview Images
   const [profilePreview, setProfilePreview] = useState();
@@ -95,7 +95,7 @@ export default function FirstLogin({setFirstLog}) {
     else {
       setProfilePreview(DefaultProfile);
     }
-  }, [profileImage])
+  }, [profileImage, profilePreview])
 
   // Image preivew for Restaurant Banner
   useEffect(() => {
@@ -147,11 +147,6 @@ export default function FirstLogin({setFirstLog}) {
     }
   }
 
-  //STYLED INPUT FOR IMAGE UPLOAD WORD
-  const Input = styled('input')({
-    display: 'none',
-  });
-
   //Drop down item settings
   const ITEM_HEIGHT = 40;
   const ITEM_PADDING_TOP = 5;
@@ -195,9 +190,9 @@ export default function FirstLogin({setFirstLog}) {
     }
   };
   
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
+  // const isStepOptional = (step) => {
+  //   return step === 1;
+  // };
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
