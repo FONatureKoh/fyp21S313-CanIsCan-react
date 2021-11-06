@@ -67,7 +67,7 @@ export default function NavigationRM({restName, isVisible, isSelected, setIsSele
             <ListItemIcon>
               <DoneAllIcon/>
             </ListItemIcon>
-            <ListItemText primary="Accepted Reservations"/>
+            <ListItemText primary="Fulfilled Reservations"/>
           </ListItemButton>
 
           <Divider variant="middle" />
