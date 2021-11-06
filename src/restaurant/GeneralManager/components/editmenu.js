@@ -11,7 +11,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { TabPanel, TabList, TabContext } from '@mui/lab';
 import { addRestaurantCategory, retrieveAllItems, retrieveCats } from '../../restaurant_controller';
 
-export default function Editmenu({menuData, itemSelected, setItemSelected}) {
+export default function Editmenu() {
   console.log("editmenu triggered");
   // Test console
   // console.log(menuData)
@@ -22,12 +22,13 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
   //const menuList = getMenu(menuData)
   const [newMenu, setNewMenu] = useState('');
   const [value, setValue] = useState('0');
-  const [menuData2, setMenuData2] = useState([]);
+  const [menuData, setMenuData] = useState([]);
   const [categories, setCategories] = useState([]);
 
   // Async Function to get all the items 
   async function getAllItems(){
     try {
+      // CONTROLLER HERE TO RETRIEVE ALL THE RESTAURANT ITEMS
       const allItems = await retrieveAllItems();
       return allItems;
     }
@@ -50,6 +51,7 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
   // Async function to add a new category for the restaurant
   async function addNewCategory(){
     try {
+      // CONTROLLER FOR ADDING A NEW CATEGORY
       const response = await addRestaurantCategory(newMenu);
       return response.api_msg;
     }
@@ -71,7 +73,7 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
     // function to get all the restaurant's items
     getAllItems()
       .then((response) => {
-        setMenuData2(response);
+        setMenuData(response);
       })
       .catch(error => console.log(error));
 
@@ -129,7 +131,7 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
       .catch(error => console.log(error));
   }
 
-  return (
+  return <>
      <Switch>
       <Route exact path="/generalmanager/editmenu">
          <Box>
@@ -179,7 +181,7 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
                       </Grid>
                     </Grid>
                   </Box>
-                  <ViewMenuList menuData={menuData2} menuList={ric_name} />
+                  <ViewMenuList menuData={menuData} menuList={ric_name} />
                   </TabPanel>
                 </>
               })
@@ -213,8 +215,8 @@ export default function Editmenu({menuData, itemSelected, setItemSelected}) {
         </Card>
         </Box>
       </Route>
-     <Route path="/generalmanager/editmenu/edititem"> <EditItem menuData={menuData2} /></Route>
-     <Route path="/generalmanager/editmenu/additem" component= {AddItem}/>
+     <Route path="/generalmanager/editmenu/edititem"> <EditItem menuData={menuData} /></Route>
+     <Route path="/generalmanager/editmenu/additem"><AddItem /></Route>
    </Switch>
-  )
+  </>
 }

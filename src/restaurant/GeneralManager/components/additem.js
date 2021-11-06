@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, CardContent, CardHeader, Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router';
 import { styled } from '@mui/material/styles';
 
 // Controller import
 import { addRestaurantItem, retrieveCats } from '../../restaurant_controller';
 
 export default function AddItem() {
+  // useHistory to push the path
+  const history = useHistory();
+
   // Pre drawn values from Database
   const [itemCategoriesList, setItemCategoriesList] = useState([]);
 
@@ -20,8 +24,10 @@ export default function AddItem() {
   const [itemCategory, setItemCategory] = useState('');
 
   // Async Function for adding item
+  // THIS FUNCTION IS LINKED TO THE CONTROLLER
   async function postAddItem () {
     try {
+      // addRestaurantItem IS THE CONTROLLER FOR ADDING NEW ITEMS
       const response = await addRestaurantItem(imageFile, itemAvailability, 
         itemName, itemPrice, itemDesc, itemAllergy, itemCategory);
       return response;
@@ -29,7 +35,6 @@ export default function AddItem() {
     catch (error) {
       return error;
     }
-    
   }
 
   // Deploying useEffect to get the category list -- Thomas
@@ -67,7 +72,8 @@ export default function AddItem() {
   function addItem() {
     postAddItem()
       .then((response) => {
-        console.log(response);
+        // console.log(response);
+        history.push('/generalmanager')
       })
       .catch(error => console.log(error));
   }
@@ -76,7 +82,7 @@ export default function AddItem() {
     display: 'none',
   });
 
-  return (
+  return <>
     <Card>
     <CardHeader title="Add Item" />
     <CardContent >
@@ -167,12 +173,12 @@ export default function AddItem() {
 
       <Grid item xs={6}>
         <Box sx={{textAlign:'center', alignContent: "center" }}>
-        <Button variant="contained" color="inherit" sx={{width:'48%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={addItem} component={Link} to={"/generalmanager"}>Add Item</Button>
+        <Button variant="contained" color="inherit" sx={{width:'48%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={addItem}>Add Item</Button>
         <Button variant="contained" color="inherit" sx={{width:'48%', float:'right'}} component={Link} to="/generalmanager">Cancel</Button>
         </Box>
       </Grid>
     </Grid>
     </CardContent>
     </Card>
-  )
+  </>
 }

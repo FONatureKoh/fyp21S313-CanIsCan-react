@@ -121,7 +121,7 @@ export default function EditItem({menuData}) {
       <Grid item xs={6} sx={{textAlign:'center'}}>
         <Typography textAlign="center">
           Item Availability 
-          <Switch defaultChecked onChange={event => {
+          <Switch checked={itemAvailability} onChange={event => {
               setItemAvailability(event.target.checked);
               console.log(itemAvailability);
             }
