@@ -1,8 +1,7 @@
-import React, { useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import { Divider, Button, Container, Menu, MenuItem, IconButton, Avatar, Typography, Dialog, DialogActions, DialogTitle } from '@mui/material';
-import profilepic from '../../assets/temp/johnsmith.png'
 import { useHistory } from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { UserContext } from '../../store/user_context' ;
@@ -11,11 +10,10 @@ import { useRouteMatch } from 'react-router';
 export default function ProfileIcon() {
   const history = useHistory();
   const userContext = useContext(UserContext);
-  const [openDialog, setOpenDialog] = React.useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const match = useRouteMatch('/:userrole');
 
   // console.log(match.params.userrole)
-  
   const handleOpenDialog= () => {
     setOpenDialog(true);
   };
@@ -51,7 +49,7 @@ export default function ProfileIcon() {
     <Container position="absolute" sx={{mr:1}}>
         <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }} >
             <Typography sx={{alignSelf:'flex-end', mr: '10px', color:'white', textDecoration:'underline'}}>Welcome {userContext.userFullName[0]} <KeyboardArrowDownIcon sx={{textAlign:"end"}}fontSize="smaller"/></Typography>
-            <Avatar src={profilepic} alt="profile" sx={{ width: 50 , height: 50}}/>
+            <Avatar src={userContext.profileImage[0]} alt="profile" sx={{ width: 50 , height: 50}}/>
         </IconButton>
         
         <Menu

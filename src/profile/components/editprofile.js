@@ -1,18 +1,24 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dialog, 
 DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useHistory } from 'react-router-dom'
 import { editPersonalProfile, getImage } from '../profile_controller';
 import { useRouteMatch } from 'react-router';
 import { styled } from '@mui/styles';
+import { retrieveUserProfile } from '../../restaurant/restaurant_controller';
+import { UserContext } from '../../store/user_context';
 
-export default function EditProfile({userProfile}) {
+export default function EditProfile({userProfile, setUserProfile}) {
   // USE ROUTE MATCH TO GET USER ROLE
   const match = useRouteMatch('/:userrole/profile/editprofile');
+  const userrole = match.params.userrole;
+
+  // USECONTEXT BECAUSE OF IMAGE UPDATE
+  const userContext = useContext(UserContext);
 
   // Declaring profile information state
-  const [profileImage, setProfileImage] = useState('');
   const [imageFile, setImageFile] = useState('');
+  const [oldImageFile, setOldImageFile] = useState(userProfile.profile_image);
   const [username, setUsername] = useState(userProfile.username);
   const [fName, setFName] = useState(userProfile.first_name);
   const [lName, setLName] = useState(userProfile.last_name);
@@ -24,8 +30,8 @@ export default function EditProfile({userProfile}) {
   // Async Function to edit profile
   async function editProfileInfo() {
     try {
-      const response = await editPersonalProfile(profileImage, fName,
-        lName, phone, email, address, postalCode);
+      const response = await editPersonalProfile(imageFile, fName,
+        lName, phone, email, address, postalCode, oldImageFile);
       return response.api_msg;
     } 
     catch (error) {
@@ -49,30 +55,19 @@ export default function EditProfile({userProfile}) {
   // Image Preivew Stuff  
   const [preview, setPreview] = useState();
 
-  // Getting the profile image
-  useEffect(() => {
-    console.log("useEffect triggered");
-
-    getProfileImage(userProfile.profile_image)
-      .then((response) => {
-        console.log(response);
-        setPreview(response);
-      })
-  }, [])
-
   // Imagefile preview render
   useEffect(() => {
-    console.log("Imagefile useEfect triggered");
+    // console.log("Imagefile useEfect triggered");
     if(imageFile){
       const reader = new FileReader();
       reader.onload = () => {
         setPreview(reader.result);
-        console.log("1" +preview)
+        // console.log("1" +preview)
       }
       reader.readAsDataURL(imageFile);
     }
     else{
-      setPreview(null);
+      setPreview(userProfile.profile_image_base64);
     }
   }, [imageFile, preview])
 
@@ -97,20 +92,56 @@ export default function EditProfile({userProfile}) {
   };
 
   const handleYes = () => {
-    history.push(`/${match.params.userrole}/profile`);
+    history.push(`/${userrole}/profile`);
   };
 
   function submitChange(){
-    editProfileInfo()
-      .then((response) => {
-        if (response === "Successful!") {          
-          alert("Update successful!");
-          history.push(`/${match.params.userrole}/profile`);
-        }
-        else
-          alert("Something went wrong: " + response);
-      })
-      .catch(error => console.log(error));
+    // Profile edit validation
+    var errorCount = 0;
+
+    if (fName === '' || lName === '') {
+      alert("First and last name cannot be blank!");
+      errorCount++;
+    }
+
+    if (phone === '') {
+      alert("Your phone number cannot be blank!");
+      errorCount++;
+    }
+
+    if(email === '') {
+      alert("Email cannot be blank!");
+      errorCount++;
+    }
+
+    if (address === '' || postalCode === '') {
+      alert("Address / Postal code cannot be blank!");
+      errorCount++;
+    }
+
+    if (errorCount === 0) {
+      editProfileInfo()
+        .then((response) => {
+          if (response === "Successful!") {          
+            alert("Update successful!");
+
+            // Update successful! Lets reload the profile
+            retrieveUserProfile()
+              .then((response) => {
+                setUserProfile(response);
+                userContext.userFullName[1](response.first_name + " " + response.last_name);
+                userContext.profileImage[1](response.profile_image_base64);
+              })
+              .catch(err => console.log(err));
+
+            // Then we bring the person back to the profile page!
+            history.push(`/${userrole}/profile`);
+          }
+          else
+            alert("Something went wrong: " + response);
+        })
+        .catch(err => console.log(err));
+    }
   }
 
   const Input = styled('input')({
@@ -119,12 +150,12 @@ export default function EditProfile({userProfile}) {
 
   return (
     <div>
-      <Card variant="outlined" sx={{margin:'auto', marginTop:'20vmin', width:'60%', padding:'5px', borderRadius:'10px'}}>
+      <Card variant="outlined" sx={{margin:'auto', marginTop:'20vmin', width:'70%', padding:'5px', borderRadius:'10px'}}>
       <CardHeader title="Edit Personal Information" />
         <CardContent >
           <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
             <Grid item xs={6} sx={{textAlign:'center', marginTop:'10%;'}}>
-              <img src={preview} alt="No Preview Available" width="60%"/>
+              <img src={preview} alt="No Preview Available" width="90%"/>
               <label htmlFor="imageFile">
               <Input 
                 type="file"
@@ -132,7 +163,7 @@ export default function EditProfile({userProfile}) {
                 accept=".png"
                 onChange={event => {
                   const imageFile = event.target.files[0];
-                  setProfileImage(imageFile);
+                  setImageFile(imageFile);
                 }} />
               <Typography sx={{textAlign:'center', fontSize:'1 0px', textDecoration:'underline', cursor:'pointer'}}>Upload Photo</Typography>
               </label>

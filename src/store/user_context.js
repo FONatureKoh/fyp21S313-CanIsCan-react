@@ -22,6 +22,7 @@ export default ({ children }) => {
   const [userName, setUserName] = useState('');
   const [userType, setUserType] = useState('');
   const [userFullName, setUserFullName] = useState('');
+  const [profileImage, setProfileImage] = useState('');
 
   // User Profile retrieval
   
@@ -32,6 +33,7 @@ export default ({ children }) => {
         setUserName(response.username);
         setUserType(response.userType);
         setUserFullName(response.first_name + " " + response.last_name);
+        setProfileImage(response.profile_image_base64);
 
         console.log("meow" +response);
       })
@@ -46,7 +48,8 @@ export default ({ children }) => {
   const userStore = {
     username: [userName, setUserName],
     usertype: [userType, setUserType],
-    userFullName: [userFullName, setUserFullName]
+    userFullName: [userFullName, setUserFullName],
+    profileImage: [profileImage, setProfileImage]
   };
 
   return <UserContext.Provider value={userStore}>

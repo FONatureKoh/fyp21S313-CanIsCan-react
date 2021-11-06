@@ -46,13 +46,6 @@ export default function ViewProfile() {
       .then((response) => {
         // Set the user's profile
         setUserProfile(response);
-        
-        // set the user's image
-        getProfileImage(response.profile_image)
-          .then((response) => {
-            setprofileImage(response);
-          })
-          .catch(error => console.log(error));   
       })
       .catch(error => console.log(error));     
   },[])
@@ -72,8 +65,8 @@ export default function ViewProfile() {
           <CardHeader title="Personal Information" />
             <CardContent>
               <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
-                <Grid item xs={6} sx={{textAlign:'center', marginTop:'10%;'}}>
-                  <img src={profileImage} width="60%"/>
+                <Grid item xs={6} sx={{marginTop:'10%;'}}>
+                  <img src={userProfile.profile_image_base64} width="80%"/>
                 </Grid>
 
                 <Grid item xs={6} sx={{textAlign:'center'}}>
@@ -111,7 +104,7 @@ export default function ViewProfile() {
       </div>
       </Route>
 
-      <Route path="/:userrole/profile/editprofile"><EditProfile userProfile={userProfile} profileImage={profileImage}/></Route>
+      <Route path="/:userrole/profile/editprofile"><EditProfile userProfile={userProfile} setUserProfile={setUserProfile}/></Route>
       <Route path="/:userrole/profile/changepassword"><ChangePassword userProfile={userProfile}/></Route>
     </Switch>
   )

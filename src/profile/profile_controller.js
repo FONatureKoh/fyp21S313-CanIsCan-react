@@ -10,7 +10,7 @@ const config = require('../store/config.json');
  * ***************************************************************************************
  * - This takes all the info from the RGM and creates the subuser based on the given data
  * ***************************************************************************************/
-export function retrieveUserProfile() {
+export async function retrieveUserProfile() {
   // Axios request config to be declared first
   const axiosConfig = {
     headers: {'Authorisation': window.sessionStorage.accessToken}
@@ -18,16 +18,16 @@ export function retrieveUserProfile() {
 
   // console.log(axiosConfig);
 
-  return axios.get(`${config.apiDomain}/users/profilemanagement`, axiosConfig)
-    .then(res => {
-      // In here we can choose what we want to do with the response of the request
-      // console.log(res)
-      console.log(res.data);
-      return res.data;
-    })
-    .catch(err => {
-      console.log(err)
-    });
+  try {
+    const res = await axios.get(`${config.apiDomain}/users/profilemanagement`, axiosConfig);
+    // In here we can choose what we want to do with the response of the request
+    // console.log(res)
+    console.log(res.data);
+    return res.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
 };
 
 /*****************************************************************************************
@@ -93,7 +93,7 @@ export function verifyPwController(oldPassword) {
  * - send data to the user/profilemanagement route
  * ***************************************************************************************/
 export async function editPersonalProfile (profileImage, fname, lname, phoneNo, email, 
-  address, postalCode) {
+  address, postalCode, oldImageFile) {
 
   // Axios request config to be declared first
   const axiosConfig = {
@@ -111,6 +111,7 @@ export async function editPersonalProfile (profileImage, fname, lname, phoneNo, 
   editForm.append("email", email);
   editForm.append("address", address);
   editForm.append("postalCode", postalCode);
+  editForm.append("oldImageFile", oldImageFile);
 
   try {
     const response = await axios.put(`${config.apiDomain}/users/profilemanagement`, editForm, axiosConfig);
