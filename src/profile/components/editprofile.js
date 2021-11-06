@@ -202,9 +202,10 @@ export default function EditProfile({userProfile, setUserProfile}) {
                 id="filled-basic" 
                 label="Phone Number (Required*):" 
                 variant="filled" 
+                inputProps={{ maxLength: 8 }}
                 size="small" 
                 value={phone} 
-                onChange={(e)=>setPhone(e.target.value)}
+                onChange={(e)=>setPhone(e.target.value.replace(/[^0-9]/g, ''))}
               />
 
               <TextField sx={{width:'100%', margin:'15px'}} 
@@ -230,8 +231,9 @@ export default function EditProfile({userProfile, setUserProfile}) {
                 label="Postal Code (Required*):" 
                 variant="filled" 
                 size="small" 
+                inputProps={{ maxLength: 6 }}
                 value={postalCode} 
-                onChange={(e)=>setPostalCode(e.target.value)}
+                onChange={(e)=>setPostalCode(e.target.value.replace(/[^0-9]/g, ''))}
               />
             </Grid>
 
