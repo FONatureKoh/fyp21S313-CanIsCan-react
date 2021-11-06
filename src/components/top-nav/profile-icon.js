@@ -9,16 +9,13 @@ import { UserContext } from '../../store/user_context' ;
 import { useRouteMatch } from 'react-router';
 
 export default function ProfileIcon() {
-
-  const testContext = useContext(UserContext);
-
-  console.log("123" +testContext.userFullName[0])
-
   const history = useHistory();
+  const userContext = useContext(UserContext);
   const [openDialog, setOpenDialog] = React.useState(false);
   const match = useRouteMatch('/:userrole');
 
-  console.log(match.params.userrole)
+  // console.log(match.params.userrole)
+  
   const handleOpenDialog= () => {
     setOpenDialog(true);
   };
@@ -53,7 +50,7 @@ export default function ProfileIcon() {
   return (
     <Container position="absolute" sx={{mr:1}}>
         <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }} >
-            <Typography sx={{alignSelf:'flex-end', mr: '10px', color:'white', textDecoration:'underline'}}>Welcome {testContext.userFullName[0]} <KeyboardArrowDownIcon sx={{textAlign:"end"}}fontSize="smaller"/></Typography>
+            <Typography sx={{alignSelf:'flex-end', mr: '10px', color:'white', textDecoration:'underline'}}>Welcome {userContext.userFullName[0]} <KeyboardArrowDownIcon sx={{textAlign:"end"}}fontSize="smaller"/></Typography>
             <Avatar src={profilepic} alt="profile" sx={{ width: 50 , height: 50}}/>
         </IconButton>
         
