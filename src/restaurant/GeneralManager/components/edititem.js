@@ -5,10 +5,10 @@ import { useHistory, useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
 
 // Controller import
-import { editRestaurantItem, retrieveCats } from '../../restaurant_controller';
+import { editRestaurantItem, retrieveAllItems, retrieveCats } from '../../restaurant_controller';
 import { styled } from '@mui/styles';
 
-export default function EditItem({menuData}) {
+export default function EditItem({menuData, setMenuData}) {
   // MATCH CONSTANT
   const match = useRouteMatch('/generalmanager/editmenu/edititem/:id');
   const history = useHistory();
@@ -85,6 +85,14 @@ export default function EditItem({menuData}) {
         itemPngID, itemName, itemPrice, itemDesc, itemAllergy, itemCategory)
         .then((response) => {
           alert(response.api_msg);
+
+          // RETRIEVE THE NEW ITEM SET
+          retrieveAllItems()
+            .then((response) => {
+              setMenuData(response);
+            })
+          
+          // THEN REDIRECT PAGE
           history.push('/generalmanager/editmenu');
         }); 
     }

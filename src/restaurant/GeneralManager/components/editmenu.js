@@ -54,17 +54,6 @@ export default function Editmenu() {
     }
   }
 
-  
-  
-  // Async function to edit categories
-  // async function editCategory() {
-  //   try {
-  //     const response = await updateCategory();
-
-  //   }
-    
-  // }
-  
   useEffect(() => {
     // function to get all the restaurant's items
     getAllItems()
@@ -296,7 +285,7 @@ export default function Editmenu() {
         </Card>
         </Box>
       </Route>
-     <Route path="/generalmanager/editmenu/edititem"> <EditItem menuData={menuData} /></Route>
+     <Route path="/generalmanager/editmenu/edititem"> <EditItem menuData={menuData} setMenuData={setMenuData}/></Route>
      <Route path="/generalmanager/editmenu/additem"><AddItem /></Route>
    </Switch>
   </>
