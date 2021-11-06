@@ -5,15 +5,14 @@ import DelAccordion from './DelAccordion';
 // DM_CONTROLLER IMPORT
 import { getDOItems, getOrders } from '../dm_controller';
 
-const themes = {
-  textHeader: {
-    fontSize:'1 0px', 
-    fontWeight:'bold', 
-    mt: '20px',
-    mb: '10px'
-  }
-};
-
+// const themes = {
+//   textHeader: {
+//     fontSize:'1 0px', 
+//     fontWeight:'bold', 
+//     mt: '20px',
+//     mb: '10px'
+//   }
+// };
 
 export default function ViewPending() {
   // useStates for the orders
@@ -53,7 +52,7 @@ export default function ViewPending() {
 
         response.forEach(element => {
           // So if the order isn't fulfilled, then construct
-          if(element.order_status != "fulfilled") {
+          if(element.order_status !== "fulfilled") {
             // Declare a temp json
             var tempJSON = {};
             
