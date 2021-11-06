@@ -337,7 +337,8 @@ export default function FirstLogin({setFirstLog}) {
                   label="Phone Number (Required*):" 
                   variant="filled" 
                   size="small" 
-                  onChange={(e)=> setPersonalPhone(e.target.value)}
+                  inputProps={{ maxLength: 8 }}
+                  onChange={(e)=> setPersonalPhone(e.target.value.replace(/[^0-9]/g, ''))}
                 />
 
                 <TextField sx={{width:'85%', margin:'15px auto'}} 
@@ -361,7 +362,8 @@ export default function FirstLogin({setFirstLog}) {
                   label="Postal Code (Required*):"  
                   variant="filled" 
                   size="small"
-                  onChange={(e)=> setPersonalPostal(e.target.value)}
+                  inputProps={{ maxLength: 6 }}
+                  onChange={(e)=> setPersonalPostal(e.target.value.replace(/[^0-9]/g, ''))}
                 />
               </Box>
             </Box>
@@ -458,7 +460,8 @@ export default function FirstLogin({setFirstLog}) {
               id="rest-postal" 
               label="Restaurant Postal Code (Required*):"  
               variant="filled" 
-              onChange={(e)=> setRestPostal(e.target.value)}
+              inputProps={{ maxLength: 6 }}
+              onChange={(e)=> setRestPostal(e.target.value.replace(/[^0-9]/g, ''))}
             />
 
             <FormControl sx={{ m:"15px auto", width: '85%' }}>

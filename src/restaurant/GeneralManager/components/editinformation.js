@@ -204,7 +204,8 @@ export default function EditProfile({restaurantInfo}) {
               variant="filled" 
               size="small" 
               value={restaurantPhone} 
-              onChange={(e)=>setRestaurantPhone(e.target.value)}
+              inputProps={{ maxLength: 8 }}
+              onChange={(e)=>setRestaurantPhone(e.target.value.replace(/[^0-9]/g, ''))}
             />
 
             <TextField sx={{width:'100%', margin:'15px auto'}} 
@@ -232,7 +233,8 @@ export default function EditProfile({restaurantInfo}) {
               variant="filled" 
               size="small" 
               value={postalCode} 
-              onChange={(e)=>setPostalCode(e.target.value)}
+              inputProps={{ maxLength: 6 }}
+              onChange={(e)=>setPostalCode(e.target.value.replace(/[^0-9]/g, ''))}
             />
             <FormControl sx={{ m:"1px", width: '100%' }}>
               <InputLabel color='primary' id="restaurant-tags">Tags</InputLabel>

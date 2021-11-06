@@ -156,7 +156,8 @@ export default function AddSubUser() {
                 id="demo-simple-select"
                 value={role}
                 label="Role"
-                  onChange={(e) => setRole(e.target.value)}
+                inputProps={{ maxLength: 8 }}
+                onChange={(e) => setRole(e.target.value.replace(/[^0-9]/g, ''))}
               >
                 <MenuItem value={'Restaurant Deliveries Manager'}>Deliveries Manager</MenuItem>
                 <MenuItem value={'Restaurant Reservations Manager'}>Reservations Manager</MenuItem>

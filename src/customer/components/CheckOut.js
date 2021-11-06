@@ -415,7 +415,8 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
                 label="Postal Code" 
                 variant="filled" 
                 size="small" 
-                onChange={(event) => {setDeliveryPostalCode(event.target.value)}}
+                inputProps={{ maxLength: 6 }}
+                onChange={(event) => {setDeliveryPostalCode(event.target.value.replace(/[^0-9]/g, ''))}}
               />
               </Grid>
 

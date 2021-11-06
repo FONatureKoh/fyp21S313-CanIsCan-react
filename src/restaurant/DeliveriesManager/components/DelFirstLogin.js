@@ -270,7 +270,8 @@ export default function DelFirstLogin({setFirstLog}) {
                   label="Phone Number (Required*):" 
                   variant="filled" 
                   size="small" 
-                  onChange={(e)=> setPersonalPhone(e.target.value)}
+                  inputProps={{ maxLength: 8 }}
+                  onChange={(e)=> setPersonalPhone(e.target.value.replace(/[^0-9]/g, ''))}
                 />
 
                 <TextField sx={{width:'85%', margin:'15px auto'}} 
@@ -297,7 +298,8 @@ export default function DelFirstLogin({setFirstLog}) {
                   label="Postal Code (Required*):"  
                   variant="filled" 
                   size="small"
-                  onChange={(e)=> setPersonalPostal(e.target.value)} 
+                  inputProps={{ maxLength: 6 }}
+                  onChange={(e)=> setPersonalPostal(e.target.value.replace(/[^0-9]/g, ''))} 
                 />
               </Box>
             </Box>
