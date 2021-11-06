@@ -116,9 +116,7 @@ export default function Customer() {
         setRestaurantsArray(response);
       })
       .catch(error => console.log(error));
-    
     // Gets the account's status to trigger first login for customer
-
   }, [])
 
   const toggleVisibility = () => {

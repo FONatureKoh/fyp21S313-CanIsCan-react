@@ -78,10 +78,10 @@ export default function BrowseRestaurantCat({restData, catData}) {
   */
 
 
-  return (
+  return <>
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', mt:'20px', '.MuiCardHeader-action':{overflow:'visible', width:'200px'},}}>
-        <CardHeader action={
-          <FormControl fullWidth>
+      <CardHeader action={
+        <FormControl fullWidth>
           <InputLabel sx={{width:'200px'}} id="demo-simple-select-label">Category</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -96,7 +96,7 @@ export default function BrowseRestaurantCat({restData, catData}) {
 
           </Select>
         </FormControl>
-        }
+      }
         title="Browse Restaurants - Categories" />
         <CardContent >
           <Box > 
@@ -110,43 +110,43 @@ export default function BrowseRestaurantCat({restData, catData}) {
           >
             
           {selectedRestaurants.map(rest => (
-              <Grid item xs={4} sm={4} md={4} lg={3} xl={3} key={selectedRestaurants.indexOf(rest)}>
-              {/* Card generation for restaurant */}
-              <Card variant="outlined" sx={{ maxWidth: 300, height:'300px', mb:'20px'}}>
-              <CardActionArea component={ Link } to={`/customer/restaurantdetails/${rest.restaurant_ID}`}>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={TestImage}
-                />
-                <CardContent>
-                  <Box height="200px">
-                    <Typography gutterBottom variant="h6" component="div" noWrap>
-                    {rest.restaurant_name}
-                    </Typography>
-                    <Rating name="read-only" value={rest.rest_rating} readOnly size='small' precision={0.1}/> {rest.rest_rating}
-                    <Typography variant="body2" color="text.secondary">
-                      {rest.rest_tags.map(tag => (
-                        <Chip label={tag} sx={{margin:'3px'}}/>
-                      ))}
-                    </Typography>
-                  </Box>
-                </CardContent>
-                {/* <CardActionArea className="123" sx={{padding:'10px'}}>
-                  <Box sx={{width:'100%'}}>
-                    <Button variant="outlined" color="inherit" sx={{width:'100%'}}>View Restaurant</Button>
-                  </Box>
-                </CardActionArea> */}
-                </CardActionArea>
-              </Card>
-              </Grid>
-            ))}
+            <Grid item xs={4} sm={4} md={4} lg={3} xl={3} key={selectedRestaurants.indexOf(rest)}>
+            {/* Card generation for restaurant */}
+            <Card variant="outlined" sx={{ maxWidth: 300, height:'300px', mb:'20px'}}>
+            <CardActionArea component={ Link } to={`/customer/restaurantdetails/${rest.restaurant_ID}`}>
+              <CardMedia
+                component="img"
+                height="140"
+                image={rest.rest_banner}
+              />
+              <CardContent>
+                <Box height="200px">
+                  <Typography gutterBottom variant="h6" component="div" noWrap>
+                  {rest.restaurant_name}
+                  </Typography>
+                  <Rating name="read-only" value={rest.rest_rating} readOnly size='small' precision={0.1}/> {rest.rest_rating}
+                  <Typography variant="body2" color="text.secondary">
+                    {rest.rest_tags.map(tag => (
+                      <Chip label={tag} sx={{margin:'3px'}}/>
+                    ))}
+                  </Typography>
+                </Box>
+              </CardContent>
+              {/* <CardActionArea className="123" sx={{padding:'10px'}}>
+                <Box sx={{width:'100%'}}>
+                  <Button variant="outlined" color="inherit" sx={{width:'100%'}}>View Restaurant</Button>
+                </Box>
+              </CardActionArea> */}
+              </CardActionArea>
+            </Card>
             </Grid>
+          ))}
+          </Grid>
             {/* <Grid item md={12}>
               <Button fullWidth variant="outlined" color="inherit">Load More</Button>
             </Grid> */}
           </Box>
         </CardContent>
       </Card>
-  )
+  </>
 }
