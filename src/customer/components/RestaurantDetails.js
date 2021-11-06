@@ -11,8 +11,8 @@ import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { useRouteMatch } from 'react-router'
 import { Link } from 'react-router-dom'
 import Checkbox from '@mui/material/Checkbox';
-
-import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getBannerImage, getAvailableSlots, getRestReviews } from '../customer_controller'
+import { retrieveAllRestaurantItems, retrieveSingleRestaurant, getBannerImage, 
+  getAvailableSlots, getRestReviews, getAvailableRestCategories } from '../customer_controller'
 
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
 
@@ -23,8 +23,8 @@ export default function RetaurantDetails() {
   const restID = match.params.id;
 
   // useStates for setting all the variables
-  const [menusState, setMenusState] = useState([]);
-  const [itemMenusState, setItemMenusState] = useState([]);
+  const [categories, setCategories] = useState([])
+  const [restaurantItems, setRestaurantItems] = useState([])
   const [restaurantInfo, setRestaurantInfo] = useState([]);
   const [restReivews, setRestReviews] = useState([]);
   console.log(restReivews);
@@ -35,27 +35,12 @@ export default function RetaurantDetails() {
   const [timeSlot, setTimeSlot] = useState('');
   const [resStep, setResStep] = useState(1);
 
-  // Useful variables at the start NOTE: Arrays may be redundant, can see if want to
-  // remove in the future
-  var itemMenusArray = [];
-  var itemsArray = [];
-
   // Async function to retrieve all restaurant items
   async function getItems(){
     try {
       const response = await retrieveAllRestaurantItems(restID);
+
       return response;
-    }
-    catch (error) {
-      return error;
-    }
-  }
-  
-  // Simple function to filter out only distinct values
-  async function removeusingSet(arr) {
-    try {
-      let outputArray = Array.from(new Set(arr));
-      return outputArray;
     }
     catch (error) {
       return error;
@@ -98,44 +83,15 @@ export default function RetaurantDetails() {
     // Async function trigger to parse data and get the items and its picture
     getItems()
       .then((response) => {
-        // console.log(response);
-        response.forEach(item => {
-          // We got to transform the picture here already, so we call the async
-          // controller here directly
-          let tempItemImageURL = '';
-
-          getItemImage(item.item_png_ID)
-            .then((response) => {
-              // Temp imageURL
-              tempItemImageURL = response;
-              console.log(tempItemImageURL);
-
-              const tempJson = {
-                itemID: item.ri_item_ID,
-                itemImage: tempItemImageURL,
-                itemName: item.item_name,
-                itemDesc: item.item_desc,
-                itemAllergen: item.item_allergen_warning,
-                itemPrice: item.item_price,
-                itemMenu: item.ric_name
-              }
-              itemsArray.push(tempJson);
-              setItemMenusState(oldArray => [...oldArray, tempJson]);
-            })
-            .catch(error => console.log(error));
-          itemMenusArray.push(item.ric_name);
-        })
-
-        // Trigger array filter async function
-        removeusingSet(itemMenusArray)
-          .then((response) => {
-            itemMenusArray = response;
-            setMenusState(itemMenusArray)
-            // console.log(itemMenusArray);
-          })
-          .catch(error => console.log(error));
+        console.log(response);
+        setRestaurantItems(response);
       })
-      .catch(error => console.log(error));
+    
+    getAvailableRestCategories(restID)
+      .then((response) => {
+        setCategories(response);
+      })
+      .catch(err => console.log(err));
     // ===========================================================================
     // Get Restaurant Information
     getRestInfo()
@@ -151,33 +107,6 @@ export default function RetaurantDetails() {
       });
     // ===========================================================================
   }, []);
-  // NOTE: RestaurantInfo with the following data template
-  // {
-  //   "restaurant_ID": 1,
-  //   "restaurant_name": "Kelvin's Cat Cafe",
-  //   "rest_rgm_username": "elephant1995",
-  //   "rest_banner_ID": "1635177240610-c14c4986-0985-4816-8fe3-4d25c848abe7.png",
-  //   "rest_op_hours": "11:30 AM to 11:00 PM",
-  //   "rest_phone_no": "91234567",
-  //   "rest_address_info": "Blk 111 Ang Mo Kio #01-01",
-  //   "rest_postal_code": 656565,
-  //   "rest_tags": [
-  //     "Cafe",
-  //     "Fine Dining"
-  //   ],
-  //   "rest_rating": 5,
-  //   "rest_status": "closed",
-  //   "rest_opening_time": "11:30:00",
-  //   "rest_closing_time": "23:00:00",
-  //   "rest_tag_1": "Cafe",
-  //   "rest_tag_2": "Fine Dining",
-  //   "rest_tag_3": null
-  // }
-
-  // Console logs that I commented out - Thomas
-  // console.log(menusState)
-  // console.log(itemMenusArray)
-  // console.log(itemMenusState)
 
   //MODAL CONTROLS - DIRECTIONS / INFO
   const [openInfo, setOpenInfo] = useState(false);
@@ -353,17 +282,17 @@ export default function RetaurantDetails() {
             
             <Box sx={{paddingBottom:'20px'}}>
               {
-                menusState.map((item) =>{
+                categories.map((category) =>{
                   return <>
                   {/* HEADER */}
                   <Typography variant="h5" sx={{padding:'20px 0px'}}>
-                    {item}
+                    {category}
                   </Typography>
                   {/* END OF HEADER */}
                   <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 12 }} direction="row" justify="flex-start" alignItems="flex-start">
                     {
-                      itemMenusState.map(item2 =>{
-                        if (item2.itemMenu === item)
+                      restaurantItems.map(item =>{
+                        if (item.itemCategory === category)
                         return <>
                           <Grid item xs={12} sm={12} md={6}>
                           <ButtonBase sx={{display:'block', textAlign:'initial', width:'100%'}}>
@@ -371,20 +300,20 @@ export default function RetaurantDetails() {
                             <Box sx={{ display: 'flex', flexDirection: 'column', width:'80%'}}>
                             <CardContent sx={{ flex: '1 0 auto'}}>
                               <Typography component="div" variant="h6">
-                                {item2.itemName}
+                                {item.itemName}
                               </Typography>
                               <Typography variant="subtitle2" color="text.secondary" component="div">
-                                {item2.itemDesc}
+                                {item.itemDesc}
                               </Typography>
                               <Typography variant="subtitle1">
-                              Price: $ {item2.itemPrice.toFixed(2)}
+                              Price: $ {item.itemPrice.toFixed(2)}
                               </Typography>
                             </CardContent>
                             </Box>
                             <CardMedia
                               component="img"
                               sx={{ width: 151, margin:'1%'}}
-                              image={item2.itemImage}
+                              image={item.itemImage}
                               alt="fooditemname"
                             />
                           </Card>

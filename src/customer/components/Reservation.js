@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import { Card, CardContent, Box, CardMedia, Typography, Divider, Grid, Accordion, AccordionSummary, AccordionDetails, Button, IconButton, Tooltip, Drawer, List,
-  ListItem, ButtonGroup, Checkbox } from '@mui/material'
+import { Accordion, AccordionSummary, AccordionDetails, 
+  Box, Button, ButtonGroup, Card, CardContent, CardMedia, Checkbox, Divider, Drawer, 
+  Grid,  IconButton, List, ListItem, Tooltip, Typography } from '@mui/material'
 import { Rating } from '@mui/material'
 import { ButtonBase } from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -17,7 +18,8 @@ import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { Route, Switch } from 'react-router';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useRouteMatch } from 'react-router'
-import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getAvailableSlots, getBannerImage, getRestReviews, submitCustReservation } from '../customer_controller'
+import { retrieveAllRestaurantItems, retrieveSingleRestaurant, getAvailableSlots, 
+  getBannerImage, getRestReviews, getAvailableRestCategories, submitCustReservation } from '../customer_controller'
 import Cart from './Cart'
 import { Link } from 'react-router-dom'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -56,8 +58,8 @@ export default function Reservation() {
   // Essential states for the react component
   const [activeStep, setActiveStep] = useState(0);
 
-  const [menusState, setMenusState] = useState([])
-  const [itemMenusState, setItemMenusState] = useState([])
+  const [categories, setCategories] = useState([])
+  const [restaurantItems, setRestaurantItems] = useState([])
   const [restaurantInfo, setRestaurantInfo] = useState('');
   const [restReivews, setRestReviews] = useState([]);
   const [rating, setRating] = useState(0)
@@ -293,58 +295,28 @@ export default function Reservation() {
   // Do we need useEffect for this? Not sure if I could just load the damn thing
   // into states. Had a lot of issues of the Array not filtering
   useEffect(() => {
-    // Async function trigger to parse data 
+    // Getting the restaurant's items and their categories
     getItems()
       .then((response) => {
         console.log(response);
-        response.forEach(item => {
-          // We got to transform the picture here already, so we call the async
-          // controller here directly
-          let tempItemImageURL = '';
-
-          getItemImage(item.item_png_ID)
-            .then((response) => {
-              // Temp imageURL
-              tempItemImageURL = response;
-
-              const tempJson = {
-                itemID: item.ri_item_ID,
-                itemImage: tempItemImageURL,
-                itemName: item.item_name,
-                itemDesc: item.item_desc,
-                itemAllergen: item.item_allergen_warning,
-                itemPrice: item.item_price,
-                itemMenu: item.ric_name
-              }
-              itemsArray.push(tempJson);
-              setItemMenusState(oldArray => [...oldArray, tempJson]);
-            })
-            .catch(error => console.log(error));
-          itemMenusArray.push(item.ric_name);
-        })
-      
-        // Trigger array filter async function
-        removeusingSet(itemMenusArray)
-          .then((response) => {
-            itemMenusArray = response;
-            setMenusState(itemMenusArray)
-            console.log(itemMenusArray);
-          })
-          .catch(error => console.log(error));
+        setRestaurantItems(response);
       })
-      .catch(error => console.log(error));
+    
+    getAvailableRestCategories(restID)
+      .then((response) => {
+        setCategories(response);
+      })
+      .catch(err => console.log(err));
 
-      getRestInfo()
-        .then((response) => {
-          setRestaurantInfo(response);
-          if(response.rest_rating !== null)
-          {
-            setRating(response.rest_rating.toFixed(1))
-          }
-
-          // Console log to see if the info has been set properly
-          console.log(response);
-        })
+    // Getting the restaurant's information
+    getRestInfo()
+      .then((response) => {
+        setRestaurantInfo(response);
+        if(response.rest_rating !== null)
+        {
+          setRating(response.rest_rating.toFixed(1))
+        }
+      })
   }, []);
 
   
@@ -583,38 +555,38 @@ export default function Reservation() {
               {/* MENU BOX - CONTAINER FOR EACH MENU OFFERED BY THE REST */}
               {preorder && <Box sx={{paddingBottom:'20px'}}>
               {
-                menusState.map((item) =>{
+                categories.map((category) =>{
                   return <>
                   {/* HEADER */}
                   <Typography variant="h5" sx={{padding:'20px 0px'}}>
-                    {item}
+                    {category}
                   </Typography>
                   {/* END OF HEADER */}
                   <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 12 }} direction="row" justify="flex-start" alignItems="flex-start">
                     {
-                      itemMenusState.map(item2 =>{
-                        if (item2.itemMenu === item)
+                      restaurantItems.map(item =>{
+                        if (item.itemCategory === category)
                         return <>
                           <Grid item xs={12} sm={12} md={6}>
-                          <ButtonBase onClick={()=>{itemPopup(item2)}} sx={{display:'block', textAlign:'initial', width:'100%'}}>
+                          <ButtonBase onClick={()=>{itemPopup(item)}} sx={{display:'block', textAlign:'initial', width:'100%'}}>
                           <Card sx={{ display: 'flex', width:'100%', height:'130px'}}>
                             <Box sx={{ display: 'flex', flexDirection: 'column', width:'80%'}}>
                             <CardContent sx={{ flex: '1 0 auto'}}>
                               <Typography component="div" variant="h6">
-                                {item2.itemName}
+                                {item.itemName}
                               </Typography>
                               <Typography variant="subtitle2" color="text.secondary" component="div">
-                                {item2.itemDesc}
+                                {item.itemDesc}
                               </Typography>
                               <Typography variant="subtitle1">
-                              Price: $ {item2.itemPrice.toFixed(2)}
+                              Price: $ {item.itemPrice.toFixed(2)}
                               </Typography>
                             </CardContent>
                             </Box>
                             <CardMedia
                               component="img"
                               sx={{ width: 151, margin:'1%'}}
-                              image={item2.itemImage}
+                              image={item.itemImage}
                               alt="fooditemname"
                             />
                           </Card>
