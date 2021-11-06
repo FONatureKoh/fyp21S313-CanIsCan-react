@@ -41,9 +41,14 @@ export default function DelAccordion({item}) {
         sx={{borderBottom:'0.5px solid #eeeeee'}}
         onClick={()=>{setAccOpen(!accOpen)}}
       >
-        <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}}>
-          {item.orderID}
-        </Typography>
+        <Box textAlign="left">
+          <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}}>
+            {item.orderID}
+          </Typography>
+          <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}}>
+            Status: {item.status}
+          </Typography>
+        </Box>
       </AccordionSummary>
       {/* INNDER ACCORDION */}
       <AccordionDetails>
@@ -53,7 +58,7 @@ export default function DelAccordion({item}) {
         </Typography>
         <Divider variant="middle"/>
         <Grid container sx={{mt:'10px'}}>
-          <Grid item xs={8} md={8} sm={8}>
+          <Grid item xs={12} md={12} sm={12}>
             <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
               Order By
             </Typography>
@@ -61,14 +66,14 @@ export default function DelAccordion({item}) {
               {item.customerName}
             </Typography>
           </Grid>
-          <Grid item xs={4} md={4} sm={4}>
+          {/* <Grid item xs={4} md={4} sm={4}>
             <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
               Status
             </Typography>
             <Typography variant="subtitle1" textAlign="left">
               {item.status}
             </Typography>
-          </Grid>
+          </Grid> */}
           <Grid item xs={8} md={8} sm={8}>
             <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
               Address

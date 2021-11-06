@@ -47,9 +47,14 @@ export default function ResAccordion({reservation}) {
         sx={{borderBottom:'0.5px solid #eeeeee'}}
         onClick={()=>{setAccOpen(!accOpen)}}
       >
-        <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}}>
-          {reservation.cust_RID}
-        </Typography>
+        <Box>
+          <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}}>
+            {reservation.cust_RID}
+          </Typography>
+          <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}}>
+            Status: {reservation.reservation_status}
+          </Typography>
+        </Box>
       </AccordionSummary>
       {/* INNDER ACCORDION */}
       <AccordionDetails>
@@ -59,7 +64,7 @@ export default function ResAccordion({reservation}) {
         </Typography>
         <Divider variant="middle"/>
         <Grid container sx={{mt:'10px'}}>
-          <Grid item xs={4} md={4} sm={4}>
+          <Grid item xs={8} md={8} sm={8}>
             <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
               Reserved by
             </Typography>
@@ -75,14 +80,16 @@ export default function ResAccordion({reservation}) {
               {reservation.po_total_cost}
             </Typography>
           </Grid>
-          <Grid item xs={4} md={4} sm={4}>
+
+          {/* <Grid item xs={4} md={4} sm={4}>
             <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
               Status
             </Typography>
             <Typography variant="subtitle1" textAlign="left">
               {reservation.reservation_status}
             </Typography>
-          </Grid>
+          </Grid> */}
+
           <Grid item xs={8} md={8} sm={8}>
             <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
               Reservation Timeslot
