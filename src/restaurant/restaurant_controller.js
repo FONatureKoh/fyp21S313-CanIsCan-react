@@ -44,7 +44,7 @@ export function addRestaurantItem(imageFile, itemAvailability, itemName, itemPri
  * - Takes in ItemID. Since itemID is a primary key, there is no issue in editing the item
  * this way.
  * ***************************************************************************************/
-export function editRestaurantItem(itemID, imageFile, itemAvailability, itemRestID, 
+export async function editRestaurantItem(itemID, imageFile, itemAvailability, itemRestID, 
   itemPngID, itemName, itemPrice, itemDesc, itemAllergy, itemCategory) {
   // Axios request config to be declared first
   const axiosConfig = {
@@ -65,15 +65,13 @@ export function editRestaurantItem(itemID, imageFile, itemAvailability, itemRest
   editItemForm.append("itemAllergy", itemAllergy);
   editItemForm.append("itemCategory", itemCategory);
 
-  return axios.put(`${config.apiDomain}/restaurant/restaurantItem/${itemID}`, editItemForm, axiosConfig)
-    .then(res => {
-      // In here we can choose what we want to do with the response of the request
-      // console.log(res)
-      return res.data;
-    })
-    .catch(err => {
-      console.log(err)
-    });
+  try {
+    const res = await axios.put(`${config.apiDomain}/restaurant/restaurantItem/${itemID}`, editItemForm, axiosConfig);
+    return res.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
 };
 
 /*****************************************************************************************
@@ -281,7 +279,7 @@ export async function deleteCategory(categoryName) {
  * ***************************************************************************************
  * - Retrieves all the restaurant's categories    
  * ***************************************************************************************/
-export function retrieveCats() {
+export async function retrieveCats() {
   // Config for Axios to send authorisation in header
   const axiosConfig = {
     headers: {
@@ -289,13 +287,13 @@ export function retrieveCats() {
     }
   };
 
-  return axios.get(`${config.apiDomain}/restaurant/itemCategory`, axiosConfig)
-    .then(response => {
-      return response.data;
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+  try {
+    const response = await axios.get(`${config.apiDomain}/restaurant/itemCategories`, axiosConfig);
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
 };
 
 /*****************************************************************************************
@@ -325,7 +323,7 @@ export function retrieveCatItems(ric_ID) {
  * ***************************************************************************************
  * - Retrieves all the items from the database based on username in the access token     
  * ***************************************************************************************/
-export function retrieveAllItems() {
+export async function retrieveAllItems() {
   // Axios request config to be declared first
   const axiosConfig = {
     headers: {
@@ -333,13 +331,13 @@ export function retrieveAllItems() {
     }
   };
 
-  return axios.get(`${config.apiDomain}/restaurant/retrieveAllItems`, axiosConfig)
-    .then(response => {
-      return response.data;
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+  try {
+    const response = await axios.get(`${config.apiDomain}/restaurant/retrieveAllItems`, axiosConfig);
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
 };
 
 /*****************************************************************************************

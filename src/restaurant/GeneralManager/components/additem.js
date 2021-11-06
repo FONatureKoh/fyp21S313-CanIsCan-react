@@ -3,6 +3,7 @@ import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, Card
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { styled } from '@mui/material/styles';
+import defaultItem from '../../../assets/default-item.png';
 
 // Controller import
 import { addRestaurantItem, retrieveCats } from '../../restaurant_controller';
@@ -17,10 +18,10 @@ export default function AddItem() {
   // Form data settings and their setStates
   const [imageFile, setImageFile] = useState();
   const [itemAvailability, setItemAvailability] = useState(1);
-  const [itemName, setItemName] = useState();
-  const [itemPrice, setItemPrice] = useState();
-  const [itemDesc, setItemDesc] = useState();
-  const [itemAllergy, setItemAllergy] = useState();
+  const [itemName, setItemName] = useState('');
+  const [itemPrice, setItemPrice] = useState('');
+  const [itemDesc, setItemDesc] = useState('');
+  const [itemAllergy, setItemAllergy] = useState('');
   const [itemCategory, setItemCategory] = useState('');
 
   // Async Function for adding item
@@ -62,20 +63,25 @@ export default function AddItem() {
       }
       reader.readAsDataURL(imageFile);
     }
-    else
-    {
-      setPreview(null);
+    else {
+      setPreview(defaultItem);
     }
   }, [imageFile])
 
   // Function to generate a form to send to the backend server
   function addItem() {
-    postAddItem()
-      .then((response) => {
-        // console.log(response);
-        history.push('/generalmanager')
-      })
-      .catch(error => console.log(error));
+    // VALIDATION BEFORE ALLOWING THE EDIT
+    if (itemName === '' || itemPrice === '' || itemDesc === '' || itemCategory === '') {
+      alert("Item name, price, description or item category CANNOT be blank! Please fill something in!");
+    }
+    else {
+      postAddItem()
+        .then((response) => {
+          // console.log(response);
+          history.push('/generalmanager')
+        })
+        .catch(error => console.log(error));
+    }
   }
 
   const Input = styled('input')({

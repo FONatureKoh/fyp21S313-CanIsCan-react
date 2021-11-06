@@ -12,7 +12,7 @@ const themes = {
   }
 };
 
-export default function MenuItem({item, menuData}) {
+export default function MenuItem({item}) {
   // Other stuff
   const history = useHistory();
 
@@ -35,14 +35,14 @@ export default function MenuItem({item, menuData}) {
   // as the item opens up. The idea here is that it will take in the item's png id
   // and generate the image to fetch through the controller and then after that generates
   // a local image link to put into img src
-  useEffect(() => {
-    async function getItemImage() {
-      const imageData = await getImage(item.item_png_ID);
-      setItemImage(imageData);
-      console.log(itemImage);
-    }
-    getItemImage();
-  },[])
+  // useEffect(() => {
+  //   async function getItemImage() {
+  //     const imageData = await getImage(item.item_png_ID);
+  //     setItemImage(imageData);
+  //     console.log(itemImage);
+  //   }
+  //   getItemImage();
+  // },[])
 
   // Thomas: I changed this up a bit to handle the delete. Let me know if 
   // its the right style! And also if I intepret it correctly
@@ -72,7 +72,7 @@ export default function MenuItem({item, menuData}) {
       <Grid container spacing={2} padding={5}>
         <Grid item xs={6}>
           <Box height="100%" sx={{textAlign:'center', alignContent: "center" }}>
-            <img width="80%" src={itemImage} alt='Error'/>
+            <img width="80%" src={item.item_png_base64} alt='Error'/>
           </Box>
         </Grid>
         <Grid item xs={6}>

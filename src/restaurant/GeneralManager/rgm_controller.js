@@ -6,6 +6,32 @@ import axios from 'axios';
 const config = require('../../store/config.json');
 
 /*****************************************************************************************
+ * Editing of item Categories name
+ * ***************************************************************************************
+ * Takes in subUserID, username, fname, lname, email, phone, role
+ * ***************************************************************************************/
+export async function updateCategoryName(catID, newCatName) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  const editForm = new URLSearchParams();
+  editForm.append("catID", catID);
+  editForm.append("newCatName", newCatName);
+
+  try {
+    const res = await axios.put(`${config.apiDomain}/restaurant/itemCategoryManagement`, editForm, axiosConfig);
+    return res.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
+};
+
+/*****************************************************************************************
  * Editing details of subuser
  * ***************************************************************************************
  * Takes in subUserID, username, fname, lname, email, phone, role

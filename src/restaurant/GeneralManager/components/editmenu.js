@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ViewMenuList from '../../../components/rest-view-menu/ViewMenuList';
 import { Button, CardContent, CardHeader, Grid, TextField, Typography, Card, Box, Tab, Dialog,
   DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
@@ -6,24 +6,30 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Route, Switch, Link } from "react-router-dom";
 import EditItem from './edititem';
 import AddItem from './additem';
-import { UserContext } from '../../../store/user_context';
 import AddIcon from '@mui/icons-material/Add';
 import { TabPanel, TabList, TabContext } from '@mui/lab';
 import { addRestaurantCategory, retrieveAllItems, retrieveCats } from '../../restaurant_controller';
+import { updateCategoryName } from '../rgm_controller';
 
 export default function Editmenu() {
-  console.log("editmenu triggered");
+  // console.log("editmenu triggered");
   // Test console
   // console.log(menuData)
   // console.log(menuList[0]);
   
   // All useful states
-  const [open, setOpen] = useState(false);
+  
   //const menuList = getMenu(menuData)
-  const [newMenu, setNewMenu] = useState('');
+  
   const [value, setValue] = useState('0');
   const [menuData, setMenuData] = useState([]);
   const [categories, setCategories] = useState([]);
+
+  // THIS HANDLES THE VALUE FOR THE TABS
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    // console.log(newValue)
+  };
 
   // Async Function to get all the items 
   async function getAllItems(){
@@ -48,17 +54,7 @@ export default function Editmenu() {
     }
   }
 
-  // Async function to add a new category for the restaurant
-  async function addNewCategory(){
-    try {
-      // CONTROLLER FOR ADDING A NEW CATEGORY
-      const response = await addRestaurantCategory(newMenu);
-      return response.api_msg;
-    }
-    catch (error) {
-      return error;
-    }
-  }
+  
   
   // Async function to edit categories
   // async function editCategory() {
@@ -80,33 +76,44 @@ export default function Editmenu() {
     // function to get all restaurant categories name
     getCategories()
       .then((response) => {
-        // Build the ric_name into an array
-        var ric_name_array = []
-
-        response.forEach(element => {
-          ric_name_array.push(element.ric_name);
-        });
-
-        setCategories(ric_name_array);
+        setCategories(response);
       })
       .catch(error => console.log(error));
   },[])
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-    console.log(newValue)
-  };
- 
-  const handleClose = () => {
-    setOpen(false);
+  /********************************************************************************************************************
+   * EVERYTHING TO HANDLE ADDING OF A NEW CATEGORY
+   ********************************************************************************************************************
+   * INCLUDES DIALOG HANDLERS AND STATES
+   */
+  // STATES FOR WHEN A NEW MENU IS TO BE CREATED
+  const [openAdd, setOpenAdd] = useState(false);
+  const [newMenu, setNewMenu] = useState('');
+
+  // Async function to add a new category for the restaurant
+  async function addNewCategory(){
+    try {
+      // CONTROLLER FOR ADDING A NEW CATEGORY
+      const response = await addRestaurantCategory(newMenu);
+      return response.api_msg;
+    }
+    catch (error) {
+      return error;
+    }
+  }
+
+  // HANDLES ADD MENU DIALOG 
+  const handleAddClose = () => {
+    setOpenAdd(false);
     setNewMenu('');
+    setValue('0');
   };
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleAddOpen = () => {
+    setOpenAdd(true);
   };
 
-  // Handles when we add new category
+  // BUTTON FUNCTION FOR WHEN ADDMENU IS TRIGGERED
   function addMenu(){
     // Add new Category
     addNewCategory()
@@ -114,21 +121,60 @@ export default function Editmenu() {
         // Trigger the categories reload
         getCategories()
           .then((response) => {
-            // Build the ric_name into an array
-            var ric_name_array = [];
-
-            response.forEach(element => {
-              ric_name_array.push(element.ric_name);
-            });
-
-            setCategories(ric_name_array);
+            setCategories(response);
             
             // Set dialog to close
-            setOpen(false);
+            setOpenAdd(false);
+            setValue('0');
           })
           .catch(error => console.log(error));
       })
       .catch(error => console.log(error));
+  }
+
+  /********************************************************************************************************************
+   * EVERYTHING TO HANDLE EDITING OF CATEGORY NAME
+   ********************************************************************************************************************
+   * INCLUDES DIALOG HANDLERS AND STATES
+   */
+  // STATES FOR EDIT MENU
+  const [openEdit, setOpenEdit] = useState(false);
+  const [editCategoryName, setEditCategoryName] = useState('');
+  const [selectedCatID, setSelectedCatID] = useState(0);
+  const [editedName, setEditedName] = useState('');
+
+  // console.log(editedName);
+
+  // HANDLES EDIT MENU DIALOG 
+  const handleEditClose = () => {
+    setOpenEdit(false);
+    setEditedName('');
+  };
+
+  const handleEditOpen = () => {
+    setOpenEdit(true);
+  };
+
+  // Handles when we edit the menu's name
+  function editMenu() {
+    updateCategoryName(selectedCatID, editedName)
+      .then((response) => {
+        if (response.api_msg === "success") {
+          handleEditClose();
+          setValue('0');
+
+          // Refresh categories
+          getCategories()
+            .then((response) => {
+              setCategories(response);
+            });
+        }
+      });
+  }
+
+  // Handles when we delete a menu
+  function deleteMenu() {
+    
   }
 
   return <>
@@ -148,11 +194,11 @@ export default function Editmenu() {
             
               <TabList onChange={handleChange} aria-label="lab API tabs example">
                 {
-                  categories.map((ric_name, index) => {
-                    return <Tab label={ric_name} value={index.toString()}/>
+                  categories.map((category, index) => {
+                    return <Tab label={category.ric_name} value={index.toString()}/>
                   })
                 }
-                <Tab icon={<AddIcon value="add" fontSize="small"/>}label="ADD MENU" onClick={handleOpen}/>
+              <Tab icon={<AddIcon value="add" fontSize="small"/>}label="ADD MENU" onClick={handleAddOpen}/>
               </TabList>
             </Box>
 
@@ -160,7 +206,7 @@ export default function Editmenu() {
             
             <Box sx={{margin:'10px auto', width:'100%'}}>
             {
-              categories.map((ric_name, index) => {
+              categories.map((category, index) => {
                 return <>
                   <TabPanel id={index} value={index.toString()}> 
                   <Box>
@@ -175,13 +221,21 @@ export default function Editmenu() {
 
                       <Grid item xs md={4}>
                         <Box display="flex" >
-                        <Button variant="outlined" color="inherit" sx={{marginRight:'3px'}}>Edit Category Name</Button>
+                        <Button variant="outlined" color="inherit" sx={{marginRight:'3px'}} 
+                          onClick={() => {
+                            handleEditOpen();
+                            setEditCategoryName(category.ric_name);
+                            setSelectedCatID(category.ric_ID);
+                          }}
+                        >
+                          Edit Category Name
+                        </Button>
                         <Button variant="outlined" color="error" >Delete Category</Button>
                         </Box>
                       </Grid>
                     </Grid>
                   </Box>
-                  <ViewMenuList menuData={menuData} menuList={ric_name} />
+                  <ViewMenuList menuData={menuData} menuID={category.ric_ID} />
                   </TabPanel>
                 </>
               })
@@ -191,26 +245,53 @@ export default function Editmenu() {
           </Box>
 
           {/* DIALOG TO INPUT ADD MENU */}
-          <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-              <DialogTitle id="alert-dialog-title">
-                {"Add New Menu"}
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                <TextField sx={{width:'80%', margin:'15px'}} 
-                  id="filled-basic" 
-                  label="Menu Name:" 
-                  variant="filled" 
-                  size="small"
-                  onChange={(e)=> setNewMenu(e.target.value)}
-                />
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={addMenu}>Add Menu</Button>
-                <Button onClick={handleClose} >Cancel</Button>
-              </DialogActions>
-            </Dialog>
+          <Dialog open={openAdd} onClose={handleAddClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+            <DialogTitle id="alert-dialog-title">
+              {"Add New Menu"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+              <TextField sx={{width:'80%', margin:'15px'}} 
+                id="filled-basic" 
+                label="Menu Name:" 
+                variant="filled" 
+                size="small"
+                onChange={(e)=> setNewMenu(e.target.value)}
+              />
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={addMenu}>Add Menu</Button>
+              <Button onClick={handleAddClose} >Cancel</Button>
+            </DialogActions>
+          </Dialog>
+
+          {/* DIALOG TO EDIT MENU */}
+          <Dialog open={openEdit}  onClose={handleEditClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+            <DialogTitle id="alert-dialog-title">
+              {"Edit Category Name"}
+            </DialogTitle>
+            <DialogContent>
+              <Typography sx={{textAlign: 'left', display:'inline-block'}}>
+                You are editing category name for your '{editCategoryName}' category
+              </Typography>
+              <DialogContentText id="alert-dialog-description">
+              <TextField sx={{width:'90%', margin:'15px'}} 
+                id="filled-basic" 
+                label="Menu Name:" 
+                variant="filled" 
+                size="small"
+                onChange={(e)=> setEditedName(e.target.value)}
+              />
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={editMenu}>Save Changes</Button>
+              <Button onClick={handleEditClose} >Cancel</Button>
+            </DialogActions>
+          </Dialog>
+
+
           </CardContent>
         </Card>
         </Box>

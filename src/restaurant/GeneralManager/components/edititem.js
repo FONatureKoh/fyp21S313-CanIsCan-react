@@ -1,15 +1,41 @@
 import React, {useEffect, useState} from 'react';
 import { InputAdornment, Grid, Button, Typography, TextField, Switch, Card, 
 CardContent, CardHeader, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
-import { useRouteMatch } from 'react-router';
+import { useHistory, useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
 
 // Controller import
 import { editRestaurantItem, retrieveCats } from '../../restaurant_controller';
 import { styled } from '@mui/styles';
-import { getImage } from '../../../components/rest-view-menu/items_controller';
 
 export default function EditItem({menuData}) {
+  // MATCH CONSTANT
+  const match = useRouteMatch('/generalmanager/editmenu/edititem/:id');
+  const history = useHistory();
+
+  // FIND THE SPECIFIC ID THAT WE ARE TRYING TO EDIT
+  let itemSelected;
+
+  for(const item of menuData){
+    if(item.ri_item_ID === parseInt(match.params.id)){
+      itemSelected = item;
+      console.log(itemSelected);
+      break;
+    }
+  }
+
+  // THE ITEM'S INFORMATION
+  console.log(itemSelected);
+  const [itemID, setItemID] = useState(itemSelected.ri_item_ID);
+  const [imageFile, setImageFile] = useState();
+  const [itemAvailability, setItemAvailability] = useState(itemSelected.item_availability);
+  const [itemName, setItemName] = useState(itemSelected.item_name);
+  const [itemPrice, setItemPrice] = useState(itemSelected.item_price);
+  const [itemDesc, setItemDesc] = useState(itemSelected.item_desc);
+  const [itemAllergy, setItemAllergy] = useState(itemSelected.item_allergen_warning);
+  const [itemCategory, setItemCategory] = useState(itemSelected.ri_cat_ID);
+  const [imageID, setImageID] = useState(itemSelected.item_png_ID);
+
   // Pre drawn values from Database -- Thomas
   const [itemCategoriesList, setItemCategoriesList] = useState([]);
 
@@ -26,43 +52,8 @@ export default function EditItem({menuData}) {
     retrieveCategories();
   },[])
 
-  useEffect(() => {
-    async function getItemImage() {
-      const imageData = await getImage(imageID);
-      setPreview(imageData);
-      console.log(imageData);
-    }
-    getItemImage();
-  },[])
-
-
-  const match = useRouteMatch('/generalmanager/editmenu/edititem/:id');
-  
-  let itemSelected;
-    for(const item of menuData)
-    {
-      if(item.ri_item_ID === parseInt(match.params.id) )
-      {
-        itemSelected = item;
-        console.log(itemSelected);
-        break;
-      }
-    }
-
-  //Setting field to retrieved values
-  console.log(itemSelected);
-  const [itemID, setItemID] = useState(itemSelected.ri_item_ID);
-  const [imageFile, setImageFile] = useState();
-  const [itemAvailability, setItemAvailability] = useState(itemSelected.item_availability);
-  const [itemName, setItemName] = useState(itemSelected.item_name);
-  const [itemPrice, setItemPrice] = useState(itemSelected.item_price);
-  const [itemDesc, setItemDesc] = useState(itemSelected.item_desc);
-  const [itemAllergy, setItemAllergy] = useState(itemSelected.item_allergen_warning);
-  const [itemCategory, setItemCategory] = useState(itemSelected.ri_cat_ID);
-  const [imageID, setImageID] = useState(itemSelected.item_png_ID);
-
   //PREVIEW IMAGE
-  const [preview, setPreview] = useState();
+  const [preview, setPreview] = useState('');
 
   useEffect(() => {
     if(imageFile){
@@ -73,9 +64,8 @@ export default function EditItem({menuData}) {
       }
       reader.readAsDataURL(imageFile);
     }
-    else
-    {
-      setPreview(null);
+    else{
+      setPreview(itemSelected.item_png_base64);
     }
   }, [imageFile])
   //END OF PREVIEW IMAGE
@@ -84,11 +74,20 @@ export default function EditItem({menuData}) {
   const [itemPngID, setItemPngID] = useState(itemSelected.item_png_ID);
   const [itemRestID, setItemRestID] = useState(itemSelected.ri_rest_ID);
 
-  async function submitChange() {
-    var testController = await editRestaurantItem(itemID, imageFile, itemAvailability, itemRestID, 
-    itemPngID, itemName, itemPrice, itemDesc, itemAllergy, itemCategory);
-    
-    console.log(testController);
+  function submitChange() {
+    // VALIDATION BEFORE ALLOWING THE EDIT
+    if (itemName === '' || itemPrice === '' || itemDesc === '') {
+      alert("Item name, price and description CANNOT be blank! Please fill something in!");
+    }
+    else {
+      // CONTROLLER FOR EDITING ITEMS
+      editRestaurantItem(itemID, imageFile, itemAvailability, itemRestID, 
+        itemPngID, itemName, itemPrice, itemDesc, itemAllergy, itemCategory)
+        .then((response) => {
+          alert(response.api_msg);
+          history.push('/generalmanager/editmenu');
+        }); 
+    }
   }
   
   // Input Box config
@@ -191,7 +190,7 @@ export default function EditItem({menuData}) {
 
       <Grid item xs={6}>
         <Box sx={{textAlign:'center', alignContent: "center" }}>
-        <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={submitChange} component={Link} to={"/generalmanager"}>Confirm Changes</Button>
+        <Button variant="contained" color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start'}} onClick={submitChange}>Confirm Changes</Button>
         <Button variant="contained" color="inherit" sx={{width:'45%', float:'right' }} component={Link} to="/generalmanager">Cancel</Button>
         </Box>      
       </Grid>

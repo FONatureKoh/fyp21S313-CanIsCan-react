@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MenuItem from './MenuItem';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
-export default function ViewMenuList({menuData, menuList}) {
+export default function ViewMenuList({menuData, menuID}) {
 
   const [expanded, setExpanded] = React.useState(false);
 
@@ -26,28 +26,28 @@ export default function ViewMenuList({menuData, menuList}) {
 
   return (
     menuData.map(item =>{
-      if (item.ric_name === menuList)
+      if (item.ri_cat_ID === menuID)
       return( 
-      <Accordion key={item.ri_item_ID} sx={{margin:0.5}} expanded={expanded === item.ri_item_ID} onChange={handleChange(item.ri_item_ID)}>
-        <AccordionSummary sx={{textAlign: 'center', bgcolor: '#bdbdbd', borderRadius: 1, minWidth: 300}}
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-          
-        >
-          <Typography sx={{
-            textAlign: 'center',
-            borderRadius: 1,
-            p: 1
+        <Accordion key={item.ri_item_ID} sx={{margin:0.5}} expanded={expanded === item.ri_item_ID} onChange={handleChange(item.ri_item_ID)}>
+          <AccordionSummary sx={{textAlign: 'center', bgcolor: '#bdbdbd', borderRadius: 1, minWidth: 300}}
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            
+          >
+            <Typography sx={{
+              textAlign: 'center',
+              borderRadius: 1,
+              p: 1
+            }}>
+              {checkAvail(item)} {item.item_name} </Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{
+            bgcolor: '#eeeeee'
           }}>
-            {checkAvail(item)} {item.item_name} </Typography>
-        </AccordionSummary>
-        <AccordionDetails sx={{
-          bgcolor: '#eeeeee'
-        }}>
-          <MenuItem item={item} menuData={menuData}/>
-        </AccordionDetails>
-      </Accordion>
+            <MenuItem item={item} menuData={menuData}/>
+          </AccordionDetails>
+        </Accordion>
       )
       else {return(<></>)}
     })
