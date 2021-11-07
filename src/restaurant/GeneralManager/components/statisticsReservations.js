@@ -30,11 +30,11 @@ export default function StatisticsReservations() {
 
   // TRIGGER DRAWING OF DATA
   const setDateRange = () => {
-    getOrderStats(startDate, endDate)
+    getReservationStats(startDate, endDate)
       .then((response) => {
         // Standard ChartData Array
         var tempChartData = [
-          ['Day', 'Deliveries'],
+          ['Day', 'Reservations'],
           ['Mon', 0],
           ['Tues', 0],
           ['Wed', 0],
@@ -81,38 +81,89 @@ export default function StatisticsReservations() {
       <CardHeader title="Restaurant Statistics - Reservations" />
       <CardContent >
         <Box sx={{margin:'20px auto', width: '80%'}} >
-        <Grid container>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              label="First Date" 
-              value={startDate} 
-              inputFormat="dd-MMM-yyyy"
-              onChange={(starDateValue) => {
-                setStartDate(starDateValue);
-              }} 
-              renderInput={(params) => 
-                <TextField {...params} />
-              }
-            />
-            <Typography sx={{textAlign:'center', margin:'15px'}}>TO</Typography>
-            <DatePicker
-              label="End Date" 
-              value={endDate} 
-              inputFormat="dd-MMM-yyyy"
-              onChange={(endDateValue) => {
-                setEndDate(endDateValue);
-              }} 
-              renderInput={(params) => 
-                <TextField {...params} />
-              }
-            />
-          </LocalizationProvider>
-          <Button variant="outlined" color="inherit" onClick={setDateRange}>VIEW DATA</Button>
-        </Grid>
+          <Box sx={{width:'100%', margin:"20px auto"}}>
+              <Grid container spacing={5}
+                alignItems="center"
+                justifyContent="center">
+                  <Grid item xs={12} sm={12} md={2.5} >
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DatePicker
+                        label="First Date" 
+                        value={startDate} 
+                        inputFormat="dd-MMM-yyyy"
+                        onChange={(starDateValue) => {
+                          setStartDate(starDateValue);
+                        }} 
+                        renderInput={(params) => 
+                          <TextField {...params} />
+                        }
+                      />
+                    </LocalizationProvider>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={1} >
+                    <Typography sx={{textAlign:'center', margin:'15px'}}>TO</Typography>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={2.5} >
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DatePicker
+                    label="End Date" 
+                    value={endDate} 
+                    inputFormat="dd-MMM-yyyy"
+                    onChange={(endDateValue) => {
+                      setEndDate(endDateValue);
+                    }} 
+                    renderInput={(params) => 
+                      <TextField {...params} />
+                    }
+                  />
+                </LocalizationProvider>
+                </Grid>
+              <Grid item xs={12} sm={12} md={2} sx={{display:'flex', flexDirection:'column', justifyContent:'center'}} >
+                <Button variant="outlined" color="inherit" onClick={setDateRange}>VIEW DATA</Button> 
+              </Grid>
+          </Grid>
+        </Box>
         <Grid container 
           spacing={{ xs: 2, sm: 10 }} 
           columns={{ xs: 4, sm: 10, md: 10}}
         >
+          {/* TOTAL EARNINGS CARD */}
+          <Grid item xs={4} sm={10} md={10} lg={5} xl={5} sx={{marginTop:'2%', marginBottom:'2%'}}>
+            <Card sx={{bgcolor:"#eeeeee", height:'45%', borderRadius:'15px'}}>
+              <CardContent>
+                <Typography variant="h5">Total reservations</Typography>
+                <Typography variant="subtitle2">from .... to ...</Typography>
+                <Box sx={{margin:'5px auto', textAlign:'center'}}>
+                  <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}} variant="h5">$ placeholder</Typography>
+                </Box>
+              </CardContent>
+            </Card>
+
+            {/* POPULAR ITEM */}
+            <Card sx={{bgcolor:"#eeeeee", height:'45%', mt:'3%', borderRadius:'15px'}}>
+              <CardContent>
+                <Typography variant="h5">Most popular timeslot</Typography>
+                <Typography variant="subtitle2">Reservations</Typography>
+                <Box sx={{margin:'5px auto', textAlign:'center'}}>
+                  <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}} variant="h5">Chicken boi</Typography>
+                </Box>
+              </CardContent>
+            </Card>
+          {/* <Grid item xs={4} sm={10} md={10} lg={5} xl={5} sx={{marginTop:'2%', marginBottom:'2%'}}>
+            <Chart
+              width={'600px'}
+              height={'300px'}
+              chartType="AreaChart"
+              loader={<div>Loading Chart</div>}
+              data={chartData}
+              options={{
+              title: 'Table Reservations',
+              hAxis: { title: 'Day', minValue: 0 },
+              vAxis: { title: 'Orders of the Day' },
+              chartArea: { width: '50%', height: '70%' },
+              }}
+            /> */}
+          </Grid> 
           <Grid item xs={4} sm={10} md={10} lg={5} xl={5} sx={{marginTop:'2%', marginBottom:'2%'}}>
             <Chart
               width={'600px'}
@@ -125,10 +176,11 @@ export default function StatisticsReservations() {
               hAxis: { title: 'Day', minValue: 0},
               vAxis: { title: 'Reservations of the Day'},
               chartArea: { width: '55%', height: '70%' },
+              colors: ['#bdbdbd'],
             }}
             />
           </Grid>
-          <Grid item xs={4} sm={10} md={10} lg={5} xl={5} sx={{marginTop:'2%', marginBottom:'2%'}}>
+          {/* <Grid item xs={4} sm={10} md={10} lg={5} xl={5} sx={{marginTop:'2%', marginBottom:'2%'}}>
             <Chart
             width={'600px'}
             height={'300px'}
@@ -142,7 +194,7 @@ export default function StatisticsReservations() {
             chartArea: { width: '55%', height: '70%' },
             }}
             />
-          </Grid>
+          </Grid> */}
         </Grid>
         </Box>  
       </CardContent>
