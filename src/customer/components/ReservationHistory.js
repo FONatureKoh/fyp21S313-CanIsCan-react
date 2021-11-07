@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, CardHeader, CardContent, Box, Button, Typography, Grid, Modal, CardMedia, IconButton, Tooltip} from '@mui/material'
+import { Card, CardHeader, CardContent, Box, Button, Typography, Grid, Modal, CardMedia, IconButton, Tooltip, Rating, TextField} from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import TestImage from '../../assets/temp/eg-biz1.png'
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
@@ -33,6 +33,12 @@ export default function ReservationHistory() {
   // RESERVATIONS DATA USETATES
   const [pastReservations, setPastReservations] = useState([]);
   const [upcomingReservations, setUpcomingReservations] = useState([]);
+
+  //REVIEW DATA USETATES
+  const [reviewRestInfo, setReviewRestInfo] = useState({
+    restID: '',
+    restName: ''
+  });
 
   useEffect(() => {
     // Async function to draw the data
@@ -91,6 +97,26 @@ export default function ReservationHistory() {
     return maplink;
   }
 
+  // ======= MODAL CONTROLS - REVIEWS ==============================
+  //    Modal open / close state
+  const [openReview, setOpenReview] = useState(false);
+
+  //    Modal values
+  var reviewRating = 0;
+  var reviewTitle = "";
+  var reviewDesc = "";
+
+  const handleOpenReview = (restID, restName) => {
+    setReviewRestInfo({
+      restID: restID,
+      restName: restName
+    });
+    setOpenReview(true);
+  };
+
+  const handleCloseReview = () => setOpenReview(false);
+
+// ======= END OF MODAL CONTROLS - REVIEWS ==============================
   return (
       <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
         <CardHeader title={`Reservations History - ${buttonTab === 1 ? "Upcoming" : "Past"}`}/>
@@ -300,7 +326,7 @@ export default function ReservationHistory() {
                           </Button>
                         </Grid> */}
                         <Grid item xs={12} sm={12} md={12}>
-                          <Button fullWidth color="inherit" variant="outlined">
+                          <Button fullWidth color="inherit" variant="outlined" onClick={handleOpenReview}>
                             Leave review
                           </Button>
                         </Grid>
@@ -365,6 +391,69 @@ export default function ReservationHistory() {
               </Card>
             </Modal>
             {/* END OF INFO MODAL */}
+
+            {/* REVIEW MODAL */}
+        <Modal
+          open={openReview}
+          onClose={handleCloseReview}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Card variant="outlined" sx={{ position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width:"50%",
+            maxHeight:'70%',}}>
+            <CardContent >
+              <Box textAlign="center" sx={{mb:'20px'}}>
+                <Typography variant="h6">Let us know your experience</Typography>
+                <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', }}>Your reservation at </Typography>
+                <Typography variant="subtitle1">{reviewRestInfo.restName}</Typography>
+              </Box>
+              
+              <Divider variant="middle"/>
+
+              <Box textAlign="center" width="60%" margin="10px auto" >
+                <Typography  variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold', }}>How was the reservation?</Typography>
+                <Typography sx={{mb:'20px'}}>
+                  <Rating 
+                    size="large"
+                    onChange={(event) => {reviewRating = event.target.value}}  
+                  />
+                </Typography>
+
+                <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', }}>Information about the review</Typography>
+                <TextField  
+                  fullWidth id="filled-basic" 
+                  label="Title (Optional)" 
+                  variant="filled" 
+                  sx={{mb:'20px'}}
+                  onChange={(event) => {reviewTitle = event.target.value}}
+                />
+                <TextField
+                  fullWidth
+                  id="filled-textarea"
+                  label="Let us know more (Optional)"
+                  placeholder="Placeholder"
+                  multiline
+                  variant="filled"
+                  rows="3"
+                  onChange={(event) => {reviewDesc = event.target.value}}
+                />
+              </Box>
+
+              <Box textAlign="center" width="60%" margin="10px auto" >
+                <Button variant="outlined" color="error" sx={{margin:'10px 10px'}} onClick={handleCloseReview}>Cancel</Button>
+                <Button variant="outlined" color="inherit" sx={{margin:'10px 10px'}} 
+                //</Box>onClick={submitReview} 
+                >Submit</Button>
+              </Box>
+            </CardContent>
+          </Card>
+        </Modal>
+        {/* END OF REVIEW MODAL */}
+
 
             {/* <Box textAlign="center" sx={{mt:'30px'}}>
               <Button fullWidth variant="outlined" color="inherit" >Load More</Button>
