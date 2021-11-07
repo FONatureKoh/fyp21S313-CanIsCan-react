@@ -243,7 +243,7 @@ export default function FirstLogin({setFirstLog}) {
     // HANDLE STEP 2 VALIDATION (RESTAURANT INFORMATIONN)
     if (activeStep === 1) {
       // VALIDATION FOR DETAILS
-      var validationErr = 0;
+      var validationErr2 = 0;
 
       const convertedOpeningTime = openTime.toLocaleTimeString('en-GB');
       const convertedClosingTime = closeTime.toLocaleTimeString('en-GB');
@@ -251,20 +251,20 @@ export default function FirstLogin({setFirstLog}) {
 
       if (restAdd === '' || restPostal === '') {
         alert("Restaurant Address cannot be blank!");
-        validationErr++;
+        validationErr2++;
       }
 
       if (tags.length === 0 || tags.length > 3) {
         alert("You must choose at least 1 tag and a maximum of 3 tags!");
-        validationErr++;
+        validationErr2++;
       }
 
       if (convertedOpeningTime > convertedClosingTime) {
         alert("Opening time cannot be later than closing time. Please double check your settings!");
-        validationErr++;
+        validationErr2++;
       }
 
-      if (validationErr === 0) {
+      if (validationErr2 === 0) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
         setSkipped(newSkipped);
       };
