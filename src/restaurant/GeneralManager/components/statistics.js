@@ -125,34 +125,7 @@ export default function ViewInfo() {
               
             </Grid>
           </Box>
-        <Grid container>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              label="First Date" 
-              value={startDate} 
-              inputFormat="dd-MMM-yyyy"
-              onChange={(starDateValue) => {
-                setStartDate(starDateValue);
-              }} 
-              renderInput={(params) => 
-                <TextField {...params} />
-              }
-            />
-            <Typography sx={{textAlign:'center', margin:'15px'}}>TO</Typography>
-            <DatePicker
-              label="End Date" 
-              value={endDate} 
-              inputFormat="dd-MMM-yyyy"
-              onChange={(endDateValue) => {
-                setEndDate(endDateValue);
-              }} 
-              renderInput={(params) => 
-                <TextField {...params} />
-              }
-            />
-          </LocalizationProvider>
-          <Button variant="outlined" color="inherit" onClick={setDateRange}>VIEW DATA</Button>
-        </Grid>
+        
         <Grid container 
           spacing={{ xs: 2, sm: 10 }} 
           columns={{ xs: 4, sm: 10, md: 10}}
