@@ -23,7 +23,7 @@ export default function StatisticsReservations() {
   // SOME USESTATES TO GET THE DATE
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [chartData, setChartData] = useState([]);
+  const [chartData, setChartData] = useState([['Day', 'Reservations'], ['Mon', 0], ['Tues', 0], ['Wed', 0], ['Thurs', 0], ['Fri', 0], ['Sat', 0], ['Sun', 0]]);
 
   // SOME USEFUL CONSTANTS
   const dayArray = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
@@ -31,6 +31,8 @@ export default function StatisticsReservations() {
   // TRIGGER DRAWING OF DATA
   const setDateRange = () => {
     getReservationStats(startDate, endDate)
+    // THIS IS THE CONTROLLER TO GET THE DATA
+    getOrderStats(startDate, endDate)
       .then((response) => {
         // Standard ChartData Array
         var tempChartData = [
@@ -123,6 +125,41 @@ export default function StatisticsReservations() {
               </Grid>
           </Grid>
         </Box>
+        <Grid container>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker 
+              mask="__-___-____" 
+              label="First Date" 
+              value={startDate} 
+              inputFormat="dd-MMM-yyyy"
+              onChange={(starDateValue) => {
+                setStartDate(starDateValue);
+                
+                // Automatically add 7 days to the end date for convenience 
+                // Seems that this will gen some errors. Don't use first
+                // var tempEndDate = new Date(starDateValue);
+                // setEndDate(tempEndDate.setDate(starDateValue.getDate() + 7));
+              }} 
+              renderInput={(params) => 
+                <TextField {...params} />
+              }
+            />
+            <Typography sx={{textAlign:'center', margin:'15px'}}>TO</Typography>
+            <DatePicker
+              mask="__-___-____" 
+              label="End Date" 
+              value={endDate} 
+              inputFormat="dd-MMM-yyyy"
+              onChange={(endDateValue) => {
+                setEndDate(endDateValue);
+              }} 
+              renderInput={(params) => 
+                <TextField {...params} />
+              }
+            />
+          </LocalizationProvider>
+          <Button variant="outlined" color="inherit" onClick={setDateRange}>VIEW DATA</Button>
+        </Grid>
         <Grid container 
           spacing={{ xs: 2, sm: 10 }} 
           columns={{ xs: 4, sm: 10, md: 10}}

@@ -32,9 +32,10 @@ export default function NavigationRGM({restaurantName, isVisible, isSelected, se
           width: drawerWidth,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
-            top: '76px',
             width: drawerWidth,
             boxSizing: 'border-box',
+            marginTop: "76px",
+            maxHeight: "93%"
           },
         }}
         variant="persistent"
