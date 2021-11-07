@@ -83,7 +83,7 @@ export default function FirstLogin({setFirstLog}) {
       .then((response) => {
         setRestaurantTags(response);
       });
-  });
+  }, []);
 
   // Creating a time to Date object
   // function timeToDate (inputTime) {
@@ -205,9 +205,81 @@ export default function FirstLogin({setFirstLog}) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
+    
+    // HANDLE STEP 1 VALIDATION (PERSONAL PROFILE VALIDATION)
+    if (activeStep === 0) {
+      // VALIDATION FOR DETAILS
+      var validationErr = 0;
+      // Ensure that the first name / last name isn't blank
+      if (fName === '' || lName === '') {
+        alert ("First name / last name cannot be blank!");
+        validationErr++;
+      }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+      // Ensure that phone number isn't blank
+      if (personalPhone === '') {
+        alert ("Phone number cannot be blank!");
+        validationErr++;
+      }
+
+      // ensure that email isn't blank
+      if (personalEmail === '') {
+        alert("Email cannot be blank!");
+        validationErr++;
+      }
+
+      // ensure that address isn't blank
+      if (personalAdd === '' || personalPostal === '') {
+        alert("Address and Postal code cannot be blank!");
+        validationErr++;
+      }
+
+      if (validationErr === 0) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setSkipped(newSkipped);
+      };
+    }
+    
+    // HANDLE STEP 2 VALIDATION (RESTAURANT INFORMATIONN)
+    if (activeStep === 1) {
+      // VALIDATION FOR DETAILS
+      var validationErr = 0;
+
+      const convertedOpeningTime = openTime.toLocaleTimeString('en-GB');
+      const convertedClosingTime = closeTime.toLocaleTimeString('en-GB');
+      // console.log(convertedOpeningTime, convertedClosingTime)
+
+      if (restAdd === '' || restPostal === '') {
+        alert("Restaurant Address cannot be blank!");
+        validationErr++;
+      }
+
+      if (tags.length === 0 || tags.length > 3) {
+        alert("You must choose at least 1 tag and a maximum of 3 tags!");
+        validationErr++;
+      }
+
+      if (convertedOpeningTime > convertedClosingTime) {
+        alert("Opening time cannot be later than closing time. Please double check your settings!");
+        validationErr++;
+      }
+
+      if (validationErr === 0) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setSkipped(newSkipped);
+      };
+    }
+    
+    // HANDLE STEP 3 VALIDATION (PASSWORD)
+    if (activeStep === 2) {
+      if (newPW !== confirmNewPW) {
+        alert("Please type the same password in the new password and confirm password fields. You must change your password to continue");
+      }
+      else {
+        // NO FURTHER STEPS. HANDLE FINISH
+        handleFinish();
+      }
+    }
   };
 
   const handleBack = () => {
@@ -320,6 +392,7 @@ export default function FirstLogin({setFirstLog}) {
               <Box sx={{width:'60%'}}>
                 <TextField sx={{width:'40%', margin:'15px 2.5%'}} 
                   id="fname-field" 
+                  value={fName}
                   label="First Name:" 
                   variant="filled" 
                   size="small"
@@ -327,6 +400,7 @@ export default function FirstLogin({setFirstLog}) {
                 />
                 <TextField sx={{width:'40%', margin:'15px 2.5%'}} 
                   id="lname-field" 
+                  value={lName}
                   label="Last Name:" 
                   variant="filled" 
                   size="small" 
@@ -335,6 +409,7 @@ export default function FirstLogin({setFirstLog}) {
 
                 <TextField sx={{width:'85%', margin:'15px auto'}} 
                   id="phone-field" 
+                  value={personalPhone}
                   label="Phone Number (Required*):" 
                   variant="filled" 
                   size="small" 
@@ -344,6 +419,7 @@ export default function FirstLogin({setFirstLog}) {
 
                 <TextField sx={{width:'85%', margin:'15px auto'}} 
                   id="email-field" 
+                  value={personalEmail}
                   label="Email (Required*):" 
                   variant="filled" 
                   size="small" 
@@ -352,6 +428,7 @@ export default function FirstLogin({setFirstLog}) {
 
                 <TextField sx={{width:'85%', margin:'15px auto'}} 
                   id="address-field" 
+                  value={personalAdd}
                   label="Address (Required*):"  
                   multiline rows={2} 
                   variant="filled" 
@@ -360,6 +437,7 @@ export default function FirstLogin({setFirstLog}) {
 
                 <TextField sx={{width:'85%', margin:'15px auto'}} 
                   id="postal-code-field" 
+                  value={personalPostal}
                   label="Postal Code (Required*):"  
                   variant="filled" 
                   size="small"
@@ -425,40 +503,16 @@ export default function FirstLogin({setFirstLog}) {
 
             <TextField sx={{width:'85%', margin:'30px auto 10px'}}
               id="rest-address" 
+              value={restAdd}
               label="Restaurant Address (Required*):"  
               multiline rows={3} 
               variant="filled" 
               onChange={(e)=> setRestAdd(e.target.value)}
             />
-            <Box sx={{width:'85%', margin:'0px auto 15px'}}>
-            <Typography  sx={{textAlign:'left', margin:'15px auto'}}>Operating Hours</Typography>
-            <Stack direction="row" spacing={2} sx={{margin:'15px auto'}}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <TimePicker
-                  label="Opening Time" 
-                  value={openTime} 
-                  onChange={(openingTimeValue) => {
-                    setOpenTime(openingTimeValue);
-                  }} 
-                  renderInput={(params) => 
-                    <TextField {...params} />
-                  }
-                />
-                <TimePicker
-                  label="Closing Time" 
-                  value={closeTime} 
-                  onChange={(closingTimeValue) => {
-                    setCloseTime(closingTimeValue);
-                  }} 
-                  renderInput={(params) => 
-                    <TextField {...params} />
-                  }
-                />
-              </LocalizationProvider>
-            </Stack>
-            </Box>
+            
             <TextField sx={{width:'85%', marginBottom:'10px auto'}}
               id="rest-postal" 
+              value={restPostal}
               label="Restaurant Postal Code (Required*):"  
               variant="filled" 
               inputProps={{ maxLength: 6 }}
@@ -493,6 +547,35 @@ export default function FirstLogin({setFirstLog}) {
                 ))}
               </Select>
             </FormControl>
+
+            <Box sx={{width:'85%', margin:'0px auto 15px'}}>
+            <Typography  sx={{textAlign:'left', margin:'15px auto'}}>Operating Hours</Typography>
+            <Stack direction="row" spacing={2} sx={{margin:'15px auto'}}>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <TimePicker
+                  label="Opening Time" 
+                  value={openTime} 
+                  onChange={(openingTimeValue) => {
+                    setOpenTime(openingTimeValue);
+                  }} 
+                  renderInput={(params) => 
+                    <TextField {...params} />
+                  }
+                />
+                <TimePicker
+                  label="Closing Time" 
+                  value={closeTime} 
+                  onChange={(closingTimeValue) => {
+                    setCloseTime(closingTimeValue);
+                  }} 
+                  renderInput={(params) => 
+                    <TextField {...params} />
+                  }
+                />
+              </LocalizationProvider>
+            </Stack>
+            </Box>
+
           </Box>
           
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
@@ -566,7 +649,7 @@ export default function FirstLogin({setFirstLog}) {
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
 
-            <Button onClick={handleFinish} variant="outlined">
+            <Button onClick={handleNext} variant="outlined">
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>
           </Box>
