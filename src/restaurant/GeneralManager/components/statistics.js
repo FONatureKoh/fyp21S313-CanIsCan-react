@@ -178,7 +178,7 @@ export default function ViewInfo() {
               options={{
               title: 'Orders Delivered',
               hAxis: { title: 'Day', minValue: 0},
-              vAxis: { title: 'Reservations of the Day'},
+              vAxis: { title: 'Deliveries of the Day'},
               chartArea: { width: '55%', height: '70%' },
               colors: ['#bdbdbd'],
             }}
