@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Stepper, Box, Step, StepLabel, Button, Typography,  Divider, Stack, TextField, InputLabel, MenuItem, FormControl, Select, Chip, OutlinedInput } from '@mui/material';
 import { Block } from '@mui/icons-material';
-import { styled } from '@mui/styles';
 import { postChangePW, postPersonalProfile, postRestaurantProfile, retrieveRestaurantTags } from '../../restaurant_controller';
 import DefaultProfile from '../../../assets/default-profile.png'
 import DefaultShopfront from '../../../assets/default-shopfront.png'
@@ -16,6 +15,7 @@ const steps = ['Update your personal profile', 'Update your restaurant profile',
 // This one to get the tags
 async function getRestaurantTags(){
   try {
+    // CONTROLLER TO RETRIEVE THE RESTAURANT TAGS
     const tags = await retrieveRestaurantTags();
     return tags.restaurantTags;
   }
@@ -26,6 +26,27 @@ async function getRestaurantTags(){
 
 // The React Function itself
 export default function FirstLogin({setFirstLog}) {
+  // CONSTANT THEME
+  const themes = {
+    textHeader: {
+      fontSize:'1 0px', 
+      fontWeight:'bold', 
+      margin: '10px'
+    },
+    boxStyle:{
+      margin: '50px auto 0px',
+      width: '100%',
+      textAlign:'center',
+      borderRadius:'5px'
+    },
+    boxStyle2:{
+      margin: '50px auto',
+      width: '80%',
+      textAlign:'center',
+      borderRadius:'5px'
+    }
+  };
+
   // Essential variables
   const [restaurantTags, setRestaurantTags] = useState([]);
 
@@ -169,26 +190,6 @@ export default function FirstLogin({setFirstLog}) {
     );
   }
   //END OF CHIP DROP DOWNLIST
-
-  const themes = {
-    textHeader: {
-      fontSize:'1 0px', 
-      fontWeight:'bold', 
-      margin: '10px'
-    },
-    boxStyle:{
-      margin: '50px auto 0px',
-      width: '100%',
-      textAlign:'center',
-      borderRadius:'5px'
-    },
-    boxStyle2:{
-      margin: '50px auto',
-      width: '80%',
-      textAlign:'center',
-      borderRadius:'5px'
-    }
-  };
   
   // const isStepOptional = (step) => {
   //   return step === 1;

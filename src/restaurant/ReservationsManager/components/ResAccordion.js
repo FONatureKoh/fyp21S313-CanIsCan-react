@@ -14,6 +14,7 @@ export default function ResAccordion({reservation}) {
   console.log(reservation)
   // Button functions
   const setAbsent = () => {
+    // THIS IS THE CONTROLLER TO COMMUNICATE THE STATUS CHANGE TO THE BACKEND API SERVER
     updateReservationStatus(reservation.cust_RID, "Cancelled")
       .then((response) => {
         alert(response.api_msg);
@@ -21,6 +22,7 @@ export default function ResAccordion({reservation}) {
   }
 
   const setArrived = () => {
+    // THIS IS THE CONTROLLER TO COMMUNICATE THE STATUS CHANGE TO THE BACKEND API SERVER
     updateReservationStatus(reservation.cust_RID, "Arrived")
       .then((response) => {
         alert(response.api_msg);
@@ -28,11 +30,12 @@ export default function ResAccordion({reservation}) {
   }
 
   const setSendToKitchen = () => {
+    // THIS IS THE CONTROLLER TO COMMUNICATE THE STATUS CHANGE TO THE BACKEND API SERVER
     updatePOStatus(reservation.po_ID, "Preparing")
       .then((response) => {
         alert(response.api_msg);
         if (response.updateStatus === "success") {
-          setPreOrderStatus("Preparing")
+          setPreOrderStatus("Preparing");
         }
       })
   }

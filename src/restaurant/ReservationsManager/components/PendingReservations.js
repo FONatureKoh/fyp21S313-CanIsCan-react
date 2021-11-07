@@ -12,6 +12,8 @@ export default function PendingReservations() {
   // Async functions for order retrieval
   async function getPendingReservations() {
     try {
+      // THIS IS THE CONTROLLER TO RETRIEVE THE PENDING RESERVATIONS
+      // CONTROLLER TAKES IN A MODE, 1 BEING RETRIEVE PENDING
       const response = await getReservations(1);
       return response;
     }
@@ -22,30 +24,36 @@ export default function PendingReservations() {
 
   // useEffect to load the data once
   useEffect(() => {
+    // FUNCTION TO TRIGGER CONTROLLER
     getPendingReservations()
-      .then((response) => {
-        setReservations(response);
-        const dates2 = []
-        response.map(date => {
-          if(dates2.indexOf(date.date) === -1){
-            dates2.push(date.date);
-          }}
-        )
-        setDates(dates2);
+      .then((reservations) => {
+        setReservations(reservations);
+
+        // Construct dates into a tempArray
+        const tempDatesArray = []
+        reservations.map(reservation => {
+          if(tempDatesArray.indexOf(reservation.date) === -1){
+            tempDatesArray.push(reservation.date);
+          }
+          return tempDatesArray;
+        })
+
+        // Set the dates
+        setDates(tempDatesArray);
       })
       .catch(err => {
         console.log("PendingReservations.js error!")
       });
   }, []);
 
-  console.log("reservation mani", dates)
+  console.log("reservation mani", dates);
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
       <CardHeader title="View Pending Reservations" />
       <CardContent >
         <Box> 
           {
-            dates.map(date => {
+            dates.map((date) => {
               return (<>
                 <Box textAlign="center" sx={{margin:'20px auto 10px'}}>
                   <Typography variant="subtitle1" sx={{fontSize:'1 0px', fontWeight:'bold'}}>{date}</Typography>
@@ -53,7 +61,7 @@ export default function PendingReservations() {
              
                   <Box textAlign="left" sx={{mb:'30px'}}>
                   {
-                    reservations.map(reservation=>{
+                    reservations.map((reservation) =>{
                       if (reservation.date === date)
                         return <ResAccordion reservation={reservation}/>
                     })

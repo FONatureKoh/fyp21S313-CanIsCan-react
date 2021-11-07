@@ -3,13 +3,12 @@ import { Grid, Button, Typography, CardContent, CardHeader, Card } from '@mui/ma
 import { Route, Switch, Link } from 'react-router-dom';
 import EditProfile from './components/editprofile';
 import ChangePassword from './components/changepw';
-import { getImage, retrieveUserProfile } from './profile_controller';
+import { retrieveUserProfile } from './profile_controller';
 import { useRouteMatch } from 'react-router';
 
 export default function ViewProfile() {
   // Declaring profile information state
   const [userProfile, setUserProfile] = useState([]);
-  const [profileImage, setprofileImage] = useState('');
 
   const match = useRouteMatch('/:userrole/profile/');
 
@@ -18,19 +17,6 @@ export default function ViewProfile() {
     try {
       const userProfile = await retrieveUserProfile();
       return userProfile;
-    }
-    catch (error) {
-      return error;
-    }
-  }
-
-  // Retrieve profile image
-  async function getProfileImage(imageID) {
-    try {
-      console.log(imageID);
-      const response = await getImage(imageID);
-
-      return response;
     }
     catch (error) {
       return error;
@@ -66,7 +52,7 @@ export default function ViewProfile() {
             <CardContent>
               <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
                 <Grid item xs={6} sx={{marginTop:'10%;'}}>
-                  <img src={userProfile.profile_image_base64} width="80%"/>
+                  <img src={userProfile.profile_image_base64} alt="" width="80%"/>
                 </Grid>
 
                 <Grid item xs={6} sx={{textAlign:'center'}}>

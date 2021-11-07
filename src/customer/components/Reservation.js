@@ -68,10 +68,6 @@ export default function Reservation() {
   const [preorder, setPreoder] = useState(false);
   const [timeSlot, setTimeSlot] = useState('');
   const [pax, setPax] = useState(1);
-
-  // Useful variables at the start
-  var itemMenusArray = [];
-  var itemsArray = [];
   
   //SELECTED ITEM
   const [selItem, setSelItem] = useState([])
@@ -87,19 +83,9 @@ export default function Reservation() {
   // Async function to retrieve all restaurant items
   async function getItems(){
     try {
+      // CONTROLLER TO GET ALL THE RESTAURANT ITEMS
       const response = await retrieveAllRestaurantItems(restID);
       return response;
-    }
-    catch (error) {
-      return error;
-    }
-  }
-  
-  // Simple function to filter out only distinct values
-  async function removeusingSet(arr) {
-    try {
-      let outputArray = Array.from(new Set(arr));
-      return outputArray;
     }
     catch (error) {
       return error;
@@ -109,6 +95,7 @@ export default function Reservation() {
   // Async function to retrieve single restaurant info
   async function getRestInfo() {
     try {
+      // CONTROLLER TO GET A SINGLE RESTAURANT DATA BASED ON ID
       var response = await retrieveSingleRestaurant(restID);
 
       // Since response is the json object, we can use it to produce the blob
@@ -127,6 +114,7 @@ export default function Reservation() {
   // Async function to retrieve single restaurant info
   async function getReviews() {
     try {
+      // CONTROLLER TO GET THE REIVEWS FOR THAT RESTAURANT BASED ON ID
       const response = await getRestReviews(restID);
 
       // Since response is an array of JSON objects just return it
@@ -141,6 +129,7 @@ export default function Reservation() {
   // 1. Async function to communicate with the backend server
   async function getSlots(restID, selectedDate) {
     try {
+      // CONTROLLER TO GET THE SLOTS DYNAMICALLY
       const timeSlots = await getAvailableSlots(restID, selectedDate);
 
       return timeSlots;
@@ -154,6 +143,7 @@ export default function Reservation() {
   // NOTE: The following triggers the getting of the available slots, which is how 
   // we can use the array
   function triggerGetSlots (restID, selectedDate) {
+    // FUNCTION TRIGGERS CONTROLLER
     getSlots(restID, selectedDate)
       .then((response) => {
         console.log(response);
