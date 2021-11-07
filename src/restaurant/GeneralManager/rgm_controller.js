@@ -87,3 +87,57 @@ export async function deleteSubuser(subUserID, username) {
     console.log(err);
   }
 };
+
+/*****************************************************************************************
+ * Get data from two inputs, start date and end date
+ * ***************************************************************************************
+ * Takes in subUserID, username
+ * ***************************************************************************************/
+export async function getOrderStats(startDate, endDate) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    },
+    params: {
+      startDate, endDate
+    }
+  };
+  // const editForm = new URLSearchParams();
+  // editForm.append("username", username);
+
+  try {
+    const res = await axios.get(`${config.apiDomain}/restaurant/rgm/getdeliverystatistics`, axiosConfig);
+    return res.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
+};
+
+/*****************************************************************************************
+ * Get data from two inputs, start date and end date
+ * ***************************************************************************************
+ * Takes in subUserID, username
+ * ***************************************************************************************/
+export async function getReservationStats(startDate, endDate) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    },
+    params: {
+      startDate, endDate
+    }
+  };
+  // const editForm = new URLSearchParams();
+  // editForm.append("username", username);
+
+  try {
+    const res = await axios.get(`${config.apiDomain}/restaurant/rgm/getreservationstatistics`, axiosConfig);
+    return res.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
+};
