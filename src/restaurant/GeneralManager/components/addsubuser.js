@@ -144,8 +144,9 @@ export default function AddSubUser() {
                 label="Phone No.:"
                 variant="filled" 
                 size="small"
-                type="number"
-                onChange={(e) => setPhone(e.target.value)}
+                type="number" 
+                inputProps={{ maxLength: 8 }}
+                onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ''))}
                 />
 
             <Typography sx={boldtitle}>Role:</Typography>
@@ -156,8 +157,9 @@ export default function AddSubUser() {
                 id="demo-simple-select"
                 value={role}
                 label="Role"
-                inputProps={{ maxLength: 8 }}
-                onChange={(e) => setRole(e.target.value.replace(/[^0-9]/g, ''))}
+                onChange={(e) => {
+                  setRole(e.target.value);
+                }}
               >
                 <MenuItem value={'Restaurant Deliveries Manager'}>Deliveries Manager</MenuItem>
                 <MenuItem value={'Restaurant Reservations Manager'}>Reservations Manager</MenuItem>
