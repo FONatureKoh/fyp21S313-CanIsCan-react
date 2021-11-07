@@ -3,16 +3,7 @@ import { Card, CardHeader, CardContent, Box, Typography } from '@mui/material'
 import DelAccordion from './DelAccordion';
 
 // DM_CONTROLLER IMPORT
-import { getDOItems, getOrders } from '../dm_controller';
-
-// const themes = {
-//   textHeader: {
-//     fontSize:'1 0px', 
-//     fontWeight:'bold', 
-//     mt: '20px',
-//     mb: '10px'
-//   }
-// };
+import { getOrders } from '../dm_controller';
 
 export default function ViewPending() {
   // useStates for the orders
@@ -22,18 +13,10 @@ export default function ViewPending() {
   // Async functions for order retrieval
   async function getPendingOrders() {
     try {
+      // CONTROLLER TO GET THE ORDERS. TAKES IN A MODE, WHICH IS 1 IN THIS CASE
+      // TO RETRIEVE THE PENDING ORDERS
       const response = await getOrders(1);
-      return response;
-    }
-    catch (error) {
-      return error;
-    }
-  }
 
-  // Async function for item retrieval
-  async function getSelectedOrderItems(orderID) {
-    try {
-      const response = await getDOItems(orderID);
       return response;
     }
     catch (error) {
@@ -43,52 +26,16 @@ export default function ViewPending() {
 
   useEffect(() => {
     // Get the orders first
+    // console.log("Use Effect triggered");
+    // THIS TRIGGERS THE CONTROLLER
     getPendingOrders()
       .then((response) => {
-        // console.log(response);
-        // Declare a temp array
-
-        var orderDetailsArray = [];
-
-        response.forEach(element => {
-          // So if the order isn't fulfilled, then construct
-          if(element.order_status !== "fulfilled") {
-            // Declare a temp json
-            var tempJSON = {};
-            
-            tempJSON = {
-              orderID: element.order_ID,
-              restID: element.o_rest_ID,
-              customerName: element.o_cust_name,
-              address: element.delivery_address + " S(" + element.delivery_postal_code + ")",
-              price: element.total_cost,
-              status: element.order_status
-            }
-
-            // // Console logging 
-            // console.log(pendingDO);
-            // console.log("orderDetailsArray: " + orderDetailsArray);
-            getSelectedOrderItems(element.order_ID)
-              .then((response) => {
-                tempJSON["items"] = response;
-
-                // Now we get the items
-                // NOTE: This round by setting the state in here, seem to have worked.
-                // I tested blow, you can see that I tried a map. Looks okay. - Thomas (28/10 12:57pm)
-                orderDetailsArray.push(tempJSON);
-                setPendingDO(oldArray => [...oldArray, tempJSON]);
-                pendingDO.map(item => console.log(item));
-                // setPendingDO(oldArray => [...oldArray, tempJSON]);
-              })
-              .catch(error => console.log(error));
-          } // End of if condition
-        });
+        setPendingDO(response);
       })
       .catch(error => console.log(error));
   }, [])
 
-  console.log(pendingDO);
-
+  
   
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>

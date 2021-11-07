@@ -87,7 +87,7 @@ export default function DelAccordion({item}) {
               Total Price
             </Typography>
             <Typography variant="subtitle1" textAlign="left">
-              S$ {item.price.toFixed(2)}
+              S$ {item.price}
             </Typography>
           </Grid>
         </Grid>

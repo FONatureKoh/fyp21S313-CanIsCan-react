@@ -39,6 +39,7 @@ export async function getOrders(getMode) {
     // This should get an Array of objects
     const response = await axios.get(`${config.apiDomain}/restaurant/${requestPath}`, axiosConfig);
   
+    // console.log(response);
     return response.data;
   }
   catch (err) {
