@@ -5,7 +5,7 @@ import TestImage from '../../assets/temp/eg-biz1.png'
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 import { Divider } from '@mui/material';
 import { getPastReservations, getUpcomingReservations } from '../customer_controller';
-import ResAcc from './ResAcc';
+import ItemDetailsAcc from './ItemDetailsAcc';
 
 const themes = {
   textHeader: {
@@ -183,7 +183,10 @@ export default function ReservationHistory() {
                         </Grid>
 
                         <Box sx={{mt:'30px'}}>
-                          {item.preOrderItems === "None" ? (<><Typography>No item has been pre-ordered</Typography></>) : <><ResAcc itemDetails={item.preOrderItems}/></>}
+                          {
+                            item.preOrderItems === "None" ? (<><Typography>No item has been pre-ordered</Typography></>) : 
+                            <><ItemDetailsAcc itemDetails={item.preOrderItems} accTitle="Preorder Items Details"/></>
+                          }
                         </Box>
                         {/* CONTAINER FOR BUTTONS */}
                         <Grid container sx={{mt:'50px'}}>
@@ -214,7 +217,7 @@ export default function ReservationHistory() {
                   <Typography variant="h6">No past reservations</Typography>
                 </Box>
                 </>) : (<>
-                              {/* UPCOMING RESERVATION */}
+              {/* UPCOMING RESERVATION */}
               {pastReservations.map((item)=>{
                 return (<>
                   <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto 20px'}}>
@@ -284,7 +287,10 @@ export default function ReservationHistory() {
                       </Grid>
 
                       <Box sx={{mt:'30px'}}>
-                        {item.preOrderItems === "None" ? (<><Typography>No item has been pre-ordered</Typography></>) : <><ResAcc itemDetails={item.preOrderItems}/></>}
+                        {
+                          item.preOrderItems === "None" ? (<><Typography>No item has been pre-ordered</Typography></>) : 
+                          <><ItemDetailsAcc itemDetails={item.preOrderItems} accTitle="Preorder Items Details"/></>
+                        }
                       </Box>
                       {/* CONTAINER FOR BUTTONS */}
                       <Grid container sx={{mt:'50px'}}>

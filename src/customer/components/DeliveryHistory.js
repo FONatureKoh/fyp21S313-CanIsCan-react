@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardContent, Box, Typography, Stepper, Step, StepLabel, Divider, Accordion, AccordionSummary, AccordionDetails, Grid, ListItem, 
   Button, Modal, Rating, TextField } from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Link } from 'react-router-dom';
-import { getAllOrderItems, getAllOrders, submitRestaurantReview } from '../customer_controller';
+import ItemDetailsAcc from './ItemDetailsAcc';
+import { getAllOrderItems, getAllOrders, submitRestaurantReview, updateOrderStatus } from '../customer_controller';
 
 const themes = {
   textHeader: {
@@ -18,10 +18,8 @@ const themes = {
 const steps = [
   'Order accepted',
   'Preparing order',
-  'Order on the way',
-  'Order delivered'
+  'Order on the way'
 ];
-
 
 export default function DeliveryHistory() {
   // useStates for orders
@@ -58,62 +56,31 @@ export default function DeliveryHistory() {
     // Get the orders first
     getOrders()
       .then((response) => {
-        // Declare a temp array
-        var orderDetailsArray = [];
-
-        console.log(response);
-
-        response.forEach(element => {
-          // Declare a temp json
-          var tempJSON = {};
-          
-          tempJSON = {
-            orderID: element.order_ID,
-            restID: element.o_rest_ID,
-            restaurantName: element.o_rest_name,
-            address: element.delivery_address + " S(" + element.delivery_postal_code + ")",
-            price: element.total_cost,
-            status: element.order_status
-          }
-
-          // Now we get the items
-          getSelectedOrderItems(element.order_ID)
-            .then((response) => {
-              tempJSON["items"] = response;
-
-              // NOTE: I moved the setOrderHistory insidse here to test. Apparently that works too!
-              // but I left it as what you have here anws :D -Thomas
-              setOrderHistory(oldArray => [...oldArray, tempJSON]);
-              // orderDetailsArray.push(tempJSON);
-              // setOrderHistory(orderDetailsArray);
-            })
-            .catch(error => console.log(error));
-        });        
-      
-        console.log(orderDetailsArray);
-        console.log(orderHistory);
+        setOrderHistory(response);
       })
       .catch(error => console.log(error));
   }, [])
-  // asdinasd
-  //   setOrderHistory([{address: "68 Verde Avenue S(688336)",
-  //   orderID: "DO_0001_1635223106227",
-  //   items: [{
-  //     do_item_ID: 2,
-  //     do_item_name: "Elmo",
-  //     do_item_price: 323,
-  //     do_item_qty: 1,
-  //     do_order_ID: "DO_0001_1635230210254",
-  //     do_rest_item_ID: 19}],
-  //   price: 99.9,
-  //   restaurantName: "Kelvin's Cat Cafe",
-  //   status: "preparing"}]
-  //   )
-
 
   // ACCORDION CONTROL
-  const [accOpen, setAccOpen] = useState(false);
   const [buttonTab, setButtonTab] = useState(1);
+
+  // ALLOWING CUSTOMER TO ACCEPT THE ORDER
+  const setArrived = (orderID) => {
+    // CONTROLLER TO UPDATE ORDER STATUS / ACCEPT ORDER
+    updateOrderStatus(orderID)
+      .then((response) => {
+        if (response.api_msg === "success") {
+          alert("You have accepted the delivery! Enjoy your meal and we hope to hear from you again!");
+        }
+      });
+    
+    // TRIGGER GET ORDERS TO RELOAD THE ORDERS
+    getOrders()
+      .then((response) => {
+        setOrderHistory(response);
+      })
+      .catch(error => console.log(error));
+  }
 
   // ======= MODAL CONTROLS - REVIEWS ==============================
   //    Modal open / close state
@@ -153,7 +120,7 @@ export default function DeliveryHistory() {
   };
   // ================================================================
 
-  console.log(orderHistory)
+  // console.log(orderHistory)
   return (
       <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
         <CardHeader title={`Orders History - ${buttonTab === 1 ? "Active" : "Past"}`}/>
@@ -189,7 +156,7 @@ export default function DeliveryHistory() {
                     <Typography variant="subtitle2" sx={themes.textHeader}>
                       Order Status
                     </Typography>
-                    <Stepper activeStep={order.status === 'Preparing' ?  1 : order.status === 'Accepted' ? 0 : order.status === 'Delivering' ? 3 : -1} alternativeLabel sx={{mb:'40px', '&.MuiStepConnector-line':{bgcolor:"#444444"}}}>
+                    <Stepper activeStep={order.status === 'Preparing' ?  1 : order.status === 'Accepted' ? 0 : order.status === 'Delivering' ? 2 : -1} alternativeLabel sx={{mb:'40px', '&.MuiStepConnector-line':{bgcolor:"#444444"}}}>
                       {steps.map((label) => (
                         <Step key={label}>
                           <StepLabel>{label}</StepLabel>
@@ -230,43 +197,17 @@ export default function DeliveryHistory() {
                         </Grid>
                     </Grid>
 
-                    <Accordion sx={{border:'1px solid #eeeeee', mt:'20px'}} expanded={accOpen} >
-                      {/* HEADER OF ACCORDION */}
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="item-details"
-                        id="item-details"
-                        sx={{borderBottom:'0.5px solid #eeeeee'}}
-                        onClick={()=>{setAccOpen(!accOpen)}}
-                      >
-                        <Typography sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                          Item Details
-                        </Typography>
-                      </AccordionSummary>
-                      {/* INNDER ACCORDION */}
-                      <AccordionDetails>
-                        {order.items.map(item => (
-                              <ListItem key={item.do_item_ID} sx={{margin:'20px auto'}}>
-                                <Box width='70%'>
-                                  <Typography variant="h6">
-                                    {item.do_item_name}
-                                  </Typography>
-                                  <Typography variant="subtitle">
-                                    Unit Price: S${item.do_item_price.toFixed(2)}
-                                  </Typography>
-                                </Box>
-                                <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
-                                  <Typography variant="subtitle2">
-                                    Quantity: {item.do_item_qty}
-                                  </Typography>
-                                    <Typography variant="subtitle2">
-                                      Price: S$ {(item.do_item_qty * item.do_item_price).toFixed(2)}
-                                    </Typography>
-                                  </Box>
-                              </ListItem>
-                          ))}
-                      </AccordionDetails>
-                    </Accordion>
+                    <ItemDetailsAcc itemDetails={order.orderItems} accTitle="Order Items Details"/>
+                    {
+                      order.status === 'Delivering' ? (
+                      <>
+                        <Box m={1} pt={5}>
+                          <Button onClick={() => {
+                            setArrived(order.orderID);
+                          }} variant="outlined" id="1" color="inherit" fullWidth>Order has arrived! Press me! </Button>
+                        </Box>
+                      </>) : (<></>)}
+                    
                   </Box>
                 </CardContent>
               </Card>
@@ -338,43 +279,8 @@ export default function DeliveryHistory() {
                             </Grid>
                         </Grid>
 
-                        <Accordion sx={{border:'1px solid #eeeeee', mt:'20px'}} expanded={accOpen} >
-                          {/* HEADER OF ACCORDION */}
-                          <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="item-details"
-                            id="item-details"
-                            sx={{borderBottom:'0.5px solid #eeeeee'}}
-                            onClick={()=>{setAccOpen(!accOpen)}}
-                          >
-                            <Typography sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                              Item Details
-                            </Typography>
-                          </AccordionSummary>
-                          {/* INNDER ACCORDION */}
-                          <AccordionDetails>
-                            {order.items.map(item => (
-                              <ListItem key={item.do_item_ID} sx={{margin:'20px auto'}}>
-                                <Box width='70%'>
-                                  <Typography variant="h6">
-                                    {item.do_item_name}
-                                  </Typography>
-                                  <Typography variant="subtitle">
-                                    Unit Price: S${item.do_item_price.toFixed(2)}
-                                  </Typography>
-                                </Box>
-                                <Box width='30%' textAlign='right' sx={{mt:'10px'}}>
-                                  <Typography variant="subtitle2">
-                                    Quantity: {item.do_item_qty}
-                                  </Typography>
-                                    <Typography variant="subtitle2">
-                                      Price: S$ {(item.do_item_qty * item.do_item_price).toFixed(2)}
-                                    </Typography>
-                                  </Box>
-                              </ListItem>
-                            ))}
-                          </AccordionDetails>
-                        </Accordion>
+                        <ItemDetailsAcc itemDetails={order.orderItems} accTitle="Order Items Details"/>
+
                         <Box textAlign="center" sx={{mt:'30px'}}>
                           <Button fullWidth variant="outlined" color="inherit" onClick={(e) => {handleOpenReview(order.restID, order.restaurantName)}} >LEAVE REVIEW</Button>
                         </Box>

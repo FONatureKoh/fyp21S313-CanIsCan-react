@@ -410,20 +410,6 @@ export async function submitCustOrder(doID, restInfo, realCart, deliveryAddress,
   for (var x in realCart) {
     formParams.append("orderItems", JSON.stringify(realCart[x]));
   }
-  
-  // Payment stuff
-  // formParams.append('cardName', cardName);
-  // formParams.append('cardNumber', cardNumber);
-  // formParams.append('expiry', expiry);
-  // formParams.append('cvc', cvc);
-
-  // const reviewJson = {
-  //   restID: restID,
-  //   restName: restName,
-  //   restRating: restRating,
-  //   reviewTitle: reviewTitle,
-  //   reviewDesc: reviewDesc
-  // } 
 
   try {
     const response = await axios.post(`${config.apiDomain}/customer/submitorder`, formParams, axiosConfig);
@@ -436,7 +422,30 @@ export async function submitCustOrder(doID, restInfo, realCart, deliveryAddress,
 }
 
 /*****************************************************************************************
- * Submits customer Orders                                                               *
+ * Allow Customer to update the order when he / she receives the order                   *
+******************************************************************************************/
+export async function updateOrderStatus(orderID) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  const tempJSON = {
+    orderID
+  }
+
+  try {
+    const response = await axios.put(`${config.apiDomain}/customer/updateDOStatus`, tempJSON, axiosConfig);
+
+    return response.data;
+  }
+  catch(err) {
+    console.log(err);
+  }
+}
+
+/*****************************************************************************************
+ * Submits customer Resrvations                                                          *
 ******************************************************************************************/
 export async function submitCustReservation(reservationID, restInfo, pax, date, timeslot, 
   preOrderStatus, preOrderItems, preOrderTotal) {
@@ -523,5 +532,4 @@ export async function getAvailableSlots (restID, selectedDate) {
   catch (error) {
     console.log(error);
   }
-
 }

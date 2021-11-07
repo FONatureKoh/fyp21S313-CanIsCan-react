@@ -1,8 +1,8 @@
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 import { Box, Typography, Accordion, AccordionSummary, AccordionDetails, ListItem } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-export default function ResAcc({itemDetails}) {
+export default function ItemDetailsAcc({itemDetails, accTitle}) {
   
   // ACCORDION CONTROL
   const [accOpen, setAccOpen] = useState(false);
@@ -18,9 +18,10 @@ export default function ResAcc({itemDetails}) {
       onClick={()=>{setAccOpen(!accOpen)}}
     >
       <Typography sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-        Preordered item details
+        {accTitle}
       </Typography>
     </AccordionSummary>
+
     {/* INNDER ACCORDION */}
     <AccordionDetails>
       {itemDetails.map(item => (
