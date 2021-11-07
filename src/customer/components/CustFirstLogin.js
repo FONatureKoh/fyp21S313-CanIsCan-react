@@ -55,6 +55,7 @@ export default function CustFirstLogin({setFirstLog}) {
   // This one to post the user data to the server
   async function postFirstLogin(){
     try {
+      // CONTROLLER HERE TO SET THE CUSTOMER'S DETAILS TO THE DATABASE
       const response = await setProfileFirst(profileImage, fName, lName, personalPhone,
         personalEmail, personalAdd, personalPostal);
       return response.api_msg;
@@ -105,6 +106,7 @@ export default function CustFirstLogin({setFirstLog}) {
 
       // If all above ok, then proceed
       if (validationErr === 0) {
+        // FUNCTION TO TRIGGER CONTROLLER
         postFirstLogin()
           .then((response) => {
             // Check the response state

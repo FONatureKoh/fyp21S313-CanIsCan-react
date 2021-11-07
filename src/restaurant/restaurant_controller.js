@@ -551,7 +551,7 @@ export async function postRestaurantProfile (bannerImage, address, postalCode, t
  * ***************************************************************************************/
 export async function postChangePW(oldPassword, newPassword) {
   // Test consoles
-  console.log("changePwController");
+  // console.log("changePwController");
   // Axios request config to be declared first
   const axiosConfig = {
     headers: {'Authorisation': window.sessionStorage.accessToken}
@@ -566,7 +566,7 @@ export async function postChangePW(oldPassword, newPassword) {
     const res = await axios.put(`${config.apiDomain}/users/userpassword`, changeJSON, axiosConfig);
     // In here we can choose what we want to do with the response of the request
     // console.log(res)
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   }
   catch (err) {

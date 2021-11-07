@@ -12,9 +12,10 @@ import { postChangePW, postPersonalProfile, retrieveUserProfile } from '../../re
 // Steps for the first login
 const steps = ['Update your profile', 'Change your password'];
 
-// Async function to return the user's profile
+// Async function to TRIGGER CONTROLLER
 async function getProfile() {
   try {
+    // CONTROLLER TO RETRIEVE THE PROFILE
     const response = await retrieveUserProfile();
 
     return response;
@@ -86,8 +87,50 @@ export default function ResFirstLogin({setFirstLog}) {
       newSkipped.delete(activeStep);
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    // HANDLES THE FIRST STEP'S VALIDATION
+    if (activeStep === 0) {
+      // VALIDATION FOR DETAILS
+      var validationErr = 0;
+      // Ensure that the first name / last name isn't blank
+      if (fName === '' || lName === '') {
+        alert ("First name / last name cannot be blank!");
+        validationErr++;
+      }
+
+      // Ensure that phone number isn't blank
+      if (personalPhone === '') {
+        alert ("Phone number cannot be blank!");
+        validationErr++;
+      }
+
+      // ensure that email isn't blank
+      if (personalEmail === '') {
+        alert("Email cannot be blank!");
+        validationErr++;
+      }
+
+      // ensure that address isn't blank
+      if (personalAdd === '' || personalPostal === '') {
+        alert("Address and Postal code cannot be blank!");
+        validationErr++;
+      }
+
+      if (validationErr === 0) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setSkipped(newSkipped);
+      };
+    }
+    
+    // HANDLES THE SECOND STEP'S VALIDATION
+    if (activeStep === 1) {
+      if (newPW !== confirmNewPW) {
+        alert("Please type the same password in the new password and confirm password fields");
+      }
+      else {
+        // NO FURTHER STEPS. HANDLE FINISH
+        handleFinish();
+      }
+    }
   };
 
   const handleBack = () => {
@@ -125,28 +168,21 @@ export default function ResFirstLogin({setFirstLog}) {
   // HANDLE FINAL SUBMIT 
   // NOTE: This is where we submit the data to the database
   const handleFinish = () => {
-    if (newPW !== confirmNewPW) {
-      alert("Please type the same password in the new password and confirm password fields");
+    // Post the personal profile
+    postPersonal()
+      .then((response) => {
+        // console.log(response);
+      })
+      .catch(error => console.log(error));
 
-      return;
-    }
-    else {
-      // Post the personal profile
-      postPersonal()
-        .then((response) => {
-          console.log(response);
-        })
-        .catch(error => console.log(error));
+    // Post RM password update 
+    postPassword()
+      .then((response) => {
+        // console.log(response);
+      })
+      .catch(error => console.log(error));
 
-      // Post RGM password update 
-      postPassword()
-        .then((response) => {
-          console.log(response);
-        })
-        .catch(error => console.log(error));
-
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
   }
 
   // Preview Images
