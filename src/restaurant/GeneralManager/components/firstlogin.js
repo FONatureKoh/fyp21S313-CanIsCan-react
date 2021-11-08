@@ -68,8 +68,12 @@ export default function FirstLogin({setFirstLog}) {
   const [restAdd, setRestAdd] = useState('');
   const [restPostal, setRestPostal] = useState('');
   const [tags, setTags] = useState([]);
-  const [openTime, setOpenTime] = useState(new Date());
-  const [closeTime, setCloseTime] = useState(new Date());
+
+  // NOTE: ADDITION STEP FOR DATE OBJECT HERE TO OMMIT THE SECONDS
+  const tempDateObj = new Date();
+  const dateObject = new Date(1970, 1, 1, tempDateObj.getHours(), tempDateObj.getMinutes(), 0, 0);
+  const [openTime, setOpenTime] = useState(dateObject);
+  const [closeTime, setCloseTime] = useState(dateObject);
 
   // Password matters
   const [oldPW, setOldPW] = useState('');
