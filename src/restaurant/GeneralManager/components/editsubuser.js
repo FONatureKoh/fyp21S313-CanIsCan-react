@@ -13,7 +13,12 @@ export default function EditSubUser({userData, setSubUsers}) {
 
   // CONST FOR THE PAGE
   const history = useHistory();
-  // console.log("EditSubUser Triggered");
+
+  const boldtitle = {
+    fontWeight:'bold', 
+    marginTop:'20px',
+    marginBottom:'10px'
+  };
 
   // MATCH THE USER DATA 
   let subSelected;
@@ -27,8 +32,7 @@ export default function EditSubUser({userData, setSubUsers}) {
   }
 
   // Various states to set data
-  const [subID, setSubID] = useState(subSelected.userID);
-  const [username, setUsername] = useState(subSelected.username);
+  const [username] = useState(subSelected.username);
   const [fname, setFname] = useState(subSelected.fname);
   const [lname, setLname] = useState(subSelected.lname);
   const [email, setEmail] = useState(subSelected.email);
@@ -58,12 +62,7 @@ export default function EditSubUser({userData, setSubUsers}) {
       });
   }
 
-  const boldtitle = {
-    fontSize:'1 0px', 
-    fontWeight:'bold', 
-    marginTop:'20px',
-    marginBottom:'10px'
- };
+
 
   return <>
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
