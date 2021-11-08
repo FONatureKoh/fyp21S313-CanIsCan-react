@@ -8,8 +8,8 @@ import EditItem from './edititem';
 import AddItem from './additem';
 import AddIcon from '@mui/icons-material/Add';
 import { TabPanel, TabList, TabContext } from '@mui/lab';
-import { addRestaurantCategory, retrieveAllItems, retrieveCats } from '../../restaurant_controller';
-import { updateCategoryName } from '../rgm_controller';
+import { retrieveAllItems, retrieveCats } from '../../restaurant_controller';
+import { addCategory, updateCategoryName, deleteCategory, checkCategory } from '../rgm_controller';
 
 export default function Editmenu() {
   // console.log("editmenu triggered");
@@ -83,7 +83,7 @@ export default function Editmenu() {
   async function addNewCategory(){
     try {
       // CONTROLLER FOR ADDING A NEW CATEGORY
-      const response = await addRestaurantCategory(newMenu);
+      const response = await addCategory(newMenu);
       return response.api_msg;
     }
     catch (error) {
@@ -161,9 +161,66 @@ export default function Editmenu() {
       });
   }
 
-  // Handles when we delete a menu
+  /********************************************************************************************************************
+   * EVERYTHING TO HANDLE DELETING OF CATEGORY NAME
+   ********************************************************************************************************************
+   * INCLUDES DIALOG HANDLERS AND STATES
+   */
+  // STATES FOR DELETE MENU
+  const [openDelete, setOpenDelete] = useState(false);
+  const [deleteCategoryName, setDeleteCategoryName] = useState('');
+  const [deleteCatID, setDeleteCatID] = useState(0);
+  const [safeDelete, setSafeDelete] = useState(false);
+
+  // console.log(editedName);
+
+  // HANDLES DELETE MENU DIALOG 
+  const handleDeleteClose = () => {
+    setOpenDelete(false);
+    setEditedName('');
+  };
+
+  const handleDeleteOpen = (catID) => {
+    checkCategory(catID)
+      .then((response) => {
+        console.log(response);
+
+        // INTERPRET THE API MESSAGE, FIRST CHECK IF CATEGORY CAN BE DELETED.
+        if (response.canDelete === "no") {
+          alert("Category cannot be deleted as there are items that are either available or unavaible in the category. Please delete all items before trying again.");
+        }
+
+        // IF THE CATEGORY CAN BE DELETED, THEN CHECK IF IT CAN BE SAFELY DELETED
+        if (response.canDelete === "yes") {
+          if (response.api_msg === "category not used") {
+            setSafeDelete(true);
+          }
+
+          setOpenDelete(true);
+        }
+      })
+  };
+
+  // Handles when we DELETE the menu's name
   function deleteMenu() {
-    
+    // DELETE MENU CONTROLLER
+    deleteCategory(deleteCatID, safeDelete)
+      .then((response) => {
+        if (response.api_msg === "success") {
+          setValue('0');
+
+          // Refresh categories
+          getCategories()
+            .then((response) => {
+              setCategories(response);
+              setOpenDelete(false);
+            });
+        }
+        else {
+          setOpenDelete(false);
+          alert("Something went wrong, category is not deleted");
+        }
+      });
   }
 
   return <>
@@ -219,7 +276,11 @@ export default function Editmenu() {
                         >
                           Edit Category Name
                         </Button>
-                        <Button variant="outlined" color="error" >Delete Category</Button>
+                        <Button variant="outlined" color="error" onClick={() => {
+                          setDeleteCategoryName(category.ric_name);
+                          setDeleteCatID(category.ric_ID);
+                          handleDeleteOpen(category.ric_ID);
+                        }}>Delete Category</Button>
                         </Box>
                       </Grid>
                     </Grid>
@@ -266,6 +327,7 @@ export default function Editmenu() {
               </Typography>
               <DialogContentText id="alert-dialog-description">
               <TextField sx={{width:'90%', margin:'15px'}} 
+                defaultValue={editCategoryName}
                 id="filled-basic" 
                 label="Menu Name:" 
                 variant="filled" 
@@ -280,6 +342,21 @@ export default function Editmenu() {
             </DialogActions>
           </Dialog>
 
+          {/* DIALOG TO PROMPT DELETE MENU */}
+          <Dialog open={openDelete} onClose={handleDeleteClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+            <DialogTitle id="alert-dialog-title">
+              {"Edit Category Name"}
+            </DialogTitle>
+            <DialogContent>
+              <Typography sx={{textAlign: 'left', display:'inline-block'}}>
+                You are deleting category with the name '{deleteCategoryName}' 
+              </Typography>
+            </DialogContent>
+            <DialogActions>
+            <Button onClick={deleteMenu} variant="outlined" color="inherit">Confirm</Button>
+            <Button onClick={handleDeleteClose} variant="outlined" color="error">Cancel</Button>
+            </DialogActions>
+          </Dialog>
 
           </CardContent>
         </Card>

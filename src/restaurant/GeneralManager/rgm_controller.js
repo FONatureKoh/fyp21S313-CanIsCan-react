@@ -6,6 +6,50 @@ import axios from 'axios';
 const config = require('../../store/config.json');
 
 /*****************************************************************************************
+ * Restaurant Adding a new category for items                                            *
+ * ***************************************************************************************
+ * - Adding a new category based on the user input   
+ * ***************************************************************************************/
+export async function checkCategory(catID) {
+  // Config for Axios to send authorisation in header
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  try {
+    const res = await axios.get(`${config.apiDomain}/restaurant/checkcategory/${catID}`, axiosConfig);
+    return res.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
+}
+
+/*****************************************************************************************
+ * Restaurant Adding a new category for items                                            *
+ * ***************************************************************************************
+ * - Adding a new category based on the user input   
+ * ***************************************************************************************/
+export async function addCategory(categoryName) {
+  // Config for Axios to send authorisation in header
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    }
+  };
+
+  try {
+    const res = await axios.post(`${config.apiDomain}/restaurant/createNewCategory`, {ric_name: categoryName}, axiosConfig);
+    return res.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
+}
+
+/*****************************************************************************************
  * Editing of item Categories name
  * ***************************************************************************************
  * Takes in subUserID, username, fname, lname, email, phone, role
@@ -31,6 +75,30 @@ export async function updateCategoryName(catID, newCatName) {
   }
 };
 
+/*****************************************************************************************
+ * Deleting of a category
+ * ***************************************************************************************
+ * Takes in subUserID, username, fname, lname, email, phone, role
+ * ***************************************************************************************/
+export async function deleteCategory(catID, safeDelete) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    },
+    data: {
+      catID, safeDelete
+    }
+  };
+
+  try {
+    const res = await axios.delete(`${config.apiDomain}/restaurant/itemCategoryManagement`, axiosConfig);
+    return res.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
+};
 /*****************************************************************************************
  * Editing details of subuser
  * ***************************************************************************************
