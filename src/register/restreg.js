@@ -58,9 +58,9 @@ export default function RestRegister() {
   return (
     <div className="App">
         <header className="App-header">
-          <a id="back" onClick= {back}>Back to Login</a>
+          <label id="back" onClick= {back}>Back to Login</label>
           <img src={logo} className="App-logo" alt="logo" />
-          <a class="whitefont" id="register">Restaurant Registration</a> 
+          <label class="whitefont" id="register">Restaurant Registration</label> 
           <input className="rr_field" type="text" name="restaurant_name" placeholder="Restaurant Name " ref= {restaurant_name} />
           <input className="rr_field" type="text" name="username" placeholder="Username " ref= {username} />
           <input className="rr_field" type="number" name="phone" placeholder="Restaurant Phone Number " ref= {restaurant_phone_no} />

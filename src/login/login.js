@@ -103,7 +103,7 @@ export default function Login() {
           
           <button className="go_btn" onClick= {clickLogin}>Log In</button>
           <div className="whitefont" >Don't have an account?</div>
-          <a className="link" onClick= {RouteChange}>Register</a>
+          <label className="link" onClick= {RouteChange}>Register</label>
         </header>
       </div>
   )

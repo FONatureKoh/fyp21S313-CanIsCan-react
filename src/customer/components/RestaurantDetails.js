@@ -264,7 +264,7 @@ export default function RetaurantDetails() {
                       </Typography>
                     </Box>
                     <Box alignContent="flex-end">
-                    <img width="300px" height="200px" src={getMap(restaurantInfo.rest_postal_code)}/>
+                    <img width="300px" height="200px" src={getMap(restaurantInfo.rest_postal_code)} alt="unable to get map"/>
                     </Box>
                   </Box>
                 </CardContent>
@@ -367,7 +367,7 @@ export default function RetaurantDetails() {
                       </Typography>
                     </Box>
                     <Box alignContent="flex-end">
-                    <img width="300px" height="200px" src={getMap(restaurantInfo.rest_postal_code)}/>
+                    <img width="300px" height="200px" src={getMap(restaurantInfo.rest_postal_code)} alt="Unable to get map"/>
                     </Box>
                   </Box>
                 </CardContent>

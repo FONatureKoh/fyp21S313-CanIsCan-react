@@ -176,7 +176,7 @@ export default function EditProfile({restaurantInfo, setRestInfo, setRestTags}) 
 
   // =========================================================================================================
   // PREVIEW IMAGE ===========================================================================================
-  const [preview, setPreview] = useState('');
+  const [preview, setPreview] = useState(restaurantInfo.banner_base64);
 
   useEffect(() => {
     if(imageFile){
@@ -187,10 +187,7 @@ export default function EditProfile({restaurantInfo, setRestInfo, setRestTags}) 
       }
       reader.readAsDataURL(imageFile);
     }
-    else{
-      setPreview(restaurantInfo.banner_base64);
-    }
-  }, [imageFile])
+  }, [imageFile, preview])
   // END OF PREVIEW IMAGE 
 
   return <>
@@ -200,7 +197,7 @@ export default function EditProfile({restaurantInfo, setRestInfo, setRestTags}) 
         <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
           <Grid item xs={12} sx={{textAlign:'center', marginTop:'3%;'}}>
             <Box>
-              <img src={preview} width="60%"/>
+              <img src={preview} alt="banner picture" width="60%"/>
             </Box>
             <Box> 
             <label htmlFor="imageBanner">
