@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Card, CardHeader, CardContent, Box, Button, Typography, Grid, Modal, CardMedia, IconButton, Tooltip, Rating, TextField} from '@mui/material'
+import { Box, Button, Card, CardHeader, CardContent, CardMedia, Grid, Modal, IconButton, Rating, Tooltip, TextField, Typography } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import TestImage from '../../assets/temp/eg-biz1.png'
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 import { Divider } from '@mui/material';
-import { getPastReservations, getUpcomingReservations } from '../customer_controller';
+import { getPastReservations, getUpcomingReservations, retrieveSingleRestaurant } from '../customer_controller';
 import ItemDetailsAcc from './ItemDetailsAcc';
 
 // MAPS API
@@ -17,7 +17,15 @@ export default function ReservationHistory() {
   
   //MODAL CONTROLS - DIRECTIONS / INFO
   const [openInfo, setOpenInfo] = useState(false);
-  const handleOpenInfo = () => setOpenInfo(true);
+  const [restInfo, setRestInfo] = useState({});
+
+  const handleOpenInfo = (restID) => {
+    retrieveSingleRestaurant(restID)
+      .then((response) => {
+        setRestInfo(response);
+        setOpenInfo(true);
+      })
+  };
   const handleCloseInfo = () => setOpenInfo(false);
 
   // RESERVATIONS DATA USETATES
@@ -56,6 +64,33 @@ export default function ReservationHistory() {
     return maplink;
   }
 
+  /********************************************************************************************************************
+   * EVERYTHING TO HANDLE DELETING OF CATEGORY NAME
+   ********************************************************************************************************************
+   * INCLUDES DIALOG HANDLERS AND STATES
+   */
+  // STATES FOR DELETE MENU
+  const [openCancel, setOpenCancel] = useState(false);
+  const [selectedResID, setSelectedResID] = useState('');
+
+  // console.log(editedName);
+
+  // HANDLES DELETE MENU DIALOG 
+  const handleCancelClose = () => {
+    setOpenCancel(false);
+  };
+
+  const handleReservationOpen = (crID) => {
+    setOpenCancel(true);
+    setSelectedResID(crID);
+
+  };
+
+  // Handles when we DELETE the menu's name
+  function cancelReservation() {
+
+  }
+  //=======================================================================
   // ======= MODAL CONTROLS - REVIEWS ==============================
   //    Modal open / close state
   const [openReview, setOpenReview] = useState(false);
@@ -75,7 +110,7 @@ export default function ReservationHistory() {
 
   const handleCloseReview = () => setOpenReview(false);
 
-// ======= END OF MODAL CONTROLS - REVIEWS ==============================
+  // ======= END OF MODAL CONTROLS - REVIEWS ==============================
   return (
       <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
         <CardHeader title={`Reservations History - ${buttonTab === 1 ? "Upcoming" : "Past"}`}/>
@@ -108,7 +143,7 @@ export default function ReservationHistory() {
                         </Typography>
                         <Typography variant="subtitle1" >
                           <Tooltip title="Restaurant Information">
-                            <IconButton aria-label="info" onClick={handleOpenInfo}>
+                            <IconButton aria-label="info" onClick={() => handleOpenInfo(item.cr_restID)}>
                               <InfoOutlinedIcon />
                             </IconButton>
                           </Tooltip>
@@ -181,7 +216,7 @@ export default function ReservationHistory() {
                             </Button>
                           </Grid> */}
                           <Grid item xs={12} sm={12} md={12}>
-                            <Button fullWidth color="error" variant="outlined">
+                            <Button fullWidth color="error" variant="outlined" onClick={() => handleReservationOpen(item.crID)}>
                               Cancel Reservation
                             </Button>
                           </Grid>
@@ -202,7 +237,7 @@ export default function ReservationHistory() {
                   <Typography variant="h6">No past reservations</Typography>
                 </Box>
                 </>) : (<>
-              {/* UPCOMING RESERVATION */}
+              {/* PAST RESERVATION */}
               {pastReservations.map((item)=>{
                 return (<>
                   <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto 20px'}}>
@@ -302,56 +337,50 @@ export default function ReservationHistory() {
           }
 
           {/* INFO MODAL */}
-          <Modal
-              open={openInfo}
-              onClose={handleCloseInfo}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-              <Card variant="outlined" sx={{ position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width:"600px",
-                maxHeight:'70%',}}>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={TestImage}
-                />
-                <CardContent >
-                  <Box textAlign="center">
-                    <Typography variant="h5">Restaurant Name</Typography>
-                    <Typography variant="subtitle2">Tags</Typography>
+          <Modal open={openInfo} onClose={handleCloseInfo} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+            <Card variant="outlined" sx={{ position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width:"600px",
+              maxHeight:'70%',}}>
+              <CardMedia
+                component="img"
+                height="140"
+                image={restInfo.rest_banner}
+              />
+              <CardContent >
+                <Box textAlign="center">
+                  <Typography variant="h5">{restInfo.restaurant_name}</Typography>
+                </Box>
+                <Box display="flex" flexDirection="row" sx={{mt:'20px'}}>
+                  <Box width='50%' padding="10px 20px">
+                    <Typography variant="h6">
+                      Address
+                    </Typography>
+                    <Typography variant="subtitle2">
+                      {restInfo.rest_address_info}
+                    </Typography>
+                    <Typography variant="subtitle2">
+                      S ({restInfo.rest_postal_code})
+                    </Typography>
+                    <Typography variant="h6" sx={{mt:'10px'}}>
+                      Operating Hours
+                    </Typography>
+                    <Typography variant="subtitle2">
+                      {restInfo.rest_op_hours}
+                    </Typography>
                   </Box>
-                  <Box display="flex" flexDirection="row" sx={{mt:'20px'}}>
-                    <Box width='50%' padding="10px 20px">
-                      <Typography variant="h6">
-                        Address
-                      </Typography>
-                      <Typography variant="subtitle2">
-                        930 Hougang Street 91
-                      </Typography>
-                      <Typography variant="subtitle2">
-                        S (530930)
-                      </Typography>
-                      <Typography variant="h6" sx={{mt:'10px'}}>
-                        Operating Hours
-                      </Typography>
-                      <Typography variant="subtitle2">
-                        Time to time
-                      </Typography>
-                    </Box>
-                    <Box alignContent="flex-end">
-                    <img width="300px" height="200px" src={getMap(530930)}/>
-                    </Box>
+                  <Box alignContent="flex-end">
+                  <img width="300px" height="200px" src={getMap(restInfo.rest_postal_code)}/>
                   </Box>
-                </CardContent>
-              </Card>
-            </Modal>
-            {/* END OF INFO MODAL */}
+                </Box>
+              </CardContent>
+            </Card>
+          </Modal>
+        {/* END OF INFO MODAL */}
 
-            {/* REVIEW MODAL */}
+        {/* REVIEW MODAL */}
         <Modal
           open={openReview}
           onClose={handleCloseReview}
@@ -412,11 +441,22 @@ export default function ReservationHistory() {
           </Card>
         </Modal>
         {/* END OF REVIEW MODAL */}
-
-
-            {/* <Box textAlign="center" sx={{mt:'30px'}}>
-              <Button fullWidth variant="outlined" color="inherit" >Load More</Button>
-            </Box> */}
+        {/* DIALOG TO PROMPT CANCEL RESERVATION CONFIRMATION */}
+        <Dialog open={openCancel} onClose={handleCancelClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+          <DialogTitle id="alert-dialog-title">
+            {"Cancel Reservation"}
+          </DialogTitle>
+          <DialogContent>
+            <Typography sx={{textAlign: 'left', display:'inline-block'}}>
+              Are you sure you want to cancel your reservation? Your reservation ID: {selectedResID}
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+          <Button onClick={cancelReservation} variant="outlined" color="inherit">Confirm</Button>
+          <Button onClick={handleCancelClose} variant="outlined" color="error">Cancel</Button>
+          </DialogActions>
+        </Dialog>
+        {/* END OF CONFIRMATION PROMPT */}
         </CardContent>
       </Card>
   )
