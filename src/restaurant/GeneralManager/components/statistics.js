@@ -14,6 +14,8 @@ export default function ViewInfo() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [chartData, setChartData] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [popItemName, setPopItemName] = useState("No data yet")
 
   // SOME USEFUL CONSTANTS
   const dayArray = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
@@ -34,7 +36,7 @@ export default function ViewInfo() {
           ['Sun', 0]
         ]
         
-        for (let stat of response) {
+        for (let stat of response.doStatsArray) {
           // First we create a date object
           console.log(stat);
           const newDate = new Date(stat.dateValue);
@@ -50,8 +52,10 @@ export default function ViewInfo() {
             }
           }
         }
-        
+      
         setChartData(tempChartData);
+        setTotal(response.totalEarnings);
+        setPopItemName(response.mostPopItem.itemName);
       })
   }
 
@@ -114,9 +118,9 @@ export default function ViewInfo() {
             <Card sx={{bgcolor:"#eeeeee", height:'45%', borderRadius:'15px'}}>
               <CardContent>
                 <Typography variant="h5">Total earnings</Typography>
-                <Typography variant="subtitle2">from .... to ...</Typography>
+                  <Typography variant="subtitle2">from {startDate.toLocaleDateString("en-GB")} to {endDate.toLocaleDateString("en-GB")}</Typography>
                 <Box sx={{margin:'5px auto', textAlign:'center'}}>
-                  <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}} variant="h5">$ placeholder</Typography>
+                  <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}} variant="h5">{total === 0 ? "No data yet" : `$ ${total}`}</Typography>
                 </Box>
               </CardContent>
             </Card>
@@ -127,7 +131,7 @@ export default function ViewInfo() {
                 <Typography variant="h5">Most popular item</Typography>
                 <Typography variant="subtitle2">Deliveries</Typography>
                 <Box sx={{margin:'5px auto', textAlign:'center'}}>
-                  <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}} variant="h5">Chicken boi</Typography>
+                  <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}} variant="h5">{popItemName}</Typography>
                 </Box>
               </CardContent>
             </Card>
