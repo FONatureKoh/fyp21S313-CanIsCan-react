@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { Grid, Button, Typography, Switch, Divider, CardContent, CardHeader, Card, Chip } from '@mui/material'
 import { Route, Link, Switch as Switch2 } from 'react-router-dom'
 import EditInformation from './editinformation'
+// import ShopFrontDefault from '../../../assets/default-shopfront.png'
 import { restaurantProfile, retrieveBannerImage } from '../../restaurant_controller'
+
 
 export default function ViewInfo({isChecked, toggleChecked}) {
   // Declaring use State for Restaurant Profile
   const [restaurantInfo, setRestaurantInfo] = useState([]);
   const [restaurantTags, setRestaurantTags] = useState([]); // Lol. This solved it
-  const [restBannerImage, setRestBannerImage] = useState('');
 
   // Async functions
   async function getInfo() {
     try {
+      // CONTROLLER TO GET ALL THE NECESSARY INFORMATION
       const restProfile = await restaurantProfile();
       return restProfile;
     }
@@ -34,17 +36,11 @@ export default function ViewInfo({isChecked, toggleChecked}) {
 
   //Retrieval of Restaurant Information based on Token's username
   useEffect(() => {
+    // METHOD getInfo TRIGGERS THE CONTROLLER
     getInfo()
       .then((response) => {
         setRestaurantInfo(response);
         setRestaurantTags(response.rest_tags);
-
-        // Gets the banner image
-        getImage(response.rest_banner_ID)
-          .then(response => {setRestBannerImage(response)})
-          .catch(error => console.log(error));
-        
-        // console.log(response);
       })
       .catch(error => console.log(error));
   },[])
@@ -65,7 +61,7 @@ export default function ViewInfo({isChecked, toggleChecked}) {
             <CardContent >
               <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
                 <Grid item xs={12} sx={{textAlign:'center'}}>
-                  <img src={restBannerImage} width="60%" alt="banner"/>
+                  <img src={restaurantInfo.banner_base64} width="60%" alt="No Banner Found"/>
                 </Grid>
 
               <Grid item xs={12} sx={{textAlign:'center', marginTop:'2%', marginBottom:'2%'}}>
@@ -83,7 +79,6 @@ export default function ViewInfo({isChecked, toggleChecked}) {
                 <Typography sx={boldtitle}>Operating Hours</Typography>
                 <Typography>
                   {restaurantInfo.rest_op_hours}
-                  {/* {openTime} - {closeTime} */}
                 </Typography>
 
                 <Typography sx={boldtitle}>Restaurant Contact Number</Typography>
@@ -119,7 +114,7 @@ export default function ViewInfo({isChecked, toggleChecked}) {
             </CardContent>
           </Card>
         </Route>
-        <Route path="/generalmanager/restaurantinformation/edit"><EditInformation restaurantInfo={restaurantInfo}/></Route>
+        <Route path="/generalmanager/restaurantinformation/edit"><EditInformation restaurantInfo={restaurantInfo} setRestInfo={setRestaurantInfo} setRestTags={setRestaurantTags}/></Route>
       </Switch2>
     </div>
   )

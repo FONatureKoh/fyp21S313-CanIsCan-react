@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dialog, DialogActions, 
 DialogContent, DialogContentText, DialogTitle, Stack, Box, OutlinedInput, InputLabel, MenuItem, FormControl, Select, Chip } from '@mui/material'
-import bannerpic from '../../../assets/temp/eg-biz1.png'
 import { useHistory } from 'react-router-dom'
 import { styled } from '@mui/material/styles';
 import { Block } from '@mui/icons-material';
@@ -14,22 +13,49 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 // Controller import
 import { editRestaurantInfo } from '../../restaurant_controller';
 
-export default function EditProfile({restaurantInfo}) {
-  // Testing purposes
-  // ------------------------------------------------------------------- //
-  // DRAW ALL TAGS AVAILABLE INTO THIS ARRAY
-  // It will set the drop down list
-  // The rest are handled by the form and on change
+export default function EditProfile({restaurantInfo, setRestInfo, setRestTags}) {
+  // PAGE CONSTANTS
+  const history = useHistory();
+
+  // ALL THINGS ABOUT THE DROPDOWN MENU
+  // Drop down item settings
+  const ITEM_HEIGHT = 40;
+  const ITEM_PADDING_TOP = 5;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        display: Block,
+        maxHeight: ITEM_HEIGHT * 3.5 + ITEM_PADDING_TOP,
+      },
+    },
+  };
+
+  // DRAW ALL TAGS AVAILABLE INTO THIS ARRAY (THIS SETS THE DROP DOWN LIST)
   const [allRestaurantTags, setAllRestaurantTags] = useState([]);
 
+  // USEEFFECT TO GET THE TAGS DROPDOWN
   useEffect(() => {
+    // FUNCTION TO TRIGGER CONTROLLER
     async function getTags() {
+      // CONTROLLER TO RETRIEVE ALL THE TAGS
       const tags = await retrieveRestaurantTags()
       setAllRestaurantTags(tags.restaurantTags);
     }
     getTags();
   },[]);
 
+  // HANDLES WHEN THE TAGS ARE SELECTED
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setTags(
+      // On autofill we get a the stringified value
+      typeof value === 'string' ? value.split(', ') : value,
+    );
+  }
+
+  // FOR EDITING PUPROSES =========================================================================
   // Creating a time to Date object
   function timeToDate (inputTime) {
     let tempTime = inputTime.split(":");
@@ -48,8 +74,6 @@ export default function EditProfile({restaurantInfo}) {
   const [dialogState, setDialogState] = useState(false);
 
   // Set the things from the restaurantInfo
-  const history = useHistory();
-  const [restaurantStatus, setRestaurantStatus] = useState(restaurantInfo.rest_status);
   const [imageFile, setImageFile] = useState();
   const [restaurantName, setRestaurantName] = useState(restaurantInfo.restaurant_name);
   const [restaurantPhone, setRestaurantPhone] = useState(restaurantInfo.rest_phone_no);
@@ -60,34 +84,10 @@ export default function EditProfile({restaurantInfo}) {
   const [closeTime, setCloseTime] = useState(timeToDate(restaurantInfo.rest_closing_time));
   const [tags, setTags] = useState(restaurantInfo.rest_tags);
   
-  // Drop down item settings
-  // NOTE: I moved the tag up to where all the use states are! 
-  const ITEM_HEIGHT = 40;
-  const ITEM_PADDING_TOP = 5;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        display: Block,
-        maxHeight: ITEM_HEIGHT * 3.5 + ITEM_PADDING_TOP,
-      },
-    },
-  };
-
-  
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setTags(
-      // On autofill we get a the stringified value
-      // Kelvin ah I changed it to ', ' cos i realised array got the 
-      // space when I construct it on my end
-      typeof value === 'string' ? value.split(', ') : value,
-    );
-  }
-  
+  // FUNCTION TO TRIGGER THE CONTROLLER
   async function editRestInfo() {
     try {
+      // CONTROLLER TO CONTROL THE EDIT HERE
       const response = await editRestaurantInfo(imageFile, restaurantInfo.rest_banner_ID, restaurantName, restaurantPhone, restaurantEmail,
         restaurantAddress, postalCode, openTime, closeTime, tags);
       
@@ -98,57 +98,115 @@ export default function EditProfile({restaurantInfo}) {
     }
   }
 
+  // BUTTON FUNCTION
+  function submitChange() {
+    // VALIDATION FOR DETAILS
+    var validationError = 0;
+
+    const convertedOpeningTime = openTime.toLocaleTimeString('en-GB');
+    const convertedClosingTime = closeTime.toLocaleTimeString('en-GB');
+    // console.log(convertedOpeningTime, convertedClosingTime)
+
+    if (restaurantName === '') {
+      alert("Restaurant Name cannot be blank!");
+      validationError++;
+    }
+    
+    if (restaurantAddress === '' || postalCode === '') {
+      alert("Restaurant Address cannot be blank!");
+      validationError++;
+    }
+
+    if (tags.length === 0 || tags.length > 3) {
+      alert("You must choose at least 1 tag and a maximum of 3 tags!");
+      validationError++;
+    }
+
+    if (convertedOpeningTime > convertedClosingTime) {
+      alert("Opening time cannot be later than closing time. Please double check your settings!");
+      validationError++;
+    }
+
+    if (validationError === 0) {
+      editRestInfo()
+        .then((response) => {
+          alert(response);
+
+          // GET THE NEWLY SET RESTAURANTPROFILE INFO
+          restaurantProfile()
+            .then((response) => {
+              setRestInfo(response);
+              setRestTags(response.rest_tags);
+
+              // ONCE DATA SET, PUSH BACK TO THE INFO PAGE
+              history.push('/generalmanager/restaurantinformation');
+            })
+        })
+        .catch(error => alert(error)); 
+    };
+  }
+
   const cancelBtn = () => {
-    if(restaurantName === restaurantInfo.restaurant_name && 
-    restaurantPhone === restaurantInfo.rest_phone_no && 
-    restaurantAddress === restaurantInfo.restaurantAddress && openTime === restaurantInfo.openTime && 
-    closeTime === restaurantInfo.closeTime){
+    // THIS VALIDATOR CHECKS IF THE USER CHANGED ANY INFORMATION
+    if(restaurantName === restaurantInfo.restaurant_name && restaurantPhone === restaurantInfo.rest_phone_no 
+      && restaurantEmail === restaurantInfo.rest_email && restaurantAddress === restaurantInfo.rest_address_info 
+      && postalCode === restaurantInfo.rest_postal_code && tags === restaurantInfo.rest_tags){
+      // IF NO CHANGES DETECTED, PUSH BACK TO VIEW INFO STRAIGHT
       history.push('/generalmanager/restaurantinformation');
     }
     else{
-      cancelBtn1();
+      // IF CHANGES DETECTED, TRIGGER WARNING
+      unsavedChangesTrigger();
     }
   }
 
-  const cancelBtn1 = () => {
+  // ONCE TRIGGERED, WE OPEN THE WARNING DIALOG
+  const unsavedChangesTrigger = () => {
     setDialogState(true);
   };
 
-  const handleNo = () => {
+  // IF USER SELECTS NO, THEN WE FREEZE AT THIS PAGE
+  const handleWarningNo = () => {
     setDialogState(false);
   };
 
-  const handleYes = () => {
+  // IF USER SELECTES YES, THEN PUSH BACK TO VIEW INFO
+  const handleWarningYes = () => {
     history.push('/generalmanager/restaurantinformation');
   };
 
-  function submitChange() {
-    editRestInfo()
-      .then((response) => alert(response))
-      .catch(error => alert(error));
-    
-    history.push('/generalmanager/restaurantinformation');
-  }
+  // =========================================================================================================
+  // PREVIEW IMAGE ===========================================================================================
+  const [preview, setPreview] = useState('');
 
-  const Input = styled('input')({
-    display: 'none',
-  });
+  useEffect(() => {
+    if(imageFile){
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreview(reader.result);
+        console.log("1" + preview)
+      }
+      reader.readAsDataURL(imageFile);
+    }
+    else{
+      setPreview(restaurantInfo.banner_base64);
+    }
+  }, [imageFile])
+  // END OF PREVIEW IMAGE 
 
- 
-
-  return (
-  <div>
+  return <>
     <Card variant="outlined" sx={{margin:'auto', padding:'5px', borderRadius:'10px'}}>
       <CardHeader title="Edit Restaurant Information" />
       <CardContent >
         <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
           <Grid item xs={12} sx={{textAlign:'center', marginTop:'3%;'}}>
             <Box>
-              <img src={bannerpic} width="55%"/>
+              <img src={preview} width="60%"/>
             </Box>
             <Box> 
             <label htmlFor="imageBanner">
-              <Input 
+              <input 
+                hidden
                 type="file"
                 id="imageBanner"
                 accept=".png"
@@ -236,6 +294,7 @@ export default function EditProfile({restaurantInfo}) {
               inputProps={{ maxLength: 6 }}
               onChange={(e)=>setPostalCode(e.target.value.replace(/[^0-9]/g, ''))}
             />
+
             <FormControl sx={{ m:"1px", width: '100%' }}>
               <InputLabel color='primary' id="restaurant-tags">Tags</InputLabel>
 
@@ -256,12 +315,7 @@ export default function EditProfile({restaurantInfo}) {
                 MenuProps={MenuProps}
               >
                 {allRestaurantTags.map((name) => (
-                  <MenuItem
-                    key={name}
-                    value={name}
-                  >
-                    {name}
-                  </MenuItem>
+                  <MenuItem key={name} value={name}>{name}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -271,7 +325,7 @@ export default function EditProfile({restaurantInfo}) {
             <Button variant="contained" onClick={submitChange} color="inherit" sx={{width:'45%', bgcolor:"#969696", textAlign:'flex-start', marginRight:'5%'}}>Confirm</Button>
             <Button variant="contained" onClick={cancelBtn} color="inherit" sx={{width:'45%', bgcolor:"#CCCCCC", textAlign:'flex-start'}}>Cancel</Button>
 
-            <Dialog open={dialogState} onClose={handleNo} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+            <Dialog open={dialogState} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
             <DialogTitle id="alert-dialog-title">
               {"Unsaved Changes"}
             </DialogTitle>
@@ -281,8 +335,8 @@ export default function EditProfile({restaurantInfo}) {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleYes} autoFocus>Yes</Button>
-              <Button onClick={handleNo}>No</Button>
+              <Button onClick={handleWarningYes} autoFocus>Yes</Button>
+              <Button onClick={handleWarningNo}>No</Button>
             </DialogActions>
             </Dialog>
 
@@ -290,6 +344,5 @@ export default function EditProfile({restaurantInfo}) {
         </Grid>
       </CardContent>
     </Card>
-  </div>
-  )
+  </>
 }
