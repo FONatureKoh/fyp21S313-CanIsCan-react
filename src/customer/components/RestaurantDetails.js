@@ -50,13 +50,8 @@ export default function RetaurantDetails() {
   // Async function to retrieve single restaurant info
   async function getRestInfo() {
     try {
-      var response = await retrieveSingleRestaurant(restID);
+      const response = await retrieveSingleRestaurant(restID);
 
-      // Since response is the json object, we can use it to produce the blob
-      // image url here, and then add to the json
-      const imageURL = await getBannerImage(response.rest_banner_ID);
-
-      response["rest_bannerURL"] = imageURL;
       return response;
     }
     catch (error) {
@@ -200,7 +195,7 @@ export default function RetaurantDetails() {
       <Card variant="outlined" sx={{ borderRadius:'10px'}}>
         <CardMedia sx={{height:'300px' }}
           component="img"
-          image={restaurantInfo.rest_bannerURL}
+          image={restaurantInfo.rest_banner}
         />
 
         <CardContent >
