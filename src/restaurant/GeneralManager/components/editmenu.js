@@ -105,20 +105,30 @@ export default function Editmenu() {
   // BUTTON FUNCTION FOR WHEN ADDMENU IS TRIGGERED
   function addMenu(){
     // Add new Category
-    addNewCategory()
-      .then((response) => {
-        // Trigger the categories reload
-        getCategories()
-          .then((response) => {
-            setCategories(response);
-            
-            // Set dialog to close
-            setOpenAdd(false);
-            setValue('0');
-          })
-          .catch(error => console.log(error));
-      })
-      .catch(error => console.log(error));
+    if (newMenu === '') {
+      alert("Category name cannot be blank");
+    }
+    else {
+      addNewCategory()
+        .then((response) => {
+          if (response.api_msg === 'success') {
+            // Trigger the categories reload
+            getCategories()
+              .then((response) => {
+                setCategories(response);
+                
+                // Set dialog to close
+                setOpenAdd(false);
+                setValue('0');
+              })
+              .catch(error => console.log(error));
+          }
+          else {
+            alert("Something went wrong! Please try again");
+          }
+        })
+        .catch(error => console.log(error));
+    }
   }
 
   /********************************************************************************************************************
@@ -146,6 +156,10 @@ export default function Editmenu() {
 
   // Handles when we edit the menu's name
   function editMenu() {
+    if (editedName === '') {
+      alert("Category name cannot be blank");
+    }
+    else {
     updateCategoryName(selectedCatID, editedName)
       .then((response) => {
         if (response.api_msg === "success") {
@@ -159,6 +173,7 @@ export default function Editmenu() {
             });
         }
       });
+    }
   }
 
   /********************************************************************************************************************
@@ -177,7 +192,6 @@ export default function Editmenu() {
   // HANDLES DELETE MENU DIALOG 
   const handleDeleteClose = () => {
     setOpenDelete(false);
-    setEditedName('');
   };
 
   const handleDeleteOpen = (catID) => {
@@ -244,7 +258,7 @@ export default function Editmenu() {
                     return <Tab label={category.ric_name} value={index.toString()}/>
                   })
                 }
-              <Tab icon={<AddIcon value="add" fontSize="small"/>}label="ADD MENU" onClick={handleAddOpen}/>
+              <Tab icon={<AddIcon value="add" fontSize="small"/>}label="ADD CATEGORY" onClick={handleAddOpen}/>
               </TabList>
             </Box>
 
@@ -259,7 +273,7 @@ export default function Editmenu() {
                     <Grid container direction="row" alignItems="baseline" spacing={3}>
                       <Grid item xs md={5}>
                         <Typography sx={{textAlign: 'left', display:'inline-block'}}>
-                          <FiberManualRecordIcon color="success" sx={{ fontSize: 10, alignSelf:'flex-start'}} /> Menu Items Currently Active
+                          <FiberManualRecordIcon color="success" sx={{ fontSize: 10, alignSelf:'flex-start'}} /> Items Currently Active
                         </Typography>
                       </Grid>
                       <Grid item xs md={3}>
@@ -305,7 +319,7 @@ export default function Editmenu() {
                 id="filled-basic" 
                 label="Menu Name:" 
                 variant="filled" 
-                size="small"
+                size="small" 
                 onChange={(e)=> setNewMenu(e.target.value)}
               />
               </DialogContentText>
