@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dialog, 
 DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useHistory } from 'react-router-dom'
-import { editPersonalProfile, getImage } from '../profile_controller';
+import { editPersonalProfile } from '../profile_controller';
 import { useRouteMatch } from 'react-router';
 import { styled } from '@mui/styles';
 import { retrieveUserProfile } from '../../restaurant/restaurant_controller';
@@ -39,21 +39,8 @@ export default function EditProfile({userProfile, setUserProfile}) {
     }
   }
 
-  // Retrieve profile image
-  async function getProfileImage(imageID) {
-    try {
-      console.log(imageID);
-      const response = await getImage(imageID);
-
-      return response;
-    }
-    catch (error) {
-      return error;
-    }
-  }
-
   // Image Preivew Stuff  
-  const [preview, setPreview] = useState();
+  const [preview, setPreview] = useState(userProfile.profile_image_base64);
 
   // Imagefile preview render
   useEffect(() => {
@@ -65,9 +52,6 @@ export default function EditProfile({userProfile, setUserProfile}) {
         // console.log("1" +preview)
       }
       reader.readAsDataURL(imageFile);
-    }
-    else{
-      setPreview(userProfile.profile_image_base64);
     }
   }, [imageFile, preview])
 

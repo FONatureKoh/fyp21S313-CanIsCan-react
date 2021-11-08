@@ -66,7 +66,7 @@ export default function AddItem() {
     else {
       setPreview(defaultItem);
     }
-  }, [imageFile])
+  }, [imageFile, preview])
 
   // Function to generate a form to send to the backend server
   function addItem() {

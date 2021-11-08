@@ -11,7 +11,7 @@ import StaticDatePicker from '@mui/lab/StaticDatePicker';
 import { useRouteMatch } from 'react-router'
 import { Link } from 'react-router-dom'
 import Checkbox from '@mui/material/Checkbox';
-import { retrieveAllRestaurantItems, retrieveSingleRestaurant, getBannerImage, 
+import { retrieveAllRestaurantItems, retrieveSingleRestaurant, 
   getAvailableSlots, getRestReviews, getAvailableRestCategories } from '../customer_controller'
 
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
@@ -101,7 +101,7 @@ export default function RetaurantDetails() {
         console.log(restaurantInfo);
       });
     // ===========================================================================
-  }, []);
+  }, [getItems, getAvailableRestCategories, getRestInfo]);
 
   //MODAL CONTROLS - DIRECTIONS / INFO
   const [openInfo, setOpenInfo] = useState(false);

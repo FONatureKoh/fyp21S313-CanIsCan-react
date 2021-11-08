@@ -43,7 +43,7 @@ export default function Customer() {
           history.push("/unauthorised");
         }
       })
-  }, []);
+  }, [history]);
   // END OF CHECKING
 
   // Other useStates

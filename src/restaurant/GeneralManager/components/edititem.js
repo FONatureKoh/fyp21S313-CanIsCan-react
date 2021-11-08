@@ -34,7 +34,6 @@ export default function EditItem({menuData, setMenuData}) {
   const [itemDesc, setItemDesc] = useState(itemSelected.item_desc);
   const [itemAllergy, setItemAllergy] = useState(itemSelected.item_allergen_warning);
   const [itemCategory, setItemCategory] = useState(itemSelected.ri_cat_ID);
-  const [imageID, setImageID] = useState(itemSelected.item_png_ID);
 
   // Pre drawn values from Database -- Thomas
   const [itemCategoriesList, setItemCategoriesList] = useState([]);

@@ -13,6 +13,8 @@ import { getUserType } from '../store/general_controller';
 
 export default function Admin() {
   // CHECKING OF USER TYPE 
+  const history = useHistory();
+
   useEffect(() => {
     // ASYNC FUNCTION TO RETRIEVE THE USER TYPE THROUGH THE TOKEN
     async function retrieverUserType() {
@@ -36,10 +38,7 @@ export default function Admin() {
           history.push("/unauthorised");
         }
       })
-  }, []);
-
-  const history = useHistory();
-  
+  }, [history]);
   // END OF CHECKING
 
   // SYSTEM CONTROLS

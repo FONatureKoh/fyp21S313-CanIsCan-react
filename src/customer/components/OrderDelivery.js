@@ -183,7 +183,7 @@ export default function OrderDelivery() {
 
     // Console log to see if the info has been set properly
     console.log(restaurantInfo);  
-  }, []);
+  }, [getItems, getRestInfo]);
 
   
   //HANDLE ITEM INFO

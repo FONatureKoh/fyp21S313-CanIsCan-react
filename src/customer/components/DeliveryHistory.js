@@ -3,7 +3,7 @@ import { Card, CardHeader, CardContent, Box, Typography, Stepper, Step, StepLabe
   Button, Modal, Rating, TextField } from '@mui/material'
 import { Link } from 'react-router-dom';
 import ItemDetailsAcc from './ItemDetailsAcc';
-import { getAllOrderItems, getAllOrders, submitRestaurantReview, updateOrderStatus } from '../customer_controller';
+import { getAllOrders, submitRestaurantReview, updateOrderStatus } from '../customer_controller';
 
 const themes = {
   textHeader: {
