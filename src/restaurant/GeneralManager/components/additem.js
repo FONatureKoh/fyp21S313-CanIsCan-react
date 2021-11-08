@@ -138,7 +138,7 @@ export default function AddItem() {
             startAdornment: <InputAdornment position="start">$</InputAdornment>,
           }}
           variant="filled"
-          onChange={(e)=> setItemPrice(e.target.value.replace(/[^0-9]/g, ''))}
+          onChange={(e)=> setItemPrice(e.target.value)}
         />
 
         <TextField
