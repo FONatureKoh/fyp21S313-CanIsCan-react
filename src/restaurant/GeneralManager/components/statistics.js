@@ -33,7 +33,7 @@ export default function ViewInfo() {
           ['Sat', 0],
           ['Sun', 0]
         ]
-
+        
         for (let stat of response) {
           // First we create a date object
           console.log(stat);
@@ -54,28 +54,6 @@ export default function ViewInfo() {
         setChartData(tempChartData);
       })
   }
-
-  // const chartData = [
-  //   ['Day', 'Deliveries'],
-  //   ['Mon', 300],
-  //   ['Tues', 150],
-  //   ['Wed', 70],
-  //   ['Thurs', 340],
-  //   ['Fri', 500],
-  //   ['Sat', 420],
-  //   ['Sun', 132]
-  //   ]
-
-  // const chartData2 = [
-  //   ['Day', 'Reservations'],
-  //   ['Mon', 10],
-  //   ['Tues', 5],
-  //   ['Wed', 7],
-  //   ['Thurs', 4],
-  //   ['Fri', 9],
-  //   ['Sat', 13],
-  //   ['Sun', 15]
-  //   ]
 
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>

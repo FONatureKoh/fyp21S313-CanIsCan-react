@@ -6,24 +6,15 @@ import { Card, CardHeader, CardContent, Grid, Box, Button, TextField, Typography
 import { DatePicker } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import { getOrderStats, getReservationStats } from '../rgm_controller';
+import { getReservationStats } from '../rgm_controller';
 
 export default function StatisticsReservations() {
-  // const chartData = [
-  //   ['Day', 'Deliveries'],
-  //   ['Mon', 300],
-  //   ['Tues', 150],
-  //   ['Wed', 70],
-  //   ['Thurs', 340],
-  //   ['Fri', 500],
-  //   ['Sat', 420],
-  //   ['Sun', 132]
-  //   ]
-
   // SOME USESTATES TO GET THE DATE
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [chartData, setChartData] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [popTimeslot, setPopTimeslot] = useState(["No Data yet"]); // Pop as in Popular
 
   // SOME USEFUL CONSTANTS
   const dayArray = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
@@ -46,7 +37,9 @@ export default function StatisticsReservations() {
           ['Sun', 0]
         ]
 
-        for (let stat of response) {
+        var totalReservations = 0;                 
+
+        for (let stat of response.dataArray) {
           // First we create a date object
           console.log(stat);
           const newDate = new Date(stat.dateValue);
@@ -55,28 +48,21 @@ export default function StatisticsReservations() {
           // With that, we can get a day from this
           const selectedDay = dayArray[newDate.getDay()];
 
+
           for (let data of tempChartData) {
             if (data[0] === selectedDay) {
-              data[1] += stat.count
+              data[1] += stat.count;
+              totalReservations += stat.count;
               console.log(data);
             }
           }
         }
         
+        setTotal(totalReservations);
         setChartData(tempChartData);
+        setPopTimeslot(response.timeslotArray);
       })
   }
-
-  // const chartData2 = [
-  //   ['Day', 'Reservations'],
-  //   ['Mon', 10],
-  //   ['Tues', 5],
-  //   ['Wed', 7],
-  //   ['Thurs', 4],
-  //   ['Fri', 9],
-  //   ['Sat', 13],
-  //   ['Sun', 15]
-  //   ]
 
   return <>
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', mt:'20px'}}>
@@ -134,9 +120,9 @@ export default function StatisticsReservations() {
             <Card sx={{bgcolor:"#eeeeee", height:'45%', borderRadius:'15px'}}>
               <CardContent>
                 <Typography variant="h5">Total reservations</Typography>
-                <Typography variant="subtitle2">from .... to ...</Typography>
+                <Typography variant="subtitle2">from {startDate.toLocaleDateString("en-GB")} to {endDate.toLocaleDateString("en-GB")}</Typography>
                 <Box sx={{margin:'5px auto', textAlign:'center'}}>
-                  <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}} variant="h5">$ placeholder</Typography>
+                  <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}} variant="h5">{total === 0 ? "No data yet" : `${total} reservation(s)`}</Typography>
                 </Box>
               </CardContent>
             </Card>
@@ -147,7 +133,7 @@ export default function StatisticsReservations() {
                 <Typography variant="h5">Most popular timeslot</Typography>
                 <Typography variant="subtitle2">Reservations</Typography>
                 <Box sx={{margin:'5px auto', textAlign:'center'}}>
-                  <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}} variant="h5">Chicken boi</Typography>
+                  <Typography sx={{fontSize:'1 0px', fontWeight:'bold'}} variant="h5">{popTimeslot.toString()}</Typography>
                 </Box>
               </CardContent>
             </Card>
