@@ -15,13 +15,12 @@ export default function ManageUser() {
   const [openDialog, setOpenDialog] = useState(false);
 
   // Creating allSubUsers to store original array
-  // I changed the userData to store this one cos the subUserArray
-  // I transformed it to show here in this page only
   const [subUsers, setSubUsers] = useState([]);
 
-  // // Async functions used for this page
+  // Async functions used for this page
   async function getSubUsers() {
     try {
+      // CONTROLLER TO GET ALL THE SUB USERS!
       const response = await allSubUsers();
       
       setSubUsers(response); 
@@ -39,6 +38,7 @@ export default function ManageUser() {
   };
 
   const handleConfirmDialog = () => {
+    // CONTROLLER METHOD HERE, TAKES IN THE USERID AND USERNAME SELECTED FOR DOUBLE VERIFICATION
     deleteSubuser(userIDSelected, usernameSelected)
       .then((response) => {
         if (response.api_msg === "success") {
@@ -57,13 +57,13 @@ export default function ManageUser() {
 
   // Deployed the useEffect to get the restaurant subuser stuff
   useEffect(() => {
-    // console.log("UseEffect Triggered");
+    // METHOD TO TRIGGER THE CONTROLLER
     getSubUsers()
       .then((response) => {
         // Set the data into subUsers useState
         setSubUsers(response); 
       })
-  },[openDialog]);
+  }, [openDialog]);
 
   const columns = [
     { field: 'id', headerName: 'User ID', width: 100 },
@@ -139,7 +139,7 @@ export default function ManageUser() {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {"Confirm item deletion?"}
+            {"Confirm staff profile deletion?"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText>

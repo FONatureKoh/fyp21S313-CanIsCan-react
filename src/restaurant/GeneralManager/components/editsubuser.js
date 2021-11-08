@@ -62,8 +62,6 @@ export default function EditSubUser({userData, setSubUsers}) {
       });
   }
 
-
-
   return <>
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
       <CardHeader title="Edit Sub-user" />
