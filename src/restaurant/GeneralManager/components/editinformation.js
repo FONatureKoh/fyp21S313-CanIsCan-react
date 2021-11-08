@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react'
 import { TextField, Grid, Button, Typography, CardContent, CardHeader, Card, Dialog, DialogActions, 
 DialogContent, DialogContentText, DialogTitle, Stack, Box, OutlinedInput, InputLabel, MenuItem, FormControl, Select, Chip } from '@mui/material'
 import { useHistory } from 'react-router-dom'
-import { styled } from '@mui/material/styles';
 import { Block } from '@mui/icons-material';
 import { restaurantProfile, retrieveRestaurantTags } from '../../restaurant_controller'
 
@@ -111,7 +110,7 @@ export default function EditProfile({restaurantInfo, setRestInfo, setRestTags}) 
       alert("Restaurant Name cannot be blank!");
       validationError++;
     }
-    
+
     if (restaurantAddress === '' || postalCode === '') {
       alert("Restaurant Address cannot be blank!");
       validationError++;

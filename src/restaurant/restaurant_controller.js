@@ -156,35 +156,6 @@ export async function editRestaurantInfo(bannerImage, originalImageID, rest_name
 }
 
 /*****************************************************************************************
- * RGM retrieving of restaurant's banner image                                           *
- * ***************************************************************************************
- * - This takes all the info from the RGM and creates the subuser based on the given data
- * ***************************************************************************************/
-export async function retrieveBannerImage(bannerImageID) {
-  // Axios request config to be declared first
-  const axiosConfig = {
-    headers: {'Authorisation': window.sessionStorage.accessToken},
-    responseType: 'arraybuffer'
-  };
-
-  try {
-    const response = await axios.get(`${config.apiDomain}/restaurant/restaurantBanner/${bannerImageID}`, axiosConfig);
-
-    let blob = new Blob(
-      [response.data], 
-      { type: response.headers['content-type'] }
-    )
-    
-    let image = URL.createObjectURL(blob);
-
-    return image;  
-  }
-  catch (error) {
-    return error;
-  }
-}
-
-/*****************************************************************************************
  * Retrieve all available restaurant tags                                                *
  * ***************************************************************************************
  * - This takes all the info from the RGM and creates the subuser based on the given data

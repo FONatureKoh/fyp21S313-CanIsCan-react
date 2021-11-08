@@ -3,7 +3,7 @@ import { Grid, Button, Typography, Switch, Divider, CardContent, CardHeader, Car
 import { Route, Link, Switch as Switch2 } from 'react-router-dom'
 import EditInformation from './editinformation'
 // import ShopFrontDefault from '../../../assets/default-shopfront.png'
-import { restaurantProfile, retrieveBannerImage } from '../../restaurant_controller'
+import { restaurantProfile } from '../../restaurant_controller'
 
 
 export default function ViewInfo({isChecked, toggleChecked}) {
@@ -17,17 +17,6 @@ export default function ViewInfo({isChecked, toggleChecked}) {
       // CONTROLLER TO GET ALL THE NECESSARY INFORMATION
       const restProfile = await restaurantProfile();
       return restProfile;
-    }
-    catch (error) {
-      return error;
-    }
-  }
-
-  // Async function to get image
-  async function getImage(imageID) {
-    try {
-      const image = await retrieveBannerImage(imageID);
-      return image;
     }
     catch (error) {
       return error;
