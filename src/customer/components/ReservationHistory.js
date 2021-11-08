@@ -4,7 +4,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 import { Divider } from '@mui/material';
-import { getPastReservations, getUpcomingReservations, retrieveSingleRestaurant } from '../customer_controller';
+import { getPastReservations, getUpcomingReservations, retrieveSingleRestaurant, cancelReservation } from '../customer_controller';
 import ItemDetailsAcc from './ItemDetailsAcc';
 
 // MAPS API
@@ -83,11 +83,17 @@ export default function ReservationHistory() {
   const handleReservationOpen = (crID) => {
     setOpenCancel(true);
     setSelectedResID(crID);
-
   };
 
   // Handles when we DELETE the menu's name
-  function cancelReservation() {
+  function handleCancelReservation() {
+    // CANCEL RESERVATIONS CONTROLLER
+    cancelReservation(selectedResID)
+      .then(response => {
+        console.log(response);
+      })
+      
+
 
   }
   //=======================================================================
@@ -452,7 +458,7 @@ export default function ReservationHistory() {
             </Typography>
           </DialogContent>
           <DialogActions>
-          <Button onClick={cancelReservation} variant="outlined" color="inherit">Confirm</Button>
+          <Button onClick={handleCancelReservation} variant="outlined" color="inherit">Confirm</Button>
           <Button onClick={handleCancelClose} variant="outlined" color="error">Cancel</Button>
           </DialogActions>
         </Dialog>

@@ -495,6 +495,30 @@ export async function submitCustReservation(reservationID, restInfo, pax, date, 
 }
 
 /*****************************************************************************************
+ * Submits customer Resrvations                                                          *
+******************************************************************************************/
+export async function cancelReservation(reservationID) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {
+      'Authorisation': window.sessionStorage.accessToken
+    },
+    data: {
+      reservationID
+    }
+  };
+
+  try {
+    const response = await axios.delete(`${config.apiDomain}/customer/customerReservation`, axiosConfig);
+    
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
+
+/*****************************************************************************************
  * Verify the customer's delivery address                                                *
  *****************************************************************************************
  * Gets the slots available based on the date and the restaurantID 
