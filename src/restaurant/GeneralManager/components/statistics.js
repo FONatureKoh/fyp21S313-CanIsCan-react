@@ -13,10 +13,10 @@ export default function ViewInfo() {
   // SOME USESTATES TO GET THE DATE
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [chartData, setChartData] = useState([]);
   const [total, setTotal] = useState(0);
-  const [popItemName, setPopItemName] = useState("No data yet")
-
+  const [popItemName, setPopItemName] = useState("No data yet");
+  const [chartData, setChartData] = useState([['Day', 'Deliveries'],['Mon', 0],['Tues', 0],['Wed', 0],['Thurs', 0],['Fri', 0],['Sat', 0],['Sun', 0]]);
+  
   // SOME USEFUL CONSTANTS
   const dayArray = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 

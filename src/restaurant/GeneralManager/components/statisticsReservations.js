@@ -12,9 +12,9 @@ export default function StatisticsReservations() {
   // SOME USESTATES TO GET THE DATE
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [chartData, setChartData] = useState([]);
   const [total, setTotal] = useState(0);
-  const [popTimeslot, setPopTimeslot] = useState(["No Data yet"]); // Pop as in Popular
+  const [popTimeslot, setPopTimeslot] = useState(["No data yet"]); // Pop as in Popular
+  const [chartData, setChartData] = useState([['Day', 'Reservations'],['Mon', 0],['Tues', 0],['Wed', 0],['Thurs', 0],['Fri', 0],['Sat', 0],['Sun', 0]]);
 
   // SOME USEFUL CONSTANTS
   const dayArray = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
