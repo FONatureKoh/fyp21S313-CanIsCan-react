@@ -84,7 +84,7 @@ export default function Editmenu() {
     try {
       // CONTROLLER FOR ADDING A NEW CATEGORY
       const response = await addCategory(newMenu);
-      return response.api_msg;
+      return response;
     }
     catch (error) {
       return error;
@@ -111,6 +111,7 @@ export default function Editmenu() {
     else {
       addNewCategory()
         .then((response) => {
+          // console.log(response);
           if (response.api_msg === 'success') {
             // Trigger the categories reload
             getCategories()
