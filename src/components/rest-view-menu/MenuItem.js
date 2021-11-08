@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Button, Typography, Box, Grid, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { Link, useHistory } from 'react-router-dom';
-import { getImage } from './items_controller';
 import { deleteRestaurantItem } from '../../restaurant/restaurant_controller';
 
 const themes = {
-  textHeader: {
-    fontSize:'1 0px', 
+  textHeader: { 
     fontWeight:'bold', 
     mt: '5px'
   }
@@ -18,7 +16,6 @@ export default function MenuItem({item}) {
 
   // Some useStates
   const [openDialog, setOpenDialog] = useState(false);
-  const [itemImage, setItemImage] = useState('');
 
   // Async Functions so that we can use await
   async function deleteItem() {
@@ -31,22 +28,6 @@ export default function MenuItem({item}) {
     }
   }
 
-  // NOTE: I used a useEffect here, as I'm not sure how else to set the item path
-  // as the item opens up. The idea here is that it will take in the item's png id
-  // and generate the image to fetch through the controller and then after that generates
-  // a local image link to put into img src
-  // useEffect(() => {
-  //   async function getItemImage() {
-  //     const imageData = await getImage(item.item_png_ID);
-  //     setItemImage(imageData);
-  //     console.log(itemImage);
-  //   }
-  //   getItemImage();
-  // },[])
-
-  // Thomas: I changed this up a bit to handle the delete. Let me know if 
-  // its the right style! And also if I intepret it correctly
-  
   // handleOpenDialog for opening the dialog
   const handleOpenDialog = () => {
     setOpenDialog(true);

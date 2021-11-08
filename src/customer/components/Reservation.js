@@ -28,6 +28,7 @@ import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 const steps = ['Select timeslot', 'Pre-order food', 'Review your reservation'];
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
 const drawerWidth = 480;
+
 export default function Reservation() {
   // Added MATCH - Thomas
   const match = useRouteMatch('/customer/makereservation/:id');
@@ -247,14 +248,14 @@ export default function Reservation() {
 
   //USE EFFECT TO SET THE CART DETAILS
   //WILL RUN WHEN STATE IS RERENDERED
-  useEffect(() => {
-    const subtotal2 = realCart.reduce((total, realCart) => total + (realCart.itemPrice * realCart.itemQty), 0)
-    setSubtotal(subtotal2)
-    setDeliveryFee(3.50)
-    const gst = (subtotal2 + deliveryFee) * 0.07
-    setGst(gst)
-    setTotal(gst + deliveryFee + subtotal)
-  })
+  // useEffect(() => {
+  //   const subtotal2 = realCart.reduce((total, realCart) => total + (realCart.itemPrice * realCart.itemQty), 0)
+  //   setSubtotal(subtotal2)
+  //   setDeliveryFee(3.50)
+  //   const gst = (subtotal2 + deliveryFee) * 0.07
+  //   setGst(gst)
+  //   setTotal(gst + deliveryFee + subtotal)
+  // })
 
   //CART
   const [realCart, setRealCart]= useState([]);
@@ -265,10 +266,10 @@ export default function Reservation() {
     const crID = `CR_${restID.padStart(4, '0')}_${Date.now()}`;
 
     // 2. Then we get some important variables
-    const restEmail = restaurantInfo.rest_email;
-    const restName = restaurantInfo.restaurant_name;
-    const restAdd = restaurantInfo.rest_address_info;
-    const restPostal = restaurantInfo.rest_postal_code;
+    // const restEmail = restaurantInfo.rest_email;
+    // const restName = restaurantInfo.restaurant_name;
+    // const restAdd = restaurantInfo.rest_address_info;
+    // const restPostal = restaurantInfo.rest_postal_code;
 
     // 3. We now try to make the reservation to the system
     try {

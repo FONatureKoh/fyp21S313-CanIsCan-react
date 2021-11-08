@@ -7,15 +7,6 @@ import { Divider } from '@mui/material';
 import { getPastReservations, getUpcomingReservations } from '../customer_controller';
 import ItemDetailsAcc from './ItemDetailsAcc';
 
-const themes = {
-  textHeader: {
-    fontSize:'1 0px', 
-    fontWeight:'bold', 
-    mt: '20px',
-    mb: '10px'
-  }
-};
-
 // MAPS API
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
 
@@ -23,7 +14,6 @@ const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
 export default function ReservationHistory() {
   // USETATES FOR BUTTON TAB CONTROL
   const [buttonTab, setButtonTab] = useState(1);
-  const [accOpen, setAccOpen] = useState(false);
   
   //MODAL CONTROLS - DIRECTIONS / INFO
   const [openInfo, setOpenInfo] = useState(false);
@@ -57,39 +47,8 @@ export default function ReservationHistory() {
     getAllReservations();
   }, []);
 
-  // NOTE: Please note that the retrieved data will ALWAYS be an array. So if need be it will return
-  // an empty array if cannot find anything in the database. The retrieved Schema as follows, and also note
-  // that the preOrderItems will be an Array as well, but if no items, it will be "None". Please see console.log
-  // for all the reservations from the database
-  // {
-  //   "cr_resID": 1,
-  //   "cr_restName": "Kelvin's Cat Cafe",
-  //   "crID": "CR_0001_1635925368918",
-  //   "pax": 1,
-  //   "date": "Sun, 07 Nov 2021",
-  //   "timeslot": "5:00 PM",
-  //   "status": "Pending",
-  //   "preOrderItems": [
-  //     {
-  //       "itemID": 2,
-  //       "itemName": "Fries",
-  //       "itemPrice": 3,
-  //       "itemQty": 1,
-  //       "itemSO": "NIL",
-  //       "item_restItemID": 11
-  //     },
-  //     {
-  //       "itemID": 3,
-  //       "itemName": "Cheese Dip",
-  //       "itemPrice": 2,
-  //       "itemQty": 1,
-  //       "itemSO": "NIL",
-  //       "item_restItemID": 21
-  //     }
-  //   ]
-  // }
-  console.log("past", pastReservations);
-  console.log("up", upcomingReservations);
+  // console.log("past", pastReservations);
+  // console.log("up", upcomingReservations);
 
   //GET STATIC MAP
   function getMap(postal){

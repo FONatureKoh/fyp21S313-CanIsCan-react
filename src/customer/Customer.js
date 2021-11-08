@@ -18,6 +18,8 @@ import { getUserType } from '../store/general_controller';
 
 export default function Customer() {
   // CHECKING OF USER TYPE 
+  const history = useHistory();
+  
   useEffect(() => {
     // ASYNC FUNCTION TO RETRIEVE THE USER TYPE THROUGH THE TOKEN
     async function retrieverUserType() {
@@ -42,8 +44,6 @@ export default function Customer() {
         }
       })
   }, []);
-
-  const history = useHistory();
   // END OF CHECKING
 
   // Other useStates

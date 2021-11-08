@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Card, CardHeader, CardContent, Box, CardActionArea } from '@mui/material'
 import { CardMedia, Button, Typography } from '@mui/material'
-import TestImage from '../../assets/temp/eg-biz1.png'
 import { Rating } from '@mui/material'
 import { Grid } from '@mui/material'
 import Chip from '@mui/material/Chip';

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, CardHeader, CardContent, Box, Typography, Stepper, Step, StepLabel, Divider, Accordion, AccordionSummary, AccordionDetails, Grid, ListItem, 
+import { Card, CardHeader, CardContent, Box, Typography, Stepper, Step, StepLabel, Divider, Grid, 
   Button, Modal, Rating, TextField } from '@mui/material'
 import { Link } from 'react-router-dom';
 import ItemDetailsAcc from './ItemDetailsAcc';
@@ -32,18 +32,8 @@ export default function DeliveryHistory() {
   // Async functions for order retrieval
   async function getOrders() {
     try {
+      // CONTROLLER HERE TO RETRIEVE ORDERS
       const response = await getAllOrders();
-      return response;
-    }
-    catch (error) {
-      return error;
-    }
-  }
-
-  // Async function for item retrieval
-  async function getSelectedOrderItems(orderID) {
-    try {
-      const response = await getAllOrderItems(orderID);
       return response;
     }
     catch (error) {
@@ -139,80 +129,79 @@ export default function DeliveryHistory() {
             </Box>
             </>) : (<>
               {orderHistory.map((order)=>{
-            if (order.status !== "Fulfilled")
-            {
-            return <>
-              {/* ACTIVE ORDER DETAILS */}
-              <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto 20px'}}>
-                <CardHeader title="Active Order" sx={{textAlign:"center"}}/>
-                <CardContent >
-                  <Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}> 
-                    <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                      Your order from
-                    </Typography>
-                    <Typography variant="subtitle1" >
-                      {order.restaurantName}
-                    </Typography>
-                    <Typography variant="subtitle2" sx={themes.textHeader}>
-                      Order Status
-                    </Typography>
-                    <Stepper activeStep={order.status === 'Preparing' ?  1 : order.status === 'Accepted' ? 0 : order.status === 'Delivering' ? 2 : -1} alternativeLabel sx={{mb:'40px', '&.MuiStepConnector-line':{bgcolor:"#444444"}}}>
-                      {steps.map((label) => (
-                        <Step key={label}>
-                          <StepLabel>{label}</StepLabel>
-                        </Step>
-                      ))}
-                    </Stepper>
-                    
-                    <Divider variant="middle" />
-                    <Typography variant="subtitle1" sx={themes.textHeader}>
-                      Order Details
-                    </Typography>
-                    
-                    {/* START OF CONTENT BELOW 'ORDER DETAILS' */}
-                    <Grid container>
-                        <Grid item xs={12} md={12} sm={12}>
-                          <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                            Order Number
-                          </Typography>
-                          <Typography variant="subtitle1" textAlign="left">
-                            {order.orderID}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={8} md={8} sm={8}>
-                          <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                            Address
-                          </Typography>
-                          <Typography variant="subtitle1" textAlign="left">
-                            {order.address}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={4} md={4} sm={4}>
-                          <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-                            Total Price
-                          </Typography>
-                          <Typography variant="subtitle1" textAlign="left">
-                            S$ {order.price.toFixed(2)}
-                          </Typography>
-                        </Grid>
-                    </Grid>
+            if (order.status !== "Fulfilled") {
+              return <>
+                {/* ACTIVE ORDER DETAILS */}
+                <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', width:'80%', margin:'0px auto 20px'}}>
+                  <CardHeader title="Active Order" sx={{textAlign:"center"}}/>
+                  <CardContent >
+                    <Box width="80%" sx={{margin:'0px auto', textAlign:"center"}}> 
+                      <Typography variant="subtitle1"  sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                        Your order from
+                      </Typography>
+                      <Typography variant="subtitle1" >
+                        {order.restaurantName}
+                      </Typography>
+                      <Typography variant="subtitle2" sx={themes.textHeader}>
+                        Order Status
+                      </Typography>
+                      <Stepper activeStep={order.status === 'Preparing' ?  1 : order.status === 'Accepted' ? 0 : order.status === 'Delivering' ? 2 : -1} alternativeLabel sx={{mb:'40px', '&.MuiStepConnector-line':{bgcolor:"#444444"}}}>
+                        {steps.map((label) => (
+                          <Step key={label}>
+                            <StepLabel>{label}</StepLabel>
+                          </Step>
+                        ))}
+                      </Stepper>
+                      
+                      <Divider variant="middle" />
+                      <Typography variant="subtitle1" sx={themes.textHeader}>
+                        Order Details
+                      </Typography>
+                      
+                      {/* START OF CONTENT BELOW 'ORDER DETAILS' */}
+                      <Grid container>
+                          <Grid item xs={12} md={12} sm={12}>
+                            <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                              Order Number
+                            </Typography>
+                            <Typography variant="subtitle1" textAlign="left">
+                              {order.orderID}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={8} md={8} sm={8}>
+                            <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                              Address
+                            </Typography>
+                            <Typography variant="subtitle1" textAlign="left">
+                              {order.address}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={4} md={4} sm={4}>
+                            <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
+                              Total Price
+                            </Typography>
+                            <Typography variant="subtitle1" textAlign="left">
+                              S$ {order.price.toFixed(2)}
+                            </Typography>
+                          </Grid>
+                      </Grid>
 
-                    <ItemDetailsAcc itemDetails={order.orderItems} accTitle="Order Items Details"/>
-                    {
-                      order.status === 'Delivering' ? (
-                      <>
-                        <Box m={1} pt={5}>
-                          <Button onClick={() => {
-                            setArrived(order.orderID);
-                          }} variant="outlined" id="1" color="inherit" fullWidth>Order has arrived! Press me! </Button>
-                        </Box>
-                      </>) : (<></>)}
-                    
-                  </Box>
-                </CardContent>
-              </Card>
-              {/* END OF ACTIVE ORDER */}
-            </>}
+                      <ItemDetailsAcc itemDetails={order.orderItems} accTitle="Order Items Details"/>
+                      {
+                        order.status === 'Delivering' ? (
+                        <>
+                          <Box m={1} pt={5}>
+                            <Button onClick={() => {
+                              setArrived(order.orderID);
+                            }} variant="outlined" id="1" color="inherit" fullWidth>Order has arrived! Press me! </Button>
+                          </Box>
+                        </>) : (<></>)}
+                      
+                    </Box>
+                  </CardContent>
+                </Card>
+                {/* END OF ACTIVE ORDER */}
+              </>}
           })}
             </>)}
           
@@ -299,7 +288,6 @@ export default function DeliveryHistory() {
             
             </>
           )
-          
         } 
 
         {/* REVIEW MODAL */}

@@ -3,17 +3,18 @@ import { Card, CardHeader, CardContent, Box, Typography, Button, Accordion, Acco
 import { approveRestaurant, retrievePending } from '../admin_controller';
 
 export default function ApproveRest() {
+  // THEME CONSTANTS
+  const themes = {
+    textHeader: {
+      fontWeight:'bold', 
+      mt: '5px'
+    }
+  };
+
   // async function to load in data 
   async function getRestDetails() {
     const retrievePendingDetails = await retrievePending();
     return retrievePendingDetails;
-  }
-
-  // async function to send the update
-  // NOTE: returns api_msg Successful!
-  async function approveFunction(restID) {
-    const approveStatus = await approveRestaurant(restID);
-    return approveStatus.api_msg;
   }
   
   //State for handling accordion open close
@@ -50,6 +51,8 @@ export default function ApproveRest() {
   function approveAccount(restaurant_ID) {
     handleBackdropOpen();
 
+    // CONTROLLER FUNCTION IS HERE! THIS TAKES IN A RESTAURANT_ID AND APPROVE
+    // THAT RESTAURANT
     approveRestaurant(restaurant_ID)
       .then((response) => {
         // console.log(response);
@@ -70,19 +73,10 @@ export default function ApproveRest() {
       .catch((err) => {
         console.log(err);
       })
-
   };
 
   const handleChange = (panel) => (event, isExpanded) => {
-      setExpanded(isExpanded ? panel : false);
-    };
-
-  const themes = {
-    textHeader: {
-      fontSize:'1 0px', 
-      fontWeight:'bold', 
-      mt: '5px'
-    }
+    setExpanded(isExpanded ? panel : false);
   };
 
   // NOTE: At the Accordion open bracket, I thought to set the panel name dynamically through

@@ -9,7 +9,7 @@ import { Modal } from '@mui/material'
 import { Route, Switch } from 'react-router';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useRouteMatch } from 'react-router'
-import { retrieveAllRestaurantItems, getItemImage, retrieveSingleRestaurant, getBannerImage, getRestReviews, getAvailableRestCategories } from '../customer_controller'
+import { retrieveAllRestaurantItems, retrieveSingleRestaurant, getBannerImage, getRestReviews, getAvailableRestCategories } from '../customer_controller'
 import Cart from './Cart'
 import CheckOut from './CheckOut';
 import { Link } from 'react-router-dom'
@@ -27,10 +27,6 @@ export default function OrderDelivery() {
   const [restReivews, setRestReviews] = useState([]);
   const [rating, setRating] = useState(0)
 
-  // Useful variables at the start
-  var itemMenusArray = [];
-  var itemsArray = [];
-  
   //SELECTED ITEM
   const [selItem, setSelItem] = useState([])
 
@@ -39,17 +35,6 @@ export default function OrderDelivery() {
     try {
       const response = await retrieveAllRestaurantItems(restID);
       return response;
-    }
-    catch (error) {
-      return error;
-    }
-  }
-  
-  // Simple function to filter out only distinct values
-  async function removeusingSet(arr) {
-    try {
-      let outputArray = Array.from(new Set(arr));
-      return outputArray;
     }
     catch (error) {
       return error;
@@ -157,8 +142,11 @@ export default function OrderDelivery() {
     return sub.toFixed(2);
   }
 
-  //USE EFFECT TO SET THE CART DETAILS
-  //WILL RUN WHEN STATE IS RERENDERED
+  // USE EFFECT TO SET THE CART DETAILS
+  // WILL RUN WHEN STATE IS RERENDERED
+  // CART
+  const [realCart, setRealCart]= useState([])
+
   useEffect(() => {
     const subtotal2 = realCart.reduce((total, realCart) => total + (realCart.itemPrice * realCart.itemQty), 0)
     setSubtotal(subtotal2)
@@ -166,10 +154,7 @@ export default function OrderDelivery() {
     const gst = (subtotal2 + deliveryFee) * 0.07
     setGst(gst)
     setTotal(gst + deliveryFee + subtotal)
-  })
-
-  //CART TESTING
-  const [realCart, setRealCart]= useState([])
+  }, [realCart, deliveryFee, subtotal])
 
   // Do we need useEffect for this? Not sure if I could just load the damn thing
   // into states. Had a lot of issues of the Array not filtering

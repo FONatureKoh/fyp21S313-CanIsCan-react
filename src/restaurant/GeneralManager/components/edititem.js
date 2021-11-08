@@ -53,7 +53,7 @@ export default function EditItem({menuData, setMenuData}) {
   },[])
 
   //PREVIEW IMAGE
-  const [preview, setPreview] = useState('');
+  const [preview, setPreview] = useState(itemSelected.item_png_base64);
 
   useEffect(() => {
     if(imageFile){
@@ -64,10 +64,7 @@ export default function EditItem({menuData, setMenuData}) {
       }
       reader.readAsDataURL(imageFile);
     }
-    else{
-      setPreview(itemSelected.item_png_base64);
-    }
-  }, [imageFile])
+  }, [imageFile, preview])
   //END OF PREVIEW IMAGE
 
   // NOTE: Two hidden data need for updating, but not needed for this page

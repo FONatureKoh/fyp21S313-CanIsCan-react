@@ -36,24 +36,6 @@ export default function Tags() {
       })
   }, []);
 
-  // The following controls the datagrid when we try to edit something
-  const [editRowsModel, setEditRowsModel] = useState({});
-  const [savedModel, setSavedModel] = useState();
-
-  const handleEditRowsModelChange = useCallback((model) => {
-    setEditRowsModel(model);
-    console.log(model);
-    
-    if (Object.keys(model).length === 0 && model.constructor === Object) {
-      console.log(savedModel);
-    }
-    else {
-      console.log("Saved Model");
-      console.log(model);
-      setSavedModel(model);
-    }
-  }, []);
-
   // STATES USED FOR ADDING TO THE DATABASE
   const [newTag, setNewTag] = useState('');
 
