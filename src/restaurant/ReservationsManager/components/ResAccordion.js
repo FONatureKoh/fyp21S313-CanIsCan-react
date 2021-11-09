@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Box, Typography, Divider, Accordion, AccordionSummary, AccordionDetails, Grid, ListItem, Button } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { updatePOStatus, updateReservationStatus } from '../rm_controller';
+import { getReservations, updatePOStatus, updateReservationStatus } from '../rm_controller';
 
-export default function ResAccordion({reservation}) {
+export default function ResAccordion({reservation, setReservations}) {
   // ACCORDION CONTROL
   const [accOpen, setAccOpen] = useState(false);
   const [innerAccOpen, setInnerAccOpen] = useState(false);
@@ -11,13 +11,19 @@ export default function ResAccordion({reservation}) {
   // Pre-order State
   const [preOrderStatus, setPreOrderStatus] = useState(reservation.po_status);
 
-  console.log(reservation)
+  // console.log(reservation)
   // Button functions
   const setAbsent = () => {
     // THIS IS THE CONTROLLER TO COMMUNICATE THE STATUS CHANGE TO THE BACKEND API SERVER
     updateReservationStatus(reservation.cust_RID, "No Show")
       .then((response) => {
         alert(response.api_msg);
+
+        // RELOADS DATA
+        getReservations(1)
+          .then((response) => {
+            setReservations(response);
+          });
       })
   }
 
@@ -26,6 +32,12 @@ export default function ResAccordion({reservation}) {
     updateReservationStatus(reservation.cust_RID, "Arrived")
       .then((response) => {
         alert(response.api_msg);
+        
+        // RELOADS DATA
+        getReservations(1)
+          .then((response) => {
+            setReservations(response);
+          });
       })
   }
 
@@ -38,6 +50,10 @@ export default function ResAccordion({reservation}) {
           setPreOrderStatus("Preparing");
         }
       })
+  }
+
+  const setReservationDone = () => {
+
   }
 
   return (
@@ -173,6 +189,9 @@ export default function ResAccordion({reservation}) {
                 <Button onClick={setSendToKitchen} variant="outlined" id="1" color="inherit" fullWidth>Send Order to Kitchen </Button>
               </Box>
             </>):(<></>)}
+            <Box m={1} pt={5}>
+              <Button onClick={setReservationDone} variant="outlined" id="1" color="inherit" fullWidth>Fulfilled </Button>
+            </Box>
           
         </>) : (<></>)}
 

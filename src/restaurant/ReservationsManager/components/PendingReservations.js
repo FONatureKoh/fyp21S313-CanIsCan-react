@@ -63,7 +63,7 @@ export default function PendingReservations() {
                   {
                     reservations.map((reservation) =>{
                       if (reservation.date === date)
-                        return <ResAccordion reservation={reservation}/>
+                        return <ResAccordion reservation={reservation} setReservations={setReservations}/>
                     })
                   }
                   </Box>

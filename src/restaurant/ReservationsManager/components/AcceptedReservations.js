@@ -35,7 +35,7 @@ export default function AcceptedReservations() {
         <Box > 
           {
             reservations.map(reservation=>{
-              return <ResAccordion reservation={reservation}/>
+              return <ResAccordion reservation={reservation} setReservations={setReservations}/>
             })
           }
         </Box>
