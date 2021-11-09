@@ -299,6 +299,26 @@ export async function getUpcomingReservations() {
     console.log(error);
   }
 }
+
+/*****************************************************************************************
+ * SEND REMINDER FOR RESERVATION
+******************************************************************************************/
+export async function sendEmailReminder(crID, mailToEmail) {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/customer/reservationreminder/${crID}/${mailToEmail}`, axiosConfig);
+    
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+}
+
 /*****************************************************************************************
  * Submits customer's review to the servers                                              *
 ******************************************************************************************/

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Card, CardHeader, CardContent, CardMedia, Grid, Modal, IconButton, Rating, Tooltip, TextField, Typography, Backdrop, CircularProgress } from '@mui/material'
+import { Box, Button, Card, CardHeader, CardContent, CardMedia, Grid, Modal, IconButton, Rating, Tooltip, TextField, Typography, Backdrop, CircularProgress, DialogContentText } from '@mui/material'
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 import { Divider } from '@mui/material';
-import { getPastReservations, getUpcomingReservations, retrieveSingleRestaurant, cancelReservation, submitRestaurantReview } from '../customer_controller';
+import { getPastReservations, getUpcomingReservations, retrieveSingleRestaurant, cancelReservation, submitRestaurantReview, sendEmailReminder } from '../customer_controller';
 import ItemDetailsAcc from './ItemDetailsAcc';
 
 // MAPS API
@@ -65,15 +65,13 @@ export default function ReservationHistory() {
   }
 
   /********************************************************************************************************************
-   * EVERYTHING TO HANDLE DELETING OF CATEGORY NAME
+   * EVERYTHING TO HANDLE CANCELLING OF A RESERVATION
    ********************************************************************************************************************
    * INCLUDES DIALOG HANDLERS AND STATES
    */
   // STATES FOR DELETE MENU
   const [openCancel, setOpenCancel] = useState(false);
   const [selectedResID, setSelectedResID] = useState('');
-
-  // console.log(editedName);
 
   // HANDLES DELETE MENU DIALOG 
   const handleCancelClose = () => {
@@ -142,6 +140,47 @@ export default function ReservationHistory() {
       });
   };
   // ======= END OF MODAL CONTROLS - REVIEWS ==============================
+  // HANDLE REMINDERS =====================================================================
+  const [openReminder, setOpenReminder] = useState(false);
+  const [reservationID, setReservationID] = useState("");
+  const [mailToEmail, setCustEmail] = useState("");
+
+  const handleOpenReminder = (crID, mailToEmail) => {
+    setOpenReminder(true);
+    setCustEmail(mailToEmail);
+    setReservationID(crID)
+  }
+
+  // console.log(editedName);
+
+  // HANDLES EDIT MENU DIALOG 
+  const handleCloseReminder = () => {
+    setOpenReminder(false);
+  };
+
+  // Handles when we edit the menu's name
+  function sendReminder() {
+    // VALIDATE THAT WE'RE NOT SENDING TO A BLANK EMAIL
+    if (mailToEmail === "") {
+      alert("Email cannot be blank! A valid Email Address!");
+    }
+    else {
+      handleCloseReminder();
+      handleBackdropOpen();
+
+      // CONTROLLER HERE TO SEND THE EMAIL
+      sendEmailReminder(reservationID, mailToEmail)
+        .then((response) => {
+          handleBackdropClose();
+          if (response.api_msg === "success") {
+            alert("Reminder sent to the stated email!");
+          }
+          else {
+            alert("Something went wrong");
+          }
+        });
+    }
+  }
 
   // Backdrop useStates ======================================================================
   const [backdropState, setBackDropState] = useState(false);
@@ -197,7 +236,7 @@ export default function ReservationHistory() {
                             </IconButton>
                           </Tooltip>
                           <Tooltip title="Send Calendar Invite">
-                            <IconButton aria-label="calendar">
+                            <IconButton aria-label="calendar" onClick={() => handleOpenReminder(item.crID, item.custEmail)}>
                               <InsertInvitationIcon />
                             </IconButton>
                           </Tooltip>
@@ -502,6 +541,33 @@ export default function ReservationHistory() {
           </DialogActions>
         </Dialog>
         {/* END OF CONFIRMATION PROMPT */}
+        {/* DIALOG TO EDIT MENU */}
+          <Dialog open={openReminder} onClose={handleCloseReminder} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+            <DialogTitle id="alert-dialog-title">
+              {"Sending an Email Reminder"}
+            </DialogTitle>
+            <DialogContent>
+              <Typography sx={{textAlign: 'left', display:'inline-block'}}>
+                You are requesting for a reminder email, please enter your email below:
+              </Typography>
+              <DialogContentText id="alert-dialog-description">
+              <TextField sx={{width:'90%', margin:'15px'}} 
+                defaultValue={mailToEmail}
+                id="filled-basic" 
+                label="Email Address:" 
+                variant="filled" 
+                size="small"
+                onChange={(e)=> setCustEmail(e.target.value)}
+              />
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={sendReminder}>Send Reminder Email</Button>
+              <Button onClick={handleCloseReminder} >Cancel</Button>
+            </DialogActions>
+          </Dialog>
+        {/* END OF REMINDER DIALOG */}
+        
         </CardContent>
       </Card>
   </>
