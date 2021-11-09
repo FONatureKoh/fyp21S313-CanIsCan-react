@@ -101,7 +101,7 @@ export default function RetaurantDetails() {
         console.log(restaurantInfo);
       });
     // ===========================================================================
-  }, [getItems, getAvailableRestCategories, getRestInfo]);
+  }, []);
 
   //MODAL CONTROLS - DIRECTIONS / INFO
   const [openInfo, setOpenInfo] = useState(false);

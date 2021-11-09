@@ -134,8 +134,8 @@ export default function OrderDelivery() {
   }
 
 
-  //CART CALCULATIONS
-  //ITEM UNIT PRICE * QTY
+  // CART CALCULATIONS
+  // ITEM UNIT PRICE * QTY
   function getsub(item){
     const sub = item.itemQty*item.itemPrice;
     // setSubtotal(subtotal + sub)

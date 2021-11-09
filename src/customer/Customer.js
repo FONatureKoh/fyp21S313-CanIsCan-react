@@ -142,9 +142,6 @@ export default function Customer() {
           <Route path='/customer/profile'><ViewProfile/> </Route>
           <Route path='/customer/deliveryhistory'><DeliveryHistory/> </Route>
           <Route path='/customer/reservationhistory'><ReservationHistory/> </Route>
-          {/* <Route exact path='/customer/checkout'>
-            <CheckOut realCart={realCart} deleteItem={deleteItem} minusQty={minusQty} addQty={addQty} getsub={getsub} subtotal={subtotal} deliveryFee={deliveryFee} gst={gst} total={total} />
-          </Route> */}
           <Redirect from='/customer' to='/customer/browserestaurant'/>
         </Switch>
         {/* <Cart openCart={openCart} cart={realCart}/> */}
