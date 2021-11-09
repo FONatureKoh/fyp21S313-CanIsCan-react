@@ -47,6 +47,7 @@ export default function ApproveRest() {
     setBackDropState(true);
   };
 
+  //================================================================================================
   // Approve button
   function approveAccount(restaurant_ID) {
     handleBackdropOpen();

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Button, Card, CardHeader, CardContent, CardMedia, Grid, Modal, IconButton, Rating, Tooltip, TextField, Typography } from '@mui/material'
+import { Box, Button, Card, CardHeader, CardContent, CardMedia, Grid, Modal, IconButton, Rating, Tooltip, TextField, Typography, Backdrop, CircularProgress } from '@mui/material'
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
@@ -87,12 +87,14 @@ export default function ReservationHistory() {
 
   // Handles when we DELETE the menu's name
   function handleCancelReservation() {
+    handleCancelClose();
+    handleBackdropOpen();
+    
     // CANCEL RESERVATIONS CONTROLLER
     cancelReservation(selectedResID)
       .then(response => {
         if (response.api_msg === "success"){
-          handleCancelClose();
-          
+          handleBackdropClose();
           // RELOAD RESERVATIONS
           getUpcomingReservations()
             .then(response => {
@@ -101,7 +103,7 @@ export default function ReservationHistory() {
             })   
         }
         else {
-          handleCancelClose();
+          handleBackdropClose();
           alert("Something went wrong, your reservation was not cancelled.")
         }
       })
@@ -139,9 +141,26 @@ export default function ReservationHistory() {
         alert(response.api_msg);
       });
   };
-  // ================================================================
   // ======= END OF MODAL CONTROLS - REVIEWS ==============================
-  return (
+
+  // Backdrop useStates ======================================================================
+  const [backdropState, setBackDropState] = useState(false);
+
+  // Backdrop functions
+  const handleBackdropClose = () => {
+    setBackDropState(false);
+  };
+
+  const handleBackdropOpen = () => {
+    setBackDropState(true);
+  };
+
+  //================================================================================================
+
+  return <>
+      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={backdropState}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
         <CardHeader title={`Reservations History - ${buttonTab === 1 ? "Upcoming" : "Past"}`}/>
         <CardContent >
@@ -485,5 +504,5 @@ export default function ReservationHistory() {
         {/* END OF CONFIRMATION PROMPT */}
         </CardContent>
       </Card>
-  )
+  </>
 }
