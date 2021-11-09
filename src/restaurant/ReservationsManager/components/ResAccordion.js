@@ -10,6 +10,7 @@ export default function ResAccordion({reservation, setReservations}) {
 
   // Pre-order State
   const [preOrderStatus, setPreOrderStatus] = useState(reservation.po_status);
+  // console.log(reservation);
 
   // console.log(reservation)
   // Button functions
@@ -29,7 +30,7 @@ export default function ResAccordion({reservation, setReservations}) {
 
   const setArrived = () => {
     // THIS IS THE CONTROLLER TO COMMUNICATE THE STATUS CHANGE TO THE BACKEND API SERVER
-    updateReservationStatus(reservation.cust_RID, "Arrived")
+    updateReservationStatus(reservation.cust_RID, "Fulfilled")
       .then((response) => {
         alert(response.api_msg);
         
@@ -43,17 +44,13 @@ export default function ResAccordion({reservation, setReservations}) {
 
   const setSendToKitchen = () => {
     // THIS IS THE CONTROLLER TO COMMUNICATE THE STATUS CHANGE TO THE BACKEND API SERVER
-    updatePOStatus(reservation.po_ID, "Preparing")
+    updatePOStatus(reservation.po_ID, "Complete")
       .then((response) => {
         alert(response.api_msg);
         if (response.updateStatus === "success") {
-          setPreOrderStatus("Preparing");
+          setPreOrderStatus("Complete");
         }
       })
-  }
-
-  const setReservationDone = () => {
-
   }
 
   return (
@@ -181,7 +178,7 @@ export default function ResAccordion({reservation, setReservations}) {
           <Box m={1} pt={1}>
             <Button onClick={setAbsent} variant="outlined" id="1" color="error" fullWidth>Absent or No Show </Button>
           </Box>
-        </>) : reservation.reservation_status === 'Arrived' ? (
+        </>) : reservation.reservation_status === 'Fulfilled' ? (
         <>
           {preOrderStatus === 'Pending' ? (
             <>
@@ -189,9 +186,6 @@ export default function ResAccordion({reservation, setReservations}) {
                 <Button onClick={setSendToKitchen} variant="outlined" id="1" color="inherit" fullWidth>Send Order to Kitchen </Button>
               </Box>
             </>):(<></>)}
-            <Box m={1} pt={5}>
-              <Button onClick={setReservationDone} variant="outlined" id="1" color="inherit" fullWidth>Fulfilled </Button>
-            </Box>
           
         </>) : (<></>)}
 

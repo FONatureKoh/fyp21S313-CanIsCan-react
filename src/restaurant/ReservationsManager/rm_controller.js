@@ -24,7 +24,7 @@ export async function getReservations(getMode) {
       break;
     
     case 2:
-      requestPath = "ongoingreservations";
+      requestPath = "fulfilledreservations";
       break;
 
     default:

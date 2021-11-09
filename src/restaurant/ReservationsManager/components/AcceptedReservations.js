@@ -30,7 +30,7 @@ export default function AcceptedReservations() {
 
   return (
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
-      <CardHeader title="View Accepted Reservations" />
+      <CardHeader title="View Fulfilled Reservations" />
       <CardContent >
         <Box > 
           {
