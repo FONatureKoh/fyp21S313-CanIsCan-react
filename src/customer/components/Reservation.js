@@ -1,29 +1,27 @@
 import React, {useEffect, useState} from 'react'
 import { Accordion, AccordionSummary, AccordionDetails, 
-  Box, Button, ButtonGroup, Card, CardContent, CardMedia, Checkbox, Divider, Drawer, 
-  Grid,  IconButton, List, ListItem, Tooltip, Typography } from '@mui/material'
-import { Rating } from '@mui/material'
-import { ButtonBase } from '@mui/material'
+  Box, Button, ButtonGroup, ButtonBase, Card, CardContent, CardMedia, Checkbox, Divider, Drawer, 
+  Grid, IconButton, List, ListItem, Modal, Rating, TextField, Tooltip, Typography } from '@mui/material'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import ReviewsOutlinedIcon from '@mui/icons-material/ReviewsOutlined';
-import { Modal } from '@mui/material'
 import { format } from 'date-fns';
-import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import StaticDatePicker from '@mui/lab/StaticDatePicker';
-import { Route, Switch } from 'react-router';
+import { Route, Switch, useHistory } from 'react-router';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useRouteMatch } from 'react-router'
-import { retrieveAllRestaurantItems, retrieveSingleRestaurant, getAvailableSlots, 
-  getBannerImage, getRestReviews, getAvailableRestCategories, submitCustReservation } from '../customer_controller'
 import Cart from './Cart'
 import { Link } from 'react-router-dom'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+
+// CONTROLLER IMPORTS
+import { retrieveAllRestaurantItems, retrieveSingleRestaurant, getAvailableSlots, 
+  getRestReviews, getAvailableRestCategories, submitCustReservation } from '../customer_controller'
 
 const steps = ['Select timeslot', 'Pre-order food', 'Review your reservation'];
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
@@ -33,6 +31,7 @@ export default function Reservation() {
   // Added MATCH - Thomas
   const match = useRouteMatch('/customer/makereservation/:id');
   const restID = match.params.id;
+  const history = useHistory();
 
   // CONSTANT THEMES
   const themes = {
@@ -55,8 +54,8 @@ export default function Reservation() {
     }
   };
 
+  // ESSENTIAL STATES FOR PAGE
   const [innerAccOpen, setInnerAccOpen] = useState(false);
-  // Essential states for the react component
   const [activeStep, setActiveStep] = useState(0);
 
   const [categories, setCategories] = useState([])
@@ -81,36 +80,31 @@ export default function Reservation() {
   const startDate = new Date();
   startDate.setDate(startDate.getDate() + 1);
 
-  // Async function to retrieve all restaurant items
-  async function getItems(){
-    try {
-      // CONTROLLER TO GET ALL THE RESTAURANT ITEMS
-      const response = await retrieveAllRestaurantItems(restID);
-      return response;
-    }
-    catch (error) {
-      return error;
-    }
-  }
+  // useEffect HERE TO GET EVERYTHING ONCE
+  useEffect(() => {
+    // CONTROLLER TO GET ALL THE ITEMS
+    retrieveAllRestaurantItems(restID)
+      .then((response) => {
+        console.log(response);
+        setRestaurantItems(response);
+      })
+    
+    // CONTROLLER TO GET ALL THE ACTIVE CATEGORIES
+    getAvailableRestCategories(restID)
+      .then((response) => {
+        setCategories(response);
+      })
+      .catch(err => console.log(err));
 
-  // Async function to retrieve single restaurant info
-  async function getRestInfo() {
-    try {
-      // CONTROLLER TO GET A SINGLE RESTAURANT DATA BASED ON ID
-      var response = await retrieveSingleRestaurant(restID);
-
-      // Since response is the json object, we can use it to produce the blob
-      // image url here, and then add to the json
-      const imageURL = await getBannerImage(response.rest_banner_ID);
-
-      response["rest_bannerURL"] = imageURL;
-      console.log(response);
-      return response;
-    }
-    catch (error) {
-      return error;
-    }
-  }
+    // CONTROLLER TO RETRIEVE THE RESTAURANT'S INFORMATION
+    retrieveSingleRestaurant(restID)
+      .then((response) => {
+        setRestaurantInfo(response);
+        if(response.rest_rating !== null){
+          setRating(response.rest_rating.toFixed(1))
+        }
+      })
+  }, []);
 
   // Async function to retrieve single restaurant info
   async function getReviews() {
@@ -157,28 +151,27 @@ export default function Reservation() {
       })
   }
 
+  // CART
+  const [realCart, setRealCart]= useState([]);
 
-  //CART CALCULATION
-  const [deliveryFee, setDeliveryFee] = useState(0);
-  const [gst, setGst] = useState(0);
-  const [subtotal, setSubtotal] = useState(0);
+  // CART CALCULATION
   const [total, setTotal] = useState(0);
 
-  //CART OPEN
+  // CART OPEN
   const [cartOpen, setCartOpen] = useState(false);
 
-  //HANDLE OPEN CART
+  // HANDLE OPEN CART
   const openCart = () => {
     setCartOpen(true);
   };
 
-  //HANDLE CART CHECKOUT
+  // HANDLE CART CHECKOUT
   const finishCart = () => {
     setCartOpen(false);
     setActiveStep(activeStep + 1)
   };
 
-  //HANDLE CLOSE CART
+  // HANDLE CLOSE CART
   const closeCart = () => {
     setCartOpen(false);
   }
@@ -206,7 +199,7 @@ export default function Reservation() {
     openCart()
   }
 
-  //HANDLE NEXT FROM STEP 1
+  // HANDLE NEXT FROM STEP 1
   function handleNext1(){
     if(timeSlot === '')
     {
@@ -218,7 +211,7 @@ export default function Reservation() {
     }
   }
 
-  //HANDLE ADD
+  // HANDLE ADD
   function addQty(id){
     const newCart = [...realCart]
     const newItem = newCart.find(newItem => newItem.itemID === id)
@@ -238,79 +231,43 @@ export default function Reservation() {
     setRealCart(newCart)
   }
 
-  //CART CALCULATIONS
-  //ITEM UNIT PRICE * QTY
+  // CART CALCULATIONS
+  // ITEM UNIT PRICE * QTY
   function getsub(item){
     const sub = item.itemQty*item.itemPrice;
     // setSubtotal(subtotal + sub)
     return sub.toFixed(2);
   }
 
-  //USE EFFECT TO SET THE CART DETAILS
-  //WILL RUN WHEN STATE IS RERENDERED
-  // useEffect(() => {
-  //   const subtotal2 = realCart.reduce((total, realCart) => total + (realCart.itemPrice * realCart.itemQty), 0)
-  //   setSubtotal(subtotal2)
-  //   setDeliveryFee(3.50)
-  //   const gst = (subtotal2 + deliveryFee) * 0.07
-  //   setGst(gst)
-  //   setTotal(gst + deliveryFee + subtotal)
-  // })
-
-  //CART
-  const [realCart, setRealCart]= useState([]);
+  // USE EFFECT TO SET THE CART DETAILS
+  // WILL RUN WHEN STATE IS RERENDERED
+  useEffect(() => {
+    const calculatedTotal = realCart.reduce((total, realCart) => total + (realCart.itemPrice * realCart.itemQty), 0);
+    setTotal(calculatedTotal);
+    // setSubtotal(subtotal2)
+    // setDeliveryFee(3.50)
+    // const gst = (subtotal2 + deliveryFee) * 0.07
+    // setGst(gst)
+  }, [realCart])
 
   // ASYNC FUNCTION TO SUBMIT RESERVATION
   async function submitReservation() {
     // 1. Generate a CR order ID
     const crID = `CR_${restID.padStart(4, '0')}_${Date.now()}`;
 
-    // 2. Then we get some important variables
-    // const restEmail = restaurantInfo.rest_email;
-    // const restName = restaurantInfo.restaurant_name;
-    // const restAdd = restaurantInfo.rest_address_info;
-    // const restPostal = restaurantInfo.rest_postal_code;
-
     // 3. We now try to make the reservation to the system
     try {
+      // CONTROLLER FOR MAKING A RESERVATION
       const response = await submitCustReservation(crID, restaurantInfo, pax, selectedDate, timeSlot, 
-        preorder, realCart, subtotal);
+        preorder, realCart, total);
 
       console.log(response);
     }
     catch (err) {
-      // console.log(err);
+      console.log(err);
     }
   }
 
-  // Do we need useEffect for this? Not sure if I could just load the damn thing
-  // into states. Had a lot of issues of the Array not filtering
-  useEffect(() => {
-    // Getting the restaurant's items and their categories
-    getItems()
-      .then((response) => {
-        console.log(response);
-        setRestaurantItems(response);
-      })
-    
-    getAvailableRestCategories(restID)
-      .then((response) => {
-        setCategories(response);
-      })
-      .catch(err => console.log(err));
-
-    // Getting the restaurant's information
-    getRestInfo()
-      .then((response) => {
-        setRestaurantInfo(response);
-        if(response.rest_rating !== null)
-        {
-          setRating(response.rest_rating.toFixed(1))
-        }
-      })
-  }, []);
-
-  
   //HANDLE ITEM INFO
   function itemPopup(item){
     setSelItem(item)
@@ -346,10 +303,10 @@ export default function Reservation() {
 
   const handleCloseReview = () => setOpenReview(false);
 
-  // CALENDAR TESTING
-  // const [value, setValue] = React.useState(new Date());
-  // const startDate = new Date();
-  // startDate.setDate(startDate.getDate() + 1);
+  // OTHER IMPORTANT FUNCTIONS
+  const pushReservations = () => {
+    history.push('/customer/reservationhistory');
+  }
 
   // GETTING THE STATIC MAP
   function getMap(postal){
@@ -430,11 +387,11 @@ export default function Reservation() {
               <React.Fragment>
                 <Box sx={themes.boxStyle2}>
                 <Typography sx={themes.textHeader}>
-                  Reservation Confirmed!
+                  Reservation Confirmed! You will receive an email with a calendar invite shortly!
                 </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', pt: 2 }}>
-                  <Button variant="outlined" color="inherit" fontSize="large" sx={{margin:'10px auto'}}>View reservations</Button>
+                  <Button variant="outlined" color="inherit" fontSize="large" sx={{margin:'10px auto'}} onClick={pushReservations}>View reservations</Button>
                 </Box>
               </React.Fragment>
             ) : activeStep === 0 ? (
@@ -869,7 +826,7 @@ export default function Reservation() {
                     </Box>
                     <Box width="30%" sx={{textAlign:'right',fontWeight:'800'}}>
                       <Typography variant="subtitle" >
-                        S$ {subtotal.toFixed(2)}
+                        S$ {total.toFixed(2)}
                       </Typography>
                     </Box>
                   </ListItem>
@@ -880,42 +837,6 @@ export default function Reservation() {
                       </Typography>
                     </Box>
                   </ListItem>
-                  {/* <ListItem >
-                    <Box width='70%'>
-                      <Typography variant="subtitle">
-                        Delivery fee
-                      </Typography>
-                    </Box>
-                    <Box width="30%" sx={{textAlign:'right'}}>
-                      <Typography variant="subtitle">
-                        S$ {deliveryFee.toFixed(2)}
-                      </Typography>
-                    </Box>
-                  </ListItem>
-                  <ListItem >
-                    <Box width='70%'>
-                      <Typography variant="subtitle">
-                        GST (7%)
-                      </Typography>
-                    </Box>
-                    <Box width="30%" sx={{textAlign:'right'}}>
-                      <Typography variant="subtitle">
-                        S$ {gst.toFixed(2)}
-                      </Typography>
-                    </Box>
-                  </ListItem>
-                  <ListItem >
-                    <Box width='70%'>
-                      <Typography variant="subtitle" sx={{fontWeight:'800'}}>
-                        Grand total
-                      </Typography>
-                    </Box>
-                    <Box width="30%" sx={{textAlign:'right'}}>
-                      <Typography variant="subtitle" sx={{fontWeight:'800'}}>
-                        S$ {total.toFixed(2)}
-                      </Typography>
-                    </Box>
-                  </ListItem> */}
                   <ListItem >
                     <Button sx={{width:'90%', margin:'10px auto'}} variant="outlined" color="inherit" onClick={finishCart}> go to checkout</Button>
                   </ListItem>
