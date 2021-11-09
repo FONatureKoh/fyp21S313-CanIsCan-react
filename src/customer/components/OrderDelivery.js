@@ -9,7 +9,7 @@ import { Modal } from '@mui/material'
 import { Route, Switch } from 'react-router';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useRouteMatch } from 'react-router'
-import { retrieveAllRestaurantItems, retrieveSingleRestaurant, getBannerImage, getRestReviews, getAvailableRestCategories } from '../customer_controller'
+import { retrieveAllRestaurantItems, retrieveSingleRestaurant, getRestReviews, getAvailableRestCategories } from '../customer_controller'
 import Cart from './Cart'
 import CheckOut from './CheckOut';
 import { Link } from 'react-router-dom'
@@ -378,7 +378,7 @@ export default function OrderDelivery() {
                       </Typography>
                     </Box>
                     <Box alignContent="flex-end">
-                    <img width="300px" height="200px" src={getMap(restaurantInfo.rest_postal_code)}/>
+                    <img width="300px" height="200px" src={getMap(restaurantInfo.rest_postal_code)} alt="no map data"/>
                     </Box>
                   </Box>
                 </CardContent>

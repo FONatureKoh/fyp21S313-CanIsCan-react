@@ -197,7 +197,7 @@ export default function EditProfile({restaurantInfo, setRestInfo, setRestTags}) 
         <Grid container sx={{margin:'auto', textAlign:'left', width: '70%'}} >
           <Grid item xs={12} sx={{textAlign:'center', marginTop:'3%;'}}>
             <Box>
-              <img src={preview} alt="banner picture" width="60%"/>
+              <img src={preview} alt="" width="60%"/>
             </Box>
             <Box> 
             <label htmlFor="imageBanner">
