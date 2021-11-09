@@ -30,33 +30,33 @@ export default function OrderDelivery() {
   //SELECTED ITEM
   const [selItem, setSelItem] = useState([])
 
-  // Async function to retrieve all restaurant items
-  async function getItems(){
-    try {
-      const response = await retrieveAllRestaurantItems(restID);
-      return response;
-    }
-    catch (error) {
-      return error;
-    }
-  }
+  useEffect(() => {
+    // CONTROLLER TO GET ALL RESTAURANT ITEMS
+    retrieveAllRestaurantItems(restID)
+      .then((response) => {
+        console.log(response);
+        setRestaurantItems(response);
+      })
+    
+    getAvailableRestCategories(restID)
+      .then((response) => {
+        setCategories(response);
+      })
+      .catch(err => console.log(err));
 
-  // Async function to retrieve single restaurant info
-  async function getRestInfo() {
-    try {
-      var response = await retrieveSingleRestaurant(restID);
+    // CONTROLLER TO GET SINGLE RESTAURANT DATA
+    retrieveSingleRestaurant(restID)
+      .then((response) => {
+        setRestaurantInfo(response);
+        if(response.rest_rating !== null)
+        {
+          setRating(response.rest_rating.toFixed(1))
+        }
+      })
 
-      // Since response is the json object, we can use it to produce the blob
-      // image url here, and then add to the json
-      const imageURL = await getBannerImage(response.rest_banner_ID);
-
-      response["rest_bannerURL"] = imageURL;
-      return response;
-    }
-    catch (error) {
-      return error;
-    }
-  }
+    // Console log to see if the info has been set properly
+    console.log(restaurantInfo);  
+  }, []);
 
   // Async function to retrieve single restaurant info
   async function getReviews() {
@@ -155,36 +155,6 @@ export default function OrderDelivery() {
     setGst(gst)
     setTotal(gst + deliveryFee + subtotal)
   }, [realCart, deliveryFee, subtotal])
-
-  // Do we need useEffect for this? Not sure if I could just load the damn thing
-  // into states. Had a lot of issues of the Array not filtering
-  useEffect(() => {
-    // Async function trigger to parse data 
-    getItems()
-      .then((response) => {
-        console.log(response);
-        setRestaurantItems(response);
-      })
-    
-    getAvailableRestCategories(restID)
-      .then((response) => {
-        setCategories(response);
-      })
-      .catch(err => console.log(err));
-
-    getRestInfo()
-    .then((response) => {
-      setRestaurantInfo(response);
-      if(response.rest_rating !== null)
-      {
-        setRating(response.rest_rating.toFixed(1))
-      }
-    })
-
-    // Console log to see if the info has been set properly
-    console.log(restaurantInfo);  
-  }, [getItems, getRestInfo]);
-
   
   //HANDLE ITEM INFO
   function itemPopup(item){
@@ -238,7 +208,7 @@ export default function OrderDelivery() {
       <Card variant="outlined" sx={{ borderRadius:'10px'}}>
         <CardMedia sx={{height:'300px' }}
           component="img"
-          image={restaurantInfo.rest_bannerURL}
+          image={restaurantInfo.rest_banner}
         />
 
         <CardContent >
@@ -382,7 +352,7 @@ export default function OrderDelivery() {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={restaurantInfo.rest_bannerURL}
+                  image={restaurantInfo.rest_banner}
                 />
                 <CardContent >
                   <Box textAlign="center">
@@ -424,6 +394,7 @@ export default function OrderDelivery() {
               aria-describedby="modal-modal-description"
             >
               <Card variant="outlined" sx={{ position: 'absolute',
+                overflow: "auto",
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
@@ -432,7 +403,7 @@ export default function OrderDelivery() {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={restaurantInfo.rest_bannerURL}
+                  image={restaurantInfo.rest_banner}
                 />
                 <CardContent >
                   <Box textAlign="center">

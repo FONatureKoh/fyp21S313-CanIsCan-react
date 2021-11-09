@@ -392,7 +392,7 @@ export default function RetaurantDetails() {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={restaurantInfo.rest_bannerURL}
+                  image={restaurantInfo.rest_banner}
                 />
                 <CardContent >
                   <Box textAlign="center">

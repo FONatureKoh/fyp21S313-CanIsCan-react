@@ -271,7 +271,7 @@ export default function DeliveryHistory() {
                         <ItemDetailsAcc itemDetails={order.orderItems} accTitle="Order Items Details"/>
 
                         <Box textAlign="center" sx={{mt:'30px'}}>
-                          <Button fullWidth variant="outlined" color="inherit" onClick={(e) => {handleOpenReview(order.restID, order.restaurantName)}} >LEAVE REVIEW</Button>
+                          <Button fullWidth variant="outlined" color="inherit" onClick={(e) => {handleOpenReview(order.restID, order.restaurantName)}}>LEAVE REVIEW</Button>
                         </Box>
                       </Box>
                     </CardContent>
@@ -342,8 +342,8 @@ export default function DeliveryHistory() {
               </Box>
 
               <Box textAlign="center" width="60%" margin="10px auto" >
-                <Button variant="outlined" color="error" sx={{margin:'10px 10px'}} onClick={handleCloseReview}>Cancel</Button>
                 <Button variant="outlined" color="inherit" sx={{margin:'10px 10px'}} onClick={submitReview} >Submit</Button>
+                <Button variant="outlined" color="error" sx={{margin:'10px 10px'}} onClick={handleCloseReview}>Cancel</Button>
               </Box>
             </CardContent>
           </Card>
