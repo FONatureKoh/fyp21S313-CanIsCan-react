@@ -8,8 +8,9 @@ import AcceptedReservations from './components/AcceptedReservations';
 import ViewProfile from '../../profile/viewprofile';
 import ResFirstLogin from './components/ResFirstLogin';
 import ManageSlots from './components/ManageSlots';
-import { getAccStatus, getRestName } from '../restaurant_controller';
-import { getUserType } from '../../store/general_controller';
+import { getRestName } from '../restaurant_controller';
+import { getUserType, getAccStatus } from '../../store/general_controller';
+import ResetPasswordModal from '../../store/ResetPWPage';
 
 export default function ReservationsManager() {
   // CHECKING OF USER TYPE 
@@ -45,8 +46,11 @@ export default function ReservationsManager() {
   // Essential useStates for the page
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
-  const [firstLog, setFirstLog] = useState('');
   const [restaurantName, setRestaurantName] = useState('');
+
+  // EXTRA MODAL CHECKS
+  const [firstLog, setFirstLog] = useState(false);
+  const [openReset, setOpenReset] = useState(false);
 
   const toggleVisibility = () => {
     if (isVisible)
@@ -56,23 +60,6 @@ export default function ReservationsManager() {
     else
     {
       setIsVisible(true)
-    }
-  }
-
-  // ASYNC FUNCTION
-  // Async function to get User account Status
-  async function getStatus() {
-    try {
-      const { account_status } = await getAccStatus();
-      if (account_status === "first") {
-        return true;
-      }
-      else {
-        return false;
-      }
-    }
-    catch (error) {
-      return error;
     }
   }
 
@@ -90,12 +77,16 @@ export default function ReservationsManager() {
   
   // useEffect for when the page first loads
   useEffect(() =>{
-    getStatus()
+    getAccStatus()
       .then((response) => {
-        console.log(response);
-        setFirstLog(response);
-      })
-      .catch(error => console.log(error));
+        if (response === "first") {
+          setFirstLog(true);
+        }
+
+        if (response === "reset") {
+          setOpenReset(true);
+        }
+      });
     
     // Get restaurant Name
     getRestaurantName()
@@ -136,6 +127,20 @@ export default function ReservationsManager() {
           overflow: 'auto',
           borderRadius:'5px'}}>
            <ResFirstLogin setFirstLog={setFirstLog}/>
+         </Box>
+      </Modal>
+      {/* PASSWORD RESET MODAL */}
+      <Modal open={openReset} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+        <Box sx={{bgcolor:'white',position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width:"60%",
+          padding: '2%',
+          maxHeight:'70%',
+          overflow: 'auto',
+          borderRadius:'5px'}}>
+           <ResetPasswordModal setOpenReset={setOpenReset}/>
          </Box>
       </Modal>
       

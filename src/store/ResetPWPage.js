@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Divider, TextField, Typography, Button, StepLabel, Step, Stepper, Box } from '@mui/material';
-import { postChangePW } from '../login/login_controller';
+import { postChangePW, updateAccStatus } from './general_controller';
 // import { postChangePW, postPersonalProfile, retrieveUserProfile } from '../../restaurant_controller';
 
 // Steps with regards to the firstlogin
@@ -46,15 +46,34 @@ export default function ResetPasswordModal({setOpenReset}) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
+
+    console.log(activeStep);
     
     // HANDLES THE FIRST STEP'S VALIDATION
     if (activeStep === 0) {
+      // ERROR COUNTER
+      var validationError = 0;
+
+      if (oldPW === '' || newPW === '' || confirmNewPW === '') {
+        alert("All three fields must be filled!")
+        validationError++;
+      }
+
       if (newPW !== confirmNewPW) {
         alert("Please type the same password in the new password and confirm password fields");
+        validationError++;
       }
-      else {
-        // NO FURTHER STEPS. HANDLE FINISH
-        handleFinish();
+
+      if (validationError === 0) {
+        postChangePW(oldPW, newPW)
+          .then((response) => {
+            if (response.api_msg === "success") {
+              handleFinish();
+            }
+            else {
+              alert("Something went wrong. Please try again");
+            }
+          })
       }
     }
   };
@@ -68,28 +87,14 @@ export default function ResetPasswordModal({setOpenReset}) {
     setOpenReset(false);
   };
 
-  // Async function to change password 
-  async function postPassword(){
-    try {
-      const response = await postChangePW(oldPW, newPW);
-      return response.api_msg;
-    }
-    catch (error) {
-      return error;
-    }
-  }
-
   // HANDLE FINAL SUBMIT 
   // NOTE: This is where we submit the data to the database
-  const handleFinish = () => {
-    // Post DM password update 
-    postPassword()
-      .then((response) => {
-        // console.log(response);
-      })
-      .catch(error => console.log(error));
-    
+  const handleFinish = () => {   
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+    // UPDATE ACCOUNT STATUS HERE
+    updateAccStatus()
+      .then((response) => console.log(response));
   }
 
   return (
@@ -132,6 +137,7 @@ export default function ResetPasswordModal({setOpenReset}) {
             <TextField 
               sx={{width:'80%', margin:'15px auto'}} 
               id="old-pw" 
+              defaultValue=""
               type="password" 
               label="Enter Old Password:" 
               variant="filled" 
@@ -142,6 +148,7 @@ export default function ResetPasswordModal({setOpenReset}) {
             <TextField 
               sx={{width:'80%', margin:'15px auto'}} 
               id="new-pw" 
+              defaultValue=""
               type="password" 
               label="Enter New Password:" 
               variant="filled" 
@@ -152,6 +159,7 @@ export default function ResetPasswordModal({setOpenReset}) {
             <TextField 
               sx={{width:'80%', margin:'15px auto'}} 
               id="confirm-new" 
+              defaultValue=""
               type="password" 
               label="Re-enter New Password:" 
               variant="filled" 

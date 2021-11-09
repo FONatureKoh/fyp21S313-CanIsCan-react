@@ -358,26 +358,6 @@ export async function setRestStatus(restStatus) {
 };
 
 /*****************************************************************************************
- * For DM / RM to get App user acount status
- * ***************************************************************************************
- * - This gets the DM's account status
- * ***************************************************************************************/
-export async function getAccStatus() {
-  const axiosConfig = {
-    headers: {'Authorisation': window.sessionStorage.accessToken}
-  }
-
-  try {
-    const response = await axios.get(`${config.apiDomain}/users/accountstatus`, axiosConfig);
-
-    return response.data;
-  }
-  catch (err) {
-    return err;
-  }
-}
-
-/*****************************************************************************************
  * For DM / RM to get its restaurant name
  * ***************************************************************************************
  * - This gets the DM's restaurant name

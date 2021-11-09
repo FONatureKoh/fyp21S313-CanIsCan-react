@@ -9,7 +9,8 @@ import RetaurantDetails from './components/RestaurantDetails';
 import ViewProfile from '../profile/viewprofile';
 import DeliveryHistory from './components/DeliveryHistory';
 import ReservationHistory from './components/ReservationHistory';
-import { getAccStatus, retrieveAllRestaurants, retrieveRestaurantTags } from './customer_controller';
+import { retrieveAllRestaurants, retrieveRestaurantTags } from './customer_controller';
+import { getAccStatus } from '../store/general_controller';
 import OrderDelivery from './components/OrderDelivery';
 import { Modal } from '@mui/material';
 import CustFirstLogin from './components/CustFirstLogin';
@@ -52,7 +53,10 @@ export default function Customer() {
   const [isSelected, setIsSelected] = useState(1);
   const [restaurantsArray, setRestaurantsArray] = useState([]);
   const [tagsArray, setTagsArray] = useState([]);
+
+  // EXTRA MODAL CHECKS
   const [firstLog, setFirstLog] = useState(false);
+  const [openReset, setOpenReset] = useState(false);
 
   // Async functions for customers
   // For Categories
@@ -77,29 +81,18 @@ export default function Customer() {
     }
   }
 
-  // Async for account status
-  async function checkFirstLog() {
-    try {
-      const response = await getAccStatus();
-
-      if (response.account_status === "first") {
-        setFirstLog(true);
-
-        return "First Login for user";
-      }
-    }
-    catch (err) {
-      console.log(err);
-      return err;
-    }
-  }
-
   // useEffect to load the restaurants once on mount
   useEffect(() => {
-    // Trigger the account status check
-    checkFirstLog()
+    // CONTROLLER TO CHECK ACCOUNT STATUS
+    getAccStatus()
       .then((response) => {
-        console.log(response);
+        if (response === "first") {
+          setFirstLog(true);
+        }
+
+        if (response === "reset") {
+          setOpenReset(true);
+        }
       });
     
     // Loads all available restaurant tags
@@ -128,11 +121,6 @@ export default function Customer() {
       setIsVisible(true)
     }
   }
-
-  // PASSWORD RESET MODAL CONTROLS ===============================================
-  const [openReset, setOpenReset] = useState(false);
-
-  // =============================================================================
 
   return (
     <Box sx={{ padding:'1% 2%', bgcolor:'#f5f5f5', display:'block'}}>

@@ -8,12 +8,17 @@ import ExistingCust from './components/ExistingCust';
 import ExistingRest from './components/ExistingRest';
 import Tags from './components/Tags';
 import ViewProfile from '../profile/viewprofile';
-import { getUserType } from '../store/general_controller';
+import { getUserType, getAccStatus } from '../store/general_controller';
+import { Modal } from '@mui/material';
+import ResetPasswordModal from '../store/ResetPWPage';
 // import { getUserType } from './admin_controller';
 
 export default function Admin() {
   // CHECKING OF USER TYPE 
   const history = useHistory();
+
+  // EXTRA MODAL CHECKS
+  const [openReset, setOpenReset] = useState(false);
 
   useEffect(() => {
     // ASYNC FUNCTION TO RETRIEVE THE USER TYPE THROUGH THE TOKEN
@@ -40,6 +45,16 @@ export default function Admin() {
       })
   }, [history]);
   // END OF CHECKING
+
+  useEffect(() => {
+    // CONTROLLER TO CHECK ACCOUNT STATUS
+    getAccStatus()
+      .then((response) => {
+        if (response === "reset") {
+          setOpenReset(true);
+        }
+      });
+  }, [])
 
   // SYSTEM CONTROLS
   const [isVisible, setIsVisible] = useState(true); 
@@ -73,5 +88,19 @@ export default function Admin() {
       </Box>
       
     </Box>
+    {/* PASSWORD RESET MODAL */}
+    <Modal open={openReset} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+      <Box sx={{bgcolor:'white',position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width:"60%",
+        padding: '2%',
+        maxHeight:'70%',
+        overflow: 'auto',
+        borderRadius:'5px'}}>
+          <ResetPasswordModal setOpenReset={setOpenReset}/>
+        </Box>
+    </Modal>
   </>
 }

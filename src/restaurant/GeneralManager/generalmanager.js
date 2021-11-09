@@ -12,7 +12,8 @@ import ViewProfile from '../../profile/viewprofile';
 import { restaurantProfile, retrieveRestaurantStatus, setRestStatus } from '../restaurant_controller';
 import FirstLogin from './components/firstlogin';
 import StatisticsReservations from './components/statisticsReservations';
-import { getUserType } from '../../store/general_controller';
+import { getAccStatus, getUserType } from '../../store/general_controller';
+import ResetPasswordModal from '../../store/ResetPWPage';
 
 /*********************************************************
  * Menu Function to retrieve items based on RestaurantID *
@@ -59,10 +60,11 @@ export default function GeneralManager() {
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
-  const [firstLog, setFirstLog] = useState(false);
   const [restaurantName, setRestaurantName] = useState('');
 
-
+  // EXTRA MODAL CHECKS
+  const [firstLog, setFirstLog] = useState(false);
+  const [openReset, setOpenReset] = useState(false);
   
   // Async function to get status of restaurant
   async function getStatus() {
@@ -127,19 +129,20 @@ export default function GeneralManager() {
         setRestaurantName(response);
       })
       .catch(error => console.log(error));
-  }, []);
 
-  // useEffect to get Restaurant's Items Data
-  // NOTE: edited to retrieve restaurant items using the username in
-  // accesstoken instead.
-  // useEffect(() => {
-  //   async function getMenu() {
-  //     const retrievedItemsData = await retrieveCatItems();
-  //     setMenuData(retrievedItemsData);
-  //     // console.log(retrievedItemsData);
-  //   }
-  //   getMenu();
-  // },[])
+    // CONTROLLER TO CHECK ACCOUNT STATUS
+    getAccStatus()
+      .then((response) => {
+        if (response === "first") {
+          setFirstLog(true);
+        }
+
+        if (response === "reset") {
+          setOpenReset(true);
+        }
+      });
+
+  }, []);
   
   const toggleChecked = () => {
     if (isChecked) {
@@ -226,6 +229,20 @@ export default function GeneralManager() {
           overflow: 'auto',
           borderRadius:'5px'}}>
            <FirstLogin setFirstLog={setFirstLog}/>
+         </Box>
+      </Modal>
+      {/* PASSWORD RESET MODAL */}
+      <Modal open={openReset} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+        <Box sx={{bgcolor:'white',position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width:"60%",
+          padding: '2%',
+          maxHeight:'70%',
+          overflow: 'auto',
+          borderRadius:'5px'}}>
+           <ResetPasswordModal setOpenReset={setOpenReset}/>
          </Box>
       </Modal>
     </Box>

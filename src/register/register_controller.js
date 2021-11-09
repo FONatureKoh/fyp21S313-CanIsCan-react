@@ -8,11 +8,11 @@ const config = require('../store/config.json');
 /*****************************************************************************************
  * Restaurant Registration controller                                                    *
 ******************************************************************************************/
-export function restaurantRegister (username, restaurat_name, email, phone) {
+export function restaurantRegister (username, restaurant_name, email, phone) {
   // x-www-form-urlencoded form creation
   const params = new URLSearchParams();
   params.append('username', username);
-  params.append('restaurant_name', restaurat_name);
+  params.append('restaurant_name', restaurant_name);
   params.append('email', email);
   params.append('phone', phone)
 

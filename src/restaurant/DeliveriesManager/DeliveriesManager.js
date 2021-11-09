@@ -8,8 +8,9 @@ import AcceptedOrders from './components/AcceptedOrders';
 import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import DelFirstLogin from './components/DelFirstLogin';
 import ViewOrderHistory from './components/ViewOrderHistory';
-import { getAccStatus, getRestName } from '../restaurant_controller';
-import { getUserType } from '../../store/general_controller';
+import { getRestName } from '../restaurant_controller';
+import { getUserType, getAccStatus } from '../../store/general_controller';
+import ResetPasswordModal from '../../store/ResetPWPage';
 
 /***********************************************************************
  * 
@@ -48,8 +49,11 @@ export default function DeliveriesManager() {
   // Essential useStates for the page
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
-  const [firstLog, setFirstLog] = useState('');
   const [restaurantName, setRestaurantName] = useState('');
+
+  // EXTRA MODAL CHECKS
+  const [firstLog, setFirstLog] = useState(false);
+  const [openReset, setOpenReset] = useState(false);
   
   const toggleVisibility = () => {
     if (isVisible)
@@ -93,12 +97,16 @@ export default function DeliveriesManager() {
   
   // useEffect for when the page first loads
   useEffect(() =>{
-    getStatus()
+    getAccStatus()
       .then((response) => {
-        console.log(response);
-        setFirstLog(response);
-      })
-      .catch(error => console.log(error));
+        if (response === "first") {
+          setFirstLog(true);
+        }
+
+        if (response === "reset") {
+          setOpenReset(true);
+        }
+      });
     
     // Get restaurant Name
     getRestaurantName()
@@ -139,6 +147,20 @@ export default function DeliveriesManager() {
           overflow: 'auto',
           borderRadius:'5px'}}>
            <DelFirstLogin setFirstLog={setFirstLog}/>
+         </Box>
+      </Modal>
+      {/* PASSWORD RESET MODAL */}
+      <Modal open={openReset} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+        <Box sx={{bgcolor:'white',position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width:"60%",
+          padding: '2%',
+          maxHeight:'70%',
+          overflow: 'auto',
+          borderRadius:'5px'}}>
+           <ResetPasswordModal setOpenReset={setOpenReset}/>
          </Box>
       </Modal>
     </Box>

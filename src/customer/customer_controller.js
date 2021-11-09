@@ -6,26 +6,6 @@ import axios from 'axios';
 const config = require('../store/config.json');
 
 /*****************************************************************************************
- * For DM / RM to get App user acount status
- * ***************************************************************************************
- * - This gets the DM's account status
- * ***************************************************************************************/
-export async function getAccStatus() {
-  const axiosConfig = {
-    headers: {'Authorisation': window.sessionStorage.accessToken}
-  }
-
-  try {
-    const response = await axios.get(`${config.apiDomain}/users/accountstatus`, axiosConfig);
-
-    return response.data;
-  }
-  catch (err) {
-    return err;
-  }
-}
-
-/*****************************************************************************************
  * First Login set user profile                                                          *
  * ***************************************************************************************
  * - send data to the user/profilemanagement route

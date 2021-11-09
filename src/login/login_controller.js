@@ -40,37 +40,6 @@ export async function sendResetPassword (username) {
 };
 
 /*****************************************************************************************
- * Password change
- * ***************************************************************************************
- * - This takes in the old password, new password and sends it to the backend api 
- * for updating.
- * ***************************************************************************************/
-export async function postChangePW(oldPassword, newPassword) {
-  // Test consoles
-  // console.log("changePwController");
-  // Axios request config to be declared first
-  const axiosConfig = {
-    headers: {'Authorisation': window.sessionStorage.accessToken}
-  };
-
-  const changeJSON = { 
-    oldPassword: oldPassword,
-    newPassword: newPassword
-   };
-
-  try {
-    const res = await axios.put(`${config.apiDomain}/users/userpassword`, changeJSON, axiosConfig);
-    // In here we can choose what we want to do with the response of the request
-    // console.log(res)
-    // console.log(res.data);
-    return res.data;
-  }
-  catch (err) {
-    console.log(err);
-  }
-};
-
-/*****************************************************************************************
  * Login Auth function                                                                   *
 ******************************************************************************************
  * - Should take in username and password
