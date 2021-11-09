@@ -25,6 +25,11 @@ export default function Login() {
     history.push(path);
   }
 
+  function forgetPassword(){
+    path = "/resetpassword";
+    history.push(path);
+  }
+
   // Async function 
   async function loginControl(){
     // Try catch to do something when userInfo is received
@@ -49,6 +54,11 @@ export default function Login() {
     catch (error) {
       return error;
     }
+  }
+  
+  // FUNCTION TO HANDLE ROUTE TO RESET
+  function resetRoute() {
+    history.push('/resetpassword');
   }
 
   // Function to handle login onClick
@@ -101,9 +111,11 @@ export default function Login() {
           <input className="login_field" type="text" name="username" placeholder="Username " onChange={(e)=>setUsername(e.target.value)}/>
           <input className="login_field" type="password" name="userpw" placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>
           
-          <button className="go_btn" onClick= {clickLogin}>Log In</button>
+          <button className="go_btn" onClick={clickLogin}>Log In</button>
+          <label className="bold-medium" onClick={resetRoute}>Forgot your password? Click me!</label>
+          <br/>
           <div className="whitefont" >Don't have an account?</div>
-          <label className="link" onClick= {RouteChange}>Register</label>
+          <label className="link" onClick={RouteChange}>Register</label>
         </header>
       </div>
   )

@@ -77,7 +77,15 @@ select{
 
 .link {
   color: #FFFFFF;
-  font-weight:bold;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.bold-medium {
+  font-size: large;
+  color: #FFFFFF;
+  font-weight: bold;
   text-decoration: none;
   cursor: pointer;
 }

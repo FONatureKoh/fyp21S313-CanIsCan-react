@@ -15,6 +15,7 @@ import { Modal } from '@mui/material';
 import CustFirstLogin from './components/CustFirstLogin';
 import Reservation from './components/Reservation';
 import { getUserType } from '../store/general_controller';
+import ResetPasswordModal from '../store/ResetPWPage';
 
 export default function Customer() {
   // CHECKING OF USER TYPE 
@@ -128,6 +129,11 @@ export default function Customer() {
     }
   }
 
+  // PASSWORD RESET MODAL CONTROLS ===============================================
+  const [openReset, setOpenReset] = useState(false);
+
+  // =============================================================================
+
   return (
     <Box sx={{ padding:'1% 2%', bgcolor:'#f5f5f5', display:'block'}}>
       <Topbar toggleVisibility={toggleVisibility}/>
@@ -162,6 +168,21 @@ export default function Customer() {
           overflow: 'auto',
           borderRadius:'5px'}}>
            <CustFirstLogin setFirstLog={setFirstLog}/>
+         </Box>
+      </Modal>
+
+      {/* PASSWORD RESET MODAL */}
+      <Modal open={openReset} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+        <Box sx={{bgcolor:'white',position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width:"60%",
+          padding: '2%',
+          maxHeight:'70%',
+          overflow: 'auto',
+          borderRadius:'5px'}}>
+           <ResetPasswordModal setOpenReset={setOpenReset}/>
          </Box>
       </Modal>
     </Box>

@@ -1,4 +1,5 @@
 import Login from './login/login';
+import ResetPassword from './login/resetpassword'
 import GeneralManager from './restaurant/GeneralManager/generalmanager';
 import CustRegister from './register/custreg';
 import RestRegister from './register/restreg';
@@ -19,6 +20,7 @@ function App() {
     <Switch>
       <UserProvider>
         <Route exact path="/" component= {Login} />
+        <Route exact path="/resetpassword" component= {ResetPassword} />
         <Route exact path="/custreg" component= {CustRegister} />
         <Route exact path="/restreg" component= {RestRegister} />
         <Route path="/generalmanager" component= {GeneralManager} />

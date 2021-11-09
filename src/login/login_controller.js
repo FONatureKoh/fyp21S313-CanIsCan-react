@@ -6,6 +6,71 @@ import axios from 'axios';
 const config = require('../store/config.json');
 
 /*****************************************************************************************
+ * VERIFY USERNAME WITH DATABASE
+******************************************************************************************
+ * - Should take in username
+ */
+
+export async function verifyUsername (username) {
+  try {
+    const response = await axios.get(`${config.apiDomain}/register/verifyusername/${username}`);
+
+    return response.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
+}
+
+/*****************************************************************************************
+ * Reset Password Controller
+******************************************************************************************
+ * - Should take in username
+ */
+
+export async function sendResetPassword (username) {
+  try {
+    const response = await axios.get(`${config.apiDomain}/register/resetpassword/${username}`);
+
+    return response.data;
+  } 
+  catch (err) {
+    console.log(err);
+  }
+};
+
+/*****************************************************************************************
+ * Password change
+ * ***************************************************************************************
+ * - This takes in the old password, new password and sends it to the backend api 
+ * for updating.
+ * ***************************************************************************************/
+export async function postChangePW(oldPassword, newPassword) {
+  // Test consoles
+  // console.log("changePwController");
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  const changeJSON = { 
+    oldPassword: oldPassword,
+    newPassword: newPassword
+   };
+
+  try {
+    const res = await axios.put(`${config.apiDomain}/users/userpassword`, changeJSON, axiosConfig);
+    // In here we can choose what we want to do with the response of the request
+    // console.log(res)
+    // console.log(res.data);
+    return res.data;
+  }
+  catch (err) {
+    console.log(err);
+  }
+};
+
+/*****************************************************************************************
  * Login Auth function                                                                   *
 ******************************************************************************************
  * - Should take in username and password
@@ -22,8 +87,8 @@ export function loginAuth (username, password) {
       // console.log(response.data);
       return response.data;
     })
-    .catch(function (error) {
-      console.log(error);
+    .catch(function (err) {
+      console.log(err);
     })
 }
 
