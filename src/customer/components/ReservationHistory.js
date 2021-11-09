@@ -4,7 +4,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 import { Divider } from '@mui/material';
-import { getPastReservations, getUpcomingReservations, retrieveSingleRestaurant, cancelReservation } from '../customer_controller';
+import { getPastReservations, getUpcomingReservations, retrieveSingleRestaurant, cancelReservation, submitRestaurantReview } from '../customer_controller';
 import ItemDetailsAcc from './ItemDetailsAcc';
 
 // MAPS API
@@ -90,11 +90,21 @@ export default function ReservationHistory() {
     // CANCEL RESERVATIONS CONTROLLER
     cancelReservation(selectedResID)
       .then(response => {
-        console.log(response);
+        if (response.api_msg === "success"){
+          handleCancelClose();
+          
+          // RELOAD RESERVATIONS
+          getUpcomingReservations()
+            .then(response => {
+              alert("Reservation successfully cancelled! You will receive an email confirmation shortly.");
+              setUpcomingReservations(response);
+            })   
+        }
+        else {
+          handleCancelClose();
+          alert("Something went wrong, your reservation was not cancelled.")
+        }
       })
-      
-
-
   }
   //=======================================================================
   // ======= MODAL CONTROLS - REVIEWS ==============================
@@ -116,6 +126,20 @@ export default function ReservationHistory() {
 
   const handleCloseReview = () => setOpenReview(false);
 
+  const submitReview = () => {
+    // console.log(reviewRating, reviewTitle, reviewDesc);
+    
+    // Submit to the server, and then alert if successful
+    submitRestaurantReview(reviewRestInfo.restID, reviewRestInfo.restName,
+      reviewRating, reviewTitle, reviewDesc)
+      .then((response) => {
+        // Close the review box
+        setOpenReview(false);
+
+        alert(response.api_msg);
+      });
+  };
+  // ================================================================
   // ======= END OF MODAL CONTROLS - REVIEWS ==============================
   return (
       <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
@@ -258,7 +282,7 @@ export default function ReservationHistory() {
                       </Typography>
                       <Typography variant="subtitle1" >
                         <Tooltip title="Restaurant Information">
-                          <IconButton aria-label="info" onClick={handleOpenInfo}>
+                          <IconButton aria-label="info" onClick={() => handleOpenInfo(item.cr_restID)}>
                             <InfoOutlinedIcon />
                           </IconButton>
                         </Tooltip>
@@ -326,9 +350,7 @@ export default function ReservationHistory() {
                           </Button>
                         </Grid> */}
                         <Grid item xs={12} sm={12} md={12}>
-                          <Button fullWidth color="inherit" variant="outlined" onClick={handleOpenReview}>
-                            Leave review
-                          </Button>
+                          <Button fullWidth color="inherit" variant="outlined" onClick={(e) => {handleOpenReview(item.cr_restID, item.cr_restName)}}>Leave review</Button>
                         </Grid>
                       </Grid>
                     </Box>
@@ -438,10 +460,8 @@ export default function ReservationHistory() {
               </Box>
 
               <Box textAlign="center" width="60%" margin="10px auto" >
+                <Button variant="outlined" color="inherit" sx={{margin:'10px 10px'}} onClick={submitReview}>Submit</Button>
                 <Button variant="outlined" color="error" sx={{margin:'10px 10px'}} onClick={handleCloseReview}>Cancel</Button>
-                <Button variant="outlined" color="inherit" sx={{margin:'10px 10px'}} 
-                //</Box>onClick={submitReview} 
-                >Submit</Button>
               </Box>
             </CardContent>
           </Card>
