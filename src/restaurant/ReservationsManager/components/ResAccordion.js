@@ -15,7 +15,7 @@ export default function ResAccordion({reservation}) {
   // Button functions
   const setAbsent = () => {
     // THIS IS THE CONTROLLER TO COMMUNICATE THE STATUS CHANGE TO THE BACKEND API SERVER
-    updateReservationStatus(reservation.cust_RID, "Cancelled")
+    updateReservationStatus(reservation.cust_RID, "No Show")
       .then((response) => {
         alert(response.api_msg);
       })
