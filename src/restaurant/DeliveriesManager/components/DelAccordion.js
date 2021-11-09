@@ -1,33 +1,43 @@
 import React, { useState } from 'react'
 import { Box, Typography, Divider, Accordion, AccordionSummary, AccordionDetails, Grid, ListItem, Button } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { updateDOStatus } from '../dm_controller';
+import { updateDOStatus, getOrders } from '../dm_controller';
 
-export default function DelAccordion({item}) {
+export default function DelAccordion({item, setPendingDO, setAcceptedDO}) {
   
   // ACCORDION CONTROL
   const [accOpen, setAccOpen] = useState(false);
   const [innerAccOpen, setInnerAccOpen] = useState(false);
 
   // Button functions
-  const setCancelled = () => {
-    updateDOStatus(item.orderID, "Cancelled")
-      .then((response) => {
-        alert(response.api_msg);
-      })
-  }
+  // const setCancelled = () => {
+  //   updateDOStatus(item.orderID, "Cancelled")
+  //     .then((response) => {
+  //       alert(response.api_msg);
+  //     })
+  // }
 
   const setPreparing = () => {
+    // CONTROLLER TO UPDATE STATUS OF ORDER
     updateDOStatus(item.orderID, "Preparing")
       .then((response) => {
         alert(response.api_msg);
+        getOrders(1)
+          .then((response) => {
+            setPendingDO(response);
+          })
       })
   }
 
   const setDelivering = () => {
+    // CONTROLLER TO UPDATE STATUS OF ORDER
     updateDOStatus(item.orderID, "Delivering")
       .then((response) => {
         alert(response.api_msg);
+        getOrders(2)
+          .then((response) => {
+            setAcceptedDO(response);
+          })
       })
   }
 
@@ -134,9 +144,6 @@ export default function DelAccordion({item}) {
         <>
           <Box m={1} pt={5}>
             < Button onClick={setPreparing} variant="outlined" id="1" color="inherit" fullWidth>Accept </Button>
-          </Box>
-          <Box m={1} pt={1}>
-            <Button onClick={setCancelled} variant="outlined" id="1" color="error" fullWidth>Decline </Button>
           </Box>
         </>) : item.status === 'Preparing' ? (
         <>

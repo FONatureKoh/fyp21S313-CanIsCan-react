@@ -44,7 +44,7 @@ export default function AcceptedOrders() {
             </>) : (<>
             {
               acceptedDO.map(item=>{
-                return <DelAccordion item={item}/>
+                return <DelAccordion item={item} setAcceptedDO={setAcceptedDO}/>
               })
             }
         </>)}

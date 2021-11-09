@@ -49,7 +49,7 @@ export default function ViewPending() {
             </>) : (<>
             {
               pendingDO.map(item=>{
-                return <DelAccordion item={item}/>
+                return <DelAccordion item={item} setPendingDO={setPendingDO}/>
               })
             }
         </>)}
