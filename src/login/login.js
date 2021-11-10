@@ -25,11 +25,6 @@ export default function Login() {
     history.push(path);
   }
 
-  function forgetPassword(){
-    path = "/resetpassword";
-    history.push(path);
-  }
-
   // Async function 
   async function loginControl(){
     // Try catch to do something when userInfo is received

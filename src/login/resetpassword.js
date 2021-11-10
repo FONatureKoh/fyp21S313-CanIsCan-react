@@ -1,6 +1,6 @@
 import logo from '../assets/logo.svg';
 import './resetpassword.css';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory} from 'react-router-dom';
 import { sendResetPassword, verifyUsername } from './login_controller';
 import { Backdrop, CircularProgress } from '@mui/material';

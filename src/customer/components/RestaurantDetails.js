@@ -129,7 +129,7 @@ export default function RetaurantDetails() {
 
   //MODAL CONTROLS - REVIEWS
   const [openReserve, setOpenReserve] = useState(false);
-  const handleOpenReserve= () => setOpenReserve(true);
+  // const handleOpenReserve= () => setOpenReserve(true);
   const handleCloseReserve = () => setOpenReserve(false);
 
   // CALENDAR TESTING

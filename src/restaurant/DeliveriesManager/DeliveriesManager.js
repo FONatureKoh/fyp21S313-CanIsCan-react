@@ -67,22 +67,6 @@ export default function DeliveriesManager() {
   }
   
   // ASYNC FUNCTION
-  // Async function to get User account Status
-  async function getStatus() {
-    try {
-      const { account_status } = await getAccStatus();
-      if (account_status === "first") {
-        return true;
-      }
-      else {
-        return false;
-      }
-    }
-    catch (error) {
-      return error;
-    }
-  }
-
   // Async function to get restaurant's name
   async function getRestaurantName() {
     try {

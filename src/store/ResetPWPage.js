@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Divider, TextField, Typography, Button, StepLabel, Step, Stepper, Box } from '@mui/material';
 import { postChangePW, updateAccStatus } from './general_controller';
 // import { postChangePW, postPersonalProfile, retrieveUserProfile } from '../../restaurant_controller';

@@ -142,15 +142,6 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
    * Handling the payment
    * *********************************************************************************************
   */
-  // Useful states to handle payment
-  const [paymentInProgress, setPaymentInProgress] = useState(true);
-
-  const handleStripeClose = () => {
-    if (paymentInProgress === false) {
-      handleBackdropClose();
-    }
-  }
-
   // Async functions for checkout
   async function submitOrder(doID) {
     try {

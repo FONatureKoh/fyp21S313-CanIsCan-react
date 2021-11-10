@@ -9,14 +9,6 @@ export default function DelAccordion({item, setPendingDO, setAcceptedDO}) {
   const [accOpen, setAccOpen] = useState(false);
   const [innerAccOpen, setInnerAccOpen] = useState(false);
 
-  // Button functions
-  // const setCancelled = () => {
-  //   updateDOStatus(item.orderID, "Cancelled")
-  //     .then((response) => {
-  //       alert(response.api_msg);
-  //     })
-  // }
-
   const setPreparing = () => {
     // CONTROLLER TO UPDATE STATUS OF ORDER
     updateDOStatus(item.orderID, "Preparing")
@@ -76,14 +68,6 @@ export default function DelAccordion({item, setPendingDO, setAcceptedDO}) {
               {item.customerName}
             </Typography>
           </Grid>
-          {/* <Grid item xs={4} md={4} sm={4}>
-            <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
-              Status
-            </Typography>
-            <Typography variant="subtitle1" textAlign="left">
-              {item.status}
-            </Typography>
-          </Grid> */}
           <Grid item xs={8} md={8} sm={8}>
             <Typography variant="subtitle1" textAlign="left" sx={{fontSize:'1 0px', fontWeight:'bold', }}>
               Address
@@ -143,12 +127,12 @@ export default function DelAccordion({item, setPendingDO, setAcceptedDO}) {
         {item.status === 'Pending' ? (
         <>
           <Box m={1} pt={5}>
-            < Button onClick={setPreparing} variant="outlined" id="1" color="inherit" fullWidth>Accept </Button>
+            < Button onClick={setPreparing} variant="outlined" id="1" color="inherit" fullWidth>Accept</Button>
           </Box>
         </>) : item.status === 'Preparing' ? (
         <>
           <Box m={1} pt={5}>
-            < Button onClick={setDelivering} variant="outlined" id="1" color="inherit" fullWidth>Out for delivery </Button>
+            < Button onClick={setDelivering} variant="outlined" id="1" color="inherit" fullWidth>Out for delivery</Button>
           </Box>
         </>) : (<></>)}
 
