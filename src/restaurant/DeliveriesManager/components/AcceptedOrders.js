@@ -30,6 +30,18 @@ export default function AcceptedOrders() {
         setAcceptedDO(response);
       })
       .catch(error => console.log(error));
+    
+    // INTERVAL TO RELOAD THE ORDERS EVERY 10 SECONDS
+    const ordersInterval = setInterval(() => {
+      // METHOD FOR CONTROLLER TRIGGER
+      getOngoingOrders()
+        .then((response) => {
+          setAcceptedDO(response);
+        })
+        .catch(error => console.log(error));
+    }, 10000);
+
+    return () => clearInterval(ordersInterval);
   }, [])
 
   return (

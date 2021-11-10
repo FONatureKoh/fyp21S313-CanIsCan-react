@@ -29,26 +29,27 @@ export default function DeliveryHistory() {
     restName: ''
   });
 
-  // Async functions for order retrieval
-  async function getOrders() {
-    try {
-      // CONTROLLER HERE TO RETRIEVE ORDERS
-      const response = await getAllOrders();
-      return response;
-    }
-    catch (error) {
-      return error;
-    }
-  }
-
   // useEffect to load all these data in for first render
   useEffect(() => {
     // Get the orders first
-    getOrders()
+    // CONTROLLER TO GET THE ORDERS
+    getAllOrders()
       .then((response) => {
         setOrderHistory(response);
       })
       .catch(error => console.log(error));
+
+    // INTERVAL TO RELOAD THE ORDERS EVERY 5 SECONDS
+    const ordersInterval = setInterval(() => {
+      // console.log("Retrieving orders...");
+      getAllOrders()
+        .then((response) => {
+          setOrderHistory(response);
+        })
+        .catch(error => console.log(error));
+    }, 5000);
+
+    return () => clearInterval(ordersInterval);
   }, [])
 
   // ACCORDION CONTROL
@@ -61,15 +62,15 @@ export default function DeliveryHistory() {
       .then((response) => {
         if (response.api_msg === "success") {
           alert("You have accepted the delivery! Enjoy your meal and we hope to hear from you again!");
+
+          // TRIGGER GET ORDERS TO RELOAD THE ORDERS
+          getAllOrders()
+            .then((response) => {
+              setOrderHistory(response);
+            })
+            .catch(error => console.log(error));
         }
       });
-    
-    // TRIGGER GET ORDERS TO RELOAD THE ORDERS
-    getOrders()
-      .then((response) => {
-        setOrderHistory(response);
-      })
-      .catch(error => console.log(error));
   }
 
   // ======= MODAL CONTROLS - REVIEWS ==============================

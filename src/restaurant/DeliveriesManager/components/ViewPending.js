@@ -33,6 +33,17 @@ export default function ViewPending() {
         setPendingDO(response);
       })
       .catch(error => console.log(error));
+
+    // INTERVAL TO RELOAD THE ORDERS EVERY 10 SECONDS
+    const ordersInterval = setInterval(() => {
+      getPendingOrders()
+        .then((response) => {
+          setPendingDO(response);
+        })
+        .catch(error => console.log(error));
+    }, 10000)
+
+    return () => clearInterval(ordersInterval);
   }, [])
 
   

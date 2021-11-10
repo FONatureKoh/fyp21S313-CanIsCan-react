@@ -29,6 +29,17 @@ export default function ViewOrderHistory() {
         setFulfilledDO(response);
       })
       .catch(error => console.log(error));
+
+    // INTERVAL TO RELOAD THE ORDERS EVERY 10 SECONDS
+    const ordersInterval = setInterval(() => {
+      getFufilledOrders()
+        .then((response) => {
+          setFulfilledDO(response);
+        })
+        .catch(error => console.log(error));
+    }, 10000)
+
+    return () => clearInterval(ordersInterval);
   }, [])
 
   return (

@@ -458,7 +458,7 @@ export default function ReservationHistory() {
                     </Typography>
                   </Box>
                   <Box alignContent="flex-end">
-                  <img width="300px" height="200px" src={getMap(restInfo.rest_postal_code)}/>
+                  <img width="300px" height="200px" src={getMap(restInfo.rest_postal_code)} alt="No map data"/>
                   </Box>
                 </Box>
               </CardContent>
