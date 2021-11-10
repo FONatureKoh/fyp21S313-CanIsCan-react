@@ -33,7 +33,7 @@ export default function ReservationsManager() {
     // TRIGGER THE ASYNC FUNCTION AND PUSH IF ITS A BAD RESPONSE
     retrieverUserType()
       .then((response) => {
-        console.log(response);
+        // console.log(response);
 
         if(response !== "Restaurant Reservations Manager") {
           history.push("/unauthorised");

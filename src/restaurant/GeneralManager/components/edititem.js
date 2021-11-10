@@ -19,13 +19,13 @@ export default function EditItem({menuData, setMenuData}) {
   for(const item of menuData){
     if(item.ri_item_ID === parseInt(match.params.id)){
       itemSelected = item;
-      console.log(itemSelected);
+      // console.log(itemSelected);
       break;
     }
   }
 
   // THE ITEM'S INFORMATION
-  console.log(itemSelected);
+  // console.log(itemSelected);
   const [itemID, setItemID] = useState(itemSelected.ri_item_ID);
   const [imageFile, setImageFile] = useState();
   const [itemAvailability, setItemAvailability] = useState(itemSelected.item_availability);
@@ -46,7 +46,7 @@ export default function EditItem({menuData, setMenuData}) {
 
       // Setting the Category List
       setItemCategoriesList(catData);
-      console.log (catData);
+      // console.log (catData);
     }
     retrieveCategories();
   },[])

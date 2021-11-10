@@ -46,7 +46,7 @@ export default function GeneralManager() {
     // TRIGGER THE ASYNC FUNCTION AND PUSH IF ITS A BAD RESPONSE
     retrieverUserType()
       .then((response) => {
-        console.log(response);
+        // console.log(response);
 
         if(response !== "Restaurant General Manager") {
           history.push("/unauthorised");

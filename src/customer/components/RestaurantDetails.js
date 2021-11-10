@@ -17,7 +17,7 @@ import { retrieveAllRestaurantItems, retrieveSingleRestaurant,
 const apiKey = "AIzaSyCZltDQ_C75D3csUGTpHRpfAJhZuPP2bqM"
 
 export default function RetaurantDetails() {
-  console.log("restaurant details reloaded");
+  // console.log("restaurant details reloaded");
   // Added MATCH - Thomas
   const match = useRouteMatch('/customer/restaurantdetails/:id');
   const restID = match.params.id;
@@ -27,7 +27,6 @@ export default function RetaurantDetails() {
   const [restaurantItems, setRestaurantItems] = useState([])
   const [restaurantInfo, setRestaurantInfo] = useState([]);
   const [restReivews, setRestReviews] = useState([]);
-  console.log(restReivews);
   const [rating, setRating] = useState(0);
   
   //useStates for all reservation use
@@ -78,7 +77,6 @@ export default function RetaurantDetails() {
     // Async function trigger to parse data and get the items and its picture
     getItems()
       .then((response) => {
-        console.log(response);
         setRestaurantItems(response);
       })
     
@@ -93,12 +91,9 @@ export default function RetaurantDetails() {
       .then((response) => {
         setRestaurantInfo(response);
         
-        if(response.rest_rating !== null)
-        {
+        if(response.rest_rating !== null) {
           setRating(response.rest_rating.toFixed(1))
         }
-        // Console log to see if the info has been set properly
-        console.log(restaurantInfo);
       });
     // ===========================================================================
   }, []);
@@ -114,11 +109,7 @@ export default function RetaurantDetails() {
   const handleOpenReview = () => {
     getReviews()
       .then((response) => {
-        console.log(response);
-
         setRestReviews(response);
-        
-        console.log(restReivews);
       })
       .then(() => {
         setOpenReview(true);
@@ -158,14 +149,9 @@ export default function RetaurantDetails() {
   // we can use the array
   function triggerGetSlots (restID, selectedDate) {
     getSlots(restID, selectedDate)
-      .then((response) => {
-        console.log(response);
-        
+      .then((response) => {        
         // Trying to set the timeSlots here
         setAvailableSlots(response);
-
-        // Prints out the array to console
-        console.log(availableSlots);
       })
   }
 

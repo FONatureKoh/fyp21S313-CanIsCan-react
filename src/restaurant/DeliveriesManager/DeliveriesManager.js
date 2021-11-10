@@ -36,7 +36,7 @@ export default function DeliveriesManager() {
     // TRIGGER THE ASYNC FUNCTION AND PUSH IF ITS A BAD RESPONSE
     retrieverUserType()
       .then((response) => {
-        console.log(response);
+        // console.log(response);
 
         if(response !== "Restaurant Deliveries Manager") {
           history.push("/unauthorised");
@@ -95,7 +95,7 @@ export default function DeliveriesManager() {
     // Get restaurant Name
     getRestaurantName()
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setRestaurantName(response);
       })
       .catch(error => console.log(error));

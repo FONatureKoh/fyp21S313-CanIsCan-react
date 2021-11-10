@@ -39,7 +39,7 @@ export default function Customer() {
     // TRIGGER THE ASYNC FUNCTION AND PUSH IF ITS A BAD RESPONSE
     retrieverUserType()
       .then((response) => {
-        console.log(response);
+        // console.log(response);
 
         if(response !== "Customer") {
           history.push("/unauthorised");
@@ -99,7 +99,7 @@ export default function Customer() {
     // Loads all available restaurant tags
     getAllRestaurantTags()
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setTagsArray(response);  
       })
       .catch(error => console.log(error));
@@ -107,7 +107,7 @@ export default function Customer() {
     // Gets all the restaurants that are open for business
     getAllRestaurants()
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setRestaurantsArray(response);
       })
       .catch(error => console.log(error));
@@ -115,7 +115,7 @@ export default function Customer() {
 
     retrieveTopRestaurants()
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setTopRestaurants(response);
       })
       .catch(error => console.log(error));

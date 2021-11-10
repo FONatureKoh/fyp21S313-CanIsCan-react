@@ -85,7 +85,6 @@ export default function Reservation() {
     // CONTROLLER TO GET ALL THE ITEMS
     retrieveAllRestaurantItems(restID)
       .then((response) => {
-        console.log(response);
         setRestaurantItems(response);
       })
     

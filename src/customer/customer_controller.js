@@ -151,7 +151,7 @@ export async function retrieveAllRestaurantItems(restID) {
 
   try {
     const response = await axios.get(`${config.apiDomain}/customer/allRestaurantItems/${restID}`, axiosConfig);
-    console.log(response);
+    // console.log(response);
     return response.data;
   } 
   catch (error) {
@@ -170,7 +170,7 @@ export async function getAvailableRestCategories(restID) {
 
   try {
     const response = await axios.get(`${config.apiDomain}/customer/availableCategories/${restID}`, axiosConfig);
-    console.log(response);
+    // console.log(response);
     return response.data;
   } 
   catch (error) {

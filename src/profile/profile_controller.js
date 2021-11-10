@@ -22,7 +22,7 @@ export async function retrieveUserProfile() {
     const res = await axios.get(`${config.apiDomain}/users/profilemanagement`, axiosConfig);
     // In here we can choose what we want to do with the response of the request
     // console.log(res)
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   } 
   catch (err) {

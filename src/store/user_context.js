@@ -35,7 +35,7 @@ export default ({ children }) => {
         setUserFullName(response.first_name + " " + response.last_name);
         setProfileImage(response.profile_image_base64);
 
-        console.log("meow" +response);
+        // console.log("meow" + response);
       })
       .catch(error => {
         console.log(error);

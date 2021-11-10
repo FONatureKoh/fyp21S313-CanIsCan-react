@@ -37,7 +37,7 @@ export default function Admin() {
     // TRIGGER THE ASYNC FUNCTION AND PUSH IF ITS A BAD RESPONSE
     retrieverUserType()
       .then((response) => {
-        console.log(response);
+        // console.log(response);
 
         if(response !== "System Administrator") {
           history.push("/unauthorised");
