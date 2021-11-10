@@ -3,13 +3,13 @@ import Topbar from '../components/top-nav/topbar'
 import NavigationCustomer from '../components/top-nav/NavigationCustomer'
 import { Box } from '@mui/system';
 import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
-import BrowseRestaurant from './components/BrowseRestaurant';
+import BrowseTopRestaurant from './components/BrowseTopRestaurant';
 import BrowseRestaurantCat from './components/BrowseRestaurantCat';
 import RetaurantDetails from './components/RestaurantDetails';
 import ViewProfile from '../profile/viewprofile';
 import DeliveryHistory from './components/DeliveryHistory';
 import ReservationHistory from './components/ReservationHistory';
-import { retrieveAllRestaurants, retrieveRestaurantTags } from './customer_controller';
+import { retrieveAllRestaurants, retrieveRestaurantTags, retrieveTopRestaurants } from './customer_controller';
 import { getAccStatus } from '../store/general_controller';
 import OrderDelivery from './components/OrderDelivery';
 import { Modal } from '@mui/material';
@@ -52,6 +52,7 @@ export default function Customer() {
   const [isVisible, setIsVisible] = useState(true); 
   const [isSelected, setIsSelected] = useState(1);
   const [restaurantsArray, setRestaurantsArray] = useState([]);
+  const [topRestaurants, setTopRestaurants] = useState([]);
   const [tagsArray, setTagsArray] = useState([]);
 
   // EXTRA MODAL CHECKS
@@ -111,6 +112,13 @@ export default function Customer() {
       })
       .catch(error => console.log(error));
     // Gets the account's status to trigger first login for customer
+
+    retrieveTopRestaurants()
+      .then((response) => {
+        console.log(response);
+        setTopRestaurants(response);
+      })
+      .catch(error => console.log(error));
   }, [])
 
   const toggleVisibility = () => {
@@ -129,7 +137,7 @@ export default function Customer() {
       <Box sx={{mt:'80px',  ml:isVisible ? '240px' : '', transition: 'margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;'}}>
         <Switch>
           {/* DELIVERY */}
-          <Route exact path='/customer/browserestaurant'><BrowseRestaurant restData={restaurantsArray}/> <BrowseRestaurantCat restData={restaurantsArray} catData={tagsArray}/></Route>
+          <Route exact path='/customer/browserestaurant'><BrowseTopRestaurant restData={topRestaurants}/> <BrowseRestaurantCat restData={restaurantsArray} catData={tagsArray}/></Route>
           <Route path='/customer/restaurantdetails'><RetaurantDetails/> </Route>
           <Route path='/customer/orderdelivery'><OrderDelivery/> </Route>
           <Route path='/customer/makereservation'><Reservation/> </Route>

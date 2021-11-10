@@ -142,11 +142,14 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
    * Handling the payment
    * *********************************************************************************************
   */
-  // Payment Details
-  // const [cardName, setCardName] = useState('');
-  // const [cardNumber, setCardNumber] = useState('');
-  // const [expiry, setExpiry] = useState('');
-  // const [cvc, setCvc] = useState('');
+  // Useful states to handle payment
+  const [paymentInProgress, setPaymentInProgress] = useState(true);
+
+  const handleStripeClose = () => {
+    if (paymentInProgress === false) {
+      handleBackdropClose();
+    }
+  }
 
   // Async functions for checkout
   async function submitOrder(doID) {
@@ -169,6 +172,8 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
     // 1. We need to get a payment response from our stripe account and verify this with 
     // our own api server
     // Get some restaurant INFO
+    handleBackdropOpen();
+
     const restID = restInfo.restaurant_ID.toString();
 
     // Create the Order ID here
@@ -177,7 +182,8 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
     const response = await customerCheckout(token, doID, total);
     const { paymentStatus, errorMsg } = response;
     
-    console.log(paymentStatus);
+    // console.log(paymentStatus);
+    console.log(token);
 
     // 2. If payment is a success, then send the order to the server proper
     if (paymentStatus === "success") {
@@ -540,10 +546,11 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
               name="Make your Payment"
               stripeKey="pk_test_51Jpp1SJIAR4w3qKIP8z8sp1QLA73bua7FJq7Oelz0Ibb37ILFqWOo9xAXbXFM7sl1U2nfq2Hu5QKjR2gmHDJ0lcf00Ev8Q67Ku"
               token={handleTokenAndOrder} 
+              currency="SGD" 
               billingAddress 
               amount={total * 100} >
 
-              <Button onClick={handleBackdropOpen} variant="outlined">
+              <Button variant="outlined">
                 {activeStep === steps.length - 1 ? 'Pay and Confirm Order' : 'Next'}
               </Button>
               

@@ -104,6 +104,25 @@ export async function retrieveAllRestaurants() {
 };
 
 /*****************************************************************************************
+ * Retrieve all restaurants from the system                                              *
+******************************************************************************************/
+export async function retrieveTopRestaurants() {
+  // Axios request config to be declared first
+  const axiosConfig = {
+    headers: {'Authorisation': window.sessionStorage.accessToken}
+  };
+
+  try {
+    const response = await axios.get(`${config.apiDomain}/customer/topRestaurantInfo`, axiosConfig);
+    return response.data;
+  } 
+  catch (error) {
+    console.log(error);
+  }
+};
+
+
+/*****************************************************************************************
  * Retrieve all the restaurant tags                                                      *
 ******************************************************************************************/
 export async function retrieveRestaurantTags() {

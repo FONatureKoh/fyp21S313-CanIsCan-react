@@ -71,6 +71,11 @@ export default function ViewProfile() {
                     {userProfile.phone_no}
                   </Typography>
 
+                  <Typography sx={boldtitle}>Email Address</Typography>
+                  <Typography>
+                    {userProfile.email}
+                  </Typography>
+
                   <Typography sx={boldtitle}>Address</Typography>
                   <Typography>
                     {userProfile.address}
