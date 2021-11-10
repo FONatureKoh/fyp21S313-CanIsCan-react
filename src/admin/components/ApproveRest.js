@@ -138,7 +138,6 @@ export default function ApproveRest() {
                     </Box>
                     <Box sx={{width:'100%', textAlign:'center', mt:'20px'}}>
                       <Button variant='outlined' color='inherit' onClick={() => {approveAccount(item.restaurant_ID)}} sx={{mr:'10px', width:'100px'}}>APPROVE</Button>
-                      <Button variant='outlined' color='error' sx={{ml:'10px', width:'100px'}}>REJECT</Button>
                     </Box>
                   </AccordionDetails>
                   </Accordion>
