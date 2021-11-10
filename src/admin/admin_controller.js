@@ -48,7 +48,7 @@ export async function existingRestaurants () {
 /*****************************************************************************************
  * Retrieve all pending restaurant accounts                                              *
 ******************************************************************************************/
-export async function disableRestaurantAcc () {
+export async function disableRestaurantAcc(selectedUsername) {
   // Config the access token
   const axiosConfig = {
     headers: {
@@ -57,7 +57,7 @@ export async function disableRestaurantAcc () {
   };
 
   var tempJSON = {
-
+    selectedUsername
   }
 
   try {
@@ -92,7 +92,7 @@ export async function activeCustomers () {
 /*****************************************************************************************
  * Disable existing Customer account
 ******************************************************************************************/
-export async function disableAcc () {
+export async function disableAcc(selectedUsername) {
   // Config the access token
   const axiosConfig = {
     headers: {
@@ -100,8 +100,12 @@ export async function disableAcc () {
     }
   };
 
+  const tempJSON = {
+    selectedUsername
+  }
+
   try {
-    const res = await axios.put(`${config.apiDomain}/admin/disablecustomer`, axiosConfig);
+    const res = await axios.put(`${config.apiDomain}/admin/disablecustomer`, tempJSON, axiosConfig);
     return res.data;
   } 
   catch (err) {

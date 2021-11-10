@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Card, CardHeader, CardContent, Box, Typography, Button } from '@mui/material'
+import { Card, CardHeader, CardContent, Box, Typography, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import { activeCustomers } from '../admin_controller';
+import { activeCustomers, disableAcc } from '../admin_controller';
 
 export default function ExistingCustomer() {
   const themes = {
@@ -33,21 +33,45 @@ export default function ExistingCustomer() {
       });
   },[])
 
-  return (
+  // HANDLING DISABLING OF USER
+  // Dialog useStates
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedUser, setSelectedUser] = useState("");
+
+  const handleOpenDialog= () => {   
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleConfirmDisable = () => {
+    disableAcc(selectedUser)
+      .then((response) => {
+        if(response.api_msg === "success") {
+          handleCloseDialog();
+          alert("Account disabled!");
+
+          // Reload customer data
+          getCustDetails()
+            .then((response) => {
+              // console.log(response);
+              setCustList(response);
+            });
+        }
+        else {
+          handleCloseDialog();
+          alert("Something went wrong!");
+        }
+      })
+  }
+
+  return <>
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
       <CardHeader title="Existing Customers" />
       <CardContent >
         <Box sx={{width:'90%', margin: '0px auto'}} > 
-          {/* SEARCH BAR */}
-          {/* <TextField sx={{width:'100%', margin:'10px auto 30px'}} 
-            id="filled-basic" 
-            label="Search Restaurant.." 
-            variant="outlined" 
-            InputProps={{
-              endAdornment: <InputAdornment position="end"><SearchIcon/></InputAdornment>,
-            }}
-          /> */}
-
           {/* EXISTING RESTAURANTS */}
           {
               custList.map(item =>{
@@ -85,8 +109,10 @@ export default function ExistingCustomer() {
                     </Typography>
                     </Box>
                     <Box sx={{width:'100%', textAlign:'center', mt:'20px'}}>
-                      {/* <Button variant='outlined' color='inherit'  sx={{mr:'10px', width:'100px'}}>APPROVE</Button> */}
-                      <Button variant='outlined' color='error' sx={{ml:'10px', width:'100px'}}>DISABLE</Button>
+                      <Button onClick={() => {
+                        setSelectedUser(item.cust_username);
+                        handleOpenDialog();
+                      }} variant='outlined' color='error' sx={{ml:'10px', width:'100px'}}>DISABLE</Button>
                     </Box>
                   </AccordionDetails>
                 </Accordion>
@@ -96,5 +122,22 @@ export default function ExistingCustomer() {
         </Box>
       </CardContent>
   </Card>
-  )
+
+  <Dialog open={openDialog} onClose={handleCloseDialog} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+    <DialogTitle id="alert-dialog-title">
+      {"Confirm disable user?"}
+    </DialogTitle>
+    <DialogContent>
+      <DialogContentText>
+        Confirm disable '{selectedUser}'? This action cannot be undone!
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={handleConfirmDisable} variant="outlined" color="inherit">Confirm</Button>
+      <Button onClick={handleCloseDialog} variant="outlined" color="error">
+        Cancel
+      </Button>
+    </DialogActions>
+  </Dialog>
+  </>
 }

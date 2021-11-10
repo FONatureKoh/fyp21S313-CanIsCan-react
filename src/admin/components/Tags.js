@@ -176,7 +176,7 @@ export default function Tags() {
             aria-describedby="alert-dialog-description"
           >
             <DialogTitle id="alert-dialog-title">
-              {"Confirm item deletion?"}
+              {"Confirm tag deletion?"}
             </DialogTitle>
             <DialogContent>
               <DialogContentText>
