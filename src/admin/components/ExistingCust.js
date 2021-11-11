@@ -67,6 +67,13 @@ export default function ExistingCustomer() {
       })
   }
 
+  // ACCORDION CONTROL
+  const [expanded, setExpanded] = useState('panel0');
+
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
+
   return <>
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
       <CardHeader title="Existing Customers" />
@@ -76,7 +83,10 @@ export default function ExistingCustomer() {
           {
               custList.map(item =>{
                 return(
-                  <Accordion sx={{margin:0.5, borderRadius:1}}>
+                  <Accordion 
+                  expanded={expanded === `panel${item.customer_ID}`} 
+                  onChange={handleChange(`panel${item.customer_ID}`)} 
+                  sx={{margin:0.5, borderRadius:1}}>
                   <AccordionSummary sx={{textAlign: 'center', bgcolor: '#bdbdbd', borderRadius: 1, minWidth: 300}}>
                     <Typography sx={{textAlign: 'center'}}>
                       Customer Username: {item.cust_username}

@@ -65,6 +65,13 @@ export default function ExistingRest() {
       })
   }
 
+  // ACCORDION CONTROL
+  const [expanded, setExpanded] = useState('panel0');
+
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
+
   return <>
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px'}}>
       <CardHeader title="Existing Restaurants" />
@@ -75,7 +82,10 @@ export default function ExistingRest() {
           {
             restDetails.map(item =>{
               return(
-                <Accordion sx={{margin:0.5, borderRadius:1}}>
+                <Accordion 
+                  expanded={expanded === `panel${item.restaurant_ID}`} 
+                  onChange={handleChange(`panel${item.restaurant_ID}`)} 
+                  sx={{margin:0.5, borderRadius:1}}>
                 <AccordionSummary sx={{textAlign: 'center', bgcolor: '#bdbdbd', borderRadius: 1, minWidth: 300}}>
                   <Typography sx={{textAlign: 'center'}}>
                     {item.restaurant_name}
