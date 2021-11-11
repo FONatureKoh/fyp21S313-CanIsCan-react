@@ -94,18 +94,27 @@ export default function CheckOut({restInfo, realCart, deleteItem, minusQty, addQ
     }
 
     if (activeStep === 1) {
-      verifyAddress()
-        .then((response) => {
-          console.log(response);
-          if (response.data.status === "OK") {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
-            setSkipped(newSkipped);
-          }
-          else {
-            // Please do something about this alert
-            alert("You've entered an invalid Singapore address! We don't know where to send your order. Please try again!");
-          }
-        });    
+      var validationErr = 0;
+
+      if (deliveryAddress === '' || deliveryPostalCode === '') {
+        alert ("Address and postal code cannot be blank!");
+        validationErr++;
+      }
+      
+      if (validationErr === 0) {
+        verifyAddress()
+          .then((response) => {
+            console.log(response);
+            if (response.data.status === "OK") {
+              setActiveStep((prevActiveStep) => prevActiveStep + 1);
+              setSkipped(newSkipped);
+            }
+            else {
+              // Please do something about this alert
+              alert("You've entered an invalid Singapore address! We don't know where to send your order. Please try again!");
+            }
+          }); 
+      }   
     }
     else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
