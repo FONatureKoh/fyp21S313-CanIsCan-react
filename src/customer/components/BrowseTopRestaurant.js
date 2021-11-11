@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Card, CardHeader, CardContent, Box, CardActionArea } from '@mui/material'
 import { CardMedia, Button, Typography } from '@mui/material'
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Rating } from '@mui/material'
 import { Grid } from '@mui/material'
 import Chip from '@mui/material/Chip';
@@ -30,7 +31,7 @@ export default function BrowseTopRestaurant({restData}) {
           {restData.slice(0, shownNum).map(rest => {
             return <><Grid item xs={4} sm={4} md={4} lg={3} xl={3} key={restData.indexOf(rest)}>
               {/* Card generation for restaurant */}
-              <Card variant="outlined" sx={{ maxWidth: 300, height:'300px', mb:'20px'}}>
+              <Card variant="outlined" sx={{ maxWidth: 300, height:'330px', mb:'20px'}}>
               <CardActionArea component={ Link } to={`/customer/restaurantdetails/${rest.restaurant_ID}`}>
                 <CardMedia
                   component="img"
@@ -40,7 +41,10 @@ export default function BrowseTopRestaurant({restData}) {
                 <CardContent >
                   <Box height="200px">
                     <Typography gutterBottom variant="h6" component="div" noWrap >
-                    {rest.restaurant_name}
+                      {rest.restaurant_name}
+                    </Typography>
+                    <Typography gutterBottom  variant="subtitle2" component="div" noWrap>
+                      <LocationOnIcon />{rest.rest_address_info}
                     </Typography>
                     <Rating name="read-only" value={rest.rest_rating} readOnly size='small' precision={0.1}/> {rest.rest_rating}
                     <Typography variant="body2" color="text.secondary">

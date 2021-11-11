@@ -10,6 +10,7 @@ import Select from '@mui/material/Select';
 import { Chip } from '@mui/material'
 import { getCategoryRestaurant } from '../customer_controller'
 import { Link } from 'react-router-dom'
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 
 export default function BrowseRestaurantCat({restData, catData}) {
@@ -111,7 +112,7 @@ export default function BrowseRestaurantCat({restData, catData}) {
           {selectedRestaurants.map(rest => (
             <Grid item xs={4} sm={4} md={4} lg={3} xl={3} key={selectedRestaurants.indexOf(rest)}>
             {/* Card generation for restaurant */}
-            <Card variant="outlined" sx={{ maxWidth: 300, height:'300px', mb:'20px'}}>
+            <Card variant="outlined" sx={{ maxWidth: 300, height:'330px', mb:'20px'}}>
             <CardActionArea component={ Link } to={`/customer/restaurantdetails/${rest.restaurant_ID}`}>
               <CardMedia
                 component="img"
@@ -121,7 +122,10 @@ export default function BrowseRestaurantCat({restData, catData}) {
               <CardContent>
                 <Box height="200px">
                   <Typography gutterBottom variant="h6" component="div" noWrap>
-                  {rest.restaurant_name}
+                    {rest.restaurant_name}
+                  </Typography>
+                  <Typography gutterBottom  variant="subtitle2" component="div">
+                    <LocationOnIcon />{rest.rest_address_info}
                   </Typography>
                   <Rating name="read-only" value={rest.rest_rating} readOnly size='small' precision={0.1}/> {rest.rest_rating}
                   <Typography variant="body2" color="text.secondary">
