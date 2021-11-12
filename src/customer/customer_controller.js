@@ -200,32 +200,6 @@ export async function getCategoryRestaurant(tag) {
 /*****************************************************************************************
  * Retrieve all the restaurants based on the user selected category                      *
 ******************************************************************************************/
-export async function getItemImage(itemPngID) {
-  // Axios request config to be declared first
-  const axiosConfig = {
-    headers: {
-      'Authorisation': window.sessionStorage.accessToken
-    },
-    responseType: 'arraybuffer'
-  };
-
-  try {
-    const response = await axios.get(`${config.apiDomain}/restaurant/itemImage/${itemPngID}`, axiosConfig);
-    let blob = new Blob(
-      [response.data],
-      { type: response.headers['content-type'] }
-    );
-    let image = URL.createObjectURL(blob);
-    return image;
-  } 
-  catch (error) {
-    console.log(error);
-  }
-}
-
-/*****************************************************************************************
- * Retrieve all the restaurants based on the user selected category                      *
-******************************************************************************************/
 export async function getAllOrders() {
   // Axios request config to be declared first
   const axiosConfig = {
@@ -335,6 +309,8 @@ export async function submitRestaurantReview(restID, restName, restRating, revie
     reviewDesc: reviewDesc
   } 
 
+  // console.log(reviewJson);
+
   try {
     const response = await axios.post(`${config.apiDomain}/customer/submitreview`, reviewJson, axiosConfig);
     
@@ -357,7 +333,7 @@ export async function getRestReviews(restID) {
   try {
     const response = await axios.get(`${config.apiDomain}/customer/restaurantreivew/${restID}`, axiosConfig);
     
-    console.log (response);
+    // console.log (response);
     return response.data;
   } 
   catch (err) {

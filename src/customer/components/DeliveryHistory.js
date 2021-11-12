@@ -78,9 +78,9 @@ export default function DeliveryHistory() {
   const [openReview, setOpenReview] = useState(false);
 
   //    Modal values
-  var reviewRating = 0;
-  var reviewTitle = "";
-  var reviewDesc = "";
+  const [reviewRating, setReviewRating] = useState();
+  const [reviewTitle, setReviewTitle] = useState('');
+  const [reviewDesc, setReviewDesc] = useState('');
   // const [reviewRating, setReviewRating] = useState('');
   // const [reviewTitle, setReviewTitle] = useState('');
   // const [reviewDesc, setReviewDesc] = useState('');
@@ -318,7 +318,9 @@ export default function DeliveryHistory() {
                 <Typography sx={{mb:'20px'}}>
                   <Rating 
                     size="large"
-                    onChange={(event) => {reviewRating = event.target.value}}  
+                    onChange={(event) => {
+                      setReviewRating(event.target.value);
+                    }}  
                   />
                 </Typography>
 
@@ -328,7 +330,7 @@ export default function DeliveryHistory() {
                   label="Title (Optional)" 
                   variant="filled" 
                   sx={{mb:'20px'}}
-                  onChange={(event) => {reviewTitle = event.target.value}}
+                  onChange={(event) => {setReviewTitle(event.target.value)}}
                 />
                 <TextField
                   fullWidth
@@ -338,7 +340,7 @@ export default function DeliveryHistory() {
                   multiline
                   variant="filled"
                   rows="3"
-                  onChange={(event) => {reviewDesc = event.target.value}}
+                  onChange={(event) => {setReviewDesc(event.target.value)}}
                 />
               </Box>
 
