@@ -155,23 +155,6 @@ export default function RetaurantDetails() {
       })
   }
 
-  // 3. useEffect to set the slots first on load
-  // useEffect(() => {
-  //   triggerGetSlots (restID, selectedDate);
-    
-  //   // Prints out the array to console
-  //   // console.log(availableSlots);
-  // }, [])
-  // availableSlots.map((slot) => console.log(slot));
-
-  // FOOTNOTE: If any of the numbers for the functions are missing (like there should be 1 to 4, 
-  // so if you see 1, 2, 4 there might be a missing function), lemme know! 
-  // MORE FOOTNOTE: Please take note that I'm just trying to return you the slots for now and
-  // trying to see if my concept works! I estimate about 3 to 4 hours to setup the tables backend
-  // and work out how to verify and return the dynamic data from the database! Will let you know
-  // how it goes! - Thomas :D (as of 28/10 10:32 AM)
-  // ===========================================================================================
-
   function getMap(postal){
     const maplink = `http://maps.google.com/maps/api/staticmap?center=${postal}&zoom=17&size=400x300&maptype=roadmap&key=${apiKey}&region=SG&markers=color:red%7C${postal}&scale=2`;
     return maplink;
@@ -327,7 +310,7 @@ export default function RetaurantDetails() {
                 <CardMedia
                   component="img"
                   height="140"
-                  image={restaurantInfo.rest_bannerURL}
+                  image={restaurantInfo.rest_banner}
                 />
                 <CardContent >
                   <Box textAlign="center">
@@ -389,7 +372,7 @@ export default function RetaurantDetails() {
                   {restReivews.map((review) => { return <>
                     <Box display="flex" flexDirection="column" width="60%" height="100px" border="1px solid black" margin="10px auto" padding="20px">
                       <Typography variant="h6">{review.title === "NIL" ? "No title :(" : review.title}</Typography>
-                      <Typography><Rating value={review.rating} size="small"/></Typography>
+                      <Typography><Rating readOnly value={review.rating} size="small"/></Typography>
                       <Typography variant="subtitle2">{review.desc === "NIL" ? "No review text :(" : review.desc}</Typography>
                       
                       <Typography variant="subtitle" fontSize="12px" alignSelf='flex-end'>Reviewed by: {review.custName}</Typography>

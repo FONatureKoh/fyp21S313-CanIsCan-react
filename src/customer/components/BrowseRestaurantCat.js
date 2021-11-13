@@ -49,35 +49,6 @@ export default function BrowseRestaurantCat({restData, catData}) {
       .catch(error => console.log(error));
   };
 
-  /****************************************************************************************************************
-   * FOLLOWING IS HOW THE RETURNED DATA WILL LOOK LIKE 
-   ****************************************************************************************************************
-   * Note that it should usually return an array with even more elements. For the example below I give one template
-   * only on how the variables look like with their names from the rest API
-   * [{
-        "restaurant_ID": 1,
-        "restaurant_name": "Kelvin's Cat Cafe",
-        "rest_rgm_username": "elephant1995",
-        "rest_banner_ID": null,
-        "rest_op_hours": "11:30 AM to 11:00 PM",
-        "rest_phone_no": "91234567",
-        "rest_address_info": "Blk 111 Ang Mo Kio #01-01",
-        "rest_postal_code": 656565,
-        "rest_tags": [
-          "Cafe",
-          "Fine Dining"
-        ],
-        "rest_rating": 5,
-        "rest_status": "closed",
-        "rest_opening_time": "11:30:00",
-        "rest_closing_time": "23:00:00",
-        "rest_tag_1": "Cafe",
-        "rest_tag_2": "Fine Dining",
-        "rest_tag_3": null
-      }]
-  */
-
-
   return <>
     <Card variant="outlined" sx={{padding:'5px', borderRadius:'10px', mt:'20px', '.MuiCardHeader-action':{overflow:'visible', width:'200px'},}}>
       <CardHeader action={
@@ -135,19 +106,11 @@ export default function BrowseRestaurantCat({restData, catData}) {
                   </Typography>
                 </Box>
               </CardContent>
-              {/* <CardActionArea className="123" sx={{padding:'10px'}}>
-                <Box sx={{width:'100%'}}>
-                  <Button variant="outlined" color="inherit" sx={{width:'100%'}}>View Restaurant</Button>
-                </Box>
-              </CardActionArea> */}
               </CardActionArea>
             </Card>
             </Grid>
           ))}
           </Grid>
-            {/* <Grid item md={12}>
-              <Button fullWidth variant="outlined" color="inherit">Load More</Button>
-            </Grid> */}
           </Box>
         </CardContent>
       </Card>
