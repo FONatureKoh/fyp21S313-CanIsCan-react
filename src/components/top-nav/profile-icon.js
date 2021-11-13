@@ -23,6 +23,7 @@ export default function ProfileIcon() {
   };
 
   function logout(){
+    window.sessionStorage.clear();
     let path = '/';
     history.push(path);
   }

@@ -183,7 +183,7 @@ export default function EditProfile({restaurantInfo, setRestInfo, setRestTags}) 
       const reader = new FileReader();
       reader.onload = () => {
         setPreview(reader.result);
-        console.log("1" + preview)
+        // console.log("1" + preview);
       }
       reader.readAsDataURL(imageFile);
     }

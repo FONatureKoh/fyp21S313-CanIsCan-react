@@ -38,7 +38,7 @@ export async function retrieveUserProfile() {
  * ***************************************************************************************/
 export async function changePwController(oldPassword, newPassword) {
   // Test consoles
-  console.log("changePwController");
+  // console.log("changePwController");
   // Axios request config to be declared first
   const axiosConfig = {
     headers: {'Authorisation': window.sessionStorage.accessToken}

@@ -13,16 +13,17 @@ export default function NavigationRGM({restaurantName, isVisible, isSelected, se
   const [openDialog, setOpenDialog] = React.useState(false);
 
   const handleOpenDialog= () => {
-      setOpenDialog(true);
+    setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
-      setOpenDialog(false);
+    setOpenDialog(false);
   };
 
   function logout(){
-      let path = '/';
-      history.push(path);
+    window.sessionStorage.clear();
+    let path = '/';
+    history.push(path);
   }
   return (
     <Box sx={{ display: 'flex' }}>

@@ -111,7 +111,7 @@ export default function Tags() {
             color="error"
             fullWidth
             onClick={(event) => {
-              console.log(cellValues);
+              // console.log(cellValues);
               setSelectedTag(cellValues.row.tag);
               verifyTagUsage(cellValues.row.tag);
             }}

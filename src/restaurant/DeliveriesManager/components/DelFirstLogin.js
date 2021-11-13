@@ -187,7 +187,7 @@ export default function DelFirstLogin({setFirstLog}) {
       const reader = new FileReader();
       reader.onload = () => {
         setProfilePreview(reader.result);
-        console.log("1" + profilePreview)
+        // console.log("1" + profilePreview)
       }
       reader.readAsDataURL(profileImage);
     }

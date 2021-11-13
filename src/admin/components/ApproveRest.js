@@ -26,7 +26,6 @@ export default function ApproveRest() {
   // Deploying useEffect 
   useEffect(() => {
     getRestDetails().then((response) => {
-      console.log(response);
       setRestDetails(response);
     });
   },[])

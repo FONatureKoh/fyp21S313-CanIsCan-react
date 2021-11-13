@@ -128,7 +128,7 @@ export default function FirstLogin({setFirstLog}) {
       const reader = new FileReader();
       reader.onload = () => {
         setBannerPreview(reader.result);
-        console.log("Preivew: " + bannerPreview);
+        // console.log("Preivew: " + bannerPreview);
       }
       reader.readAsDataURL(bannerImage);
     }
@@ -328,14 +328,7 @@ export default function FirstLogin({setFirstLog}) {
         {steps.map((label, index) => {
           const stepProps = {};
           const labelProps = {};
-          // if (isStepOptional(index)) {
-          //   labelProps.optional = (
-          //     <Typography variant="caption">Optional</Typography>
-          //   );
-          // }
-          // if (isStepSkipped(index)) {
-          //   stepProps.completed = false;
-          // }
+
           return (
             <Step key={label} {...stepProps}> 
               <StepLabel {...labelProps}>{label}</StepLabel>

@@ -360,7 +360,7 @@ export default function Editmenu() {
           {/* DIALOG TO PROMPT DELETE MENU */}
           <Dialog open={openDelete} onClose={handleDeleteClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
             <DialogTitle id="alert-dialog-title">
-              {"Edit Category Name"}
+              {"Deleting Category"}
             </DialogTitle>
             <DialogContent>
               <Typography sx={{textAlign: 'left', display:'inline-block'}}>

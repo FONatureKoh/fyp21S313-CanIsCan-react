@@ -12,16 +12,17 @@ export default function NavigationDM({restName, isVisible, isSelected, setIsSele
   const [openDialog, setOpenDialog] = React.useState(false);
 
   const handleOpenDialog= () => {
-      setOpenDialog(true);
+    setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
-      setOpenDialog(false);
+    setOpenDialog(false);
   };
 
   function logout(){
-      let path = '/';
-      history.push(path);
+    window.sessionStorage.clear();
+    let path = '/';
+    history.push(path);
   }
 
   return (

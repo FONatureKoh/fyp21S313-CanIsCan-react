@@ -27,7 +27,7 @@ export default function ExistingRest() {
   // Deploying useEffect 
   useEffect(() => {
     getRestDetails().then((response) => {
-      console.log(response);
+      // console.log(response);
       setRestDetails(response);
     });
   },[])
@@ -54,7 +54,6 @@ export default function ExistingRest() {
 
           // Reload Restaurant data
           getRestDetails().then((response) => {
-            console.log(response);
             setRestDetails(response);
           });
         }
